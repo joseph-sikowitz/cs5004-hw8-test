@@ -8,4 +8,4 @@ package model;
  * @author Joe Sikowitz
  * @author Vasilios Nicholas
  */
-public interface Fixture {}
+public interface Fixture extends Weightable, Picturable {}

@@ -8,7 +8,7 @@ package model;
  * @author Joe Sikowitz
  * @author Vasilios Nicholas
  */
-public class ConcreteFixture extends AbstractElement implements Fixture, Picturable, Weightable {
+public class ConcreteFixture extends AbstractElement implements Fixture {
 
   // attributes
   private double weight;

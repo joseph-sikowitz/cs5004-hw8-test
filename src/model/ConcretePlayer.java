@@ -9,7 +9,7 @@ package model;
  * @author Joe Sikowitz
  * @author Vasilios Nicholas
  */
-public class ConcretePlayer extends AbstractElement implements Player, Activatable {
+public class ConcretePlayer extends AbstractElement {
 
   // attributes
   private double score;
