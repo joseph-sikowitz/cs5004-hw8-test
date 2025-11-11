@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Map;
+
 /**
  * The ConcretePlayer class represents the game's player. It extends AbstractElement
  * and implements Activatable. ConcretePlayers have a name, description, score, active
