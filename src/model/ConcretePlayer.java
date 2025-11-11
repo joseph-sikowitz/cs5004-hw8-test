@@ -26,14 +26,14 @@ public class ConcretePlayer extends AbstractElement implements Player {
    * The constructor for ConcretePlayer initializes its attributes using its parent
    * class constructor to initialize name and description.
    *
-   * @param name String of player's name.
-   * @param description String of player's description.
-   * @param score double of player's current score.
-   * @param active boolean indicating if player is active.
-   * @param maxWeight double of the maximum weight a player can carry.
+   * @param name          String of player's name.
+   * @param description   String of player's description.
+   * @param score         double of player's current score.
+   * @param active        boolean indicating if player is active.
+   * @param maxWeight     double of the maximum weight a player can carry.
    * @param currentWeight double of the current weight of items a player is carrying.
-   * @param inventory Map of the player's item inventory.
-   * @param activeRoom ConcreteRoom where the player is currently positioned.
+   * @param inventory     Map of the player's item inventory.
+   * @param activeRoom    ConcreteRoom where the player is currently positioned.
    */
   public ConcretePlayer(String name, String description, double score, boolean active,
                         double health, double maxWeight, double currentWeight,

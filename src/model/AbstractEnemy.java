@@ -11,67 +11,79 @@ import java.util.regex.Pattern;
  * from AbstractElement and has a score, active status, affects target status, target
  * affects player status, solution text, solution item text, effects text, damage
  * amount and picture file path.
+ *
+ * @author Joe Sikowitz
+ * @author Vasilios Nicholas
  */
 public abstract class AbstractEnemy extends AbstractElement
         implements Effector, Picturable, PlayerAffector, Scorable, Targeter {
 
-    // attributes
-    private double score;
-    private boolean active;
-    private boolean affectsTarget;
-    private String target;
-    private boolean affectsPlayer;
-    private String solutionText;
-    private String solutionItem;
-    private String effects;
-    private double damage;
-    private String picture;
+  // attributes
+  private double score;
+  private boolean active;
+  private boolean affectsTarget;
+  private final String target;
+  private boolean affectsPlayer;
+  private String solutionText;
+  private String solutionItem;
+  private final String effects;
+  private double damage;
+  private final String picture;
 
-    // constants
-    private static final int SOLUTION_MATCH = 1;
+  // constants
+  private static final int SOLUTION_MATCH = 1;
 
   /**
    * The AbstractEnemy constructor initializes its attributes and sets either solutionText
    * or solutionItem to a String, but not both. Whichever attribute is set is the solution
    * to the AbstractEnemy.
    *
-   * @param name String of the AbstractEnemy's name.
-   * @param description String of the AbstractEnemy's description.
-   * @param score double of the AbstractEnemy's score.
-   * @param active boolean indicating the active status of the AbstractEnemy.
+   * @param name          String of the AbstractEnemy's name.
+   * @param description   String of the AbstractEnemy's description.
+   * @param score         double of the AbstractEnemy's score.
+   * @param active        boolean indicating the active status of the AbstractEnemy.
    * @param affectsTarget boolean indicating if the AbstractEnemy can affect its target.
-   * @param target String of AbstractEnemy's target.
+   * @param target        String of AbstractEnemy's target.
    * @param affectsPlayer boolean indicating if the AbstractEnemy can affect the player.
-   * @param solution String of the AbstractEnemy's solution; if in single quotes, it is a
-   *                 text-based solution and if not it is an item object.
-   * @param effects String of the AbstractEnemy's effects.
-   * @param damage double of the damage an AbstractEnemy can inflict.
-   * @param picture String of the path to an AbstractEnemy's picture.
+   * @param solution      String of the AbstractEnemy's solution; if in single quotes, it is a
+   *                      text-based solution and if not it is an item object.
+   * @param effects       String of the AbstractEnemy's effects.
+   * @param damage        double of the damage an AbstractEnemy can inflict.
+   * @param picture       String of the path to an AbstractEnemy's picture.
    */
-    public AbstractEnemy(String name, String description, double score, boolean active,
-                         boolean affectsTarget, String target, boolean affectsPlayer,
-                         String solution, String effects, double damage, String picture) {
-      super(name, description);
+  public AbstractEnemy(String name, String description, double score, boolean active,
+                       boolean affectsTarget, String target, boolean affectsPlayer,
+                       String solution, String effects, double damage, String picture) {
+    super(name, description);
 
-      this.score = score;
-      this.active = active;
-      this.affectsTarget = affectsTarget;
-      this.target = target;
-      this.affectsPlayer = affectsPlayer;
-      this.effects = effects;
-      this.damage = damage;
-      this.picture = picture;
+    this.score = score;
+    this.active = active;
+    this.affectsTarget = affectsTarget;
+    this.target = target;
+    this.affectsPlayer = affectsPlayer;
+    this.effects = effects;
+    this.damage = damage;
+    this.picture = picture;
 
-      Pattern singleQuotes =  Pattern.compile("('[^']*')");
-      Matcher match = singleQuotes.matcher(solution);
-      if (match.group(SOLUTION_MATCH) != null) {
-        this.solutionText = match.group(SOLUTION_MATCH);
-        this.solutionItem = null;
-      } else {
-        this.solutionText = null;
-        this.solutionItem = match.group(SOLUTION_MATCH);
-      }
+    Pattern singleQuotes = Pattern.compile("('[^']*')");
+    Matcher match = singleQuotes.matcher(solution);
+    if (match.group(SOLUTION_MATCH) != null) {
+      this.solutionText = match.group(SOLUTION_MATCH);
+      this.solutionItem = null;
+    } else {
+      this.solutionText = null;
+      this.solutionItem = match.group(SOLUTION_MATCH);
     }
+  }
+
+  /**
+   * The getEnemyDamage() method is the getter for the AbstractEnemy's damage amount.
+   *
+   * @return double of amount of damage.
+   */
+  protected double getEnemyDamage() {
+    return this.damage;
+  }
 
   @Override
   public String getPicturePath() {
