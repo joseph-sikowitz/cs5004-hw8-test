@@ -9,7 +9,7 @@ package model;
  * @author Joe Sikowitz
  * @author Vasilios Nicholas
  */
-public class ConcretePlayer extends AbstractElement {
+public class ConcretePlayer extends AbstractElement implements Player {
 
   // attributes
   private double score;
@@ -133,5 +133,10 @@ public class ConcretePlayer extends AbstractElement {
   @Override
   public void reduceWeight(double weight) {
     this.currentWeight -= weight;
+  }
+
+  @Override
+  public double getScore() {
+    return this.score;
   }
 }
