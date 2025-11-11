@@ -1,5 +1,12 @@
 package model;
 
+/**
+ * The ConcreteItem class represents an item in an adventure game that can be
+ * used to defeat Monsters or Puzzles. ConcreteItem extends the AbstractElement
+ * class and implements Item. ConcreteItems have a name and description inherited
+ * from AbstractElement as well as a score, weight, picture, maximum uses, number
+ * of uses remaining, a use description, and an active status.
+ */
 public class ConcreteItem extends AbstractElement implements Item {
 
   // attributes
@@ -12,6 +19,19 @@ public class ConcreteItem extends AbstractElement implements Item {
   private boolean active;
 
 
+  /**
+   * The ConcreteItem constructor initializes its attributes and sets its active
+   * status based on the number of uses remaining.
+   *
+   * @param name String of the item's name.
+   * @param description String of the item's description.
+   * @param score double of the item's score.
+   * @param weight double of the item's weight.
+   * @param picture String of the item's picture file path.
+   * @param maxUses int of the item's maximum number of uses.
+   * @param usesRemaining int of the item's remaining uses.
+   * @param useDescription String of the item's use description.
+   */
   public ConcreteItem(String name, String description, double score, double weight, String picture,
                       int maxUses, int usesRemaining, String useDescription) {
     super(name, description);
