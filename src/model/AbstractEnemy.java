@@ -1,0 +1,115 @@
+package model;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+/**
+ * The AbstractEnemy is an abstract class that represents enemies in an adventure
+ * game that need to be defeated to stop their effect on a Room. AbstractEnemies
+ * extends AbstractElement and implements Effector, Picturable, PlayerAffector,
+ * Scorable, and Targeter interfaces. AbstractEnemy inherits name and description
+ * from AbstractElement and has a score, active status, affects target status, target
+ * affects player status, solution text, solution item text, effects text, damage
+ * amount and picture file path.
+ */
+public abstract class AbstractEnemy extends AbstractElement
+        implements Effector, Picturable, PlayerAffector, Scorable, Targeter {
+
+    // attributes
+    private double score;
+    private boolean active;
+    private boolean affectsTarget;
+    private String target;
+    private boolean affectsPlayer;
+    private String solutionText;
+    private String solutionItem;
+    private String effects;
+    private double damage;
+    private String picture;
+
+    // constants
+    private static final int SOLUTION_MATCH = 1;
+
+  /**
+   * The AbstractEnemy constructor initializes its attributes and sets either solutionText
+   * or solutionItem to a String, but not both. Whichever attribute is set is the solution
+   * to the AbstractEnemy.
+   *
+   * @param name String of the AbstractEnemy's name.
+   * @param description String of the AbstractEnemy's description.
+   * @param score double of the AbstractEnemy's score.
+   * @param active boolean indicating the active status of the AbstractEnemy.
+   * @param affectsTarget boolean indicating if the AbstractEnemy can affect its target.
+   * @param target String of AbstractEnemy's target.
+   * @param affectsPlayer boolean indicating if the AbstractEnemy can affect the player.
+   * @param solution String of the AbstractEnemy's solution; if in single quotes, it is a
+   *                 text-based solution and if not it is an item object.
+   * @param effects String of the AbstractEnemy's effects.
+   * @param damage double of the damage an AbstractEnemy can inflict.
+   * @param picture String of the path to an AbstractEnemy's picture.
+   */
+    public AbstractEnemy(String name, String description, double score, boolean active,
+                         boolean affectsTarget, String target, boolean affectsPlayer,
+                         String solution, String effects, double damage, String picture) {
+      super(name, description);
+
+      this.score = score;
+      this.active = active;
+      this.affectsTarget = affectsTarget;
+      this.target = target;
+      this.affectsPlayer = affectsPlayer;
+      this.effects = effects;
+      this.damage = damage;
+      this.picture = picture;
+
+      Pattern singleQuotes =  Pattern.compile("('[^']*')");
+      Matcher match = singleQuotes.matcher(solution);
+      if (match.group(SOLUTION_MATCH) != null) {
+        this.solutionText = match.group(SOLUTION_MATCH);
+        this.solutionItem = null;
+      } else {
+        this.solutionText = null;
+        this.solutionItem = match.group(SOLUTION_MATCH);
+      }
+    }
+
+  @Override
+  public String getPicturePath() {
+    return this.picture;
+  }
+
+  @Override
+  public boolean affectsPlayer() {
+    return this.affectsPlayer;
+  }
+
+  @Override
+  public double getScore() {
+    return this.score;
+  }
+
+  @Override
+  public String getTarget() {
+    return this.target;
+  }
+
+  @Override
+  public boolean affectsTarget() {
+    return this.affectsTarget;
+  }
+
+  @Override
+  public String getEffect() {
+    return this.effects;
+  }
+
+  @Override
+  public boolean isActive() {
+    return this.active;
+  }
+
+  @Override
+  public void flipActive() {
+    this.active = !this.active;
+  }
+}
