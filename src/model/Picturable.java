@@ -2,6 +2,9 @@ package model;
 
 /**
  * The Picturable interface defines types that have a picture associated with them.
+ *
+ * @author Joe Sikowitz
+ * @author Vasilios Nicholas
  */
 public interface Picturable {
 

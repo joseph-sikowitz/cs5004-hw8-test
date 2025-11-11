@@ -2,6 +2,9 @@ package model;
 
 /**
  * The Scorable interface defines types that have a score.
+ *
+ * @author Joe Sikowitz
+ * @author Vasilios Nicholas
  */
 public interface Scorable {
 

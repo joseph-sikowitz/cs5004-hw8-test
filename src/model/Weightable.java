@@ -2,6 +2,9 @@ package model;
 
 /**
  * The Weightable interface defines types that have a weight associated with them.
+ *
+ * @author Joe Sikowitz
+ * @author Vasilios Nicholas
  */
 public interface Weightable {
 

@@ -4,6 +4,9 @@ package model;
  * The AbstractElement class is an abstract representation of a game Element,
  * and it implements the Element interface. AbstractElements have a name and
  * description.
+ *
+ * @author Joe Sikowitz
+ * @author Vasilios Nicholas
  */
 public abstract class AbstractElement implements Element {
 

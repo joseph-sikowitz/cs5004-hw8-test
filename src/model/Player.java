@@ -1,5 +1,12 @@
 package model;
 
+/**
+ * The Player interface defines the Player type in an adventure game. Players
+ * are the way that users interact with the game and act as their avatar.
+ *
+ * @author Joe Sikowitz
+ * @author Vasilios Nicholas
+ */
 public interface Player {
 
   /**

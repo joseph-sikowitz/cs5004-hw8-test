@@ -3,6 +3,9 @@ package model;
 /**
  * The Activatable interface defines types that are activated or not as
  * defined by a boolean.
+ *
+ * @author Joe Sikowitz
+ * @author Vasilios Nicholas
  */
 public interface Activatable {
 

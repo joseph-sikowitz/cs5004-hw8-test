@@ -5,6 +5,9 @@ package model;
  * and implements Activatable. ConcretePlayers have a name, description, score, active
  * status, maximum carrying weight, current carrying weight, a Map of ConcreteItems, and a
  * currently active ConcreteRoom.
+ *
+ * @author Joe Sikowitz
+ * @author Vasilios Nicholas
  */
 public class ConcretePlayer extends AbstractElement implements Player, Activatable {
 
@@ -32,7 +35,7 @@ public class ConcretePlayer extends AbstractElement implements Player, Activatab
    */
   public ConcretePlayer(String name, String description, double score, boolean active,
                         double health, double maxWeight, double currentWeight,
-                        Map<String, ConcreteItem> inventory, ConcreteRoom activeRoom) {
+                        Map<String, Item> inventory, Room activeRoom) {
     super(name, description);
 
     this.score = score;

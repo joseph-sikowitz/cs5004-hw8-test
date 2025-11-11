@@ -3,6 +3,9 @@ package model;
 /**
  * The Targeter interface defines a type that can target another game element
  * with an affect.
+ *
+ * @author Joe Sikowitz
+ * @author Vasilios Nicholas
  */
 public interface Targeter {
 
