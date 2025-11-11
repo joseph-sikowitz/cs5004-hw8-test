@@ -112,4 +112,12 @@ public interface Player extends Activatable, Scorable {
    */
   void reduceWeight(double weight);
 
+  /**
+   * The getActiveRoom() method gets the player's active room, the room that the
+   * player is currently in.
+   *
+   * @return Room object of the currently active room.
+   */
+  Room getActiveRoom();
+
 }
