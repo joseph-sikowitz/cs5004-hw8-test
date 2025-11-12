@@ -1,0 +1,127 @@
+package model;
+
+import java.util.Map;
+
+/**
+ * The ConcreteRoom class represents a Room in the adventure game that a player
+ * enters and interacts with its elements. ConcreteRoom extends AbstractElement
+ * and implements the Room interface. ConcreteRooms have a name and description
+ * inherited from AbstractElement as well as a roomNumber, passages, items,
+ * fixtures, a path blocker, a monster, a puzzle, and a picture path file name.
+ * Finally, ConcreteRooms have a RoomService that holds all the Rooms in the
+ * game for reference.
+ *
+ * @author Joe Sikowitz
+ * @author Vasilios Nicholas
+ */
+public class ConcreteRoom extends AbstractElement implements Room {
+
+  // attributes
+  private final int roomNumber;
+  private Map<Directions, Integer> passages;
+  private Map<String, Item> items;
+  private Map<String, Fixture> fixtures;
+  private boolean pathBlocker;
+  private Monster monster;
+  private Puzzle puzzle;
+  private String picture;
+  private RoomService roomService;
+
+  /**
+   * The ConcreteRoom constructor initializes its attributes using the parent
+   * constructor as well as its own attributes. The roomService attribute is
+   * initialized with a Map of room numbers and Rooms. The pathBlocker is set
+   * based on whether there is a puzzle or monster present in the room blocking
+   * passages.
+   *
+   * @param name String of room's name.
+   * @param description String of room's description.
+   * @param roomNumber int of room's number.
+   * @param passages Map of passages from room in the four cardinal directions.
+   * @param items Map of Item objects in the room with their names.
+   * @param fixtures Map of Fixture objects in the room with their names.
+   * @param monster Monster object in the room.
+   * @param puzzle Puzzle object in the room.
+   * @param picture String of picture file name path.
+   * @param roomService RoomService object with all game Rooms.
+   */
+  public ConcreteRoom(String name, String description, int roomNumber,
+                      Map<Directions, Integer> passages, Map<String, Item> items,
+                      Map<String, Fixture> fixtures, Monster monster, Puzzle puzzle,
+                      String picture, Map<Integer, Room> roomService) {
+    super(name, description);
+
+    this.roomNumber = roomNumber;
+    this.passages = passages;
+    this.items = items;
+    this.fixtures = fixtures;
+    this.monster = monster;
+    this.puzzle = puzzle;
+    this.picture = picture;
+
+    this.roomService = new RoomService(roomService);
+
+    this.pathBlocker = monster != null || puzzle != null;
+  }
+
+  @Override
+  public int getRoomNumber() {
+    return this.roomNumber;
+  }
+
+  @Override
+  public int getPassageValue(Directions direction) {
+    return this.passages.get(direction);
+  }
+
+  @Override
+  public void setPassageValue(Directions direction) {
+    this.passages.put(direction, Math.abs(this.passages.get(direction)));
+  }
+
+  @Override
+  public Fixture getFixture(String fixtureName) {
+    return this.fixtures.get(fixtureName);
+  }
+
+  @Override
+  public Item getItem(String itemName) {
+    return this.items.get(itemName);
+  }
+
+  @Override
+  public Monster getMonster() {
+    return this.monster;
+  }
+
+  @Override
+  public Puzzle getPuzzle() {
+    return this.puzzle;
+  }
+
+  @Override
+  public void addItem(String itemName, Item item) {
+    this.items.put(itemName, item);
+  }
+
+  @Override
+  public Item removeItem(String itemName) {
+    return this.items.remove(itemName);
+  }
+
+  @Override
+  public Room getPassageRoom(int roomNumber) {
+    return this.roomService.getRoom(roomNumber);
+  }
+
+  @Override
+  public boolean isPathBlocked() {
+    return this.pathBlocker;
+  }
+
+  @Override
+  public String getPicturePath() {
+    return this.picture;
+  }
+
+}

@@ -143,6 +143,11 @@ public class ConcretePlayer extends AbstractElement implements Player {
   }
 
   @Override
+  public void setActiveRoom(Room room) {
+    this.activeRoom = room;
+  }
+
+  @Override
   public double getScore() {
     return this.score;
   }

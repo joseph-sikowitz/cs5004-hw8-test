@@ -8,7 +8,7 @@ package model;
  * @author Joe Sikowitz
  * @author Vasilios Nicholas
  */
-public interface Room {
+public interface Room extends Picturable {
 
   /**
    * The getRoomNumber() method is the getter for a room's number.
@@ -71,9 +71,10 @@ public interface Room {
   /**
    * The addItem() method adds an item to a Room's Item Map.
    *
+   * @param itemName String of item to add to Map.
    * @param item Item object to add.
    */
-  void addItem(Item item);
+  void addItem(String itemName, Item item);
 
   /**
    * The removeItem() method removes an item from a Room's Item Map.
@@ -82,4 +83,21 @@ public interface Room {
    * @return Item object that was removed.
    */
   Item removeItem(String itemName);
+
+  /**
+   * The getPassageRoom() method gets a Room object using the roomNumber
+   * from a service class that holds all Room objects.
+   *
+   * @param roomNumber int of the room number of the Room to get.
+   * @return Room object with the room number.
+   */
+  Room getPassageRoom(int roomNumber);
+
+  /**
+   * The isPathBlocked() method indicates whether there is a path blocker,
+   * a monster or puzzle, in the room blocking certain passages.
+   *
+   * @return boolean indicating if there is a path blocker in the room.
+   */
+  boolean isPathBlocked();
 }

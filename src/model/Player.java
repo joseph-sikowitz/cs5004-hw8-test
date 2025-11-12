@@ -120,4 +120,12 @@ public interface Player extends Activatable, Scorable {
    */
   Room getActiveRoom();
 
+  /**
+   * The setActiveRoom() method sets the player's active room when the player is
+   * moving to a room other than their active room.
+   *
+   * @param room Room object to "move" the player to.
+   */
+  void setActiveRoom(Room room);
+
 }
