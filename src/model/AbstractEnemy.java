@@ -78,6 +78,24 @@ public abstract class AbstractEnemy extends AbstractElement
     this.picture = picture;
   }
 
+  @Override
+  public boolean solve(String answer) {
+    if (this.solutionText.equalsIgnoreCase(answer)) {
+      this.active = false;
+      return true;
+    }
+    return false;
+  }
+
+  @Override
+  public boolean solve(Item item) {
+    if (this.solutionText.equalsIgnoreCase(item.getName())) {
+      this.active = false;
+      return true;
+    }
+    return false;
+  }
+
   /**
    * The getEnemyDamage() method is the getter for the AbstractEnemy's damage amount.
    *
