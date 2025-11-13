@@ -57,7 +57,7 @@ public abstract class AbstractElement implements Element {
    * @param str a String to check if it is null or empty.
    * @return true if the String is null or empty, otherwise false.
    */
-  protected boolean validateString(String str) {
+  protected boolean checkIfInvalid(String str) {
     return str == null || str.isEmpty();
   }
 
