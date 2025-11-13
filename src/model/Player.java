@@ -66,23 +66,26 @@ public interface Player extends Activatable, Scorable {
    * in.
    *
    * @param item String key of item to use in inventory.
+   * @return boolean indicating if item was used.
    */
-  void useItem(String item);
+  boolean useItem(String item);
 
   /**
    * The takeItem() method takes an item from the room the player is currently in.
    *
    * @param item String of item to add to the player's inventory.
+   * @return boolean indicating if item was taken.
    */
-  void takeItem(String item);
+  boolean takeItem(String item);
 
   /**
    * The dropItem() method takes an item out of a player's inventory and drops it
    * in the active room.
    *
    * @param item String of the item to drop from the player's inventory.
+   * @return boolean indicating if item was dropped.
    */
-  void dropItem(String item);
+  boolean dropItem(String item);
 
   /**
    * The examine() method gets the description of an element in the player's

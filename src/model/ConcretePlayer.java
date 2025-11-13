@@ -130,17 +130,17 @@ public class ConcretePlayer extends AbstractElement implements Player {
   }
 
   @Override
-  public void useItem(String item) {
+  public boolean useItem(String item) {
 
   }
 
   @Override
-  public void takeItem(String item) {
+  public boolean takeItem(String item) {
 
   }
 
   @Override
-  public void dropItem(String item) {
+  public boolean dropItem(String item) {
 
   }
 
