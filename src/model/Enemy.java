@@ -5,7 +5,7 @@ package model;
  * game that need to be defeated to stop their effect on a Room.
  * extends AbstractElement and implements Activatable, Effector, and PlayerAffector.
  */
-public interface Enemy extends Activatable, Effector, PlayerAffector {
+public interface Enemy extends Element, Activatable, Effector, PlayerAffector {
 
   /**
    * Attempt to solve an Enemy using an answer.
