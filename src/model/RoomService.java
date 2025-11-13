@@ -39,13 +39,13 @@ class RoomService {
    * @param roomNumber int of room number.
    * @return Room object referenced by room number.
    */
-  Room getRoom(int roomNumber) throws IllegalArgumentException, InvalidParameterException {
+  Room getRoom(int roomNumber) throws IllegalArgumentException, CannotGetRoomException {
     if (roomNumber >= rooms.size())
       throw new IllegalArgumentException("room number out of range");
 
     if (roomNumber <= 0 ) {
-      throw new InvalidParameterException(roomNumber == 0 ? RoomStatus.NO_PASSAGE.getStatus()
-              : RoomStatus.BLOCKED.getStatus());
+      throw new CannotGetRoomException(roomNumber == 0 ? RoomStatus.NO_PASSAGE
+              : RoomStatus.BLOCKED);
     }
     //convert roomNumber to 0-indexing.
     return this.rooms.get(roomNumber - 1);
