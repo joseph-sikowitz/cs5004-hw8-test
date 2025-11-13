@@ -13,7 +13,7 @@ package model;
  * @author Vasilios Nicholas
  */
 public abstract class AbstractEnemy extends AbstractElement
-        implements Effector, Picturable, PlayerAffector, Scorable, Targeter {
+        implements Enemy, Picturable, Scorable, Targeter {
 
   // attributes
   private double score;
@@ -21,8 +21,8 @@ public abstract class AbstractEnemy extends AbstractElement
   private boolean affectsTarget;
   private final String target;
   private boolean affectsPlayer;
-  private String solutionText;
-  private String solutionItem;
+  private final String solutionText;
+  private final String solutionItem;
   private final String effects;
   private double damage;
   private final String picture;
