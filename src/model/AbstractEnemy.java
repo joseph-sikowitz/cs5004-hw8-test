@@ -121,9 +121,4 @@ public abstract class AbstractEnemy extends AbstractElement
   public boolean isActive() {
     return this.active;
   }
-
-  @Override
-  public void flipActive() {
-    this.active = !this.active;
-  }
 }

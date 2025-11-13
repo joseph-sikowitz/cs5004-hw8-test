@@ -15,10 +15,4 @@ public interface Activatable {
    * @return boolean indicating if Activatable is active.
    */
   boolean isActive();
-
-  /**
-   * The flipActive() method changes the current value of an Activatable
-   * boolean to its opposite.
-   */
-  void flipActive();
 }
