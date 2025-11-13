@@ -37,10 +37,22 @@ public class ConcreteMonster extends AbstractEnemy implements Monster {
   public ConcreteMonster(String name, String description, boolean active, boolean affectsTarget,
                         String target, boolean affectsPlayer, String solutionText,
                          String solutionItem, double score, String effects, double damage,
-                         String picture, boolean canAttack, String attackDescription) {
+                         String picture, boolean canAttack, String attackDescription)
+          throws IllegalArgumentException {
     super(name, description, score, active, affectsTarget, target, affectsPlayer, solutionText,
             solutionItem, effects, damage, picture);
 
+    //canAttack == true requires negative damage and valid attackDescription
+    if (canAttack && (damage == 0.0 || checkIfInvalid(attackDescription))) {
+      throw new IllegalArgumentException("If monster can attack player, it must"
+              + " deal damage and it must have an attack description!");
+    }
+
+    //canAttack == false requires no damage to be dealt.
+    if (!canAttack && damage != 0.0) {
+      throw new IllegalArgumentException("If monster can't attack player,"
+              + " it must not deal damage!");
+    }
     this.canAttack = canAttack;
     this.attackDescription = attackDescription;
   }
