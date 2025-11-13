@@ -43,6 +43,13 @@ public class ConcreteFixture extends AbstractElement implements Fixture {
   }
 
   @Override
+  public String getDescription() {
+    if (this.puzzle != null && this.puzzle.isActive())
+      return puzzle.getEffect();
+    return super.getDescription();
+  }
+
+  @Override
   public String getPicturePath() {
     return this.picture;
   }
