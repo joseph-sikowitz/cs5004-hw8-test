@@ -8,4 +8,6 @@ package model;
  * @author Joe Sikowitz
  * @author Vasilios Nicholas
  */
-public interface Puzzle {}
+public interface Puzzle extends Activatable {
+
+}
