@@ -76,16 +76,12 @@ public class ConcretePlayer extends AbstractElement implements Player {
 
   @Override
   public RoomStatus walk(Directions direction) {
-    // should this return something?
-    int passageValue = this.activeRoom.getPassageValue(direction);
-    if (passageValue > 0) {
-      // TODO: change activeRoom
-    } else if (passageValue < 0) {
-      // TODO: indicate passage is blocked
-    } else {
-      // TODO: indicate passage is not passable
+    try {
+      this.activeRoom.getPassageRoom(this.activeRoom.getPassageValue(direction));
+    } catch (CannotGetRoomException e) {
+      return e.getRoomExceptionStatus();
     }
-    return RoomStatus.BLOCKED;
+    return RoomStatus.OPEN;
   }
 
   @Override
