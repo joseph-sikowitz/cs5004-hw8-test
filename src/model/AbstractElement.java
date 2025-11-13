@@ -52,4 +52,13 @@ public abstract class AbstractElement implements Element {
     this.name = name;
   }
 
+  /**
+   * Checks whether a String is null or empty.
+   * @param str a String to check if it is null or empty.
+   * @return true if the String is null or empty, otherwise false.
+   */
+  protected boolean validateString(String str) {
+    return str == null || str.isEmpty();
+  }
+
 }

@@ -48,8 +48,12 @@ public abstract class AbstractEnemy extends AbstractElement
   public AbstractEnemy(String name, String description, double score, boolean active,
                        boolean affectsTarget, String target, boolean affectsPlayer,
                        String solutionText, String solutionItem, String effects, double damage,
-                       String picture) {
+                       String picture) throws IllegalArgumentException {
     super(name, description);
+
+    if ((solutionText == null || solutionText.isEmpty() && (solutionItem == null || solutionItem.isEmpty()))) {
+      throw new IllegalArgumentException("solutionText and solutionItem cannot both be null/empty!");
+    }
 
     this.score = score;
     this.active = active;
