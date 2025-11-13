@@ -51,8 +51,19 @@ public abstract class AbstractEnemy extends AbstractElement
                        String picture) throws IllegalArgumentException {
     super(name, description);
 
-    if ((solutionText == null || solutionText.isEmpty() && (solutionItem == null || solutionItem.isEmpty()))) {
+    //both target and effects must be non-null and non-empty
+    if (checkIfInvalid(target) || checkIfInvalid(effects)) {
+      throw new IllegalArgumentException("target and effects cannot be null/empty!");
+    }
+
+    //either solutionText or solutionItem must be non-null and non-empty.
+    if (checkIfInvalid(solutionText) && checkIfInvalid(solutionItem)) {
       throw new IllegalArgumentException("solutionText and solutionItem cannot both be null/empty!");
+    }
+
+    //damage must be less than 0.0
+    if (damage > 0.0) {
+      throw new IllegalArgumentException("damage cannot be positive!");
     }
 
     this.score = score;
