@@ -22,7 +22,7 @@ public class ConcreteRoom extends AbstractElement implements Room {
   private final Map<Directions, Integer> passages;
   private final Map<String, Item> items;
   private final Map<String, Fixture> fixtures;
-  private final Effector roomEnvironmentEffector;
+  private final Enemy roomEnvironmentEffector;
   private final Monster monster;
   private final Puzzle puzzle;
   private final String picture;
@@ -84,6 +84,9 @@ public class ConcreteRoom extends AbstractElement implements Room {
                Map<String, Fixture> fixtures, Monster monster,
                String picture, List<Room> roomService) {
     this(name, description, roomNumber, passages, items, fixtures, monster, null, picture, roomService);
+    if (monster == null) {
+      throw new IllegalArgumentException("Monster is null!");
+    }
   }
 
   /**
@@ -104,8 +107,11 @@ public class ConcreteRoom extends AbstractElement implements Room {
   public ConcreteRoom(String name, String description, int roomNumber,
                       Map<Directions, Integer> passages, Map<String, Item> items,
                       Map<String, Fixture> fixtures, Puzzle puzzle,
-                      String picture, List<Room> roomService) {
+                      String picture, List<Room> roomService) throws IllegalArgumentException  {
     this(name, description, roomNumber, passages, items, fixtures, null, puzzle, picture, roomService);
+    if (puzzle == null) {
+      throw new IllegalArgumentException("Puzzle is null!");
+    }
   }
 
   /**
