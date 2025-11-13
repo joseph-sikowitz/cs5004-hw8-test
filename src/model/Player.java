@@ -15,8 +15,9 @@ public interface Player extends Activatable, Scorable {
    * allowed or indicates why the player cannot move to a room.
    *
    * @param direction Directions enum of the direction to walk.
+   * @return the status of the direction the Player tried to walk to.
    */
-  void walk(Directions direction);
+  RoomStatus walk(Directions direction);
 
   /**
    * The setScore() method sets the score of the player.
