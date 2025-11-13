@@ -1,8 +1,5 @@
 package model;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
  * The AbstractEnemy is an abstract class that represents enemies in an adventure
  * game that need to be defeated to stop their effect on a Room. AbstractEnemies
