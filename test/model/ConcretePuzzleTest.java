@@ -48,6 +48,10 @@ class ConcretePuzzleTest {
 
   }
 
+  /**
+   * The testConstructorPositiveDamage() method tests that ConcretePuzzle throws an
+   * IllegalArgumentException when passed a positive value for damage.
+   */
   @Test
   void testConstructorPositiveDamage() {
     assertThrows(IllegalArgumentException.class, () -> new ConcretePuzzle("MOD-SPOOKY-VOICE",
@@ -64,6 +68,10 @@ class ConcretePuzzleTest {
 
   }
 
+  /**
+   * The testConstructorZeroDamage() method tests that a ConcretePuzzle can be instantiated
+   * with damage set to zero.
+   */
   @Test
   void testConstructorZeroDamage() {
     ConcretePuzzle cp = new ConcretePuzzle("MOD-SPOOKY-VOICE",
@@ -83,6 +91,10 @@ class ConcretePuzzleTest {
     assertEquals(400, cp.getScore());
   }
 
+  /**
+   * The testConstructorTargetNullOrEmpty() method tests that the constructor throws an
+   * IllegalArgumentException when passed a null value or empty String for the target.
+   */
   @Test
   void testConstructorTargetNullOrEmpty() {
     assertThrows(IllegalArgumentException.class, () -> new ConcretePuzzle("MOD-SPOOKY-VOICE",
@@ -110,10 +122,14 @@ class ConcretePuzzleTest {
             5.5, null));
   }
 
+  /**
+   * The testConstructorEffectsNullOrEmpty() method tests that the constructor throws an
+   * IllegalArgumentException when passed a null value or empty String for effects.
+   */
   @Test
   void testConstructorEffectsNullOrEmpty() {
     assertThrows(IllegalArgumentException.class, () -> new ConcretePuzzle("MOD-SPOOKY-VOICE",
-            "An spooky, eerie library. You walked into this eerie library FROM the west. "
+            "A spooky, eerie library. You walked into this eerie library FROM the west. "
                     + "\nAnother room is north. Books are rustling by themselves on a bookshelf.",
             true, true, "", false, null,
             "Modulo 2", 400, "", -5.5, null));
@@ -125,6 +141,11 @@ class ConcretePuzzleTest {
             "Modulo 2", 400,null,5.5, null));
   }
 
+  /**
+   * The testConstructorSolutionsNullOrEmpty() method tests that the constructor throws an
+   * IllegalArgumentException when passed a null value or empty String or a combination of
+   * the two for the solutionText and solutionItem fields.
+   */
   @Test
   void testConstructorSolutionsNullOrEmpty() {
     assertThrows(IllegalArgumentException.class, () -> new ConcretePuzzle("MOD-SPOOKY-VOICE",

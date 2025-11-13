@@ -47,7 +47,7 @@ class ConcreteFixtureTest {
   @Test
   void testConstructor() {
     Puzzle puzzle = new ConcretePuzzle("DARKNESS", "Darkness! You cannot see!",
-            true, true, "6:Kitchen", true, null,
+            false,true, "6:Kitchen", true, null,
             "Lamp", 150,
             "It's dark! You cannot see anything! Maybe we should go back?",
             0.0, "darkness.png");
@@ -67,14 +67,8 @@ class ConcreteFixtureTest {
    */
   @Test
   void testConstructorAtMinimumWeight() {
-    Puzzle puzzle = new ConcretePuzzle("DARKNESS", "Darkness! You cannot see!",
-            true, true, "6:Kitchen", true, null,
-            "Lamp", 200.0,
-            "It's dark! You cannot see anything! Maybe we should go back?", 0.0,
-            "darkness.png");
-
     ConcreteFixture cf = new ConcreteFixture("Stove", "A place to cook a meal",
-            200.0, puzzle, "Maine, New Hampshire, Vermont",
+            200.0, null, "Maine, New Hampshire, Vermont",
             "pictures/stove.png");
 
     assertEquals(200.0, cf.getWeight());
@@ -99,6 +93,58 @@ class ConcreteFixtureTest {
     assertThrows(IllegalArgumentException.class, () -> new ConcreteFixture("Stove",
             "A place to cook a meal", 199.99, puzzle,
             "Maine, New Hampshire, Vermont", "pictures/stove.png"));
+  }
+
+  /**
+   * The testGetDescriptionActivePuzzle() method tests the getDescription() method override
+   * in ConcreteFixture when passed an active puzzle.
+   */
+  @Test
+  void testGetDescriptionActivePuzzle() {
+    Puzzle puzzle = new ConcretePuzzle("DARKNESS", "Darkness! You cannot see!",
+            true, true, "6:Kitchen", true, null,
+            "Lamp", 200.0,
+            "It's dark! You cannot see anything! Maybe we should go back?", 0.0,
+            "darkness.png");
+
+    ConcreteFixture cf = new ConcreteFixture("Stove", "A place to cook a meal",
+            3000.5, puzzle, "Maine, New Hampshire, Vermont",
+            "pictures/stove.png");
+
+    assertEquals("It's dark! You cannot see anything! Maybe we should go back?",
+            cf.getDescription());
+  }
+
+  /**
+   * The testGetDescriptionInactivePuzzle() method tests the getDescription() method override
+   * in ConcreteFixture when passed an inactive puzzle.
+   */
+  @Test
+  void testGetDescriptionInactivePuzzle() {
+    Puzzle puzzle = new ConcretePuzzle("DARKNESS", "Darkness! You cannot see!",
+            false, true, "6:Kitchen", true, null,
+            "Lamp", 200.0,
+            "It's dark! You cannot see anything! Maybe we should go back?", 0.0,
+            "darkness.png");
+
+    ConcreteFixture cf = new ConcreteFixture("Stove", "A place to cook a meal",
+            3000.5, puzzle, "Maine, New Hampshire, Vermont",
+            "pictures/stove.png");
+
+    assertEquals("A place to cook a meal", cf.getDescription());
+  }
+
+  /**
+   * The testGetDescriptionNullPuzzle() method tests the getDescription() method override
+   * in ConcreteFixture when passed a null puzzle.
+   */
+  @Test
+  void testGetDescriptionNullPuzzle() {
+    ConcreteFixture cf = new ConcreteFixture("Stove", "A place to cook a meal",
+            3000.5, null, "Maine, New Hampshire, Vermont",
+            "pictures/stove.png");
+
+    assertEquals("A place to cook a meal", cf.getDescription());
   }
 
   /**
