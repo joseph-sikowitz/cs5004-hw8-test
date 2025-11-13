@@ -106,24 +106,6 @@ public interface Player extends Activatable, Scorable {
   void answer(String answer);
 
   /**
-   * The addWeight() method adds the given weight to the player's current carrying
-   * weight. If the added weight would increase the player's weight beyond the
-   * maximum allowed, the weight is not added and an exception is thrown.
-   *
-   * @param weight double of weight to add to player's currentWeight.
-   * @throws IllegalArgumentException if added weight will exceed maximum allowed.
-   */
-  void addWeight(double weight);
-
-  /**
-   * The reduceWeight() method reduces the player's current carrying weight by
-   * the given amount.
-   *
-   * @param weight double of the weight to subtract from player's currentWeight.
-   */
-  void reduceWeight(double weight);
-
-  /**
    * The getActiveRoom() method gets the player's active room, the room that the
    * player is currently in.
    *
