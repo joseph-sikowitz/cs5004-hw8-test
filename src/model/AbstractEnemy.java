@@ -53,7 +53,8 @@ public abstract class AbstractEnemy extends AbstractElement
    */
   public AbstractEnemy(String name, String description, double score, boolean active,
                        boolean affectsTarget, String target, boolean affectsPlayer,
-                       String solution, String effects, double damage, String picture) {
+                       String solutionText, String solutionItem, String effects, double damage,
+                       String picture) {
     super(name, description);
 
     this.score = score;
@@ -61,19 +62,11 @@ public abstract class AbstractEnemy extends AbstractElement
     this.affectsTarget = affectsTarget;
     this.target = target;
     this.affectsPlayer = affectsPlayer;
+    this.solutionText = solutionText;
+    this.solutionItem = solutionItem;
     this.effects = effects;
     this.damage = damage;
     this.picture = picture;
-
-    Pattern singleQuotes = Pattern.compile("('[^']*')");
-    Matcher match = singleQuotes.matcher(solution);
-    if (match.group(SOLUTION_MATCH) != null) {
-      this.solutionText = match.group(SOLUTION_MATCH);
-      this.solutionItem = null;
-    } else {
-      this.solutionText = null;
-      this.solutionItem = match.group(SOLUTION_MATCH);
-    }
   }
 
   /**

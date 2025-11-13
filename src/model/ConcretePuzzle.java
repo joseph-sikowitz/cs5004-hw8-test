@@ -12,9 +12,10 @@ package model;
 public class ConcretePuzzle extends AbstractEnemy implements Puzzle {
 
   public ConcretePuzzle(String name, String description, boolean active, boolean affectsTarget,
-                        String target, boolean affectsPlayer, String solution,
-                        double score, String effects, double damage, String picture) {
-    super(name, description, score, active, affectsTarget, target, affectsPlayer, solution,
-            effects, damage, picture);
+                        String target, boolean affectsPlayer, String solutionText,
+                        String solutionItem, double score, String effects, double damage,
+                        String picture) {
+    super(name, description, score, active, affectsTarget, target, affectsPlayer, solutionText,
+            solutionItem, effects, damage, picture);
   }
 }
