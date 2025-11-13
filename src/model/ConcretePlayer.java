@@ -126,18 +126,45 @@ public class ConcretePlayer extends AbstractElement implements Player {
   }
 
   @Override
-  public boolean useItem(String item) {
+  public boolean useItem(String itemName, String enemyName) {
+    Enemy enemy = this.activeRoom.getRoomEnvironmentEffector();
+    if (!inventory.containsKey(itemName) || enemy == null
+            || !enemy.getName().equalsIgnoreCase(enemyName)) {
+      return false;
+    }
+    Item item = inventory.get(itemName);
+    return enemy.solve(item);
 
   }
 
   @Override
   public boolean takeItem(String item) {
+    Item itemToPickUp = this.activeRoom.getItem(item);
+    if (itemToPickUp.getWeight() + this.currentWeight > this.maxWeight) {
+      return false;
+    }
 
+    //add item to Player's inventory.
+    this.inventory.put(itemToPickUp.getName(), this.activeRoom.removeItem(item));
+    //increment currentWeight by itemToPickUp's weight.
+    this.currentWeight += itemToPickUp.getWeight();
+
+    return true;
   }
 
   @Override
   public boolean dropItem(String item) {
+    //Item not in Player's inventory
+    if (!this.inventory.containsKey(item))
+      return false;
 
+    //remove Item from inventory.
+    Item droppedItem = this.inventory.remove(item);
+    //decrement currentWeight by droppedItem's weight.
+    this.currentWeight -= droppedItem.getWeight();
+    //add droppedItem to Room player is in.
+    this.activeRoom.addItem(droppedItem);
+    return true;
   }
 
   @Override
@@ -148,21 +175,6 @@ public class ConcretePlayer extends AbstractElement implements Player {
   @Override
   public void answer(String answer) {
 
-  }
-
-  @Override
-  public void addWeight(double weight) throws IllegalArgumentException {
-    double extraCapacity = this.maxWeight - this.currentWeight;
-    if (weight <= extraCapacity) {
-      this.currentWeight += weight;
-    } else {
-      throw new IllegalArgumentException("Cannot add that much weight.");
-    }
-  }
-
-  @Override
-  public void reduceWeight(double weight) {
-    this.currentWeight -= weight;
   }
 
   @Override
