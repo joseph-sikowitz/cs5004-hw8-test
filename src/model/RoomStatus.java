@@ -5,7 +5,7 @@ package model;
  */
 public enum RoomStatus {
   BLOCKED("No passage to room!"),
-  NO_PASSAGE("Room is blocked!");
+  NO_PASSAGE("Wall or no Passage!");
 
   final String status;
 
