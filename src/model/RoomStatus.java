@@ -4,8 +4,8 @@ package model;
  * An Enum type containing error message states for RoomService.
  */
 public enum RoomStatus {
-  BLOCKED("No passage to room!"),
-  NO_PASSAGE("Wall or no Passage!");
+  BLOCKED("Passage to Room is blocked!"),
+  NO_PASSAGE("Wall or no Passage to this Room from current Room!");
 
   final String status;
 
