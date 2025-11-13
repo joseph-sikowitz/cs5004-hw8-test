@@ -7,7 +7,7 @@ package model;
  * @author Joe Sikowitz
  * @author Vasilios Nicholas
  */
-public interface Monster {
+public interface Monster extends Activatable, Effector {
 
   /**
    * The getDamage() method is the getter for the amount of damage a Monster
