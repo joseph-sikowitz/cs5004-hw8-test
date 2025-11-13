@@ -77,10 +77,9 @@ public interface Room extends Picturable {
   /**
    * The addItem() method adds an item to a Room's Item Map.
    *
-   * @param itemName String of item to add to Map.
    * @param item Item object to add.
    */
-  void addItem(String itemName, Item item);
+  void addItem(Item item);
 
   /**
    * The removeItem() method removes an item from a Room's Item Map.
