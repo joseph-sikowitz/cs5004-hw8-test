@@ -9,6 +9,9 @@ import org.junit.jupiter.api.Test;
 
 /**
  * The ConcreteFixtureTest class tests the methods of the ConcreteFixture class.
+ *
+ * @author Joe Sikowitz
+ * @author Vasilios Nicholas
  */
 class ConcreteFixtureTest {
 
