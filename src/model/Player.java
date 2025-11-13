@@ -55,6 +55,12 @@ public interface Player extends Activatable, Scorable {
   void subtractHealth(double health);
 
   /**
+   * Returns the discrete HealthState of the Player as a HealthStatus enum type.
+   * @return a HealthStatus enum type.
+   */
+  HealthStatus getHealthStatus();
+
+  /**
    * The useItem() method uses an item in order to affect the room the player is
    * in.
    *
@@ -127,5 +133,7 @@ public interface Player extends Activatable, Scorable {
    * @param room Room object to "move" the player to.
    */
   void setActiveRoom(Room room);
+
+
 
 }
