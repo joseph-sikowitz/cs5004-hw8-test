@@ -15,7 +15,6 @@ class ConcreteFixtureTest {
   private ConcreteFixture f1;
   private Fixture f2;
   private ConcreteFixture f3;
-  private ConcretePuzzle p1;
 
   /**
    * The setUp() method creates a Puzzle object to be passed to ConcreteFixture constructors
