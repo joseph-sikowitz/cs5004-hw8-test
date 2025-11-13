@@ -71,7 +71,6 @@ public class ConcreteItem extends AbstractElement implements Item {
 
   @Override
   public String use() {
-    // TODO: probably need to do some other stuff here
     return this.useDescription;
   }
 

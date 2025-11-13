@@ -75,11 +75,6 @@ public class ConcretePlayer extends AbstractElement implements Player {
   }
 
   @Override
-  public void flipActive() {
-    this.active = !this.active;
-  }
-
-  @Override
   public RoomStatus walk(Directions direction) {
     // should this return something?
     int passageValue = this.activeRoom.getPassageValue(direction);
