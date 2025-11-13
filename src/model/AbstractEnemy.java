@@ -30,9 +30,6 @@ public abstract class AbstractEnemy extends AbstractElement
   private double damage;
   private final String picture;
 
-  // constants
-  private static final int SOLUTION_MATCH = 1;
-
   /**
    * The AbstractEnemy constructor initializes its attributes and sets either solutionText
    * or solutionItem to a String, but not both. Whichever attribute is set is the solution
@@ -45,8 +42,8 @@ public abstract class AbstractEnemy extends AbstractElement
    * @param affectsTarget boolean indicating if the AbstractEnemy can affect its target.
    * @param target        String of AbstractEnemy's target.
    * @param affectsPlayer boolean indicating if the AbstractEnemy can affect the player.
-   * @param solution      String of the AbstractEnemy's solution; if in single quotes, it is a
-   *                      text-based solution and if not it is an item object.
+   * @param solutionText  String of the AbstractEnemy's solution if it is a text-based solution.
+   * @param solutionItem  String of the AbstractEnemy's solution if it is an item object.
    * @param effects       String of the AbstractEnemy's effects.
    * @param damage        double of the damage an AbstractEnemy can inflict.
    * @param picture       String of the path to an AbstractEnemy's picture.
