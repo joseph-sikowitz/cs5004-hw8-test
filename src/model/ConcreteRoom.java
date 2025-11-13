@@ -1,5 +1,6 @@
 package model;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -48,7 +49,7 @@ public class ConcreteRoom extends AbstractElement implements Room {
   public ConcreteRoom(String name, String description, int roomNumber,
                       Map<Directions, Integer> passages, Map<String, Item> items,
                       Map<String, Fixture> fixtures, Monster monster, Puzzle puzzle,
-                      String picture, Map<Integer, Room> roomService) {
+                      String picture, List<Room> roomService) {
     super(name, description);
 
     this.roomNumber = roomNumber;
