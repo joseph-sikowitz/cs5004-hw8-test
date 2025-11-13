@@ -19,13 +19,13 @@ public class ConcreteRoom extends AbstractElement implements Room {
 
   // attributes
   private final int roomNumber;
-  private Map<Directions, Integer> passages;
-  private Map<String, Item> items;
-  private Map<String, Fixture> fixtures;
-  private boolean pathBlocker;
-  private Monster monster;
-  private Puzzle puzzle;
-  private String picture;
+  private final Map<Directions, Integer> passages;
+  private final Map<String, Item> items;
+  private final Map<String, Fixture> fixtures;
+  private final Effector roomEnvironmentEffector;
+  private final Monster monster;
+  private final Puzzle puzzle;
+  private final String picture;
   private RoomService roomService;
 
   /**
@@ -46,7 +46,7 @@ public class ConcreteRoom extends AbstractElement implements Room {
    * @param picture String of picture file name path.
    * @param roomService RoomService object with all game Rooms.
    */
-  public ConcreteRoom(String name, String description, int roomNumber,
+  private ConcreteRoom(String name, String description, int roomNumber,
                       Map<Directions, Integer> passages, Map<String, Item> items,
                       Map<String, Fixture> fixtures, Monster monster, Puzzle puzzle,
                       String picture, List<Room> roomService) {
@@ -59,10 +59,81 @@ public class ConcreteRoom extends AbstractElement implements Room {
     this.monster = monster;
     this.puzzle = puzzle;
     this.picture = picture;
-
     this.roomService = new RoomService(roomService);
+    this.roomEnvironmentEffector = monster != null ? monster : puzzle;
 
-    this.pathBlocker = monster != null || puzzle != null;
+  }
+
+  /**
+   * The ConcreteRoom constructor initializes its attributes using the parent
+   * constructor as well as its own attributes. The roomService attribute is
+   * initialized with a Map of room numbers and Rooms.
+   *
+   * @param name String of room's name.
+   * @param description String of room's description.
+   * @param roomNumber int of room's number.
+   * @param passages Map of passages from room in the four cardinal directions.
+   * @param items Map of Item objects in the room with their names.
+   * @param fixtures Map of Fixture objects in the room with their names.
+   * @param monster Monster object in the room.
+   * @param picture String of picture file name path.
+   * @param roomService RoomService object with all game Rooms.
+   */
+  public ConcreteRoom(String name, String description, int roomNumber,
+               Map<Directions, Integer> passages, Map<String, Item> items,
+               Map<String, Fixture> fixtures, Monster monster,
+               String picture, List<Room> roomService) {
+    this(name, description, roomNumber, passages, items, fixtures, monster, null, picture, roomService);
+  }
+
+  /**
+   * The ConcreteRoom constructor initializes its attributes using the parent
+   * constructor as well as its own attributes. The roomService attribute is
+   * initialized with a Map of room numbers and Rooms.
+   *
+   * @param name String of room's name.
+   * @param description String of room's description.
+   * @param roomNumber int of room's number.
+   * @param passages Map of passages from room in the four cardinal directions.
+   * @param items Map of Item objects in the room with their names.
+   * @param fixtures Map of Fixture objects in the room with their names.
+   * @param puzzle Puzzle object in the room.
+   * @param picture String of picture file name path.
+   * @param roomService RoomService object with all game Rooms.
+   */
+  public ConcreteRoom(String name, String description, int roomNumber,
+                      Map<Directions, Integer> passages, Map<String, Item> items,
+                      Map<String, Fixture> fixtures, Puzzle puzzle,
+                      String picture, List<Room> roomService) {
+    this(name, description, roomNumber, passages, items, fixtures, null, puzzle, picture, roomService);
+  }
+
+  /**
+   * The ConcreteRoom constructor initializes its attributes using the parent
+   * constructor as well as its own attributes. The roomService attribute is
+   * initialized with a Map of room numbers and Rooms.
+   *
+   * @param name String of room's name.
+   * @param description String of room's description.
+   * @param roomNumber int of room's number.
+   * @param passages Map of passages from room in the four cardinal directions.
+   * @param items Map of Item objects in the room with their names.
+   * @param fixtures Map of Fixture objects in the room with their names.
+   * @param picture String of picture file name path.
+   * @param roomService RoomService object with all game Rooms.
+   */
+  public ConcreteRoom(String name, String description, int roomNumber,
+                      Map<Directions, Integer> passages, Map<String, Item> items,
+                      Map<String, Fixture> fixtures,
+                      String picture, List<Room> roomService) {
+    this(name, description, roomNumber, passages, items, fixtures, null, null, picture, roomService);
+  }
+
+  @Override
+  public String getDescription() {
+    if (this.roomEnvironmentEffector != null && this.roomEnvironmentEffector.isActive())
+      return roomEnvironmentEffector.getEffect();
+    return super.getDescription();
   }
 
   @Override
@@ -117,7 +188,7 @@ public class ConcreteRoom extends AbstractElement implements Room {
 
   @Override
   public boolean isPathBlocked() {
-    return this.pathBlocker;
+    return this.roomEnvironmentEffector.isActive();
   }
 
   @Override
