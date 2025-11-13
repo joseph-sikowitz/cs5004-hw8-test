@@ -1,5 +1,6 @@
 package model;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -167,6 +168,14 @@ public class ConcreteRoom extends AbstractElement implements Room {
     return this.items.get(itemName);
   }
 
+  /**
+   * Returns a safe copy of items in the Room as a hashMap.
+   * @return a HashMap instance containing all items in the Room.
+   */
+  Map<String, Item> getItems() {
+    return new HashMap<>(this.items);
+  }
+
   @Override
   public Monster getMonster() {
     return this.monster;
@@ -178,8 +187,13 @@ public class ConcreteRoom extends AbstractElement implements Room {
   }
 
   @Override
-  public void addItem(String itemName, Item item) {
-    this.items.put(itemName, item);
+  public Enemy getRoomEnvironmentEffector() {
+    return this.roomEnvironmentEffector;
+  }
+
+  @Override
+  public void addItem(Item item) {
+    this.items.put(item.getName(), item);
   }
 
   @Override
