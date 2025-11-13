@@ -33,16 +33,21 @@ public class ConcreteItem extends AbstractElement implements Item {
    * @param useDescription String of the item's use description.
    */
   public ConcreteItem(String name, String description, double score, double weight, String picture,
-                      int maxUses, int usesRemaining, String useDescription) {
+                      int maxUses, int usesRemaining, String useDescription)
+          throws IllegalArgumentException {
     super(name, description);
 
     this.score = score;
-    this.weight = weight;
     this.picture = picture;
     this.maxUses = maxUses;
     this.usesRemaining = usesRemaining;
     this.useDescription = useDescription;
     this.active = usesRemaining > 0;
+
+    if (weight < 0) {
+      throw new IllegalArgumentException("Weight cannot be negative");
+    }
+    this.weight = weight;
   }
 
   @Override
@@ -58,6 +63,10 @@ public class ConcreteItem extends AbstractElement implements Item {
   @Override
   public void addUse() {
     this.usesRemaining--;
+
+    if (this.usesRemaining <= 0) {
+      this.active = false;
+    }
   }
 
   @Override
@@ -84,10 +93,5 @@ public class ConcreteItem extends AbstractElement implements Item {
   @Override
   public boolean isActive() {
     return this.active;
-  }
-
-  @Override
-  public void flipActive() {
-    this.active = !this.active;
   }
 }
