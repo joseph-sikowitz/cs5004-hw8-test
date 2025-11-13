@@ -51,7 +51,7 @@ public class ConcretePlayer extends AbstractElement implements Player {
 
   @Override
   public boolean isActive() {
-    return this.active;
+    return this.health > 0.0;
   }
 
   @Override
