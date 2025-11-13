@@ -61,7 +61,7 @@ public abstract class AbstractEnemy extends AbstractElement
       throw new IllegalArgumentException("solutionText and solutionItem cannot both be null/empty!");
     }
 
-    //damage must be less than 0.0
+    //damage must be less than or equal 0.0
     if (damage > 0.0) {
       throw new IllegalArgumentException("damage cannot be positive!");
     }
