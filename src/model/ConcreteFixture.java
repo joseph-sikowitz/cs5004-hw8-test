@@ -29,8 +29,12 @@ public class ConcreteFixture extends AbstractElement implements Fixture {
    * @param picture String of the path to the fixture's picture.
    */
   public ConcreteFixture(String name, String description, double weight, Puzzle puzzle,
-                         String states,  String picture) {
+                         String states,  String picture) throws IllegalArgumentException {
     super(name , description);
+
+    if (weight < 200.0) {
+      throw new IllegalArgumentException("Weight must be greater than 200");
+    }
 
     this.weight = weight;
     this.puzzle = puzzle;
