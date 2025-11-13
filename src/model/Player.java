@@ -66,10 +66,10 @@ public interface Player extends Activatable, Scorable {
    * in.
    *
    * @param item    String key of item to use in inventory.
-   * @param element String representing an element to use the item on.
+   * @param enemy String representing an element to use the item on.
    * @return boolean indicating if item was used.
    */
-  boolean useItem(String item, String element);
+  boolean useItem(String item, String enemy);
 
   /**
    * The takeItem() method takes an item from the room the player is currently in.
