@@ -4,22 +4,37 @@ package model;
  * Represents the discrete Health states of the player.
  */
 public enum HealthStatus {
-  SLEEP(0),
-  WOOZY(40),
-  FATIGUED(70),
-  AWAKE(100);
+  SLEEP(0, "Asleep"),
+  WOOZY(40, "Woozy"),
+  FATIGUED(70, "Fatigued"),
+  AWAKE(100, "Awake"),;
 
   final int maxHealth;
+  final String healthStatus;
+
+  /**
+   * Initializes the values for each enum.
+   * @param maxHealth an int representing the max health value for the state.
+   * @param healthStatus a String describing the health state.
+   */
+  HealthStatus(int maxHealth, String healthStatus) {
+    this.maxHealth = maxHealth;
+    this.healthStatus = healthStatus;
+  }
 
   /**
    * Returns the max health value for the HealthState.
-   * @param maxHealth an int representing the max health value for the state.
+   * @return an int representing the max health value for the state.
    */
-  HealthStatus(int maxHealth) {
-    this.maxHealth = maxHealth;
-  }
-
   public int getMaxHealth() {
     return maxHealth;
+  }
+
+  /**
+   * Returns a String describing the health state.
+   * @return a String describing the health state.
+   */
+  public String getHealthStatus() {
+    return healthStatus;
   }
 }
