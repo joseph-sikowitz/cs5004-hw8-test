@@ -7,7 +7,7 @@ package model;
  * @author Joe Sikowitz
  * @author Vasilios Nicholas
  */
-public interface Item extends Activatable, Picturable, Scorable, Weightable {
+public interface Item extends Element, Activatable, Picturable, Scorable, Weightable {
 
   /**
    * The getMaxUses() method is a getter for the maximum number of uses possible

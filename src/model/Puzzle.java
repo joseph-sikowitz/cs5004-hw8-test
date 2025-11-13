@@ -8,6 +8,6 @@ package model;
  * @author Joe Sikowitz
  * @author Vasilios Nicholas
  */
-public interface Puzzle extends Activatable, Effector {
+public interface Puzzle extends Enemy {
 
 }
