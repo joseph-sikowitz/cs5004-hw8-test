@@ -8,7 +8,7 @@ package model;
  * @author Joe Sikowitz
  * @author Vasilios Nicholas
  */
-public interface Puzzle extends Element, Activatable, Effector, Scorable, PlayerAffector {
+public interface Puzzle extends Element, Activatable, Effector, Scorable, PlayerAffector, Targeter, Picturable {
 
   /**
    * Attempt to solve a Puzzle using an answer.
