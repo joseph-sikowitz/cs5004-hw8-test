@@ -8,10 +8,10 @@ package model;
  * @author Joe Sikowitz
  * @author Vasilios Nicholas
  */
-public interface Puzzle extends Element, Activatable, Effector, PlayerAffector {
+public interface Puzzle extends Element, Activatable, Effector, Scorable, PlayerAffector {
 
   /**
-   * Attempt to solve an Puzzle using an answer.
+   * Attempt to solve a Puzzle using an answer.
    *
    * @param answer A String representing an answer that might deactivate the enemy.
    * @return true is the Puzzle is no longer active, false if the enemy is still active.
