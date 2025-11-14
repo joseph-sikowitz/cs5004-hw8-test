@@ -14,7 +14,7 @@ import java.util.List;
 class RoomService {
 
   // attributes
-  private List<Room> rooms;
+  private final List<Room> rooms;
 
   /**
    * The RoomService constructor initializes the rooms Map that holds all the
