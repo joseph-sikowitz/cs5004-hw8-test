@@ -27,7 +27,7 @@ public class ConcreteRoom extends AbstractElement implements Room {
   private final Monster monster;
   private final Puzzle puzzle;
   private final String picture;
-  private RoomService roomService;
+  private final RoomService roomService;
 
   /**
    * The ConcreteRoom constructor initializes its attributes using the parent
