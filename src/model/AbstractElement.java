@@ -20,7 +20,11 @@ public abstract class AbstractElement implements Element {
    * @param name String of AbstractElement's name.
    * @param description String of AbstractElement's description.
    */
-  public AbstractElement(String name, String description) {
+  public AbstractElement(String name, String description) throws IllegalArgumentException {
+    if (checkIfInvalid(name) || checkIfInvalid(description)) {
+      throw new IllegalArgumentException("Room and Description must be non-null,"
+              + " non-empty Strings");
+    }
     this.name = name;
     this.description = description;
   }
