@@ -2,8 +2,10 @@ package model;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,6 +28,7 @@ public class InputProcessor {
   private String version;
   private Map<String, JsonNode> elementFields;
   private boolean newGame;
+  private final Set<String> uniqueElementNames;
 
   /**
    * The InputProcessor constructor initializes the gameFileName.
@@ -36,6 +39,7 @@ public class InputProcessor {
     this.gameFileName = gameFileName;
     this.elementFields = fields;
     this.newGame = true;
+    this.uniqueElementNames = new HashSet<>();
   }
 
   /**
