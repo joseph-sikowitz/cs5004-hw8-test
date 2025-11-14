@@ -3,12 +3,12 @@ package model;
 /**
  * The Player interface defines the Player type in an adventure game. Players
  * are the way that users interact with the game and act as their avatar.
- * The Player interface extends the Activatable and Scorable interfaces.
+ * The Player interface extends the Activatable, Element and Scorable interfaces.
  *
  * @author Joe Sikowitz
  * @author Vasilios Nicholas
  */
-public interface Player extends Activatable, Scorable {
+public interface Player extends Activatable, Element, Scorable {
 
   /**
    * The walk() method moves a player to a new room if passage to that room is

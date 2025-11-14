@@ -3,12 +3,12 @@ package model;
 /**
  * The Room interface defines the Room type. Rooms can hold fixtures, items, and
  * a Monster or a Puzzle, but not both. Rooms also have numbers and passages to
- * other Rooms.
+ * other Rooms. Room extends the Element and Picturable interfaces.
  *
  * @author Joe Sikowitz
  * @author Vasilios Nicholas
  */
-public interface Room extends Picturable {
+public interface Room extends Element, Picturable {
 
   /**
    * The getRoomNumber() method is the getter for a room's number.

@@ -2,7 +2,7 @@ package model;
 
 /**
  * The Item interface represents an item game object in an adventure game. The interface
- * extends the Activatable, Picturable, Scorable, and Weightable interfaces.
+ * extends the Activatable, Element, Picturable, Scorable, and Weightable interfaces.
  *
  * @author Joe Sikowitz
  * @author Vasilios Nicholas
