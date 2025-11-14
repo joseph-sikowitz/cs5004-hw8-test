@@ -10,14 +10,17 @@ package model;
 public class ConcreteItem extends AbstractElement implements Item {
 
   // attributes
-  private double score;
-  private double weight;
-  private String picture;
-  private int maxUses;
+  private final double score;
+  private final double weight;
+  private final String picture;
+  private final int maxUses;
   private int usesRemaining;
-  private String useDescription;
+  private final String useDescription;
   private boolean active;
 
+  // constants
+  private static final double MINIMUM_WEIGHT = 0;
+  private static final double INACTIVE_USE_AMOUNT = 0;
 
   /**
    * The ConcreteItem constructor initializes its attributes and sets its active
@@ -42,9 +45,9 @@ public class ConcreteItem extends AbstractElement implements Item {
     this.maxUses = maxUses;
     this.usesRemaining = usesRemaining;
     this.useDescription = useDescription;
-    this.active = usesRemaining > 0;
+    this.active = usesRemaining > INACTIVE_USE_AMOUNT;
 
-    if (weight < 0) {
+    if (weight < MINIMUM_WEIGHT) {
       throw new IllegalArgumentException("Weight cannot be negative");
     }
     this.weight = weight;
@@ -64,7 +67,7 @@ public class ConcreteItem extends AbstractElement implements Item {
   public void addUse() {
     this.usesRemaining--;
 
-    if (this.usesRemaining <= 0) {
+    if (this.usesRemaining <= INACTIVE_USE_AMOUNT) {
       this.active = false;
     }
   }
