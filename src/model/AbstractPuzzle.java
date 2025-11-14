@@ -3,11 +3,10 @@ package model;
 /**
  * The AbstractPuzzle is an abstract class that represents enemies in an adventure
  * game that need to be defeated to stop their effect on a Room. AbstractEnemies
- * extends AbstractElement and implements Effector, Picturable, PlayerAffector,
- * Scorable, and Targeter interfaces. AbstractPuzzle inherits name and description
- * from AbstractElement and has a score, active status, affects target status, target
- * affects player status, solution text, solution item text, effects text, damage
- * amount and picture file path.
+ * extends AbstractElement and implements Puzzle, Picturable, Scorable and Targeter
+ * interfaces. AbstractPuzzle inherits name and description from AbstractElement and
+ * has a score, active status, affects target status, target affects player status,
+ * solution text, solution item text, effects text, damage amount and picture file path.
  *
  * @author Joe Sikowitz
  * @author Vasilios Nicholas
