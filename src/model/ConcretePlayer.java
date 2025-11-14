@@ -128,12 +128,19 @@ public class ConcretePlayer extends AbstractElement implements Player {
   @Override
   public boolean useItem(String itemName, String enemyName) {
     Puzzle enemy = this.activeRoom.getRoomEnvironmentEffector();
+    /*
+     * short circuit if player doesn't have the item,
+     * active room doesn't have the enemy, or enemy is already deactivated.
+     */
     if (!inventory.containsKey(itemName) || enemy == null
-            || !enemy.getName().equalsIgnoreCase(enemyName)) {
+            || !enemy.getName().equalsIgnoreCase(enemyName) || !enemy.isActive()) {
       return false;
     }
     Item item = inventory.get(itemName);
-    return enemy.solve(item);
+    boolean enemySolved = enemy.solve(item);
+    if (enemySolved)
+      this.addToScore(enemy.getScore());
+    return enemySolved;
 
   }
 
