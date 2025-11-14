@@ -55,10 +55,10 @@ public interface Room extends Element, Picturable {
   Item getItem(String itemName);
 
   /**
-   * Gets the Enemy effecting the Room environment.
-   * @return an instance of an Enemy type or null.
+   * Gets the Puzzle effecting the Room environment.
+   * @return an instance of an Puzzle type or null.
    */
-  public Enemy getRoomEnvironmentEffector();
+  public Puzzle getRoomEnvironmentEffector();
 
   /**
    * The getMonster() method is the getter for a Room's Monster.

@@ -2,14 +2,14 @@ package model;
 
 /**
  * The ConcreteMonster class represents a Monster in an adventure game. Monsters extend
- * the AbstractEnemy class and implement the Monster interface. ConcreteMonsters have
+ * the AbstractPuzzle class and implement the Monster interface. ConcreteMonsters have
  * a canAttack field indicating if they can attack a player and an attackDescription
  * describing their attack.
  *
  * @author Joe Sikowitz
  * @author Vasilios Nicholas
  */
-public class ConcreteMonster extends AbstractEnemy implements Monster {
+public class ConcreteMonster extends AbstractPuzzle implements Monster {
 
   // attributes
   private boolean canAttack;
@@ -59,7 +59,7 @@ public class ConcreteMonster extends AbstractEnemy implements Monster {
 
   @Override
   public double getDamage() {
-    return super.getEnemyDamage();
+    return super.getPuzzleDamage();
   }
 
   @Override

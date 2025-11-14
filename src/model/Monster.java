@@ -3,12 +3,12 @@ package model;
 /**
  * The Monster interface defines the Monster type. Monsters can attack and
  * exist in Rooms. In a given room, there can only be one Monster or one Puzzle.
- * Monsters extend the Element and Enemy interfaces.
+ * Monsters extend the Element and Puzzle interfaces.
  *
  * @author Joe Sikowitz
  * @author Vasilios Nicholas
  */
-public interface Monster extends Element, Enemy {
+public interface Monster extends Element, Puzzle {
 
   /**
    * The getDamage() method is the getter for the amount of damage a Monster

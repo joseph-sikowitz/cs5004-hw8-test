@@ -23,7 +23,7 @@ public class ConcreteRoom extends AbstractElement implements Room {
   private final Map<Directions, Integer> passages;
   private final Map<String, Item> items;
   private final Map<String, Fixture> fixtures;
-  private final Enemy roomEnvironmentEffector;
+  private final Puzzle roomEnvironmentEffector;
   private final Monster monster;
   private final Puzzle puzzle;
   private final String picture;
@@ -133,7 +133,8 @@ public class ConcreteRoom extends AbstractElement implements Room {
                       Map<Directions, Integer> passages, Map<String, Item> items,
                       Map<String, Fixture> fixtures,
                       String picture, List<Room> roomService) {
-    this(name, description, roomNumber, passages, items, fixtures, null, null, picture, roomService);
+    this(name, description, roomNumber, passages, items, fixtures, null, null,
+            picture, roomService);
   }
 
   @Override
@@ -187,7 +188,7 @@ public class ConcreteRoom extends AbstractElement implements Room {
   }
 
   @Override
-  public Enemy getRoomEnvironmentEffector() {
+  public Puzzle getRoomEnvironmentEffector() {
     return this.roomEnvironmentEffector;
   }
 

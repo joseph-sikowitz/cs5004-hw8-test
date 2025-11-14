@@ -1,14 +1,29 @@
 package model;
 
 /**
- * The Puzzle interface defines a Puzzle type in an adventure game. Puzzles are
- * solved by players and typically affect things in a Room. The Puzzle interface
- * has no required methods at this time. Puzzle extends the Element and Enemy
- * interfaces.
+ * The Puzzle type represents enemies in an adventure
+ * game that need to be defeated to stop their effect on a Room.
+ * extends AbstractElement and implements Activatable, Effector, and PlayerAffector.
  *
  * @author Joe Sikowitz
  * @author Vasilios Nicholas
  */
-public interface Puzzle extends Element, Enemy {
+public interface Puzzle extends Element, Activatable, Effector, PlayerAffector {
+
+  /**
+   * Attempt to solve an Puzzle using an answer.
+   *
+   * @param answer A String representing an answer that might deactivate the enemy.
+   * @return true is the Puzzle is no longer active, false if the enemy is still active.
+   */
+  boolean solve(String answer);
+
+  /**
+   * Attempt to solve an Puzzle using an Item.
+   *
+   * @param item An Item representing an item that might deactivate the enemy.
+   * @return true is the Puzzle is no longer active, false if the enemy is still active.
+   */
+  boolean solve(Item item);
 
 }

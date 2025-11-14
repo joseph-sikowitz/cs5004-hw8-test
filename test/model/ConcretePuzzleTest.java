@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 /**
  * The ConcretePuzzleTest class tests the ConcretePuzzle class methods. Since ConcretePuzzle
  * only has a constructor that is all that is tested. All of its other methods are inherited
- * from AbstractEnemy and tested in its test class.
+ * from AbstractPuzzle and tested in its test class.
  *
  * @author Joe Sikowitz
  * @author Vasilios Nicholas

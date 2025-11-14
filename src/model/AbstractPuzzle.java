@@ -1,10 +1,10 @@
 package model;
 
 /**
- * The AbstractEnemy is an abstract class that represents enemies in an adventure
+ * The AbstractPuzzle is an abstract class that represents enemies in an adventure
  * game that need to be defeated to stop their effect on a Room. AbstractEnemies
  * extends AbstractElement and implements Effector, Picturable, PlayerAffector,
- * Scorable, and Targeter interfaces. AbstractEnemy inherits name and description
+ * Scorable, and Targeter interfaces. AbstractPuzzle inherits name and description
  * from AbstractElement and has a score, active status, affects target status, target
  * affects player status, solution text, solution item text, effects text, damage
  * amount and picture file path.
@@ -12,8 +12,8 @@ package model;
  * @author Joe Sikowitz
  * @author Vasilios Nicholas
  */
-public abstract class AbstractEnemy extends AbstractElement
-        implements Enemy, Picturable, Scorable, Targeter {
+public abstract class AbstractPuzzle extends AbstractElement
+        implements Puzzle, Picturable, Scorable, Targeter {
 
   // attributes
   private double score;
@@ -28,27 +28,27 @@ public abstract class AbstractEnemy extends AbstractElement
   private final String picture;
 
   /**
-   * The AbstractEnemy constructor initializes its attributes and sets either solutionText
+   * The AbstractPuzzle constructor initializes its attributes and sets either solutionText
    * or solutionItem to a String, but not both. Whichever attribute is set is the solution
-   * to the AbstractEnemy.
+   * to the AbstractPuzzle.
    *
-   * @param name          String of the AbstractEnemy's name.
-   * @param description   String of the AbstractEnemy's description.
-   * @param score         double of the AbstractEnemy's score.
-   * @param active        boolean indicating the active status of the AbstractEnemy.
-   * @param affectsTarget boolean indicating if the AbstractEnemy can affect its target.
-   * @param target        String of AbstractEnemy's target.
-   * @param affectsPlayer boolean indicating if the AbstractEnemy can affect the player.
-   * @param solutionText  String of the AbstractEnemy's solution if it is a text-based solution.
-   * @param solutionItem  String of the AbstractEnemy's solution if it is an item object.
-   * @param effects       String of the AbstractEnemy's effects.
-   * @param damage        double of the damage an AbstractEnemy can inflict.
-   * @param picture       String of the path to an AbstractEnemy's picture.
+   * @param name          String of the AbstractPuzzle's name.
+   * @param description   String of the AbstractPuzzle's description.
+   * @param score         double of the AbstractPuzzle's score.
+   * @param active        boolean indicating the active status of the AbstractPuzzle.
+   * @param affectsTarget boolean indicating if the AbstractPuzzle can affect its target.
+   * @param target        String of AbstractPuzzle's target.
+   * @param affectsPlayer boolean indicating if the AbstractPuzzle can affect the player.
+   * @param solutionText  String of the AbstractPuzzle's solution if it is a text-based solution.
+   * @param solutionItem  String of the AbstractPuzzle's solution if it is an item object.
+   * @param effects       String of the AbstractPuzzle's effects.
+   * @param damage        double of the damage an AbstractPuzzle can inflict.
+   * @param picture       String of the path to an AbstractPuzzle's picture.
    */
-  public AbstractEnemy(String name, String description, double score, boolean active,
-                       boolean affectsTarget, String target, boolean affectsPlayer,
-                       String solutionText, String solutionItem, String effects, double damage,
-                       String picture) throws IllegalArgumentException {
+  public AbstractPuzzle(String name, String description, double score, boolean active,
+                        boolean affectsTarget, String target, boolean affectsPlayer,
+                        String solutionText, String solutionItem, String effects, double damage,
+                        String picture) throws IllegalArgumentException {
     super(name, description);
 
     //both target and effects must be non-null and non-empty
@@ -97,11 +97,11 @@ public abstract class AbstractEnemy extends AbstractElement
   }
 
   /**
-   * The getEnemyDamage() method is the getter for the AbstractEnemy's damage amount.
+   * The getPuzzleDamage() method is the getter for the AbstractPuzzle's damage amount.
    *
    * @return double of amount of damage.
    */
-  protected double getEnemyDamage() {
+  protected double getPuzzleDamage() {
     return this.damage;
   }
 
