@@ -203,8 +203,8 @@ public class ConcreteRoom extends AbstractElement implements Room {
   }
 
   @Override
-  public Room getPassageRoom(int roomNumber) {
-    return this.roomService.getRoom(roomNumber);
+  public Room getPassageRoom(Directions direction) {
+    return this.roomService.getRoom(this, direction);
   }
 
   @Override
