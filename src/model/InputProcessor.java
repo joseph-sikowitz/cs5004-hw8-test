@@ -187,9 +187,6 @@ public class InputProcessor {
         String picture = puzzleData.get(PuzzleJsonFields.PICTURE.getValue()).asText();
         String answer = puzzleData.get(PuzzleJsonFields.SOLUTION.getValue()).asText();
         String effect = puzzleData.get(PuzzleJsonFields.EFFECTS.getValue()).asText();
-
-        ConcretePuzzle puzzle = new ConcretePuzzle(name, description, score, picture,
-                answer, effect, null, null);
       }
     }
   }
