@@ -58,4 +58,9 @@ public class ConcreteFixture extends AbstractElement implements Fixture {
   public double getWeight() {
     return this.weight;
   }
+
+  @Override
+  public String getStates() {
+    return this.states;
+  }
 }
