@@ -1,8 +1,11 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * The ConcreteRoom class represents a Room in the adventure game that a player
@@ -23,11 +26,11 @@ public class ConcreteRoom extends AbstractElement implements Room {
   private final Map<Directions, Integer> passages;
   private final Map<String, Item> items;
   private final Map<String, Fixture> fixtures;
-  private final Puzzle roomEnvironmentEffector;
+  private Puzzle roomEnvironmentEffector;
   private final Monster monster;
   private final Puzzle puzzle;
   private final String picture;
-  private final RoomService roomService;
+  private static final RoomService roomService = new RoomService();
 
   /**
    * The ConcreteRoom constructor initializes its attributes using the parent
@@ -47,95 +50,61 @@ public class ConcreteRoom extends AbstractElement implements Room {
    * @param picture String of picture file name path.
    * @param roomService RoomService object with all game Rooms.
    */
-  private ConcreteRoom(String name, String description, int roomNumber,
+  public ConcreteRoom(String name, String description, int roomNumber,
                       Map<Directions, Integer> passages, Map<String, Item> items,
                       Map<String, Fixture> fixtures, Monster monster, Puzzle puzzle,
-                      String picture, List<Room> roomService) {
+                      String picture, List<Room> roomService) throws IllegalArgumentException {
     super(name, description);
 
+    if (roomNumber < 0) {
+      throw new IllegalArgumentException("Invalid room number");
+    }
+
     this.roomNumber = roomNumber;
+
+    if (passages == null) {
+      throw new IllegalArgumentException("Room must have a passage to another Room!");
+    }
+    //filter out 0's and get room numbers from passages
+    List<Integer> checkPassages = passages.values().stream()
+            .filter((i) -> i != 0).toList();
+
+    //all directions have a value of 0 or no key-value pairs in passages.
+    if (checkPassages.isEmpty()) {
+      throw new IllegalArgumentException("Room must have a passage to another Room!");
+    }
+
+    //Ignore whether passages are blocked.
+    List<Integer> checkRoomNumbers = checkPassages.stream().map(Math::abs).toList();
+
+    //check if there is more than one passage between the same two Rooms.
+    if (checkRoomNumbers.size() != new HashSet<>(checkRoomNumbers).size()) {
+      throw new IllegalArgumentException("Room cannot have more than one passage to another Room!");
+    }
+
     this.passages = passages;
     this.items = items;
     this.fixtures = fixtures;
+
+    if (monster != null && puzzle != null) {
+      throw new IllegalArgumentException("A Room may have either one Monster or one Puzzle!");
+    }
+
     this.monster = monster;
     this.puzzle = puzzle;
     this.picture = picture;
-    this.roomService = new RoomService(roomService);
     this.roomEnvironmentEffector = monster != null ? monster : puzzle;
-
-  }
-
-  /**
-   * The ConcreteRoom constructor initializes its attributes using the parent
-   * constructor as well as its own attributes. The roomService attribute is
-   * initialized with a Map of room numbers and Rooms.
-   *
-   * @param name String of room's name.
-   * @param description String of room's description.
-   * @param roomNumber int of room's number.
-   * @param passages Map of passages from room in the four cardinal directions.
-   * @param items Map of Item objects in the room with their names.
-   * @param fixtures Map of Fixture objects in the room with their names.
-   * @param monster Monster object in the room.
-   * @param picture String of picture file name path.
-   * @param roomService RoomService object with all game Rooms.
-   */
-  public ConcreteRoom(String name, String description, int roomNumber,
-               Map<Directions, Integer> passages, Map<String, Item> items,
-               Map<String, Fixture> fixtures, Monster monster,
-               String picture, List<Room> roomService) {
-    this(name, description, roomNumber, passages, items, fixtures, monster, null, picture, roomService);
-    if (monster == null) {
-      throw new IllegalArgumentException("Monster is null!");
+    //determine if roomEnvironmentEffector effects room or fixture.
+    if (this.roomEnvironmentEffector != null && !this.roomEnvironmentEffector.getTarget().contains(":")) {
+      this.roomEnvironmentEffector = null;
+    } else if (this.roomEnvironmentEffector != null
+            && !this.roomEnvironmentEffector.getTarget().split(":")[0].equals(this.getName())) {
+      throw new IllegalArgumentException("Puzzle is affected another room!");
     }
+    //Add this Room instance to roomService
+    ConcreteRoom.roomService.addRoom(this);
   }
 
-  /**
-   * The ConcreteRoom constructor initializes its attributes using the parent
-   * constructor as well as its own attributes. The roomService attribute is
-   * initialized with a Map of room numbers and Rooms.
-   *
-   * @param name String of room's name.
-   * @param description String of room's description.
-   * @param roomNumber int of room's number.
-   * @param passages Map of passages from room in the four cardinal directions.
-   * @param items Map of Item objects in the room with their names.
-   * @param fixtures Map of Fixture objects in the room with their names.
-   * @param puzzle Puzzle object in the room.
-   * @param picture String of picture file name path.
-   * @param roomService RoomService object with all game Rooms.
-   */
-  public ConcreteRoom(String name, String description, int roomNumber,
-                      Map<Directions, Integer> passages, Map<String, Item> items,
-                      Map<String, Fixture> fixtures, Puzzle puzzle,
-                      String picture, List<Room> roomService) throws IllegalArgumentException  {
-    this(name, description, roomNumber, passages, items, fixtures, null, puzzle, picture, roomService);
-    if (puzzle == null) {
-      throw new IllegalArgumentException("Puzzle is null!");
-    }
-  }
-
-  /**
-   * The ConcreteRoom constructor initializes its attributes using the parent
-   * constructor as well as its own attributes. The roomService attribute is
-   * initialized with a Map of room numbers and Rooms.
-   *
-   * @param name String of room's name.
-   * @param description String of room's description.
-   * @param roomNumber int of room's number.
-   * @param passages Map of passages from room in the four cardinal directions.
-   * @param items Map of Item objects in the room with their names.
-   * @param fixtures Map of Fixture objects in the room with their names.
-   * @param picture String of picture file name path.
-   * @param roomService RoomService object with all game Rooms.
-   */
-  public ConcreteRoom(String name, String description, int roomNumber,
-                      Map<Directions, Integer> passages, Map<String, Item> items,
-                      Map<String, Fixture> fixtures,
-                      String picture, List<Room> roomService) {
-    this(name, description, roomNumber, passages, items, fixtures, null, null,
-            picture, roomService);
-  }
 
   @Override
   public String getDescription() {
@@ -204,7 +173,12 @@ public class ConcreteRoom extends AbstractElement implements Room {
 
   @Override
   public Room getPassageRoom(Directions direction) {
-    return this.roomService.getRoom(this, direction);
+    return ConcreteRoom.roomService.getRoom(this, direction);
+  }
+
+  @Override
+  public Map<Directions, Integer> getPassages() {
+    return new HashMap<>(this.passages);
   }
 
   @Override
@@ -215,6 +189,89 @@ public class ConcreteRoom extends AbstractElement implements Room {
   @Override
   public String getPicturePath() {
     return this.picture;
+  }
+
+  /**
+   * Check if all passages between Rooms are Reflexive.
+   * @return true if all passage relations are reflexive, false if one relation isn't reflexive.
+   */
+  public boolean checkReflexivity() {
+    return ConcreteRoom.roomService.checkReflexivity();
+  }
+
+  /**
+   * The RoomService class is a service class for the Room class. It holds a list
+   * of Rooms for reference.
+   *
+   * @author Joe Sikowitz
+   * @author Vasilios Nicholas
+   */
+  private static class RoomService {
+
+    // attributes
+    private final Map<Integer, Room> rooms;
+
+    /**
+     * Default constructor initializes a new ArrayList.
+     */
+    private RoomService() {
+      this.rooms = new HashMap<>();
+    }
+
+    /**
+     * Checks reflexivity of passages within each Room.
+     * @return if all passages are reflexive, false if one passage is unidirectional.
+     */
+    private boolean checkReflexivity() {
+      for (Room room : this.rooms.values()) {
+        if (room != null) {
+          for (Directions direction : Directions.values()) {
+            int passageRoomNumber = Math.abs(room.getPassages().get(direction));
+            if (passageRoomNumber != 0 && Math.abs(this.rooms.get(passageRoomNumber).getPassages()
+                    .get(direction.getOppositeDirection())) != room.getRoomNumber()) {
+              return false;
+            }
+          }
+        }
+      }
+      return true;
+    }
+
+    /**
+     * adds a Room to the RoomService class.
+     * @param room an instance of Room.
+     */
+    private void addRoom(Room room) {
+      this.rooms.put(room.getRoomNumber(), room);
+    }
+
+    /**
+     * The getter for a Room object in the rooms Map.
+     *
+     * @param room an instance of room.
+     * @param direction a Directions enum type.
+     * @return Room object referenced by room number.
+     * @throws IllegalArgumentException if passage is reflexive or Room
+     *     at end of passage doesn't exist.
+     * @throws CannotGetRoomException if Room is blocked or 0 is passed indicating no passage.
+     */
+    private Room getRoom(Room room, Directions direction) throws IllegalArgumentException,
+            CannotGetRoomException {
+      if (room == null)
+        throw new IllegalArgumentException("room cannot be null!");
+      int roomNumber = room.getPassageValue(direction);
+      if (roomNumber == room.getRoomNumber()) {
+        throw new IllegalArgumentException("Room cannot have a passage back to itself!");
+      }
+      if (roomNumber >= rooms.size())
+        throw new IllegalArgumentException("room number out of range");
+
+      if (roomNumber <= 0 ) {
+        throw new CannotGetRoomException(roomNumber == 0 ? RoomStatus.NO_PASSAGE
+                : RoomStatus.BLOCKED);
+      }
+      return this.rooms.get(roomNumber);
+    }
   }
 
 }

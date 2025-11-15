@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Map;
+
 /**
  * The Room interface defines the Room type. Rooms can hold fixtures, items, and
  * a Monster or a Puzzle, but not both. Rooms also have numbers and passages to
@@ -96,6 +98,12 @@ public interface Room extends Element, Picturable {
    * @return Room object with the room number.
    */
   Room getPassageRoom(Directions direction);
+
+  /**
+   * Returns the Passages with their correlated directions.
+   * @return a Map with Directions enum as keys and Integers as values.
+   */
+  Map<Directions, Integer> getPassages();
 
   /**
    * The isPathBlocked() method indicates whether there is a path blocker,
