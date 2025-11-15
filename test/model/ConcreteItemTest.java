@@ -18,6 +18,7 @@ class ConcreteItemTest {
   private ConcreteItem i1;
   private Item i2;
   private ConcreteItem i3;
+  private Puzzle p1;
 
   /**
    * The setUp() method instantiates ConcreteItem objects to be used in later testing.
@@ -31,6 +32,12 @@ class ConcreteItemTest {
             1, null, 1000, 1000, "You insert the thumb drive.");
     i3 = new ConcreteItem("Phone", "It makes calls", 55.5, 6.79, "phone.jpg",
             10, 1, "You answer the phone");
+
+    p1 = new ConcretePuzzle("DARKNESS", "Darkness! You cannot see!",
+            true, true, "6:Kitchen", true, null,
+            "Lamp", 150,
+            "It's dark! You cannot see anything! Maybe we should go back?",
+            0.0, "darkness.png");
   }
 
   /**
@@ -108,31 +115,33 @@ class ConcreteItemTest {
   }
 
   /**
-   * The testAddUse() method tests the addUse() method by checking that the
-   * remaining uses are properly decremented. It also checks that that active
-   * is set to false when the remaining uses is decremented to zero.
-   */
-  @Test
-  void testAddUse() {
-    i1.addUse();
-    assertEquals(19, i1.getUsesRemaining());
-
-    i2.addUse();
-    assertEquals(999, i2.getUsesRemaining());
-
-    i3.addUse();
-    assertEquals(0, i3.getUsesRemaining());
-    assertFalse(i3.isActive());
-  }
-
-  /**
    * The testUse() method tests the use() method getter of the use description.
    */
   @Test
   void testUse() {
-    assertEquals("You light the lamp with the flint.", i1.use());
-    assertEquals("You insert the thumb drive.", i2.use());
-    assertEquals("You answer the phone", i3.use());
+    UseSuccessful result = i1.use(p1);
+    assertEquals("You light the lamp with the flint.", result.getUse());
+    assertTrue(result.getUseSuccessful());
+    assertEquals(19, i1.getUsesRemaining());
+
+    UseSuccessful result2 = i2.use(p1);
+    assertEquals("You insert the thumb drive.", result2.getUse());
+    assertFalse(result2.getUseSuccessful());
+    assertEquals(999, i2.getUsesRemaining());
+
+    UseSuccessful result3 = i3.use(p1);
+    assertEquals("You answer the phone", result3.getUse());
+    assertFalse(result3.getUseSuccessful());
+    assertEquals(0, i3.getUsesRemaining());
+    assertFalse(i3.isActive());
+
+    UseSuccessful result4 = i3.use(p1);
+    assertFalse(result4.getUseSuccessful());
+  }
+
+  @Test
+  void testUseNullEnemy() {
+    assertThrows(IllegalArgumentException.class, () -> i1.use(null));
   }
 
   /**
@@ -171,7 +180,7 @@ class ConcreteItemTest {
     assertTrue(i2.isActive());
 
     assertTrue(i3.isActive());
-    i3.addUse();
+    i3.use(p1);
     assertFalse(i3.isActive());
   }
 }
