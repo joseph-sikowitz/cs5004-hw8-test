@@ -8,5 +8,21 @@ package model;
  * @author Vasilios Nicholas
  */
 public enum Directions {
-  NORTH, SOUTH, EAST, WEST;
+  NORTH,
+  SOUTH,
+  EAST,
+  WEST;
+
+  /**
+   * Returns the direction 180 degrees from the current direction.
+   * @return  a Directions type enum.
+   */
+  public Directions getOppositeDirection() {
+    return switch (this) {
+      case NORTH -> SOUTH;
+      case SOUTH -> NORTH;
+      case EAST -> WEST;
+      case WEST -> EAST;
+    };
+  }
 }
