@@ -56,7 +56,7 @@ public interface Room extends Element, Picturable {
 
   /**
    * Gets the Puzzle effecting the Room environment.
-   * @return an instance of an Puzzle type or null.
+   * @return an instance of a Puzzle type or null.
    */
   public Puzzle getRoomEnvironmentEffector();
 
@@ -92,11 +92,10 @@ public interface Room extends Element, Picturable {
   /**
    * The getPassageRoom() method gets a Room object using the roomNumber
    * from a service class that holds all Room objects.
-   *
-   * @param roomNumber int of the room number of the Room to get.
+   * @param direction a Directions enum type.
    * @return Room object with the room number.
    */
-  Room getPassageRoom(int roomNumber);
+  Room getPassageRoom(Directions direction);
 
   /**
    * The isPathBlocked() method indicates whether there is a path blocker,
