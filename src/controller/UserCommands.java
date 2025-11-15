@@ -1,5 +1,8 @@
 package controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * The UserCommands enum contains the commands that users are allowed to input
  * into the game. Each command has a full command and a shortcut.
@@ -7,7 +10,6 @@ package controller;
  * @author Joe Sikowitz
  */
 public enum UserCommands {
-  QUIT("quit", "q"),
   NORTH("north", "n"),
   SOUTH("south", "s"),
   EAST("east", "e"),
@@ -18,9 +20,7 @@ public enum UserCommands {
   TAKE("take", "t"),
   DROP("drop", "d"),
   EXAMINE("examine", "x"),
-  ANSWER("answer", "a"),
-  SAVE("save", null),
-  RESTORE("restore", null);
+  ANSWER("answer", "a");
 
   private final String command;
   private final String shortcut;

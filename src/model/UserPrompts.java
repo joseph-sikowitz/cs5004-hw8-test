@@ -1,4 +1,4 @@
-package controller;
+package model;
 
 /**
  * The UserPrompts enum contains the prompts that are provided by the controller
@@ -20,8 +20,7 @@ public enum UserPrompts {
   NEW_PLAYER_NAME_PROMPT("You shalt now be named: "),
   USER_CHOICE("Your choice: "),
   GAME_SAVED("Game Saved\n"),
-  GAME_RESTORED("Loaded your previous game\n"),
-  UNKNOWN_COMMAND("Unknown command\n");
+  GAME_RESTORED("Loaded your previous game\n");
 
   private final String prompt;
 

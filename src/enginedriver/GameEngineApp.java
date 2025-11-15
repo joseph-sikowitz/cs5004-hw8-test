@@ -5,7 +5,7 @@ import static java.nio.file.Files.exists;
 import java.io.IOException;
 import java.nio.file.Path;
 
-import controller.SimpleController;
+import controller.GameController;
 
 /**
  * The GameEngineApp class is the entry point for an adventure game. It has a game filename
@@ -43,7 +43,7 @@ public class GameEngineApp {
       throw new IOException("File does not exist: " + this.gameFileName);
     }
 
-    SimpleController controller = new SimpleController(this.gameFileName, this.source, this.output);
+    GameController controller = new GameController(this.source, this.output);
     controller.go();
   }
 }
