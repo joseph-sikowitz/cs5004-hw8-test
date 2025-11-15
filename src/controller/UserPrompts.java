@@ -1,4 +1,4 @@
-package model;
+package controller;
 
 /**
  * The UserPrompts enum contains the prompts that are provided by the controller

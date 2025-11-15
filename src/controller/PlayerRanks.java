@@ -1,4 +1,4 @@
-package model;
+package controller;
 
 /**
  * The PlayerRanks enum contains the ranks that players can have during a

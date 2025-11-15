@@ -3,8 +3,6 @@ package controller;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import model.GameCommandReader;
-
 /**
  * The GameController class gets input from the user and sends it to the model
  * for processing. It appends the results from the model to the given output.
