@@ -8,7 +8,8 @@ package model;
  * @author Joe Sikowitz
  * @author Vasilios Nicholas
  */
-public interface Puzzle extends Element, Activatable, Effector, Scorable, PlayerAffector, Targeter, Picturable {
+public interface Puzzle extends Element, Activatable, Effector, Scorable, PlayerAffector,
+        Targeter, Picturable {
 
   /**
    * Attempt to solve a Puzzle using an answer.
@@ -19,7 +20,7 @@ public interface Puzzle extends Element, Activatable, Effector, Scorable, Player
   boolean solve(String answer);
 
   /**
-   * Attempt to solve an Puzzle using an Item.
+   * Attempt to solve a Puzzle using an Item.
    *
    * @param item An Item representing an item that might deactivate the enemy.
    * @return true is the Puzzle is no longer active, false if the enemy is still active.
