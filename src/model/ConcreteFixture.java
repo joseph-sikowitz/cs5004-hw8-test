@@ -9,7 +9,7 @@ package model;
  * @author Vasilios Nicholas
  */
 public class ConcreteFixture extends AbstractElement implements Fixture {
-
+  private static final double WEIGHT_LOWER_BOUND = 200.0;
   // attributes
   private double weight;
   private Puzzle puzzle;
@@ -32,8 +32,8 @@ public class ConcreteFixture extends AbstractElement implements Fixture {
                          String states,  String picture) throws IllegalArgumentException {
     super(name , description);
 
-    if (weight < 200.0) {
-      throw new IllegalArgumentException("Weight must be greater than 200");
+    if (weight < WEIGHT_LOWER_BOUND) {
+      throw new IllegalArgumentException("Weight must be greater than " + WEIGHT_LOWER_BOUND);
     }
 
     this.weight = weight;
