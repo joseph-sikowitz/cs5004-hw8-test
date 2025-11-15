@@ -9,4 +9,11 @@ package model;
  * @author Joe Sikowitz
  * @author Vasilios Nicholas
  */
-public interface Fixture extends Element, Weightable, Picturable {}
+public interface Fixture extends Element, Weightable, Picturable {
+
+  /**
+   * Returns the states of the Fixture.
+   * @return a String representing the states of the Fixture.
+   */
+  public String getStates();
+}
