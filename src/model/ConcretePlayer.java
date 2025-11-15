@@ -189,7 +189,15 @@ public class ConcretePlayer extends AbstractElement implements Player {
 
   @Override
   public boolean answer(String answer) {
+    Puzzle enemy = this.activeRoom.getRoomEnvironmentEffector();
+    //short circuit if enemy is already deactivated.
+    if (!enemy.isActive())
+      return false;
 
+    boolean enemySolved = enemy.solve(answer);
+    if (enemySolved)
+      this.addToScore(enemy.getScore());
+    return enemySolved;
   }
 
   @Override
