@@ -126,7 +126,7 @@ public class ConcretePlayer extends AbstractElement implements Player {
   }
 
   @Override
-  public boolean useItem(String itemName, String enemyName) {
+  public UseSuccessful useItem(String itemName, String enemyName) {
     Puzzle enemy = this.activeRoom.getRoomEnvironmentEffector();
     /*
      * short circuit if player doesn't have the item,
@@ -134,14 +134,13 @@ public class ConcretePlayer extends AbstractElement implements Player {
      */
     if (!inventory.containsKey(itemName) || enemy == null
             || !enemy.getName().equalsIgnoreCase(enemyName) || !enemy.isActive()) {
-      return false;
+      return new UseSuccessful(null, false);
     }
     Item item = inventory.get(itemName);
-    boolean enemySolved = enemy.solve(item);
-    if (enemySolved)
+    UseSuccessful wasUseSuccessful = item.use(enemy);
+    if (wasUseSuccessful.getUseSuccessful())
       this.addToScore(enemy.getScore());
-    return enemySolved;
-
+    return wasUseSuccessful;
   }
 
   @Override
@@ -175,12 +174,21 @@ public class ConcretePlayer extends AbstractElement implements Player {
   }
 
   @Override
-  public String examine(Element element) {
-    return element.getDescription();
+  public String examine(String element) {
+    //Player either examines Item in their inventory or Item in activeRoom
+    Item itemToExamine = this.inventory.get(element) != null ? this.inventory.get(element)
+            : this.activeRoom.getItem(element);
+    Fixture fixtureToExamine = this.activeRoom.getFixture(element);
+    String description = null;
+    if (itemToExamine != null)
+      description = itemToExamine.getDescription();
+    else if (fixtureToExamine != null)
+      description = fixtureToExamine.getDescription();
+    return description;
   }
 
   @Override
-  public void answer(String answer) {
+  public boolean answer(String answer) {
 
   }
 
