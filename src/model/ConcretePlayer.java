@@ -77,7 +77,7 @@ public class ConcretePlayer extends AbstractElement implements Player {
   @Override
   public RoomStatus walk(Directions direction) {
     try {
-      this.activeRoom.getPassageRoom(this.activeRoom.getPassageValue(direction));
+      this.activeRoom.getPassageRoom(direction);
     } catch (CannotGetRoomException e) {
       return e.getRoomExceptionStatus();
     }
