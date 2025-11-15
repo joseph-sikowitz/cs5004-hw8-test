@@ -16,7 +16,6 @@ public class ConcreteItem extends AbstractElement implements Item {
   private final int maxUses;
   private int usesRemaining;
   private final String useDescription;
-  private boolean active;
 
   // constants
   private static final double MINIMUM_WEIGHT = 0;
@@ -45,7 +44,6 @@ public class ConcreteItem extends AbstractElement implements Item {
     this.maxUses = maxUses;
     this.usesRemaining = usesRemaining;
     this.useDescription = useDescription;
-    this.active = usesRemaining > INACTIVE_USE_AMOUNT;
 
     if (weight < MINIMUM_WEIGHT) {
       throw new IllegalArgumentException("Weight cannot be negative");
@@ -66,10 +64,6 @@ public class ConcreteItem extends AbstractElement implements Item {
   @Override
   public void addUse() {
     this.usesRemaining--;
-
-    if (this.usesRemaining <= INACTIVE_USE_AMOUNT) {
-      this.active = false;
-    }
   }
 
   @Override
@@ -94,6 +88,6 @@ public class ConcreteItem extends AbstractElement implements Item {
 
   @Override
   public boolean isActive() {
-    return this.active;
+    return this.usesRemaining > INACTIVE_USE_AMOUNT;
   }
 }
