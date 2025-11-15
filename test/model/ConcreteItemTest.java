@@ -115,7 +115,10 @@ class ConcreteItemTest {
   }
 
   /**
-   * The testUse() method tests the use() method getter of the use description.
+   * The testUse() method tests the use() method of successful and unsuccessful item
+   * uses. The use() method returns a UseSuccessful object that contains the use
+   * description of the item as well as whether the use was successful. It decrements
+   * the item's uses remaining whether successful or not.
    */
   @Test
   void testUse() {
@@ -139,6 +142,10 @@ class ConcreteItemTest {
     assertFalse(result4.getUseSuccessful());
   }
 
+  /**
+   * The testUseNullEnemy() tests that the use() method throws an IllegalArgumentException
+   * when passed a null value for the enemy argument.
+   */
   @Test
   void testUseNullEnemy() {
     assertThrows(IllegalArgumentException.class, () -> i1.use(null));

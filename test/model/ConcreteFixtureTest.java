@@ -168,4 +168,13 @@ class ConcreteFixtureTest {
     assertEquals(200.0, f2.getWeight());
     assertEquals(546912.984367, f3.getWeight());
   }
+
+  /**
+   * The testGetStates() method tests the getter getStates().
+   */
+  @Test
+  void testGetStates() {
+    assertEquals("Solid|Liquid|Gas", f2.getStates());
+    assertEquals("Connecticut; Rhode Island; Mass", f3.getStates());
+  }
 }
