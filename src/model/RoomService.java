@@ -36,12 +36,21 @@ class RoomService {
   /**
    * The getter for a Room object in the rooms Map.
    *
-   * @param roomNumber int of room number.
+   * @param room an instance of room.
+   * @param direction a Directions enum type.
    * @return Room object referenced by room number.
-   * @throws IllegalArgumentException if roomNumber doesn't exist.
+   * @throws IllegalArgumentException if passage is reflexive or Room
+   *     at end of passage doesn't exist.
    * @throws CannotGetRoomException if Room is blocked or 0 is passed indicating no passage.
    */
-  Room getRoom(int roomNumber) throws IllegalArgumentException, CannotGetRoomException {
+  Room getRoom(Room room, Directions direction) throws IllegalArgumentException,
+          CannotGetRoomException {
+    if (room == null)
+      throw new IllegalArgumentException("room cannot be null!");
+    int roomNumber = room.getPassageValue(direction);
+    if (roomNumber == room.getRoomNumber()) {
+      throw new IllegalArgumentException("Room cannot have a passage back to itself!");
+    }
     if (roomNumber >= rooms.size())
       throw new IllegalArgumentException("room number out of range");
 
