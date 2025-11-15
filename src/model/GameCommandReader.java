@@ -19,8 +19,6 @@ public class GameCommandReader {
   private static final int COMMAND_LIMIT = 2;
   private static final String QUIT_COMMAND = "quit";
   private static final String Q_COMMAND = "q";
-  private static final String SAVE_COMMAND = "save";
-  private static final String RESTORE_COMMAND = "restore";
 
   public GameCommandReader(Readable source, Appendable output) {
     this.in = source;

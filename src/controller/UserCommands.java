@@ -20,7 +20,9 @@ public enum UserCommands {
   TAKE("take", "t"),
   DROP("drop", "d"),
   EXAMINE("examine", "x"),
-  ANSWER("answer", "a");
+  ANSWER("answer", "a"),
+  SAVE("save", null),
+  RESTORE("restore", null);
 
   private final String command;
   private final String shortcut;
