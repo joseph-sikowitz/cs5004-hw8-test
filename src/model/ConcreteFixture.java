@@ -11,10 +11,10 @@ package model;
 public class ConcreteFixture extends AbstractElement implements Fixture {
   private static final double WEIGHT_LOWER_BOUND = 200.0;
   // attributes
-  private double weight;
+  private final double weight;
   private Puzzle puzzle;
   private String states;
-  private String picture;
+  private final String picture;
 
   /**
    * The constructor for the Concrete fixture initializes its name and description attributes
