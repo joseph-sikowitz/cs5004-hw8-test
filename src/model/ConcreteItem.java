@@ -16,6 +16,7 @@ public class ConcreteItem extends AbstractElement implements Item {
   private final int maxUses;
   private int usesRemaining;
   private final String useDescription;
+  public final String cannotUse;
 
   // constants
   private static final double MINIMUM_WEIGHT = 0;
@@ -49,6 +50,8 @@ public class ConcreteItem extends AbstractElement implements Item {
       throw new IllegalArgumentException("Weight cannot be negative");
     }
     this.weight = weight;
+
+    this.cannotUse = this.getName() + " can no longer be used!";
   }
 
   @Override
@@ -62,13 +65,22 @@ public class ConcreteItem extends AbstractElement implements Item {
   }
 
   @Override
-  public void addUse() {
-    this.usesRemaining--;
+  public String use() {
+    if (isActive())
+      return this.useDescription;
+    return cannotUse;
   }
 
   @Override
-  public String use() {
-    return this.useDescription;
+  public UseSuccessful use(Puzzle enemy) throws IllegalArgumentException {
+    if (enemy == null) {
+      throw new IllegalArgumentException("enemy cannot be null!");
+    }
+
+    String use = this.use();
+    //decrement uses remaining whether Item use was successful or not.
+    this.usesRemaining--;
+    return new UseSuccessful(use, enemy.solve(this));
   }
 
   @Override
