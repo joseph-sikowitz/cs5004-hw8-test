@@ -38,6 +38,8 @@ class RoomService {
    *
    * @param roomNumber int of room number.
    * @return Room object referenced by room number.
+   * @throws IllegalArgumentException if roomNumber doesn't exist.
+   * @throws CannotGetRoomException if Room is blocked or 0 is passed indicating no passage.
    */
   Room getRoom(int roomNumber) throws IllegalArgumentException, CannotGetRoomException {
     if (roomNumber >= rooms.size())
