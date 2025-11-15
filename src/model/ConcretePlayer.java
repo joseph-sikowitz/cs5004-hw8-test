@@ -77,7 +77,7 @@ public class ConcretePlayer extends AbstractElement implements Player {
   @Override
   public RoomStatus walk(Directions direction) {
     try {
-      this.activeRoom.getPassageRoom(direction);
+      this.activeRoom = this.activeRoom.getPassageRoom(direction);
     } catch (CannotGetRoomException e) {
       return e.getRoomExceptionStatus();
     }
@@ -205,10 +205,6 @@ public class ConcretePlayer extends AbstractElement implements Player {
     return this.activeRoom;
   }
 
-  @Override
-  public void setActiveRoom(Room room) {
-    this.activeRoom = room;
-  }
 
   @Override
   public double getScore() {
