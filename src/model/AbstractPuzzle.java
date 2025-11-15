@@ -65,11 +65,26 @@ public abstract class AbstractPuzzle extends AbstractElement
       throw new IllegalArgumentException("damage cannot be positive!");
     }
 
+    if (score < 0.0) {
+      throw new IllegalArgumentException("score cannot be negative!");
+    }
+
     this.score = score;
     this.active = active;
+
+    if (affectsTarget && target != null) {
+      throw new IllegalArgumentException("affects target but no target specified!");
+    }
+
     this.affectsTarget = affectsTarget;
     this.target = target;
     this.affectsPlayer = affectsPlayer;
+
+    if (checkIfInvalid(solutionText) && checkIfInvalid(solutionItem)) {
+      throw new IllegalArgumentException("solutionText and solutionItem cannot"
+              + " both be null/empty!");
+    }
+
     this.solutionText = solutionText;
     this.solutionItem = solutionItem;
     this.effects = effects;
