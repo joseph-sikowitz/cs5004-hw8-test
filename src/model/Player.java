@@ -65,11 +65,11 @@ public interface Player extends Activatable, Element, Scorable {
    * The useItem() method uses an item in order to affect the room the player is
    * in.
    *
-   * @param item    String key of item to use in inventory.
+   * @param item  String key of item to use in inventory.
    * @param enemy String representing an element to use the item on.
    * @return boolean indicating if item was used.
    */
-  boolean useItem(String item, String enemy);
+  UseSuccessful useItem(String item, String enemy);
 
   /**
    * The takeItem() method takes an item from the room the player is currently in.
@@ -92,18 +92,19 @@ public interface Player extends Activatable, Element, Scorable {
    * The examine() method gets the description of an element in the player's
    * active room.
    *
-   * @param element Element in active room to return description of.
+   * @param element Fixture or Item in active room to return description of.
    * @return String of Element's description.
    */
-  String examine(Element element);
+  String examine(String element);
 
   /**
    * The answer() method provides an answer to a puzzle in the player's active
    * room in order to solve it.
    *
    * @param answer String of answer to provide to solve puzzle.
+   * @return true if answer solved a Puzzle type, otherwise false.
    */
-  void answer(String answer);
+  boolean answer(String answer);
 
   /**
    * The getActiveRoom() method gets the player's active room, the room that the
