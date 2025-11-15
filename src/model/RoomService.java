@@ -1,9 +1,6 @@
 package model;
 
-import java.security.InvalidParameterException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -16,14 +13,30 @@ import java.util.Map;
  */
 class RoomService {
 
-  // attributes
+  private static final RoomService INSTANCE = new RoomService();
+
   private final Map<Integer, Room> rooms;
 
   /**
    * Default constructor initializes a new ArrayList.
    */
-  RoomService() {
+  private RoomService() {
     this.rooms = new HashMap<>();
+  }
+
+  /**
+   * A new instance of RoomService.
+   * @return The singleton instance of RoomService.
+   */
+  static RoomService getInstance() {
+    return INSTANCE;
+  }
+
+  /**
+   * Clears all rooms from the RoomService Singleton.
+   */
+  static void clear() {
+    INSTANCE.rooms.clear();
   }
 
   /**
