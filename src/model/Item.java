@@ -37,8 +37,8 @@ public interface Item extends Element, Activatable, Picturable, Scorable, Weight
   /**
    * Uses the Item on an enemy.
    * Decrements the amount of uses left for this Item by 1.
-   * @param enemy an instance of Puzzle subtype to use the Item on.
-   * @return a String message representing what this Item does when it is used.
+   * @param enemy an instance of Puzzle subtype to use this Item on.
+   * @return an instance UseSuccessful describing this Item's use and whether it was successful.
    */
-  String use(Puzzle enemy);
+  UseSuccessful use(Puzzle enemy);
 }
