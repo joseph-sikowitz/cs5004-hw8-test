@@ -1,11 +1,9 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * The ConcreteRoom class represents a Room in the adventure game that a player
@@ -30,7 +28,7 @@ public class ConcreteRoom extends AbstractElement implements Room {
   private final Monster monster;
   private final Puzzle puzzle;
   private final String picture;
-  private static final RoomService roomService = new RoomService();
+  private static final RoomService ROOM_SERVICE = RoomService.getInstance();
 
   /**
    * The ConcreteRoom constructor initializes its attributes using the parent
@@ -48,12 +46,11 @@ public class ConcreteRoom extends AbstractElement implements Room {
    * @param monster Monster object in the room.
    * @param puzzle Puzzle object in the room.
    * @param picture String of picture file name path.
-   * @param roomService RoomService object with all game Rooms.
    */
   public ConcreteRoom(String name, String description, int roomNumber,
                       Map<Directions, Integer> passages, Map<String, Item> items,
                       Map<String, Fixture> fixtures, Monster monster, Puzzle puzzle,
-                      String picture, List<Room> roomService) throws IllegalArgumentException {
+                      String picture) throws IllegalArgumentException {
     super(name, description);
 
     if (roomNumber < 0) {
@@ -102,7 +99,7 @@ public class ConcreteRoom extends AbstractElement implements Room {
       throw new IllegalArgumentException("Puzzle is affected another room!");
     }
     //Add this Room instance to roomService
-    ConcreteRoom.roomService.addRoom(this);
+    ConcreteRoom.ROOM_SERVICE.addRoom(this);
   }
 
 
@@ -173,7 +170,7 @@ public class ConcreteRoom extends AbstractElement implements Room {
 
   @Override
   public Room getPassageRoom(Directions direction) {
-    return ConcreteRoom.roomService.getRoom(this, direction);
+    return ConcreteRoom.ROOM_SERVICE.getRoom(this, direction);
   }
 
   @Override
@@ -196,7 +193,7 @@ public class ConcreteRoom extends AbstractElement implements Room {
    * @return true if all passage relations are reflexive, false if one relation isn't reflexive.
    */
   public boolean checkReflexivity() {
-    return ConcreteRoom.roomService.checkReflexivity();
+    return ConcreteRoom.ROOM_SERVICE.checkReflexivity();
   }
 
 }
