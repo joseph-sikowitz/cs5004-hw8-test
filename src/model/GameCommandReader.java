@@ -3,8 +3,12 @@ package model;
 import java.io.IOException;
 import java.util.Scanner;
 
-import controller.UserCommands;
-
+/**
+ * The GameCommandReader class starts the game by getting the user's name
+ * and processes user input during game play. GameCommandReaders have
+ * an array of user input, a Readable to get user input, and an Appendable
+ * to print results to. They also have a player name.
+ */
 public class GameCommandReader {
 
   // attributes
@@ -20,12 +24,26 @@ public class GameCommandReader {
   private static final String QUIT_COMMAND = "quit";
   private static final String Q_COMMAND = "q";
 
+  /**
+   * The GameCommandReader constructor takes a Readable source as its input
+   * and an Appendable output to print results of actions to.
+   *
+   * @param source Readable for user input.
+   * @param output Appendable for game output.
+   */
   public GameCommandReader(Readable source, Appendable output) {
     this.in = source;
     this.out = output;
     this.userInput = new String[COMMAND_LIMIT];
   }
 
+  /**
+   * The startGame() method starts a game by prompting the user to put in their
+   * name. It throws an IOException
+   *
+   * @throws IOException if there is an error printing to output or getting user
+   *                     data.
+   */
   public void startGame() throws IOException {
     try {
       this.out.append(UserPrompts.PLAYER_RANK_PROMPT.getPrompt()).append(
@@ -42,6 +60,14 @@ public class GameCommandReader {
     }
   }
 
+  /**
+   * The getUserInput() method prompts the user for game actions and
+   * accepts user input for game play.
+   *
+   * @return boolean indicating if the game is over.
+   * @throws IOException if there is an error appending to output or receiving
+   *                     user input.
+   */
   public boolean getUserInput() throws IOException {
     try {
       this.out.append(UserPrompts.BASIC_PROMPT.getPrompt());
@@ -61,10 +87,24 @@ public class GameCommandReader {
     return false;
   }
 
+  /**
+   * The getUserInputCommand() is the getter for a command entered by the user.
+   * A command is the first word or character entered by a character in an
+   * input String.
+   *
+   * @return String of user command.
+   */
   public String getUserInputCommand() {
     return this.userInput[FIRST_COMMAND];
   }
 
+  /**
+   * The getUserInputArgument() method is the getter for the command argument
+   * entered by the user. A command argument is any text following the first
+   * word and a space in the input String.
+   *
+   * @return String of user argument.
+   */
   public String getUserInputArgument() {
     return this.userInput[SECOND_COMMAND];
   }
