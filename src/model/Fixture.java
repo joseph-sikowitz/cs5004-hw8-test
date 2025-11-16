@@ -16,4 +16,11 @@ public interface Fixture extends Element, Weightable, Picturable {
    * @return a String representing the states of the Fixture.
    */
   public String getStates();
+
+  /**
+   * The getter for the fixture's Puzzle.
+   *
+   * @return Puzzle object associated with the fixture.
+   */
+  public Puzzle getPuzzle();
 }

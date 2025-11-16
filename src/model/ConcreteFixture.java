@@ -63,4 +63,9 @@ public class ConcreteFixture extends AbstractElement implements Fixture {
   public String getStates() {
     return this.states;
   }
+
+  @Override
+  public Puzzle getPuzzle() {
+    return this.puzzle;
+  }
 }
