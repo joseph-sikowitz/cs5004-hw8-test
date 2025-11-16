@@ -2,14 +2,11 @@ package model;
 
 import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -439,14 +436,27 @@ public class FileProcessor {
 
     if (node.isArray()) {
       for (JsonNode roomData : node) {
-        String name = roomData.get(RoomJsonFields.ROOM_NAME.getValue()).asText();
-        String description = roomData.get(RoomJsonFields.DESCRIPTION.getValue()).asText();
+        String name;
+        if (roomData.get(ItemJsonFields.NAME.getValue()).isNull()) {
+          name = null;
+        } else {
+          name = roomData.get(RoomJsonFields.ROOM_NAME.getValue()).asText();
+        }
+
+        String description;
+        if (roomData.get(ItemJsonFields.DESCRIPTION.getValue()).isNull()) {
+          description = null;
+        } else {
+          description = roomData.get(RoomJsonFields.DESCRIPTION.getValue()).asText();
+        }
+
         Integer roomNumber = roomData.get(RoomJsonFields.ROOM_NUMBER.getValue()).asInt();
 
         int north = roomData.get(RoomJsonFields.NORTH.getValue()).asInt();
         int south = roomData.get(RoomJsonFields.SOUTH.getValue()).asInt();
         int east = roomData.get(RoomJsonFields.EAST.getValue()).asInt();
         int west = roomData.get(RoomJsonFields.WEST.getValue()).asInt();
+
         Map<Directions, Integer> passages = new HashMap<>();
         passages.put(Directions.NORTH, north);
         passages.put(Directions.SOUTH, south);
@@ -470,18 +480,18 @@ public class FileProcessor {
         }
 
         String monster = roomData.get(RoomJsonFields.MONSTER.getValue()).asText();
-        Monster roomMonster = null;
-        if (this.monsters.containsKey(monster)) {
-          roomMonster = this.monsters.get(monster);
-        }
+        Monster roomMonster = this.monsters.getOrDefault(monster, null);
 
         String puzzle = roomData.get(RoomJsonFields.PUZZLE.getValue()).asText();
-        Puzzle roomPuzzle = null;
-        if (this.puzzles.containsKey(puzzle)) {
-          roomPuzzle = this.puzzles.get(puzzle);
-        }
+        Puzzle roomPuzzle;
+        roomPuzzle = this.puzzles.getOrDefault(puzzle, null);
 
-        String picture = roomData.get(RoomJsonFields.PICTURE.getValue()).asText();
+        String picture;
+        if (roomData.get(RoomJsonFields.PICTURE.getValue()).isNull()) {
+          picture = null;
+        } else {
+          picture = roomData.get(RoomJsonFields.PICTURE.getValue()).asText();
+        }
 
         this.rooms.put(roomNumber, new ConcreteRoom(name, description, roomNumber, passages,
                 roomItems, roomFixtures, roomMonster, roomPuzzle, picture));
