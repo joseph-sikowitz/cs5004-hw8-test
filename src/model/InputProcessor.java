@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,19 +29,31 @@ public class InputProcessor {
   private JsonNode player;
   private String name;
   private String version;
+  private String playerName;
+  private Player currentPlayer;
   private Map<String, JsonNode> elementFields;
   private boolean newGame;
   private final Set<String> uniqueElementNames;
+
+  private Map<String, Item> items;
+  private Map<String, Fixture> fixtures;
+  private Map<String, Monster> monsters;
+  private Map<String, Puzzle> puzzles;
+  private Map<Integer, Room> rooms;
+
+  // constants
+  private static final Integer NEW_PLAYER_START = 1;
 
   /**
    * The InputProcessor constructor initializes the gameFileName.
    *
    * @param gameFileName String of game's file name.
    */
-  public InputProcessor(String gameFileName) {
+  public InputProcessor(String gameFileName, String playerName) {
     this.gameFileName = gameFileName;
     this.elementFields = new HashMap<>();
     this.newGame = true;
+    this.playerName = playerName;
 
     this.uniqueElementNames = new HashSet<>();
   }
@@ -59,12 +73,12 @@ public class InputProcessor {
    *
    * @return boolean indicating if this is a new game.
    */
-  public boolean setUpGame() {
+  public Player setUpGame() {
     this.ingestGameFile();
     this.processGameFile();
     this.buildElements();
 
-    return this.newGame;
+    return this.currentPlayer;
   }
 
   /**
@@ -77,7 +91,7 @@ public class InputProcessor {
     try {
       gameData = mapper.readTree(new FileReader(this.getGameFileName()));
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      e.printStackTrace();
     }
   }
 
@@ -116,8 +130,6 @@ public class InputProcessor {
   private void buildElements() {
     for (Map.Entry<String, JsonNode> field : this.elementFields.entrySet()) {
       if (field.getValue().isArray()) {
-        // TODO: remove this print statement
-        //System.out.println(field.getValue().get(0));
         if (field.getKey().equalsIgnoreCase(JsonFields.ITEMS.getValue())) {
           this.createItems(field.getValue());
         } else if (field.getKey().equalsIgnoreCase(JsonFields.FIXTURES.getValue())) {
@@ -132,13 +144,11 @@ public class InputProcessor {
 
     this.createRooms(this.elementFields.get(JsonFields.ROOMS.getValue()));
 
-    /*
     if (!this.newGame) {
       this.createSavedPlayer(this.elementFields.get(JsonFields.PLAYER.getValue()));
     } else {
       this.createNewPlayer();
     }
-     */
   }
 
   /**
@@ -149,8 +159,23 @@ public class InputProcessor {
    * @param node JsonNode array of item input data.
    */
   private void createItems(JsonNode node) {
-    // TODO: instantiate items
-    //System.out.println(node.toString());
+    this.items = new HashMap<>();
+
+    if (node.isArray()) {
+      for (JsonNode item : node) {
+        String name = item.get(ItemJsonFields.NAME.getValue()).asText();
+        String description = item.get(ItemJsonFields.DESCRIPTION.getValue()).asText();
+        double score = item.get(ItemJsonFields.VALUE.getValue()).asDouble();
+        double weight = item.get(ItemJsonFields.WEIGHT.getValue()).asDouble();
+        String picture = item.get(ItemJsonFields.PICTURE.getValue()).asText();
+        int maxUses = item.get(ItemJsonFields.MAX_USES.getValue()).asInt();
+        int usesRemaining = item.get(ItemJsonFields.USES_REMAINING.getValue()).asInt();
+        String useDescription = item.get(ItemJsonFields.WHEN_USED.getValue()).asText();
+
+        this.items.put(name, new ConcreteItem(name, description, score, weight, picture, maxUses,
+                usesRemaining, useDescription));
+      }
+    }
   }
 
   /**
@@ -161,7 +186,21 @@ public class InputProcessor {
    * @param node JsonNode array of fixture input data.
    */
   private void createFixtures(JsonNode node) {
-    // TODO: instantiate fixtures
+    this.fixtures = new HashMap<>();
+
+    if (node.isArray()) {
+      for (JsonNode fixture : node) {
+        String name = fixture.get(FixtureJsonFields.NAME.getValue()).asText();
+        String description = fixture.get(FixtureJsonFields.DESCRIPTION.getValue()).asText();
+        double weight = fixture.get(FixtureJsonFields.WEIGHT.getValue()).asDouble();
+        Puzzle puzzle = null;
+        String states = fixture.get(FixtureJsonFields.STATES.getValue()).asText();
+        String picture = fixture.get(FixtureJsonFields.PICTURE.getValue()).asText();
+
+        this.fixtures.put(name, new ConcreteFixture(name, description, weight, puzzle,
+                states, picture));
+      }
+    }
   }
 
   /**
@@ -172,7 +211,40 @@ public class InputProcessor {
    * @param node JsonNode array of monster input data.
    */
   private void createMonsters(JsonNode node) {
-    // TODO: instantiate monsters
+    this.monsters = new HashMap<>();
+
+    if (node.isArray()) {
+      for (JsonNode monster : node) {
+        String name = monster.get(MonsterJsonFields.NAME.getValue()).asText();
+        String description = monster.get(MonsterJsonFields.DESCRIPTION.getValue()).asText();
+        boolean active = monster.get(MonsterJsonFields.ACTIVE.getValue()).asBoolean();
+        boolean affectsTarget = monster.get(
+                MonsterJsonFields.AFFECTS_TARGET.getValue()).asBoolean();
+        String target = monster.get(MonsterJsonFields.TARGET.getValue()).asText();
+        boolean affectsPlayer = monster.get(
+                MonsterJsonFields.AFFECTS_PLAYER.getValue()).asBoolean();
+        double score = monster.get(MonsterJsonFields.VALUE.getValue()).asDouble();
+        String effects = monster.get(MonsterJsonFields.EFFECTS.getValue()).asText();
+        double damage = monster.get(MonsterJsonFields.DAMAGE.getValue()).asDouble();
+        String picture = monster.get(MonsterJsonFields.PICTURE.getValue()).asText();
+        boolean canAttack = monster.get(MonsterJsonFields.CAN_ATTACK.getValue()).asBoolean();
+        String attackDescription = monster.get(MonsterJsonFields.ATTACK.getValue()).asText();
+
+        String solution =  monster.get(MonsterJsonFields.SOLUTION.getValue()).asText();
+        Pattern pattern = Pattern.compile("'(.*)'");
+        Matcher matcher = pattern.matcher(solution);
+        if (matcher.matches()) {
+          this.monsters.put(name, new ConcreteMonster(name, description, active,
+                  affectsTarget, target, affectsPlayer, matcher.group(1), null,
+                  score, effects, damage, picture, canAttack, attackDescription));
+        } else {
+          this.monsters.put(name, new ConcreteMonster(name, description, active,
+                  affectsTarget, target, affectsPlayer, null, solution,
+                  score, effects, damage, picture, canAttack, attackDescription));
+        }
+      }
+    }
+
   }
 
   /**
@@ -183,15 +255,35 @@ public class InputProcessor {
    * @param node JsonNode array of puzzle input data.
    */
   private void createPuzzles(JsonNode node) {
-    // TODO: instantiate puzzles
+    this.puzzles = new HashMap<>();
+
     if (node.isArray()) {
       for (JsonNode puzzleData : node) {
         String name =  puzzleData.get(PuzzleJsonFields.NAME.getValue()).asText();
         String description = puzzleData.get(PuzzleJsonFields.DESCRIPTION.getValue()).asText();
+        boolean active = puzzleData.get(PuzzleJsonFields.ACTIVE.getValue()).asBoolean();
+        boolean affectsTarget = puzzleData.get(
+                PuzzleJsonFields.AFFECTS_TARGET.getValue()).asBoolean();
+        String target = puzzleData.get(PuzzleJsonFields.TARGET.getValue()).asText();
+        boolean affectsPlayer = puzzleData.get(
+                PuzzleJsonFields.AFFECTS_PLAYER.getValue()).asBoolean();
         double score = puzzleData.get(PuzzleJsonFields.VALUE.getValue()).asDouble();
-        String picture = puzzleData.get(PuzzleJsonFields.PICTURE.getValue()).asText();
-        String answer = puzzleData.get(PuzzleJsonFields.SOLUTION.getValue()).asText();
         String effect = puzzleData.get(PuzzleJsonFields.EFFECTS.getValue()).asText();
+        double damage = 0.0;
+        String picture = puzzleData.get(PuzzleJsonFields.PICTURE.getValue()).asText();
+
+        String solution = puzzleData.get(PuzzleJsonFields.SOLUTION.getValue()).asText();
+        Pattern pattern = Pattern.compile("'(.*)'");
+        Matcher matcher = pattern.matcher(solution);
+        if (matcher.matches()) {
+          this.puzzles.put(name, new ConcretePuzzle(name, description, active, affectsTarget,
+                  target, affectsPlayer, matcher.group(1), null, score, effect,
+                  damage, picture));
+        } else {
+          this.puzzles.put(name, new ConcretePuzzle(name, description, active, affectsTarget,
+                  target, affectsPlayer, null, solution, score, effect,
+                  damage, picture));
+        }
       }
     }
   }
@@ -203,9 +295,63 @@ public class InputProcessor {
    *
    * @param node JsonNode array of room input data.
    */
-  private void createRooms(JsonNode node) {
-    // TODO: instantiate rooms
-    // TODO: throw error if missing data for required element
+  private void createRooms(JsonNode node) throws IllegalArgumentException {
+    this.rooms = new HashMap<>();
+
+    if (node.isEmpty()) {
+      throw new IllegalArgumentException("Rooms data cannot be empty");
+    }
+
+    if (node.isArray()) {
+      for (JsonNode roomData : node) {
+        String name = roomData.get(RoomJsonFields.ROOM_NAME.getValue()).asText();
+        String description = roomData.get(RoomJsonFields.DESCRIPTION.getValue()).asText();
+        Integer roomNumber = roomData.get(RoomJsonFields.ROOM_NUMBER.getValue()).asInt();
+
+        int north = roomData.get(RoomJsonFields.NORTH.getValue()).asInt();
+        int south = roomData.get(RoomJsonFields.SOUTH.getValue()).asInt();
+        int east = roomData.get(RoomJsonFields.EAST.getValue()).asInt();
+        int west = roomData.get(RoomJsonFields.WEST.getValue()).asInt();
+        Map<Directions, Integer> passages = new HashMap<>();
+        passages.put(Directions.NORTH, north);
+        passages.put(Directions.SOUTH, south);
+        passages.put(Directions.EAST, east);
+        passages.put(Directions.WEST, west);
+
+        String[] items = roomData.get(RoomJsonFields.ITEMS.getValue()).asText().split(",");
+        Map<String, Item> roomItems = new HashMap<>();
+        for (String item : items) {
+          if (this.items.containsKey(item)) {
+            roomItems.put(item, this.items.get(item));
+          }
+        }
+
+        String[] fixtures = roomData.get(RoomJsonFields.FIXTURES.getValue()).asText().split(",");
+        Map<String, Fixture> roomFixtures = new HashMap<>();
+        for (String fixture : fixtures) {
+          if (this.fixtures.containsKey(fixture)) {
+            roomFixtures.put(fixture, this.fixtures.get(fixture));
+          }
+        }
+
+        String monster = roomData.get(RoomJsonFields.MONSTER.getValue()).asText();
+        Monster roomMonster = null;
+        if (this.monsters.containsKey(monster)) {
+          roomMonster = this.monsters.get(monster);
+        }
+
+        String puzzle = roomData.get(RoomJsonFields.PUZZLE.getValue()).asText();
+        Puzzle roomPuzzle = null;
+        if (this.puzzles.containsKey(puzzle)) {
+          roomPuzzle = this.puzzles.get(puzzle);
+        }
+
+        String picture = roomData.get(RoomJsonFields.PICTURE.getValue()).asText();
+
+        this.rooms.put(roomNumber, new ConcreteRoom(name, description, roomNumber, passages,
+                roomItems, roomFixtures, roomMonster, roomPuzzle, picture));
+      }
+    }
   }
 
   /**
@@ -215,7 +361,7 @@ public class InputProcessor {
    *
    * @param node JsonNode object of saved player input data.
    */
-  private Player createSavedPlayer(JsonNode node) {
+  private void createSavedPlayer(JsonNode node) {
     // TODO: initialize player from saved data
   }
 
@@ -223,8 +369,10 @@ public class InputProcessor {
    * The createNewPlayer() method instantiates a player object without input data
    * for a new game.
    */
-  private Player createNewPlayer(String playerName) {
-    // TODO: initialize new player
+  public void createNewPlayer() {
+    Map<String, Item> inventory = new HashMap<>();
+    this.currentPlayer = new ConcretePlayer(
+            this.playerName, inventory, this.rooms.get(NEW_PLAYER_START));
   }
 
 }
