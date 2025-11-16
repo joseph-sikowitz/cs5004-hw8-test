@@ -366,7 +366,25 @@ public class FileProcessor {
    * @param node JsonNode object of saved player input data.
    */
   private void createSavedPlayer(JsonNode node) {
-    // TODO: initialize player from saved data
+    String name =  node.get(PlayerJsonFields.NAME.getValue()).asText();
+    String description = node.get(PlayerJsonFields.DESCRIPTION.getValue()).asText();
+    double score =   node.get(PlayerJsonFields.SCORE.getValue()).asDouble();
+    double health = node.get(PlayerJsonFields.HEALTH.getValue()).asDouble();
+    double maxWeight = node.get(PlayerJsonFields.MAX_WEIGHT.getValue()).asDouble();
+
+    String[] items = node.get(PlayerJsonFields.INVENTORY.getValue()).asText().split(",");
+    Map<String, Item> inventory = new HashMap<>();
+    for (String item : items) {
+      if (this.items.containsKey(item)) {
+        inventory.put(item, this.items.get(item));
+      }
+    }
+
+    int activeRoomNumber = node.get(PlayerJsonFields.ACTIVE_ROOM.getValue()).asInt();
+
+    this.currentPlayer = new ConcretePlayer(name, description, score, health, maxWeight, inventory,
+            this.rooms.get(activeRoomNumber));
+
   }
 
   /**
