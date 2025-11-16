@@ -72,7 +72,7 @@ public abstract class AbstractPuzzle extends AbstractElement
     this.score = score;
     this.active = active;
 
-    if (affectsTarget && target != null) {
+    if (affectsTarget && target == null) {
       throw new IllegalArgumentException("affects target but no target specified!");
     }
 
