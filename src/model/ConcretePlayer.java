@@ -35,6 +35,7 @@ public class ConcretePlayer extends AbstractElement implements Player {
    * @param name          String of player's name.
    * @param description   String of player's description.
    * @param score         double of player's current score.
+   * @param health        double of the player's current health.
    * @param maxWeight     double of the maximum weight a player can carry.
    * @param inventory     Map of the player's item inventory.
    * @param activeRoom    ConcreteRoom where the player is currently positioned.
