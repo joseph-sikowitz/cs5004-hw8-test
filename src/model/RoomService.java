@@ -87,10 +87,15 @@ class RoomService {
     if (roomNumber >= rooms.size())
       throw new IllegalArgumentException("room number out of range");
 
-    if (roomNumber <= 0 ) {
+    if (roomNumber < 0 && room.getRoomEnvironmentEffector() != null
+            && !room.getRoomEnvironmentEffector().isActive())
+      roomNumber = Math.abs(roomNumber);
+
+    if (roomNumber <= 0) {
       throw new CannotGetRoomException(roomNumber == 0 ? RoomStatus.NO_PASSAGE
               : RoomStatus.BLOCKED);
     }
+
     return this.rooms.get(roomNumber);
   }
 }

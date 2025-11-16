@@ -14,14 +14,14 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * The InputProcessor class takes input from an initial file and loads it into the
+ * The FileProcessor class takes input from an initial file and loads it into the
  * game model. It also interacts with the user to handle ongoing user input.
  * InputProcessors have a game file name, game data, game name, game version, and
  * a Map of the fields used to initialize the game model's objects.
  *
  * @author Joe Sikowitz
  */
-public class InputProcessor {
+public class FileProcessor {
 
   // attributes
   private final String gameFileName;
@@ -45,11 +45,11 @@ public class InputProcessor {
   private static final Integer NEW_PLAYER_START = 1;
 
   /**
-   * The InputProcessor constructor initializes the gameFileName.
+   * The FileProcessor constructor initializes the gameFileName.
    *
    * @param gameFileName String of game's file name.
    */
-  public InputProcessor(String gameFileName, String playerName) {
+  public FileProcessor(String gameFileName, String playerName) {
     this.gameFileName = gameFileName;
     this.elementFields = new HashMap<>();
     this.newGame = true;
