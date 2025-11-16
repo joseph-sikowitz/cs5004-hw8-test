@@ -41,4 +41,11 @@ public interface Item extends Element, Activatable, Picturable, Scorable, Weight
    * @return an instance UseSuccessful describing this Item's use and whether it was successful.
    */
   UseSuccessful use(Puzzle enemy);
+
+  /**
+   * The getter for the Item's use description.
+   *
+   * @return String of use description.
+   */
+  String getUseDescription();
 }
