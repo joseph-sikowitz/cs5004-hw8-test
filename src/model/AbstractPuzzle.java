@@ -153,4 +153,22 @@ public abstract class AbstractPuzzle extends AbstractElement
   public boolean isActive() {
     return this.active;
   }
+
+  /**
+   * The getter for the puzzle's solution text.
+   *
+   * @return String of solution text.
+   */
+  public String getSolutionText() {
+    return this.solutionText;
+  }
+
+  /**
+   * The getter for the puzzle's solution item.
+   *
+   * @return String of solution item.
+   */
+  public String getSolutionItem() {
+    return this.solutionItem;
+  }
 }
