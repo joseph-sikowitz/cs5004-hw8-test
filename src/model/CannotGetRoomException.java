@@ -13,6 +13,7 @@ public class CannotGetRoomException extends IllegalArgumentException {
    */
   public CannotGetRoomException(RoomStatus roomExceptionStatus) {
     super(roomExceptionStatus.getStatus());
+    this.roomExceptionStatus = roomExceptionStatus;
   }
 
   public RoomStatus getRoomExceptionStatus() {
