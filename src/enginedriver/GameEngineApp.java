@@ -2,6 +2,7 @@ package enginedriver;
 
 import static java.nio.file.Files.exists;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
 
@@ -38,11 +39,13 @@ public class GameEngineApp {
    * The start() method creates the game and controller and tells the controller to
    * initialize the game.
    *
-   * @throws IOException if the given file does not exist.
+   * @throws FileNotFoundException if the given file was not found.
    */
   public void start() throws IOException {
-    if (! exists(Path.of(this.gameFileName))) {
-      throw new IOException("File does not exist: " + this.gameFileName);
+    if (!exists(Path.of(this.gameFileName)) && !exists(Path.of(System.getProperty("user.dir")
+            + this.gameFileName))) {
+      throw new FileNotFoundException("File does not exist at the end of the given path: "
+              + this.gameFileName);
     }
 
     IAdventureGameModel model = new AdventureGameModel(this.gameFileName);
