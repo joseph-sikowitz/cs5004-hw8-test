@@ -27,9 +27,8 @@ public class AdventureGameModel implements IAdventureGameModel {
     this.player = inputProcessor.setUpGame();
   }
 
-  @Override
-  public String movePlayerNorth() {
-    RoomStatus status = this.player.walk(Directions.NORTH);
+  private String move(Directions direction) {
+    RoomStatus status = this.player.walk(direction);
 
     if (status == RoomStatus.BLOCKED) {
       return RoomStatus.BLOCKED.getStatus();
@@ -43,30 +42,23 @@ public class AdventureGameModel implements IAdventureGameModel {
   }
 
   @Override
+  public String movePlayerNorth() {
+    return move(Directions.NORTH);
+  }
+
+  @Override
   public String movePlayerSouth() {
-    RoomStatus status;
-
-    try {
-      status = this.player.walk(Directions.SOUTH);
-    } catch (CannotGetRoomException e) {
-      return e.getRoomExceptionStatus().getStatus();
-    }
-
-    String successMessage = status.getStatus() + ENTER + "\n"
-            + this.player.getActiveRoom().getDescription();
-    return successMessage;
-
+    return move(Directions.SOUTH);
   }
 
   @Override
   public String movePlayerEast() {
-    return "";
-
+    return move(Directions.EAST);
   }
 
   @Override
   public String movePlayerWest() {
-    return "";
+    return move(Directions.WEST);
   }
 
   @Override
