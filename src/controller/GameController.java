@@ -83,46 +83,53 @@ public class GameController implements Controller {
                   UserCommands.INVENTORY.getShortcut())) {
             this.out.append(UserCommands.INVENTORY.getCommand()); // temp - remove
             //this.model.player.getInventory()
+
           } else if (commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.LOOK.getCommand())
                   || commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.LOOK.getShortcut())) {
-            this.out.append(UserCommands.LOOK.getCommand()); // temp - remove
-            //this.model.player.getActiveRoom().getDescription();
+            this.out.append(this.model.lookAround());
+
           } else if (commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.USE.getCommand())
                   || commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.USE.getShortcut())) {
             this.out.append(UserCommands.USE.getCommand()); // temp - remove
             //this.model.player.useItem(commandReader.getUserInputArgument(),this.model.player.room.enemy);
+
           } else if (commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.TAKE.getCommand())
                   || commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.TAKE.getShortcut())) {
             this.out.append(UserCommands.TAKE.getCommand()); // temp - remove
             //this.model.player.takeItem(commandReader.getUserInputArgument());
+
           } else if (commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.DROP.getCommand())
                   || commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.DROP.getShortcut())) {
             this.out.append(UserCommands.DROP.getCommand()); // temp - remove
             //this.model.player.dropItem(commandReader.getUserInputArgument());
+
           } else if (commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.EXAMINE.getCommand())
                   || commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.EXAMINE.getShortcut())) {
             this.out.append(UserCommands.EXAMINE.getCommand()); // temp - remove
             //this.model.player.examine(commandReader.getUserInputArgument());
+
           } else if (commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.ANSWER.getCommand())
                   || commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.ANSWER.getShortcut())) {
             this.out.append(UserCommands.ANSWER.getCommand()); // temp - remove
             //this.model.player.answer(commandReader.getUserInputArgument());
+
           } else if (commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.SAVE.getCommand())) {
             this.out.append(UserCommands.SAVE.getCommand()); // temp - remove
             //save game state to file
+
           } else if (commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.RESTORE.getCommand())) {
             this.out.append(UserCommands.RESTORE.getCommand()); // temp - remove
