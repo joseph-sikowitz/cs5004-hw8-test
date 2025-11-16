@@ -4,9 +4,13 @@ import java.util.Map;
 
 public class AdventureGameModel implements IAdventureGameModel {
 
+  // constants
   private String gameFileName;
   private String playerName;
   private Player player;
+
+  // attributes
+  private static final String ENTER = " You enter.";
 
   public AdventureGameModel(String gameFileName) {
     this.gameFileName = gameFileName;
@@ -19,27 +23,38 @@ public class AdventureGameModel implements IAdventureGameModel {
 
   @Override
   public void loadGameData() {
-    InputProcessor inputProcessor = new InputProcessor(this.gameFileName);
-    boolean newGame = inputProcessor.setUpGame();
-
-    if (newGame) {
-      // create new player
-      // this.player = inputProcessor.createNewPlayer(this.playerName);
-      System.out.println(this.playerName + " has been loaded");
-    } else {
-      // use player from saved file
-      // this.player = inputProcessor.createSavedPlayer();
-    }
+    InputProcessor inputProcessor = new InputProcessor(this.gameFileName, this.playerName);
+    this.player = inputProcessor.setUpGame();
   }
 
   @Override
   public String movePlayerNorth() {
-    return "";
+    RoomStatus status = this.player.walk(Directions.NORTH);
+
+    if (status == RoomStatus.BLOCKED) {
+      return RoomStatus.BLOCKED.getStatus();
+    } else if (status == RoomStatus.NO_PASSAGE) {
+      return RoomStatus.NO_PASSAGE.getStatus();
+    } else {
+      String successMessage = status.getStatus() + ENTER + "\n"
+              + this.player.getActiveRoom().getDescription();
+      return successMessage;
+    }
   }
 
   @Override
   public String movePlayerSouth() {
-    return "";
+    RoomStatus status;
+
+    try {
+      status = this.player.walk(Directions.SOUTH);
+    } catch (CannotGetRoomException e) {
+      return e.getRoomExceptionStatus().getStatus();
+    }
+
+    String successMessage = status.getStatus() + ENTER + "\n"
+            + this.player.getActiveRoom().getDescription();
+    return successMessage;
 
   }
 
@@ -61,7 +76,7 @@ public class AdventureGameModel implements IAdventureGameModel {
 
   @Override
   public String lookAround() {
-    return "";
+    return this.player.getActiveRoom().getDescription();
   }
 
   @Override
@@ -96,6 +111,5 @@ public class AdventureGameModel implements IAdventureGameModel {
 
   @Override
   public void restoreGame() {
-
   }
 }
