@@ -143,16 +143,19 @@ public class ConcretePlayer extends AbstractElement implements Player {
   }
 
   @Override
-  public UseSuccessful useItem(String itemName, String enemyName) {
+  public UseSuccessful useItem(String itemName) {
     Puzzle enemy = this.activeRoom.getRoomEnvironmentEffector();
     /*
      * short circuit if player doesn't have the item,
      * active room doesn't have the enemy, or enemy is already deactivated.
      */
-    if (!inventory.containsKey(itemName) || enemy == null
-            || !enemy.getName().equalsIgnoreCase(enemyName) || !enemy.isActive()) {
-      return new UseSuccessful(null, false);
+    if (!inventory.containsKey(itemName)) {
+      return new UseSuccessful(itemName + " not found within inventory", false);
     }
+    if (enemy == null )
+      return new UseSuccessful("No Monster or Puzzle to use " + itemName + " on.", false);
+    if (!enemy.isActive())
+      return new UseSuccessful("You can't use " + itemName + " on this puzzle.", false);
     Item item = inventory.get(itemName);
     UseSuccessful wasUseSuccessful = item.use(enemy);
     if (wasUseSuccessful.getUseSuccessful())
@@ -228,7 +231,8 @@ public class ConcretePlayer extends AbstractElement implements Player {
     return this.score;
   }
 
-  Map<String, Item> getInventory() {
-    return new HashMap<>(inventory);
+  @Override
+  public Map<String, Item> getInventory() {
+    return new HashMap<>(this.inventory);
   }
 }
