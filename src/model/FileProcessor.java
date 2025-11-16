@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class FileProcessor {
 
+  private static final String WARNING_PREFIX = "Possible error in game file: ";
   // attributes
   private final String gameFileName;
   private JsonNode gameData;
@@ -34,6 +35,7 @@ public class FileProcessor {
   private Map<String, JsonNode> elementFields;
   private boolean newGame;
   private final Set<String> uniqueElementNames;
+  private final StringBuilder warnings;
 
   private Map<String, Item> items;
   private Map<String, Fixture> fixtures;
@@ -56,6 +58,7 @@ public class FileProcessor {
     this.playerName = playerName;
 
     this.uniqueElementNames = new HashSet<>();
+    this.warnings = new StringBuilder();
   }
 
   /**
@@ -353,8 +356,9 @@ public class FileProcessor {
       }
     }
     //After all Rooms have been instantiated, check reflexivity of passages.
+    //Apparently not necessary!
     if (!ConcreteRoom.checkReflexivity()) {
-      throw new IllegalArgumentException("One or more passages between Rooms are not reflexive!");
+      this.addGameFileWarning("One one or more passages between Rooms are not reflexive!");
     }
   }
 
@@ -395,6 +399,24 @@ public class FileProcessor {
     Map<String, Item> inventory = new HashMap<>();
     this.currentPlayer = new ConcretePlayer(
             this.playerName, inventory, this.rooms.get(NEW_PLAYER_START));
+  }
+
+  /**
+   * Adds a warning when initializing Elements within the model from the data file.
+   * @param message a possible warning to inform to the player about.
+   */
+  private void addGameFileWarning(String message) {
+    this.warnings.append(WARNING_PREFIX).append(message).append("\n");
+  }
+
+  /**
+   * Returns a String with all warnings accumulating from initializing Elements
+   *     within the model from the data file.
+   * @return a String with all warnings accumulating from initializing Elements
+   *            within the model from the data file.
+   */
+  public String getGameFileWarnings() {
+    return this.warnings.toString();
   }
 
 }

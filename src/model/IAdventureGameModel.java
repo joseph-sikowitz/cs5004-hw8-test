@@ -115,4 +115,13 @@ public interface IAdventureGameModel {
    */
   void restoreGame();
 
+
+  /**
+   * Returns a String with all warnings accumulating from initializing Elements
+   *     within the model from the data file.
+   * @return a String with all warnings accumulating from initializing Elements
+   *            within the model from the data file.
+   */
+  public String getGameFileWarnings();
+
 }

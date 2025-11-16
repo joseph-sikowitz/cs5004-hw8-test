@@ -8,6 +8,7 @@ public class AdventureGameModel implements IAdventureGameModel {
   private String gameFileName;
   private String playerName;
   private Player player;
+  private String warnings;
 
   // attributes
   private static final String ENTER = " You enter: ";
@@ -25,6 +26,7 @@ public class AdventureGameModel implements IAdventureGameModel {
   public void loadGameData() {
     FileProcessor fileProcessor = new FileProcessor(this.gameFileName, this.playerName);
     this.player = fileProcessor.setUpGame();
+    this.warnings = fileProcessor.getGameFileWarnings();
   }
 
   private String move(Directions direction) {
@@ -101,5 +103,11 @@ public class AdventureGameModel implements IAdventureGameModel {
 
   @Override
   public void restoreGame() {
+  }
+
+
+  @Override
+  public String getGameFileWarnings() {
+    return this.warnings;
   }
 }
