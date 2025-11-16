@@ -67,10 +67,6 @@ public class ConcreteMonster extends AbstractPuzzle implements Monster {
     return this.canAttack;
   }
 
-  @Override
-  public void flipCanAttack() {
-    this.canAttack = !this.canAttack;
-  }
 
   @Override
   public String getAttackDescription() {

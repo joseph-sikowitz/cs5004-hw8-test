@@ -140,13 +140,8 @@ public class ConcreteRoom extends AbstractElement implements Room {
     return this.items.get(itemName);
   }
 
-  /**
-   * Returns a safe copy of items in the Room as a hashMap.
-   * @return a HashMap instance containing all items in the Room.
-   */
-  Map<String, Item> getItems() {
-    return new HashMap<>(this.items);
-  }
+
+
 
   @Override
   public Monster getMonster() {
@@ -181,6 +176,16 @@ public class ConcreteRoom extends AbstractElement implements Room {
   @Override
   public Map<Directions, Integer> getPassages() {
     return new HashMap<>(this.passages);
+  }
+
+  @Override
+  public Map<String, Item> getItems() {
+    return new HashMap<>(this.items);
+  }
+
+  @Override
+  public Map<String, Fixture> getFixtures() {
+    return new HashMap<>(this.fixtures);
   }
 
   @Override

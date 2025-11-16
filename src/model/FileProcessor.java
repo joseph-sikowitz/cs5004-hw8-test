@@ -358,7 +358,7 @@ public class FileProcessor {
     //After all Rooms have been instantiated, check reflexivity of passages.
     //Apparently not necessary!
     if (!ConcreteRoom.checkReflexivity()) {
-      this.addGameFileWarning("One one or more passages between Rooms are not reflexive!");
+      this.addGameFileWarning("One or more passages between Rooms are not reflexive!");
     }
   }
 

@@ -91,10 +91,10 @@ public interface IAdventureGameModel {
   /**
    * The examine() method gets the description of an element.
    *
-   * @param element Element to get the description of.
+   * @param element Name of element to get the description of.
    * @return String description of the element being examined.
    */
-  String examine(Element element);
+  String examine(String element);
 
   /**
    * The answer() method provides an answer to a puzzle within the active room
