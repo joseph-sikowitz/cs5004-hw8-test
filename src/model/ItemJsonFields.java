@@ -10,7 +10,7 @@ public enum ItemJsonFields {
   DESCRIPTION("description"),
   PICTURE("picture");
 
-  private String name;
+  private final String name;
 
   ItemJsonFields(String name) {
     this.name = name;
