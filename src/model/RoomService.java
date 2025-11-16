@@ -48,8 +48,12 @@ class RoomService {
       if (room != null) {
         for (Directions direction : Directions.values()) {
           int passageRoomNumber = Math.abs(room.getPassages().get(direction));
-          if (passageRoomNumber != 0 && Math.abs(this.rooms.get(passageRoomNumber).getPassages()
+          if (passageRoomNumber != 0 && this.rooms.get(passageRoomNumber).getPassages()
+                  .get(direction.getOppositeDirection()) != 0 && Math.abs(this.rooms.get(passageRoomNumber).getPassages()
                   .get(direction.getOppositeDirection())) != room.getRoomNumber()) {
+            int otherRoomNumber = Math.abs(this.rooms.get(passageRoomNumber).getPassages()
+                    .get(direction.getOppositeDirection()));
+            System.out.println("Room: " + room.getRoomNumber() + " Other room: " +  Math.abs(room.getPassages().get(direction)) + " Other room's room:" + otherRoomNumber);
             return false;
           }
         }
