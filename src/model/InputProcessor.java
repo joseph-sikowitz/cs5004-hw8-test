@@ -352,6 +352,10 @@ public class InputProcessor {
                 roomItems, roomFixtures, roomMonster, roomPuzzle, picture));
       }
     }
+    //After all Rooms have been instantiated, check reflexivity of passages.
+    if (!ConcreteRoom.checkReflexivity()) {
+      throw new IllegalArgumentException("One or more passages between Rooms are not reflexive!");
+    }
   }
 
   /**
