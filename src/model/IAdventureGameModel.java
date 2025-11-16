@@ -115,11 +115,4 @@ public interface IAdventureGameModel {
    */
   void restoreGame();
 
-  /**
-   * The getPlayer() method is the getter for the game's player.
-   *
-   * @return Player avatar of the game's user.
-   */
-  Player getPlayer();
-
 }
