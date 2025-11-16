@@ -1,5 +1,6 @@
 package model;
 
+import java.io.IOException;
 import java.util.Map;
 
 public class AdventureGameModel implements IAdventureGameModel {
@@ -9,6 +10,7 @@ public class AdventureGameModel implements IAdventureGameModel {
   private String playerName;
   private Player player;
   private String warnings;
+  private FileProcessor fileProcessor;
 
   // attributes
   private static final String ENTER = " You enter: ";
@@ -24,9 +26,9 @@ public class AdventureGameModel implements IAdventureGameModel {
 
   @Override
   public void loadGameData() {
-    FileProcessor fileProcessor = new FileProcessor(this.gameFileName, this.playerName);
-    this.player = fileProcessor.setUpGame();
-    this.warnings = fileProcessor.getGameFileWarnings();
+    this.fileProcessor = new FileProcessor(this.gameFileName, this.playerName);
+    this.player = this.fileProcessor.setUpGame();
+    this.warnings = this.fileProcessor.getGameFileWarnings();
   }
 
   private String move(Directions direction) {
@@ -97,8 +99,8 @@ public class AdventureGameModel implements IAdventureGameModel {
   }
 
   @Override
-  public void saveGame() {
-
+  public void saveGame() throws IOException {
+    this.fileProcessor.saveGame(null);
   }
 
   @Override
