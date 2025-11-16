@@ -102,4 +102,13 @@ public class ConcreteItem extends AbstractElement implements Item {
   public boolean isActive() {
     return this.usesRemaining > INACTIVE_USE_AMOUNT;
   }
+
+  /**
+   * The getter for the Item's use description.
+   *
+   * @return String of use description.
+   */
+  public String getUseDescription() {
+    return this.useDescription;
+  }
 }
