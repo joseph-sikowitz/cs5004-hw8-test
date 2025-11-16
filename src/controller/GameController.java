@@ -128,8 +128,8 @@ public class GameController implements Controller {
 
           } else if (commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.SAVE.getCommand())) {
-            this.out.append(UserCommands.SAVE.getCommand()); // temp - remove
-            //save game state to file
+            this.out.append("Game saved!"); // temp - remove
+            this.model.saveGame();
 
           } else if (commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.RESTORE.getCommand())) {

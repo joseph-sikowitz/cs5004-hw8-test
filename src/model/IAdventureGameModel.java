@@ -1,5 +1,6 @@
 package model;
 
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -107,8 +108,10 @@ public interface IAdventureGameModel {
 
   /**
    * The saveGame() method saves the game to a file.
+   *
+   * @throws IOException if there is an error writing to the save file.
    */
-  void saveGame();
+  void saveGame() throws IOException;
 
   /**
    * The restoreGame() method restores the last saved game.
