@@ -27,4 +27,18 @@ public interface Puzzle extends Element, Activatable, Effector, Scorable, Player
    */
   boolean solve(Item item);
 
+  /**
+   * The getter for the puzzle's solution text.
+   *
+   * @return String of solution text.
+   */
+  String getSolutionText();
+
+  /**
+   * The getter for the puzzle's solution item.
+   *
+   * @return String of solution item.
+   */
+  String getSolutionItem();
+
 }

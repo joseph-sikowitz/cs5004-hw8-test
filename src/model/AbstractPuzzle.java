@@ -154,20 +154,12 @@ public abstract class AbstractPuzzle extends AbstractElement
     return this.active;
   }
 
-  /**
-   * The getter for the puzzle's solution text.
-   *
-   * @return String of solution text.
-   */
+  @Override
   public String getSolutionText() {
     return this.solutionText;
   }
 
-  /**
-   * The getter for the puzzle's solution item.
-   *
-   * @return String of solution item.
-   */
+  @Override
   public String getSolutionItem() {
     return this.solutionItem;
   }
