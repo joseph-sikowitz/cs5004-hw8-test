@@ -56,7 +56,7 @@ public class ConcretePlayer extends AbstractElement implements Player {
     if (currentWeight < 0.0)
       throw new IllegalArgumentException("Current weight isn't greater than 0!");
 
-    if (currentWeight < maxWeight) {
+    if (currentWeight > maxWeight) {
       throw new IllegalArgumentException("Weight of inventory is over maxWeight!");
     }
     if (inventory == null || activeRoom == null) {
