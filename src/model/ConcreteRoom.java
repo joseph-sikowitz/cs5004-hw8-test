@@ -67,9 +67,11 @@ public class ConcreteRoom extends AbstractElement implements Room {
             .filter((i) -> i != 0).toList();
 
     //all directions have a value of 0 or no key-value pairs in passages.
+    /*
     if (checkPassages.isEmpty()) {
       throw new IllegalArgumentException("Room must have a passage to another Room!");
     }
+     */
 
     //Ignore whether passages are blocked.
     List<Integer> checkRoomNumbers = checkPassages.stream().map(Math::abs).toList();
@@ -195,7 +197,7 @@ public class ConcreteRoom extends AbstractElement implements Room {
    * Check if all passages between Rooms are Reflexive.
    * @return true if all passage relations are reflexive, false if one relation isn't reflexive.
    */
-  public boolean checkReflexivity() {
+  public static boolean checkReflexivity() {
     return ConcreteRoom.ROOM_SERVICE.checkReflexivity();
   }
 
