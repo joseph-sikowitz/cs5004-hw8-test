@@ -3,6 +3,9 @@ package controller;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import model.AdventureGameModel;
+import model.IAdventureGameModel;
+
 /**
  * The GameController class gets input from the user and sends it to the model
  * for processing. It appends the results from the model to the given output.
@@ -15,7 +18,7 @@ import java.util.ArrayList;
 public class GameController implements Controller {
 
   // attributes
-  //private GameModel model;
+  private IAdventureGameModel model;
   private final Readable in;
   private final Appendable out;
 
@@ -29,11 +32,10 @@ public class GameController implements Controller {
    * @param source Readable of the source of the game's input.
    * @param output Appendable of the game's output.
    */
-  public GameController(Readable source, Appendable output) {
+  public GameController(Readable source, Appendable output, IAdventureGameModel model) {
     this.in = source;
     this.out = output;
-
-    // this.model = model
+    this.model = model;
   }
 
   /**
@@ -47,34 +49,34 @@ public class GameController implements Controller {
   public void go() throws IOException {
     try {
       GameCommandReader commandReader = new GameCommandReader(this.in, this.out);
-      commandReader.startGame();
+      this.model.setPlayerName(commandReader.startGame());
+      this.model.loadGameData();
 
       while (commandReader.getUserInput()) {
         if (this.isValidCommand(commandReader.getUserInputCommand())) {
           if (commandReader.getUserInputCommand().equalsIgnoreCase(UserCommands.NORTH.getCommand())
                   || commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.NORTH.getShortcut())) {
-            this.out.append(model.Directions.NORTH.toString()); // temp - remove
-            //this.model.player.walk(model.Directions.NORTH)
-            //TODO: figure out how to pass to player's walk method
+            this.out.append(this.model.movePlayerNorth());
+
           } else if (commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.SOUTH.getCommand())
                   || commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.SOUTH.getShortcut())) {
-            this.out.append(model.Directions.SOUTH.toString()); // temp - remove
-            //this.model.player.walk(model.Directions.SOUTH)
+            this.out.append(this.model.movePlayerSouth());
+
           } else if (commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.EAST.getCommand())
                   || commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.EAST.getShortcut())) {
-            this.out.append(model.Directions.EAST.toString()); // temp - remove
-            //this.model.player.walk(model.Directions.EAST)
+            this.out.append(this.model.movePlayerEast());
+
           } else if (commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.WEST.getCommand())
                   || commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.WEST.getShortcut())) {
-            this.out.append(model.Directions.WEST.toString()); // temp - remove
-            //this.model.player.walk(model.Directions.WEST)
+            this.out.append(this.model.movePlayerWest());
+
           } else if (commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.INVENTORY.getCommand())
                   || commandReader.getUserInputCommand().equalsIgnoreCase(

@@ -2,6 +2,7 @@ package model;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -35,10 +36,11 @@ public class InputProcessor {
    *
    * @param gameFileName String of game's file name.
    */
-  public InputProcessor(String gameFileName, Map<String, JsonNode> fields) {
+  public InputProcessor(String gameFileName) {
     this.gameFileName = gameFileName;
-    this.elementFields = fields;
+    this.elementFields = new HashMap<>();
     this.newGame = true;
+
     this.uniqueElementNames = new HashSet<>();
   }
 
@@ -130,11 +132,13 @@ public class InputProcessor {
 
     this.createRooms(this.elementFields.get(JsonFields.ROOMS.getValue()));
 
+    /*
     if (!this.newGame) {
       this.createSavedPlayer(this.elementFields.get(JsonFields.PLAYER.getValue()));
     } else {
       this.createNewPlayer();
     }
+     */
   }
 
   /**
@@ -146,6 +150,7 @@ public class InputProcessor {
    */
   private void createItems(JsonNode node) {
     // TODO: instantiate items
+    //System.out.println(node.toString());
   }
 
   /**
@@ -218,7 +223,7 @@ public class InputProcessor {
    * The createNewPlayer() method instantiates a player object without input data
    * for a new game.
    */
-  private void createNewPlayer() {
+  private void createNewPlayer(String playerName) {
     // TODO: initialize new player
   }
 

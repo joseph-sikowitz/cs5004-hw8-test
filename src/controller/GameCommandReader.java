@@ -41,10 +41,11 @@ public class GameCommandReader {
    * The startGame() method starts a game by prompting the user to put in their
    * name. It throws an IOException
    *
+   * @return String of player's name.
    * @throws IOException if there is an error printing to output or getting user
    *                     data.
    */
-  public void startGame() throws IOException {
+  public String startGame() throws IOException {
     try {
       this.out.append(UserPrompts.PLAYER_RANK_PROMPT.getPrompt()).append(
               PlayerRanks.NOVICE.getName()).append("\n");
@@ -58,6 +59,8 @@ public class GameCommandReader {
     } catch (IOException e) {
       e.printStackTrace();
     }
+
+    return this.playerName;
   }
 
   /**
