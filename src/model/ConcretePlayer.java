@@ -25,6 +25,9 @@ public class ConcretePlayer extends AbstractElement implements Player {
   private Map<String, Item> inventory;
   private Room activeRoom;
 
+  // constants
+  private static final String DEFAULT_PLAYER_DESCRIPTION = "Default player";
+
   /**
    * The constructor for ConcretePlayer initializes its attributes using its parent
    * class constructor to initialize name and description.
@@ -70,8 +73,16 @@ public class ConcretePlayer extends AbstractElement implements Player {
     this.activeRoom = activeRoom;
   }
 
+  /**
+   * This ConcretePlayer constructor is used to instantiate a new player. It takes a
+   * name, inventory map, and the player's active room.
+   *
+   * @param name String of player's name.
+   * @param inventory Map of player's inventory, probably empty to start.
+   * @param activeRoom Room where the player will start the game.
+   */
   public ConcretePlayer(String name, Map<String, Item> inventory, Room activeRoom) {
-    this(name, "", 0.0, 100.0, 13.0, inventory, activeRoom);
+    this(name, DEFAULT_PLAYER_DESCRIPTION, 0.0, 100.0, 13.0, inventory, activeRoom);
   }
 
   @Override
