@@ -10,7 +10,7 @@ public class AdventureGameModel implements IAdventureGameModel {
   private Player player;
 
   // attributes
-  private static final String ENTER = " You enter.";
+  private static final String ENTER = " You enter: ";
 
   public AdventureGameModel(String gameFileName) {
     this.gameFileName = gameFileName;
@@ -23,22 +23,20 @@ public class AdventureGameModel implements IAdventureGameModel {
 
   @Override
   public void loadGameData() {
-    InputProcessor inputProcessor = new InputProcessor(this.gameFileName, this.playerName);
-    this.player = inputProcessor.setUpGame();
+    FileProcessor fileProcessor = new FileProcessor(this.gameFileName, this.playerName);
+    this.player = fileProcessor.setUpGame();
   }
 
   private String move(Directions direction) {
     RoomStatus status = this.player.walk(direction);
 
-    if (status == RoomStatus.BLOCKED) {
-      return RoomStatus.BLOCKED.getStatus();
-    } else if (status == RoomStatus.NO_PASSAGE) {
-      return RoomStatus.NO_PASSAGE.getStatus();
-    } else {
-      String successMessage = status.getStatus() + ENTER + "\n"
+    return switch (status) {
+      case BLOCKED -> RoomStatus.BLOCKED.getStatus();
+      case NO_PASSAGE -> RoomStatus.NO_PASSAGE.getStatus();
+      case OPEN -> RoomStatus.OPEN.getStatus() + ENTER
+              + this.player.getActiveRoom().getName() + "\n"
               + this.player.getActiveRoom().getDescription();
-      return successMessage;
-    }
+    };
   }
 
   @Override
