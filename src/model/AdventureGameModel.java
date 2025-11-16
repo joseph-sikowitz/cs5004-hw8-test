@@ -87,8 +87,8 @@ public class AdventureGameModel implements IAdventureGameModel {
   }
 
   @Override
-  public String examine(Element element) {
-    return "";
+  public String examine(String element) {
+    return this.player.examine(element);
   }
 
   @Override
