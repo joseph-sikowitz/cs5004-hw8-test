@@ -106,6 +106,18 @@ public interface Room extends Element, Picturable {
   Map<Directions, Integer> getPassages();
 
   /**
+   * Returns the Items within the Room.
+   * @return a Map of Items hashed by their names.
+   */
+  Map<String, Item> getItems();
+
+  /**
+   * Returns the Fixtures within the Room.
+   * @return a Map of Fixtures hashed by their names.
+   */
+  Map<String, Fixture> getFixtures();
+
+  /**
    * The isPathBlocked() method indicates whether there is a path blocker,
    * a monster or puzzle, in the room blocking certain passages.
    *
