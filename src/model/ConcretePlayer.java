@@ -70,6 +70,10 @@ public class ConcretePlayer extends AbstractElement implements Player {
     this.activeRoom = activeRoom;
   }
 
+  public ConcretePlayer(String name, Map<String, Item> inventory, Room activeRoom) {
+    this(name, "", 0.0, 100.0, 13.0, inventory, activeRoom);
+  }
+
   @Override
   public boolean isActive() {
     return this.health > 0.0;
