@@ -3,7 +3,6 @@ package controller;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import model.AdventureGameModel;
 import model.IAdventureGameModel;
 
 /**
@@ -51,6 +50,8 @@ public class GameController implements Controller {
       GameCommandReader commandReader = new GameCommandReader(this.in, this.out);
       this.model.setPlayerName(commandReader.startGame());
       this.model.loadGameData();
+      //print any warnings about the data from the model.
+      this.printGameFileWarnings();
 
       while (commandReader.getUserInput()) {
         if (this.isValidCommand(commandReader.getUserInputCommand())) {
@@ -139,6 +140,17 @@ public class GameController implements Controller {
           this.out.append(UNKNOWN_COMMAND);
         }
       }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * Prints warnings to the Player/user about possible errors in game data file.
+   */
+  public void printGameFileWarnings() {
+    try {
+      this.out.append(this.model.getGameFileWarnings());
     } catch (IOException e) {
       e.printStackTrace();
     }
