@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Map;
+
 /**
  * The Player interface defines the Player type in an adventure game. Players
  * are the way that users interact with the game and act as their avatar.
@@ -66,10 +68,9 @@ public interface Player extends Activatable, Element, Scorable {
    * in.
    *
    * @param item  String key of item to use in inventory.
-   * @param enemy String representing an element to use the item on.
    * @return boolean indicating if item was used.
    */
-  UseSuccessful useItem(String item, String enemy);
+  UseSuccessful useItem(String item);
 
   /**
    * The takeItem() method takes an item from the room the player is currently in.
@@ -114,6 +115,11 @@ public interface Player extends Activatable, Element, Scorable {
    */
   Room getActiveRoom();
 
+  /**
+   * Returns the Items within the Player's inventory.
+   * @return a Map of items hashed by their names.
+   */
+  Map<String, Item> getInventory();
 
 
 }
