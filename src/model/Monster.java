@@ -27,12 +27,6 @@ public interface Monster extends Element, Puzzle {
   boolean getCanAttack();
 
   /**
-   * The flipCanAttack() method changes the boolean value indicating if a Monster
-   * can or cannot attack.
-   */
-  void flipCanAttack();
-
-  /**
    * The getAttackDescription() method gets the description of a Monster's attack.
    *
    * @return String of the Monster's attack.
