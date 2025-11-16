@@ -37,7 +37,8 @@ public class ConcretePlayer extends AbstractElement implements Player {
    * @param activeRoom    ConcreteRoom where the player is currently positioned.
    */
   public ConcretePlayer(String name, String description, double score,
-                        double health, double maxWeight, Map<String, Item> inventory, Room activeRoom) {
+                        double health, double maxWeight, Map<String, Item> inventory,
+                        Room activeRoom) {
     super(name, description);
     if (score < 0.0)
       throw new IllegalArgumentException("Score cannot be negative");

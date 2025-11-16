@@ -215,7 +215,7 @@ public class InputProcessor {
    *
    * @param node JsonNode object of saved player input data.
    */
-  private void createSavedPlayer(JsonNode node) {
+  private Player createSavedPlayer(JsonNode node) {
     // TODO: initialize player from saved data
   }
 
@@ -223,7 +223,7 @@ public class InputProcessor {
    * The createNewPlayer() method instantiates a player object without input data
    * for a new game.
    */
-  private void createNewPlayer(String playerName) {
+  private Player createNewPlayer(String playerName) {
     // TODO: initialize new player
   }
 

@@ -6,6 +6,7 @@ public class AdventureGameModel implements IAdventureGameModel {
 
   private String gameFileName;
   private String playerName;
+  private Player player;
 
   public AdventureGameModel(String gameFileName) {
     this.gameFileName = gameFileName;
@@ -19,10 +20,15 @@ public class AdventureGameModel implements IAdventureGameModel {
   @Override
   public void loadGameData() {
     InputProcessor inputProcessor = new InputProcessor(this.gameFileName);
-    boolean result = inputProcessor.setUpGame();
+    boolean newGame = inputProcessor.setUpGame();
 
-    if (result) {
+    if (newGame) {
+      // create new player
+      // this.player = inputProcessor.createNewPlayer(this.playerName);
       System.out.println(this.playerName + " has been loaded");
+    } else {
+      // use player from saved file
+      // this.player = inputProcessor.createSavedPlayer();
     }
   }
 
