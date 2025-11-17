@@ -165,7 +165,6 @@ public class ConcretePlayer extends AbstractElement implements Player {
     if (itemToPickUp == null )
       return TakeItemStatus.ITEM_NOT_FOUND;
 
-
     if (itemToPickUp.getWeight() + this.currentWeight > this.maxWeight)
       return TakeItemStatus.ITEM_NOT_ADDED_OVER_CAPACITY;
 
