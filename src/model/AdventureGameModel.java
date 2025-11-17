@@ -77,7 +77,7 @@ public class AdventureGameModel implements IAdventureGameModel {
    */
   private String getElementNames(Map<String, ? extends Element> map) {
     StringBuilder elements = new StringBuilder();
-    List<String> names = new ArrayList<>(map.keySet());
+    List<String> names = new ArrayList<>(map.values().stream().map(Element::getName).toList());
     if (names.isEmpty())
       return "";
     String lastName = names.removeLast();
