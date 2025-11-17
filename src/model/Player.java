@@ -62,7 +62,8 @@ public interface Player extends Activatable, Element, Scorable {
    * in.
    *
    * @param item  String key of item to use in inventory.
-   * @return boolean indicating if item was used.
+   * @return UseSuccessful instance with a String message to pass
+   *     and boolean indicating if use was successful.
    */
   UseSuccessful useItem(String item);
 
@@ -97,9 +98,10 @@ public interface Player extends Activatable, Element, Scorable {
    * room in order to solve it.
    *
    * @param answer String of answer to provide to solve puzzle.
-   * @return true if answer solved a Puzzle type, otherwise false.
+   * @return UseSuccessful instance with a String message to pass
+   *     and boolean indicating if use was successful.
    */
-  boolean answer(String answer);
+  UseSuccessful answer(String answer);
 
   /**
    * The getActiveRoom() method gets the player's active room, the room that the
