@@ -152,7 +152,7 @@ public class ConcretePlayer extends AbstractElement implements Player {
       return new UseSuccessful("No Monster or Puzzle to use " + itemName + " on.", false);
     if (!enemy.isActive())
       return new UseSuccessful("You can't use " + itemName + " on this puzzle.", false);
-    Item item = inventory.get(itemName);
+    Item item = inventory.get(itemName.toLowerCase());
     UseSuccessful wasUseSuccessful = item.use(enemy);
     if (wasUseSuccessful.getUseSuccessful())
       this.addToScore(enemy.getScore());
