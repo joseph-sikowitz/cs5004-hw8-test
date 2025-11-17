@@ -207,7 +207,7 @@ public class AdventureGameModel implements IAdventureGameModel {
 
   @Override
   public String getPlayerName() {
-    return this.playerName;
+    return this.player.getName();
   }
 
   @Override

@@ -149,6 +149,7 @@ public class GameController implements Controller {
             this.out.append(this.model.playerHealthStatus());
             this.out.append("Current rank: " + this.findPlayerRank(this.model.getPlayerScore()));
             playerCommandExecuted = false;
+
           } else if (this.isValidCommand(commandReader.getUserInputCommand())
                   && commandReader.getUserInputArgument() == null) {
             this.out.append(commandReader.getUserInputCommand()).append(REQUIRED_ARGUMENT);
@@ -235,11 +236,11 @@ public class GameController implements Controller {
    */
   public String findPlayerRank(double score) {
     for (PlayerRanks playerRank : PlayerRanks.values()) {
-      if (playerRank.getValue() >= score) {
+      if (score >= playerRank.getLowValue() && score < playerRank.getHighValue()) {
         return playerRank.getName();
       }
     }
-    return PlayerRanks.NOVICE.name();
+    return PlayerRanks.NOVICE.getName();
   }
 
 }
