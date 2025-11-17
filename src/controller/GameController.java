@@ -61,6 +61,7 @@ public class GameController implements Controller {
 
 
       while (!this.model.gameOver() && commandReader.getUserInput()) {
+        boolean playerCommandExecuted = true;
         if (this.isValidCommand(commandReader.getUserInputCommand())) {
           if (commandReader.getUserInputCommand().equalsIgnoreCase(UserCommands.NORTH.getCommand())
                   || commandReader.getUserInputCommand().equalsIgnoreCase(
@@ -131,20 +132,24 @@ public class GameController implements Controller {
                   UserCommands.SAVE.getCommand())) {
             this.out.append("Game saved!"); // temp - remove
             this.model.saveGame(DEFAULT_SAVE_FILE);
+            playerCommandExecuted = false;
 
           } else if (commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.RESTORE.getCommand())) {
             this.out.append("Game restored!");
             this.model.restoreGame(DEFAULT_SAVE_FILE);
+            playerCommandExecuted = false;
           }
         } else {
           this.out.append(UNKNOWN_COMMAND);
         }
-        //if there is a Monster in the room, have it "affect" the Player in the model.
-        this.out.append(this.model.affectPlayer());
-        //display player's health status if it has changed since last command.
-        if (this.model.changeInHealthStatus())
-          this.out.append(this.model.playerHealthStatus());
+        if (playerCommandExecuted) {
+          //if there is a Monster in the room, have it "affect" the Player in the model.
+          this.out.append(this.model.affectPlayer());
+          //display player's health status if it has changed since last command.
+          if (this.model.changeInHealthStatus())
+            this.out.append(this.model.playerHealthStatus());
+        }
       }
       //displays player stats
       this.out.append(this.model.quitMessage());
