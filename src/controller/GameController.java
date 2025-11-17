@@ -23,7 +23,8 @@ public class GameController implements Controller {
 
   // constants
   private static final String UNKNOWN_COMMAND = "Unknown command!\n";
-  private static final String DEFAULT_SAVE_FILE = "./data/save_file.json";
+  private static final String DATA_DIR = System.getProperty("user.dir") + "/data/";
+  private static final String DEFAULT_SAVE_FILE = "save_file.json";
   private static final String REQUIRED_ARGUMENT = " requires an argument!\n";
 
   /**
@@ -137,13 +138,13 @@ public class GameController implements Controller {
           } else if (commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.SAVE.getCommand())) {
             this.out.append("Game saved!"); // temp - remove
-            this.model.saveGame(DEFAULT_SAVE_FILE);
+            this.model.saveGame(DATA_DIR + DEFAULT_SAVE_FILE);
             playerCommandExecuted = false;
 
           } else if (commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.RESTORE.getCommand())) {
             this.out.append("Game restored!");
-            this.model.restoreGame(DEFAULT_SAVE_FILE);
+            this.model.restoreGame(DATA_DIR + DEFAULT_SAVE_FILE);
             playerCommandExecuted = false;
           } else if (this.isValidCommand(commandReader.getUserInputCommand())
                   && commandReader.getUserInputArgument() == null) {
