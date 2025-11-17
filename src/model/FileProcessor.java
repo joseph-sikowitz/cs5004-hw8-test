@@ -213,8 +213,12 @@ public class FileProcessor {
             useDescription = item.get(ItemJsonFields.WHEN_USED.getValue()).asText();
           }
 
-          this.items.put(name.toLowerCase(), new ConcreteItem(name, description, score, weight,
-                  picture, maxUses, usesRemaining, useDescription));
+          try {
+            this.items.put(name.toLowerCase(), new ConcreteItem(name, description, score, weight,
+                    picture, maxUses, usesRemaining, useDescription));
+          } catch (Exception e) {
+            this.addGameFileWarning("Error creating concrete item: " + e.getMessage());
+          }
         }
 
 
@@ -264,8 +268,12 @@ public class FileProcessor {
             picture = fixture.get(FixtureJsonFields.PICTURE.getValue()).asText();
           }
 
-          this.fixtures.put(name.toLowerCase(), new ConcreteFixture(name, description, weight,
-                  puzzle, states, picture));
+          try {
+            this.fixtures.put(name.toLowerCase(), new ConcreteFixture(name, description, weight,
+                    puzzle, states, picture));
+          } catch (Exception e) {
+            this.addGameFileWarning("Error creating fixture: " + e.getMessage());
+          }
         }
 
       }
@@ -340,24 +348,28 @@ public class FileProcessor {
             attackDescription = monster.get(MonsterJsonFields.ATTACK.getValue()).asText();
           }
 
-          String solution;
-          if (monster.get(MonsterJsonFields.SOLUTION.getValue()).isNull()) {
-            this.monsters.put(name.toLowerCase(), new ConcreteMonster(name, description, active,
-                    affectsTarget, target, affectsPlayer, null, null,
-                    score, effects, damage, picture, canAttack, attackDescription));
-          } else {
-            solution = monster.get(MonsterJsonFields.SOLUTION.getValue()).asText();
-            Pattern pattern = Pattern.compile("'(.*)'");
-            Matcher matcher = pattern.matcher(solution);
-            if (matcher.matches()) {
+          try {
+            String solution;
+            if (monster.get(MonsterJsonFields.SOLUTION.getValue()).isNull()) {
               this.monsters.put(name.toLowerCase(), new ConcreteMonster(name, description, active,
-                      affectsTarget, target, affectsPlayer, matcher.group(MATCH_GROUP), null,
+                      affectsTarget, target, affectsPlayer, null, null,
                       score, effects, damage, picture, canAttack, attackDescription));
             } else {
-              this.monsters.put(name.toLowerCase(), new ConcreteMonster(name, description, active,
-                      affectsTarget, target, affectsPlayer, null, solution,
-                      score, effects, damage, picture, canAttack, attackDescription));
+              solution = monster.get(MonsterJsonFields.SOLUTION.getValue()).asText();
+              Pattern pattern = Pattern.compile("'(.*)'");
+              Matcher matcher = pattern.matcher(solution);
+              if (matcher.matches()) {
+                this.monsters.put(name.toLowerCase(), new ConcreteMonster(name, description, active,
+                        affectsTarget, target, affectsPlayer, matcher.group(MATCH_GROUP), null,
+                        score, effects, damage, picture, canAttack, attackDescription));
+              } else {
+                this.monsters.put(name.toLowerCase(), new ConcreteMonster(name, description, active,
+                        affectsTarget, target, affectsPlayer, null, solution,
+                        score, effects, damage, picture, canAttack, attackDescription));
+              }
             }
+          } catch (Exception e) {
+            this.addGameFileWarning("Error creating monster: " + e.getMessage());
           }
         }
       }
@@ -424,24 +436,28 @@ public class FileProcessor {
             picture = puzzleData.get(PuzzleJsonFields.PICTURE.getValue()).asText();
           }
 
-          String solution;
-          if (puzzleData.get(PuzzleJsonFields.SOLUTION.getValue()).isNull()) {
-            this.puzzles.put(name.toLowerCase(), new ConcretePuzzle(name, description, active,
-                    affectsTarget, target, affectsPlayer, null, null, score,
-                    effect, damage, picture));
-          } else {
-            solution = puzzleData.get(PuzzleJsonFields.SOLUTION.getValue()).asText();
-            Pattern pattern = Pattern.compile("'(.*)'");
-            Matcher matcher = pattern.matcher(solution);
-            if (matcher.matches()) {
+          try {
+            String solution;
+            if (puzzleData.get(PuzzleJsonFields.SOLUTION.getValue()).isNull()) {
               this.puzzles.put(name.toLowerCase(), new ConcretePuzzle(name, description, active,
-                      affectsTarget, target, affectsPlayer, matcher.group(MATCH_GROUP),
-                      null, score, effect, damage, picture));
+                      affectsTarget, target, affectsPlayer, null, null, score,
+                      effect, damage, picture));
             } else {
-              this.puzzles.put(name.toLowerCase(), new ConcretePuzzle(name, description, active,
-                      affectsTarget, target, affectsPlayer, null, solution, score, effect,
-                      damage, picture));
+              solution = puzzleData.get(PuzzleJsonFields.SOLUTION.getValue()).asText();
+              Pattern pattern = Pattern.compile("'(.*)'");
+              Matcher matcher = pattern.matcher(solution);
+              if (matcher.matches()) {
+                this.puzzles.put(name.toLowerCase(), new ConcretePuzzle(name, description, active,
+                        affectsTarget, target, affectsPlayer, matcher.group(MATCH_GROUP),
+                        null, score, effect, damage, picture));
+              } else {
+                this.puzzles.put(name.toLowerCase(), new ConcretePuzzle(name, description, active,
+                        affectsTarget, target, affectsPlayer, null, solution, score, effect,
+                        damage, picture));
+              }
             }
+          } catch (Exception e) {
+            this.addGameFileWarning("Error creating puzzle: " + e.getMessage());
           }
         }
 
@@ -526,8 +542,12 @@ public class FileProcessor {
             picture = roomData.get(RoomJsonFields.PICTURE.getValue()).asText();
           }
 
-          this.rooms.put(roomNumber, new ConcreteRoom(name, description, roomNumber, passages,
-                  roomItems, roomFixtures, roomMonster, roomPuzzle, picture));
+          try {
+            this.rooms.put(roomNumber, new ConcreteRoom(name, description, roomNumber, passages,
+                    roomItems, roomFixtures, roomMonster, roomPuzzle, picture));
+          } catch (Exception e) {
+            this.addGameFileWarning("Error creating room: " + e.getMessage());
+          }
         }
       }
     }
