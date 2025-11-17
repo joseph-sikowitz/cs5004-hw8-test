@@ -9,6 +9,7 @@ public class AdventureGameModel implements IAdventureGameModel {
   private String gameFileName;
   private String playerName;
   private Player player;
+  private double playersLastHealth;
   private String warnings;
   private FileProcessor fileProcessor;
 
@@ -17,6 +18,8 @@ public class AdventureGameModel implements IAdventureGameModel {
 
   public AdventureGameModel(String gameFileName) {
     this.gameFileName = gameFileName;
+    //set to value outside range to so that health status is communicated to user at start of game.
+    this.playersLastHealth = -1.0;
   }
 
   @Override
@@ -35,11 +38,11 @@ public class AdventureGameModel implements IAdventureGameModel {
     RoomStatus status = this.player.walk(direction);
 
     return switch (status) {
-      case BLOCKED -> RoomStatus.BLOCKED.getStatus();
-      case NO_PASSAGE -> RoomStatus.NO_PASSAGE.getStatus();
+      case BLOCKED -> RoomStatus.BLOCKED.getStatus() + "\n";
+      case NO_PASSAGE -> RoomStatus.NO_PASSAGE.getStatus() + "\n";
       case OPEN -> RoomStatus.OPEN.getStatus() + ENTER
               + this.player.getActiveRoom().getName() + "\n"
-              + this.player.getActiveRoom().getDescription();
+              + this.lookAround() + "\n";
     };
   }
 
@@ -63,29 +66,46 @@ public class AdventureGameModel implements IAdventureGameModel {
     return move(Directions.WEST);
   }
 
+
+  private String getElementNames(Map<String, ? extends Element> map) {
+    StringBuilder elements = new StringBuilder();
+    return map.keySet().stream().reduce(elements, StringBuilder::append, StringBuilder::append).toString();
+  }
+
   @Override
-  public Map<String, Item> checkInventory() {
-    return Map.of();
+  public String checkInventory() {
+    return getElementNames(this.player.getInventory());
   }
 
   @Override
   public String lookAround() {
-    return this.player.getActiveRoom().getDescription();
+    Room activeRoom = this.player.getActiveRoom();
+    return activeRoom.getDescription() + "\n"
+            + "Fixtures you see here: " + getElementNames(activeRoom.getFixtures()) + "\n"
+            + "Items you see here: " +  getElementNames(activeRoom.getItems()) + "\n";
   }
 
   @Override
-  public void useItem(String item) {
-
+  public String useItem(String item) {
+    UseSuccessful getUse = this.player.useItem(item);
+    String returnMessage = getUse.getUse();
+    if (getUse.getUseSuccessful())
+      returnMessage += "\n" + lookAround();
+    return returnMessage;
   }
 
   @Override
-  public void takeItem(String item) {
-
+  public String takeItem(String item) {
+    if (this.player.takeItem(item))
+      return item + " added to your inventory!\n";
+    return item + " not added to your inventory!\n";
   }
 
   @Override
-  public void dropItem(String item) {
-
+  public String dropItem(String item) {
+    if (this.player.dropItem(item))
+      return item + " removed from your inventory!\n";
+    return item + " not found in your inventory!\n";
   }
 
   @Override
@@ -95,6 +115,36 @@ public class AdventureGameModel implements IAdventureGameModel {
 
   @Override
   public String answer(String answer) {
+    if (this.player.answer(answer))
+      return this.lookAround();
+    return "Answer had no effect!\n";
+  }
+
+  @Override
+  public boolean changeInHealthStatus() {
+    if (this.playersLastHealth != this.player.getHealth()) {
+      this.playersLastHealth = this.player.getHealth();
+      return true;
+    }
+    return false;
+  }
+
+  @Override
+  public String playerHealthStatus() {
+    String adjective = this.player.getHealth() == this.player.getHealthStatus().getMaxHealth()
+            ? "fully " : "still ";
+    return "You are " + adjective + this.player.getHealthStatus().getHealthStatus() + "\n";
+  }
+
+  @Override
+  public String affectPlayer() {
+    Monster enemy = this.player.getActiveRoom().getMonster();
+    if (enemy != null && enemy.getCanAttack()) {
+      this.player.subtractHealth(enemy.getDamage());
+      String returnMessage = enemy.getAttackDescription();
+      returnMessage += "You take " + enemy.getDamage() + "damage!";
+      return returnMessage;
+    }
     return "";
   }
 
@@ -111,5 +161,16 @@ public class AdventureGameModel implements IAdventureGameModel {
   @Override
   public String getGameFileWarnings() {
     return this.warnings;
+  }
+
+
+  @Override
+  public String quitMessage() {
+    return "Thanks for playing!\nFinal score: " + this.player.getScore() + " \n";
+  }
+
+  @Override
+  public boolean gameOver() {
+    return this.player.getHealthStatus() != HealthStatus.SLEEP;
   }
 }
