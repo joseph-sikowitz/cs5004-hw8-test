@@ -1,6 +1,8 @@
 package model;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class AdventureGameModel implements IAdventureGameModel {
@@ -66,10 +68,19 @@ public class AdventureGameModel implements IAdventureGameModel {
     return move(Directions.WEST);
   }
 
-
+  /**
+   * Concatenates String keys from a mMp to a single String with keys seperated by commas.
+   * @param map a Map with String as the key and a subtype of Element as the value.
+   * @return a String with names of elements separated by commas.
+   */
   private String getElementNames(Map<String, ? extends Element> map) {
     StringBuilder elements = new StringBuilder();
-    return map.keySet().stream().reduce(elements, StringBuilder::append, StringBuilder::append).toString();
+    List<String> names = new ArrayList<>(map.keySet());
+    if (names.isEmpty())
+      return "";
+    String lastName = names.removeLast();
+    return names.stream().map((key) -> key + ", ").reduce(elements, StringBuilder::append,
+            StringBuilder::append).append(lastName).toString();
   }
 
   @Override
@@ -80,9 +91,13 @@ public class AdventureGameModel implements IAdventureGameModel {
   @Override
   public String lookAround() {
     Room activeRoom = this.player.getActiveRoom();
+    String fixtures = getElementNames(activeRoom.getFixtures());
+    String fixturesFormatted = fixtures.isEmpty() ? "" : "Fixtures you see here: " + fixtures + "\n";
+    String items = getElementNames(activeRoom.getItems());
+    String itemsFormatted = items.isEmpty() ? "" : "Items you see here: " + items + "\n";
     return activeRoom.getDescription() + "\n"
-            + "Fixtures you see here: " + getElementNames(activeRoom.getFixtures()) + "\n"
-            + "Items you see here: " +  getElementNames(activeRoom.getItems()) + "\n";
+            + fixturesFormatted
+            + itemsFormatted;
   }
 
   @Override
@@ -110,7 +125,7 @@ public class AdventureGameModel implements IAdventureGameModel {
 
   @Override
   public String examine(String element) {
-    return this.player.examine(element);
+    return this.player.examine(element) + "\n";
   }
 
   @Override
@@ -173,6 +188,6 @@ public class AdventureGameModel implements IAdventureGameModel {
 
   @Override
   public boolean gameOver() {
-    return this.player.getHealthStatus() != HealthStatus.SLEEP;
+    return this.player.getHealthStatus() == HealthStatus.SLEEP;
   }
 }

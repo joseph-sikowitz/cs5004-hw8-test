@@ -54,15 +54,13 @@ public class GameController implements Controller {
       //print any warnings about the data from the model.
       this.printGameFileWarnings();
 
-      if (this.model.changeInHealthStatus())
-        this.out.append(this.model.playerHealthStatus());
-
       //initial look
       this.out.append(this.model.lookAround());
+      //print initial health status after loading/starting game
+      this.out.append(this.model.playerHealthStatus());
 
 
-
-      while (commandReader.getUserInput()) {
+      while (!this.model.gameOver() && commandReader.getUserInput()) {
         if (this.isValidCommand(commandReader.getUserInputCommand())) {
           if (commandReader.getUserInputCommand().equalsIgnoreCase(UserCommands.NORTH.getCommand())
                   || commandReader.getUserInputCommand().equalsIgnoreCase(
