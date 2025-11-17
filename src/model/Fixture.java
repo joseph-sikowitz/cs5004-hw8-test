@@ -9,7 +9,7 @@ package model;
  * @author Joe Sikowitz
  * @author Vasilios Nicholas
  */
-public interface Fixture extends Element, Weightable, Picturable {
+public interface Fixture extends Element, Weightable, Picturable, EnvironmentAffectedForPlayer {
 
   /**
    * Returns the states of the Fixture.

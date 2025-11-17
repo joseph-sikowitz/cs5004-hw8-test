@@ -10,7 +10,7 @@ import java.util.Map;
  * @author Joe Sikowitz
  * @author Vasilios Nicholas
  */
-public interface Room extends Element, Picturable {
+public interface Room extends Element, Picturable, EnvironmentAffectedForPlayer {
 
   /**
    * The getRoomNumber() method is the getter for a room's number.

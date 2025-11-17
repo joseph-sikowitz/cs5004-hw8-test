@@ -24,7 +24,7 @@ public class ConcreteRoom extends AbstractElement implements Room {
   private final Map<Directions, Integer> passages;
   private final Map<String, Item> items;
   private final Map<String, Fixture> fixtures;
-  private Puzzle roomEnvironmentEffector;
+  private Puzzle roomEnvironmentAffector;
   private final Monster monster;
   private final Puzzle puzzle;
   private final String picture;
@@ -93,19 +93,19 @@ public class ConcreteRoom extends AbstractElement implements Room {
     this.monster = monster;
     this.puzzle = puzzle;
     this.picture = picture;
-    this.roomEnvironmentEffector = monster != null ? monster : puzzle;
+    this.roomEnvironmentAffector = monster != null ? monster : puzzle;
 
     //determine if roomEnvironmentEffector effects room or fixture.
-    if (this.roomEnvironmentEffector != null && this.roomEnvironmentEffector.getTarget()
-            != null && !this.roomEnvironmentEffector.getTarget().contains(":")) {
-      this.roomEnvironmentEffector = null;
-    } else if (this.roomEnvironmentEffector != null
-            && this.roomEnvironmentEffector.getTarget() != null
-            && !this.roomEnvironmentEffector.getTarget().split(":")[1]
+    if (this.roomEnvironmentAffector != null && this.roomEnvironmentAffector.getTarget()
+            != null && !this.roomEnvironmentAffector.getTarget().contains(":")) {
+      this.roomEnvironmentAffector = null;
+    } else if (this.roomEnvironmentAffector != null
+            && this.roomEnvironmentAffector.getTarget() != null
+            && !this.roomEnvironmentAffector.getTarget().split(":")[1]
             .equalsIgnoreCase(this.getName())) {
       throw new IllegalArgumentException("Monster/Puzzle is affecting another room!"
               + "Room name: " + this.getName() + " Monster/Puzzle Target Room name: "
-              + this.roomEnvironmentEffector.getTarget().split(":")[1]);
+              + this.roomEnvironmentAffector.getTarget().split(":")[1]);
     }
 
     //Add this Room instance to roomService
@@ -115,8 +115,8 @@ public class ConcreteRoom extends AbstractElement implements Room {
 
   @Override
   public String getDescription() {
-    if (this.roomEnvironmentEffector != null && this.roomEnvironmentEffector.isActive())
-      return roomEnvironmentEffector.getEffect();
+    if (this.roomEnvironmentAffector != null && this.roomEnvironmentAffector.isActive())
+      return roomEnvironmentAffector.getEffect();
     return super.getDescription();
   }
 
@@ -137,11 +137,17 @@ public class ConcreteRoom extends AbstractElement implements Room {
 
   @Override
   public Fixture getFixture(String fixtureName) {
+    if (this.affectorAffectsPlayer()) {
+      return null;
+    }
     return this.fixtures.get(fixtureName.toLowerCase());
   }
 
   @Override
   public Item getItem(String itemName) {
+    if (this.affectorAffectsPlayer()) {
+      return null;
+    }
     return this.items.get(itemName.toLowerCase());
   }
 
@@ -157,8 +163,14 @@ public class ConcreteRoom extends AbstractElement implements Room {
   }
 
   @Override
-  public Puzzle getRoomEnvironmentEffector() {
-    return this.roomEnvironmentEffector;
+  public Puzzle getRoomEnvironmentAffector() {
+    return this.roomEnvironmentAffector;
+  }
+
+  @Override
+  public boolean affectorAffectsPlayer() {
+    return this.roomEnvironmentAffector != null && roomEnvironmentAffector.isActive()
+            && roomEnvironmentAffector.affectsPlayer();
   }
 
   @Override
@@ -168,6 +180,9 @@ public class ConcreteRoom extends AbstractElement implements Room {
 
   @Override
   public Item removeItem(String itemName) {
+    if (this.affectorAffectsPlayer()) {
+      return null;
+    }
     return this.items.remove(itemName.toLowerCase());
   }
 
@@ -193,7 +208,7 @@ public class ConcreteRoom extends AbstractElement implements Room {
 
   @Override
   public boolean isPathBlocked() {
-    return this.roomEnvironmentEffector.isActive();
+    return this.roomEnvironmentAffector.isActive();
   }
 
   @Override

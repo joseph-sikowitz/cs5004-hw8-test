@@ -68,4 +68,10 @@ public class ConcreteFixture extends AbstractElement implements Fixture {
   public Puzzle getPuzzle() {
     return this.puzzle;
   }
+
+  @Override
+  public boolean affectorAffectsPlayer() {
+    return this.puzzle != null && puzzle.isActive()
+            && puzzle.affectsPlayer();
+  }
 }
