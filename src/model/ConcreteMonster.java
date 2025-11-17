@@ -63,7 +63,7 @@ public class ConcreteMonster extends AbstractPuzzle implements Monster {
   }
 
   @Override
-  public boolean getCanAttack() {
+  public boolean canAttack() {
     return this.canAttack;
   }
 
@@ -71,5 +71,13 @@ public class ConcreteMonster extends AbstractPuzzle implements Monster {
   @Override
   public String getAttackDescription() {
     return this.attackDescription;
+  }
+
+  @Override
+  public boolean attack(Player player) {
+    if (player == null || !this.canAttack || !this.isActive())
+      return false;
+    player.subtractHealth(this.getDamage());
+    return true;
   }
 }
