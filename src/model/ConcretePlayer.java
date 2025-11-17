@@ -195,10 +195,11 @@ public class ConcretePlayer extends AbstractElement implements Player {
   @Override
   public String examine(String element) {
     //Player either examines Item in their inventory or Item in activeRoom
-    Item itemToExamine = this.inventory.get(element) != null ? this.inventory.get(element)
+    Item itemToExamine = this.inventory.get(element.toLowerCase()) != null
+            ? this.inventory.get(element.toLowerCase())
             : this.activeRoom.getItem(element);
     Fixture fixtureToExamine = this.activeRoom.getFixture(element);
-    String description = null;
+    String description = "You cannot see or examine " +  element;
     if (itemToExamine != null)
       description = itemToExamine.getDescription();
     else if (fixtureToExamine != null)
