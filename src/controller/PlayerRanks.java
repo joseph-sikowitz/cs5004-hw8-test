@@ -8,25 +8,28 @@ package controller;
  * @author Joe Sikowitz
  */
 public enum PlayerRanks {
-  NOVICE("Novice", 0),
-  SQUIRE("Squire", 100),
-  KNIGHT("Knight", 250),
-  BARON("Baron", 500),
-  PRINCE("Prince", 1000),
-  KING("King", 2500);
+  NOVICE("Novice", 0, 99),
+  SQUIRE("Squire", 100, 249),
+  KNIGHT("Knight", 250, 499),
+  BARON("Baron", 500, 999),
+  PRINCE("Prince", 1000, 2499),
+  KING("King", 2500, 10000);
 
   private final String name;
-  private final int value;
+  private final int lowValue;
+  private final int highValue;
 
   /**
    * The PlayerRanks constructor initializes its name and value.
    *
    * @param name String of the player's rank.
-   * @param value int of the rank's value to compare to a player's score.
+   * @param lowValue int of the rank's low value to compare to a player's score.
+   * @param highValue int of the rank's high value to compare to a player's score.
    */
-  PlayerRanks(String name, int value) {
+  PlayerRanks(String name, int lowValue, int highValue) {
     this.name = name;
-    this.value = value;
+    this.lowValue = lowValue;
+    this.highValue = highValue;
   }
 
   /**
@@ -39,11 +42,20 @@ public enum PlayerRanks {
   }
 
   /**
-   * The getter for the rank value.
+   * The getter for the rank's low value.
    *
-   * @return int of the rank value.
+   * @return int of the rank's low value.
    */
-  int getValue() {
-    return this.value;
+  int getLowValue() {
+    return this.lowValue;
+  }
+
+  /**
+   * The getter for the rank's high value.
+   *
+   * @return int of the rank's high value.
+   */
+  int getHighValue() {
+    return this.highValue;
   }
 }
