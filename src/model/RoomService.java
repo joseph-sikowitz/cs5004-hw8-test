@@ -22,6 +22,8 @@ class RoomService {
    */
   private RoomService() {
     this.rooms = new HashMap<>();
+    //add 0 as null room because it represents a wall or no passage
+    this.rooms.put(0, null);
   }
 
   /**
