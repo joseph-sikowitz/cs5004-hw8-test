@@ -6,8 +6,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -43,6 +45,8 @@ public class FileProcessor {
   private Map<String, Monster> monsters;
   private Map<String, Puzzle> puzzles;
   private Map<Integer, Room> rooms;
+  //keeps track of unique names so that Elements cannot be redefined a second time.
+  private final Set<String> uniqueElementNames;
 
   // constants
   private static final Integer NEW_PLAYER_START = 1;
@@ -59,6 +63,7 @@ public class FileProcessor {
     this.newGame = true;
     this.playerName = playerName;
     this.warnings = new StringBuilder();
+    this.uniqueElementNames = new HashSet<>();
   }
 
   /**
@@ -174,35 +179,39 @@ public class FileProcessor {
           name = item.get(ItemJsonFields.NAME.getValue()).asText();
         }
 
-        String description;
-        if (item.get(ItemJsonFields.DESCRIPTION.getValue()).isNull()) {
-          description = null;
-        } else {
-          description = item.get(ItemJsonFields.DESCRIPTION.getValue()).asText();
+        if (this.uniqueElementNames.add(name)) {
+          String description;
+          if (item.get(ItemJsonFields.DESCRIPTION.getValue()).isNull()) {
+            description = null;
+          } else {
+            description = item.get(ItemJsonFields.DESCRIPTION.getValue()).asText();
+          }
+
+          double score = item.get(ItemJsonFields.VALUE.getValue()).asDouble();
+          double weight = item.get(ItemJsonFields.WEIGHT.getValue()).asDouble();
+
+          String picture;
+          if (item.get(ItemJsonFields.PICTURE.getValue()) != null) {
+            picture = null;
+          } else {
+            picture = item.get(ItemJsonFields.PICTURE.getValue()).asText();
+          }
+
+          int maxUses = item.get(ItemJsonFields.MAX_USES.getValue()).asInt();
+          int usesRemaining = item.get(ItemJsonFields.USES_REMAINING.getValue()).asInt();
+
+          String useDescription;
+          if (item.get(ItemJsonFields.WHEN_USED.getValue()).isNull()) {
+            useDescription = null;
+          } else {
+            useDescription = item.get(ItemJsonFields.WHEN_USED.getValue()).asText();
+          }
+
+          this.items.put(name, new ConcreteItem(name, description, score, weight, picture, maxUses,
+                  usesRemaining, useDescription));
         }
 
-        double score = item.get(ItemJsonFields.VALUE.getValue()).asDouble();
-        double weight = item.get(ItemJsonFields.WEIGHT.getValue()).asDouble();
 
-        String picture;
-        if (item.get(ItemJsonFields.PICTURE.getValue()) != null) {
-          picture = null;
-        } else {
-          picture = item.get(ItemJsonFields.PICTURE.getValue()).asText();
-        }
-
-        int maxUses = item.get(ItemJsonFields.MAX_USES.getValue()).asInt();
-        int usesRemaining = item.get(ItemJsonFields.USES_REMAINING.getValue()).asInt();
-
-        String useDescription;
-        if (item.get(ItemJsonFields.WHEN_USED.getValue()).isNull()) {
-          useDescription = null;
-        } else {
-          useDescription = item.get(ItemJsonFields.WHEN_USED.getValue()).asText();
-        }
-
-        this.items.put(name, new ConcreteItem(name, description, score, weight, picture, maxUses,
-                usesRemaining, useDescription));
       }
     }
   }
@@ -224,30 +233,34 @@ public class FileProcessor {
           name = null;
         } else {
           name = fixture.get(FixtureJsonFields.NAME.getValue()).asText();
+
         }
 
-        String description;
-        if (fixture.get(ItemJsonFields.DESCRIPTION.getValue()).isNull()) {
-          description = null;
-        } else {
-          description = fixture.get(FixtureJsonFields.DESCRIPTION.getValue()).asText();
+        if (this.uniqueElementNames.add(name)) {
+          String description;
+          if (fixture.get(ItemJsonFields.DESCRIPTION.getValue()).isNull()) {
+            description = null;
+          } else {
+            description = fixture.get(FixtureJsonFields.DESCRIPTION.getValue()).asText();
+          }
+
+          double weight = fixture.get(FixtureJsonFields.WEIGHT.getValue()).asDouble();
+
+          // these may need to take specific values in a later version of the game
+          Puzzle puzzle = null;
+          String states = null;
+
+          String picture;
+          if (fixture.get(FixtureJsonFields.PICTURE.getValue()).isNull()) {
+            picture = null;
+          } else {
+            picture = fixture.get(FixtureJsonFields.PICTURE.getValue()).asText();
+          }
+
+          this.fixtures.put(name, new ConcreteFixture(name, description, weight, puzzle,
+                  states, picture));
         }
 
-        double weight = fixture.get(FixtureJsonFields.WEIGHT.getValue()).asDouble();
-
-        // these may need to take specific values in a later version of the game
-        Puzzle puzzle = null;
-        String states = null;
-
-        String picture;
-        if (fixture.get(FixtureJsonFields.PICTURE.getValue()).isNull()) {
-          picture = null;
-        } else {
-          picture = fixture.get(FixtureJsonFields.PICTURE.getValue()).asText();
-        }
-
-        this.fixtures.put(name, new ConcreteFixture(name, description, weight, puzzle,
-                states, picture));
       }
     }
   }
@@ -271,70 +284,72 @@ public class FileProcessor {
           name = monster.get(MonsterJsonFields.NAME.getValue()).asText();
         }
 
-        String description;
-        if (monster.get(ItemJsonFields.DESCRIPTION.getValue()).isNull()) {
-          description = null;
-        } else {
-          description = monster.get(MonsterJsonFields.DESCRIPTION.getValue()).asText();
-        }
+        if (this.uniqueElementNames.add(name)) {
+          String description;
+          if (monster.get(ItemJsonFields.DESCRIPTION.getValue()).isNull()) {
+            description = null;
+          } else {
+            description = monster.get(MonsterJsonFields.DESCRIPTION.getValue()).asText();
+          }
 
-        boolean active = monster.get(MonsterJsonFields.ACTIVE.getValue()).asBoolean();
-        boolean affectsTarget = monster.get(
-                MonsterJsonFields.AFFECTS_TARGET.getValue()).asBoolean();
+          boolean active = monster.get(MonsterJsonFields.ACTIVE.getValue()).asBoolean();
+          boolean affectsTarget = monster.get(
+                  MonsterJsonFields.AFFECTS_TARGET.getValue()).asBoolean();
 
-        String target;
-        if (monster.get(MonsterJsonFields.TARGET.getValue()).isNull()) {
-          target = null;
-        } else {
-          target = monster.get(MonsterJsonFields.TARGET.getValue()).asText();
-        }
+          String target;
+          if (monster.get(MonsterJsonFields.TARGET.getValue()).isNull()) {
+            target = null;
+          } else {
+            target = monster.get(MonsterJsonFields.TARGET.getValue()).asText();
+          }
 
-        boolean affectsPlayer = monster.get(
-                MonsterJsonFields.AFFECTS_PLAYER.getValue()).asBoolean();
-        double score = monster.get(MonsterJsonFields.VALUE.getValue()).asDouble();
+          boolean affectsPlayer = monster.get(
+                  MonsterJsonFields.AFFECTS_PLAYER.getValue()).asBoolean();
+          double score = monster.get(MonsterJsonFields.VALUE.getValue()).asDouble();
 
-        String effects;
-        if (monster.get(MonsterJsonFields.EFFECTS.getValue()).isNull()) {
-          effects = null;
-        } else {
-          effects = monster.get(MonsterJsonFields.EFFECTS.getValue()).asText();
-        }
+          String effects;
+          if (monster.get(MonsterJsonFields.EFFECTS.getValue()).isNull()) {
+            effects = null;
+          } else {
+            effects = monster.get(MonsterJsonFields.EFFECTS.getValue()).asText();
+          }
 
-        double damage = monster.get(MonsterJsonFields.DAMAGE.getValue()).asDouble();
+          double damage = monster.get(MonsterJsonFields.DAMAGE.getValue()).asDouble();
 
-        String picture;
-        if (monster.get(MonsterJsonFields.PICTURE.getValue()).isNull()) {
-          picture = null;
-        } else {
-          picture = monster.get(MonsterJsonFields.PICTURE.getValue()).asText();
-        }
+          String picture;
+          if (monster.get(MonsterJsonFields.PICTURE.getValue()).isNull()) {
+            picture = null;
+          } else {
+            picture = monster.get(MonsterJsonFields.PICTURE.getValue()).asText();
+          }
 
-        boolean canAttack = monster.get(MonsterJsonFields.CAN_ATTACK.getValue()).asBoolean();
+          boolean canAttack = monster.get(MonsterJsonFields.CAN_ATTACK.getValue()).asBoolean();
 
-        String attackDescription;
-        if (monster.get(MonsterJsonFields.ATTACK.getValue()).isNull()) {
-          attackDescription = null;
-        } else {
-          attackDescription = monster.get(MonsterJsonFields.ATTACK.getValue()).asText();
-        }
+          String attackDescription;
+          if (monster.get(MonsterJsonFields.ATTACK.getValue()).isNull()) {
+            attackDescription = null;
+          } else {
+            attackDescription = monster.get(MonsterJsonFields.ATTACK.getValue()).asText();
+          }
 
-        String solution;
-        if (monster.get(MonsterJsonFields.SOLUTION.getValue()).isNull()) {
-          this.monsters.put(name, new ConcreteMonster(name, description, active,
-                  affectsTarget, target, affectsPlayer, null, null,
-                  score, effects, damage, picture, canAttack, attackDescription));
-        } else {
-          solution = monster.get(MonsterJsonFields.SOLUTION.getValue()).asText();
-          Pattern pattern = Pattern.compile("'(.*)'");
-          Matcher matcher = pattern.matcher(solution);
-          if (matcher.matches()) {
+          String solution;
+          if (monster.get(MonsterJsonFields.SOLUTION.getValue()).isNull()) {
             this.monsters.put(name, new ConcreteMonster(name, description, active,
-                    affectsTarget, target, affectsPlayer, matcher.group(MATCH_GROUP), null,
+                    affectsTarget, target, affectsPlayer, null, null,
                     score, effects, damage, picture, canAttack, attackDescription));
           } else {
-            this.monsters.put(name, new ConcreteMonster(name, description, active,
-                    affectsTarget, target, affectsPlayer, null, solution,
-                    score, effects, damage, picture, canAttack, attackDescription));
+            solution = monster.get(MonsterJsonFields.SOLUTION.getValue()).asText();
+            Pattern pattern = Pattern.compile("'(.*)'");
+            Matcher matcher = pattern.matcher(solution);
+            if (matcher.matches()) {
+              this.monsters.put(name, new ConcreteMonster(name, description, active,
+                      affectsTarget, target, affectsPlayer, matcher.group(MATCH_GROUP), null,
+                      score, effects, damage, picture, canAttack, attackDescription));
+            } else {
+              this.monsters.put(name, new ConcreteMonster(name, description, active,
+                      affectsTarget, target, affectsPlayer, null, solution,
+                      score, effects, damage, picture, canAttack, attackDescription));
+            }
           }
         }
       }
@@ -358,65 +373,70 @@ public class FileProcessor {
           name = null;
         } else {
           name = puzzleData.get(PuzzleJsonFields.NAME.getValue()).asText();
+
         }
 
-        String description;
-        if (puzzleData.get(ItemJsonFields.DESCRIPTION.getValue()).isNull()) {
-          description = null;
-        } else {
-          description = puzzleData.get(PuzzleJsonFields.DESCRIPTION.getValue()).asText();
-        }
+        if (this.uniqueElementNames.add(name)) {
+          String description;
+          if (puzzleData.get(ItemJsonFields.DESCRIPTION.getValue()).isNull()) {
+            description = null;
+          } else {
+            description = puzzleData.get(PuzzleJsonFields.DESCRIPTION.getValue()).asText();
+          }
 
-        boolean active = puzzleData.get(PuzzleJsonFields.ACTIVE.getValue()).asBoolean();
-        boolean affectsTarget = puzzleData.get(
-                PuzzleJsonFields.AFFECTS_TARGET.getValue()).asBoolean();
+          boolean active = puzzleData.get(PuzzleJsonFields.ACTIVE.getValue()).asBoolean();
+          boolean affectsTarget = puzzleData.get(
+                  PuzzleJsonFields.AFFECTS_TARGET.getValue()).asBoolean();
 
-        String target;
-        if (puzzleData.get(PuzzleJsonFields.TARGET.getValue()).isNull()) {
-          target = null;
-        } else {
-          target = puzzleData.get(PuzzleJsonFields.TARGET.getValue()).asText();
-        }
+          String target;
+          if (puzzleData.get(PuzzleJsonFields.TARGET.getValue()).isNull()) {
+            target = null;
+          } else {
+            target = puzzleData.get(PuzzleJsonFields.TARGET.getValue()).asText();
+          }
 
-        boolean affectsPlayer = puzzleData.get(
-                PuzzleJsonFields.AFFECTS_PLAYER.getValue()).asBoolean();
-        double score = puzzleData.get(PuzzleJsonFields.VALUE.getValue()).asDouble();
+          boolean affectsPlayer = puzzleData.get(
+                  PuzzleJsonFields.AFFECTS_PLAYER.getValue()).asBoolean();
+          double score = puzzleData.get(PuzzleJsonFields.VALUE.getValue()).asDouble();
 
-        String effect;
-        if (puzzleData.get(PuzzleJsonFields.EFFECTS.getValue()).isNull()) {
-          effect = null;
-        } else {
-          effect = puzzleData.get(PuzzleJsonFields.EFFECTS.getValue()).asText();
-        }
+          String effect;
+          if (puzzleData.get(PuzzleJsonFields.EFFECTS.getValue()).isNull()) {
+            effect = null;
+          } else {
+            effect = puzzleData.get(PuzzleJsonFields.EFFECTS.getValue()).asText();
+          }
 
-        double damage = 0.0;
+          double damage = 0.0;
 
-        String picture;
-        if (puzzleData.get(PuzzleJsonFields.PICTURE.getValue()).isNull()) {
-          picture = null;
-        } else {
-          picture = puzzleData.get(PuzzleJsonFields.PICTURE.getValue()).asText();
-        }
+          String picture;
+          if (puzzleData.get(PuzzleJsonFields.PICTURE.getValue()).isNull()) {
+            picture = null;
+          } else {
+            picture = puzzleData.get(PuzzleJsonFields.PICTURE.getValue()).asText();
+          }
 
-        String solution;
-        if (puzzleData.get(PuzzleJsonFields.SOLUTION.getValue()).isNull()) {
-          this.puzzles.put(name, new ConcretePuzzle(name, description, active, affectsTarget,
-                  target, affectsPlayer, null, null, score, effect,
-                  damage, picture));
-        } else {
-          solution = puzzleData.get(PuzzleJsonFields.SOLUTION.getValue()).asText();
-          Pattern pattern = Pattern.compile("'(.*)'");
-          Matcher matcher = pattern.matcher(solution);
-          if (matcher.matches()) {
+          String solution;
+          if (puzzleData.get(PuzzleJsonFields.SOLUTION.getValue()).isNull()) {
             this.puzzles.put(name, new ConcretePuzzle(name, description, active, affectsTarget,
-                    target, affectsPlayer, matcher.group(MATCH_GROUP), null, score, effect,
+                    target, affectsPlayer, null, null, score, effect,
                     damage, picture));
           } else {
-            this.puzzles.put(name, new ConcretePuzzle(name, description, active, affectsTarget,
-                    target, affectsPlayer, null, solution, score, effect,
-                    damage, picture));
+            solution = puzzleData.get(PuzzleJsonFields.SOLUTION.getValue()).asText();
+            Pattern pattern = Pattern.compile("'(.*)'");
+            Matcher matcher = pattern.matcher(solution);
+            if (matcher.matches()) {
+              this.puzzles.put(name, new ConcretePuzzle(name, description, active, affectsTarget,
+                      target, affectsPlayer, matcher.group(MATCH_GROUP), null, score, effect,
+                      damage, picture));
+            } else {
+              this.puzzles.put(name, new ConcretePuzzle(name, description, active, affectsTarget,
+                      target, affectsPlayer, null, solution, score, effect,
+                      damage, picture));
+            }
           }
         }
+
+
       }
     }
   }
@@ -444,58 +464,60 @@ public class FileProcessor {
           name = roomData.get(RoomJsonFields.ROOM_NAME.getValue()).asText();
         }
 
-        String description;
-        if (roomData.get(RoomJsonFields.DESCRIPTION.getValue()).isNull()) {
-          description = null;
-        } else {
-          description = roomData.get(RoomJsonFields.DESCRIPTION.getValue()).asText();
-        }
-
-        Integer roomNumber = roomData.get(RoomJsonFields.ROOM_NUMBER.getValue()).asInt();
-
-        int north = roomData.get(RoomJsonFields.NORTH.getValue()).asInt();
-        int south = roomData.get(RoomJsonFields.SOUTH.getValue()).asInt();
-        int east = roomData.get(RoomJsonFields.EAST.getValue()).asInt();
-        int west = roomData.get(RoomJsonFields.WEST.getValue()).asInt();
-
-        Map<Directions, Integer> passages = new HashMap<>();
-        passages.put(Directions.NORTH, north);
-        passages.put(Directions.SOUTH, south);
-        passages.put(Directions.EAST, east);
-        passages.put(Directions.WEST, west);
-
-        String[] itemsArray = roomData.get(RoomJsonFields.ITEMS.getValue()).asText().split(",");
-        Map<String, Item> roomItems = new HashMap<>();
-        for (String item : itemsArray) {
-          if (this.items.containsKey(item.trim())) {
-            roomItems.put(item.trim(), this.items.get(item.trim()));
+        if (this.uniqueElementNames.add(name)) {
+          String description;
+          if (roomData.get(RoomJsonFields.DESCRIPTION.getValue()).isNull()) {
+            description = null;
+          } else {
+            description = roomData.get(RoomJsonFields.DESCRIPTION.getValue()).asText();
           }
-        }
 
-        String[] fixtures = roomData.get(RoomJsonFields.FIXTURES.getValue()).asText().split(",");
-        Map<String, Fixture> roomFixtures = new HashMap<>();
-        for (String fixture : fixtures) {
-          if (this.fixtures.containsKey(fixture.trim())) {
-            roomFixtures.put(fixture.trim(), this.fixtures.get(fixture.trim()));
+          Integer roomNumber = roomData.get(RoomJsonFields.ROOM_NUMBER.getValue()).asInt();
+
+          int north = roomData.get(RoomJsonFields.NORTH.getValue()).asInt();
+          int south = roomData.get(RoomJsonFields.SOUTH.getValue()).asInt();
+          int east = roomData.get(RoomJsonFields.EAST.getValue()).asInt();
+          int west = roomData.get(RoomJsonFields.WEST.getValue()).asInt();
+
+          Map<Directions, Integer> passages = new HashMap<>();
+          passages.put(Directions.NORTH, north);
+          passages.put(Directions.SOUTH, south);
+          passages.put(Directions.EAST, east);
+          passages.put(Directions.WEST, west);
+
+          String[] itemsArray = roomData.get(RoomJsonFields.ITEMS.getValue()).asText().split(",");
+          Map<String, Item> roomItems = new HashMap<>();
+          for (String item : itemsArray) {
+            if (this.items.containsKey(item.trim())) {
+              roomItems.put(item.trim(), this.items.get(item.trim()));
+            }
           }
+
+          String[] fixtures = roomData.get(RoomJsonFields.FIXTURES.getValue()).asText().split(",");
+          Map<String, Fixture> roomFixtures = new HashMap<>();
+          for (String fixture : fixtures) {
+            if (this.fixtures.containsKey(fixture.trim())) {
+              roomFixtures.put(fixture.trim(), this.fixtures.get(fixture.trim()));
+            }
+          }
+
+          String monster = roomData.get(RoomJsonFields.MONSTER.getValue()).asText();
+          Monster roomMonster = this.monsters.getOrDefault(monster, null);
+
+          String puzzle = roomData.get(RoomJsonFields.PUZZLE.getValue()).asText();
+          Puzzle roomPuzzle;
+          roomPuzzle = this.puzzles.getOrDefault(puzzle, null);
+
+          String picture;
+          if (roomData.get(RoomJsonFields.PICTURE.getValue()).isNull()) {
+            picture = null;
+          } else {
+            picture = roomData.get(RoomJsonFields.PICTURE.getValue()).asText();
+          }
+
+          this.rooms.put(roomNumber, new ConcreteRoom(name, description, roomNumber, passages,
+                  roomItems, roomFixtures, roomMonster, roomPuzzle, picture));
         }
-
-        String monster = roomData.get(RoomJsonFields.MONSTER.getValue()).asText();
-        Monster roomMonster = this.monsters.getOrDefault(monster, null);
-
-        String puzzle = roomData.get(RoomJsonFields.PUZZLE.getValue()).asText();
-        Puzzle roomPuzzle;
-        roomPuzzle = this.puzzles.getOrDefault(puzzle, null);
-
-        String picture;
-        if (roomData.get(RoomJsonFields.PICTURE.getValue()).isNull()) {
-          picture = null;
-        } else {
-          picture = roomData.get(RoomJsonFields.PICTURE.getValue()).asText();
-        }
-
-        this.rooms.put(roomNumber, new ConcreteRoom(name, description, roomNumber, passages,
-                roomItems, roomFixtures, roomMonster, roomPuzzle, picture));
       }
     }
     //After all Rooms have been instantiated, check reflexivity of passages.
