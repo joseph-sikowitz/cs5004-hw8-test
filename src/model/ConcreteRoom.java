@@ -101,7 +101,8 @@ public class ConcreteRoom extends AbstractElement implements Room {
       this.roomEnvironmentEffector = null;
     } else if (this.roomEnvironmentEffector != null
             && this.roomEnvironmentEffector.getTarget() != null
-            && !this.roomEnvironmentEffector.getTarget().split(":")[1].equals(this.getName())) {
+            && !this.roomEnvironmentEffector.getTarget().split(":")[1]
+            .equalsIgnoreCase(this.getName())) {
       throw new IllegalArgumentException("Monster/Puzzle is affecting another room!"
               + "Room name: " + this.getName() + " Monster/Puzzle Target Room name: "
               + this.roomEnvironmentEffector.getTarget().split(":")[1]);
