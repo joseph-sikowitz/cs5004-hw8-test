@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class AdventureGameModel implements IAdventureGameModel {
+public class  AdventureGameModel implements IAdventureGameModel {
 
   // constants
   private String gameFileName;
@@ -71,7 +71,7 @@ public class AdventureGameModel implements IAdventureGameModel {
   }
 
   /**
-   * Concatenates String keys from a Map to a single String with keys seperated by commas.
+   * Concatenates String keys from a Map to a single String with keys separated by commas.
    * @param map a Map with String as the key and a subtype of Element as the value.
    * @return a String with names of elements separated by commas.
    */
@@ -116,13 +116,21 @@ public class AdventureGameModel implements IAdventureGameModel {
             + itemsFormatted;
   }
 
-  @Override
-  public String useItem(String item) {
-    UseSuccessful getUse = this.player.useItem(item);
+  private String solvePuzzle(UseSuccessful getUse) {
     String returnMessage = getUse.getUse();
     if (getUse.getUseSuccessful())
       returnMessage += "\n" + lookAround();
     return returnMessage;
+  }
+
+  @Override
+  public String useItem(String item) {
+    return solvePuzzle(this.player.useItem(item));
+  }
+
+  @Override
+  public String answer(String answer) {
+    return solvePuzzle(this.player.answer(answer));
   }
 
   @Override
@@ -142,12 +150,6 @@ public class AdventureGameModel implements IAdventureGameModel {
     return this.player.examine(element) + "\n";
   }
 
-  @Override
-  public String answer(String answer) {
-    if (this.player.answer(answer))
-      return this.lookAround();
-    return "Answer had no effect!\n";
-  }
 
   @Override
   public boolean changeInHealthStatus() {
