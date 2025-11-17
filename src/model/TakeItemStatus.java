@@ -5,9 +5,9 @@ package model;
  */
 public enum TakeItemStatus {
   ITEM_ADDED(" added to your inventory"),
-  ITEM_NOT_ADDED_OVER_CAPACITY(" was not added to your inventory "
+  ITEM_NOT_ADDED_OVER_CAPACITY(" was not added to your inventory."
           + "as you cannot carry anymore weight!"),
-  ITEM_NOT_FOUND(" does not exist");
+  ITEM_NOT_FOUND(" does not exist.");
   private final String status;
 
   /**
