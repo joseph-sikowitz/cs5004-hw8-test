@@ -24,7 +24,7 @@ public interface Monster extends Element, Puzzle {
    *
    * @return boolean indicating if a Monster can attack.
    */
-  boolean getCanAttack();
+  boolean canAttack();
 
   /**
    * The getAttackDescription() method gets the description of a Monster's attack.
@@ -32,4 +32,11 @@ public interface Monster extends Element, Puzzle {
    * @return String of the Monster's attack.
    */
   String getAttackDescription();
+
+  /**
+   * Attacks the player if
+   * @param player an instance of Player.
+   * @return true if the Monster isActive and canAttack a Plauer.
+   */
+  boolean attack(Player player);
 }

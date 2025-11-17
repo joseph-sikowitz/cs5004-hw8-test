@@ -53,6 +53,14 @@ public class GameController implements Controller {
       //print any warnings about the data from the model.
       this.printGameFileWarnings();
 
+      if (this.model.changeInHealthStatus())
+        this.out.append(this.model.playerHealthStatus());
+
+      //initial look
+      this.out.append(this.model.lookAround());
+
+
+
       while (commandReader.getUserInput()) {
         if (this.isValidCommand(commandReader.getUserInputCommand())) {
           if (commandReader.getUserInputCommand().equalsIgnoreCase(UserCommands.NORTH.getCommand())
@@ -82,8 +90,7 @@ public class GameController implements Controller {
                   UserCommands.INVENTORY.getCommand())
                   || commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.INVENTORY.getShortcut())) {
-            this.out.append(UserCommands.INVENTORY.getCommand()); // temp - remove
-            //this.model.player.getInventory()
+            this.out.append(this.model.checkInventory());
 
           } else if (commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.LOOK.getCommand())
@@ -95,36 +102,31 @@ public class GameController implements Controller {
                   UserCommands.USE.getCommand())
                   || commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.USE.getShortcut())) {
-            this.out.append(UserCommands.USE.getCommand()); // temp - remove
-            //this.model.player.useItem(commandReader.getUserInputArgument(),this.model.player.room.enemy);
+            this.out.append(this.model.useItem(commandReader.getUserInputArgument()));
 
           } else if (commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.TAKE.getCommand())
                   || commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.TAKE.getShortcut())) {
-            this.out.append(UserCommands.TAKE.getCommand()); // temp - remove
-            //this.model.player.takeItem(commandReader.getUserInputArgument());
+            this.out.append(this.model.takeItem(commandReader.getUserInputArgument()));
 
           } else if (commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.DROP.getCommand())
                   || commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.DROP.getShortcut())) {
-            this.out.append(UserCommands.DROP.getCommand()); // temp - remove
-            //this.model.player.dropItem(commandReader.getUserInputArgument());
+            this.out.append(this.model.dropItem(commandReader.getUserInputArgument()));
 
           } else if (commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.EXAMINE.getCommand())
                   || commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.EXAMINE.getShortcut())) {
-            this.out.append(UserCommands.EXAMINE.getCommand()); // temp - remove
-            //this.model.player.examine(commandReader.getUserInputArgument());
+            this.out.append(this.model.examine(commandReader.getUserInputArgument()));
 
           } else if (commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.ANSWER.getCommand())
                   || commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.ANSWER.getShortcut())) {
-            this.out.append(UserCommands.ANSWER.getCommand()); // temp - remove
-            //this.model.player.answer(commandReader.getUserInputArgument());
+            this.out.append(this.model.answer(commandReader.getUserInputArgument()));
 
           } else if (commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.SAVE.getCommand())) {
@@ -133,13 +135,19 @@ public class GameController implements Controller {
 
           } else if (commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.RESTORE.getCommand())) {
-            this.out.append(UserCommands.RESTORE.getCommand()); // temp - remove
-            //restore game from file
+            this.out.append(UserCommands.RESTORE.getCommand());
           }
         } else {
           this.out.append(UNKNOWN_COMMAND);
         }
+        //if there is a Monster in the room, have it "affect" the Player in the model.
+        this.out.append(this.model.affectPlayer());
+        //display player's health status if it has changed since last command.
+        if (this.model.changeInHealthStatus())
+          this.out.append(this.model.playerHealthStatus());
       }
+      //displays player stats
+      this.out.append(this.model.quitMessage());
     } catch (IOException e) {
       e.printStackTrace();
     }

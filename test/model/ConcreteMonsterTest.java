@@ -54,7 +54,7 @@ class ConcreteMonsterTest {
             + "\nI think you might be dinner!", monster.getEffect());
     assertEquals(-15, monster.getDamage());
     assertEquals("monster-rabbit.png", monster.getPicturePath());
-    assertTrue(monster.getCanAttack());
+    assertTrue(monster.canAttack());
     assertEquals("licks you with a giant tongue!", monster.getAttackDescription());
   }
 
@@ -108,7 +108,7 @@ class ConcreteMonsterTest {
             + "Rabbit moves towards you! He's blocking the way north. \nI think you might "
             + "be dinner!", 0.0, "monster-rabbit.png", false,
             "licks you with a giant tongue!");
-    assertFalse(monster2.getCanAttack());
+    assertFalse(monster2.canAttack());
     assertEquals(0.0, monster2.getDamage());
 
     assertThrows(IllegalArgumentException.class, () -> new ConcreteMonster("Rabbit",
@@ -127,16 +127,16 @@ class ConcreteMonsterTest {
   }
 
   @Test
-  void testGetCanAttack() {
-    assertTrue(m1.getCanAttack());
-    assertTrue(m2.getCanAttack());
+  void testCanAttack() {
+    assertTrue(m1.canAttack());
+    assertTrue(m2.canAttack());
   }
 
   @Test
   void testFlipCanAttack() {
-    assertTrue(m1.getCanAttack());
+    assertTrue(m1.canAttack());
     m1.flipCanAttack();
-    assertFalse(m1.getCanAttack());
+    assertFalse(m1.canAttack());
   }
 
   @Test

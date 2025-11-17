@@ -166,7 +166,7 @@ public class ConcretePlayer extends AbstractElement implements Player {
   @Override
   public boolean takeItem(String item) {
     Item itemToPickUp = this.activeRoom.getItem(item);
-    if (itemToPickUp.getWeight() + this.currentWeight > this.maxWeight) {
+    if (itemToPickUp == null || itemToPickUp.getWeight() + this.currentWeight > this.maxWeight) {
       return false;
     }
 
