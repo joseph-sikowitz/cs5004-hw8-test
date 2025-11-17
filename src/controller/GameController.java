@@ -63,8 +63,7 @@ public class GameController implements Controller {
 
       while (!this.model.gameOver() && commandReader.getUserInput()) {
         boolean playerCommandExecuted = true;
-        if (this.isValidCommand(commandReader.getUserInputCommand())
-                && this.isValidCommand(commandReader.getUserInputArgument())) {
+        if (this.isValidCommand(commandReader.getUserInputCommand())) {
           if (commandReader.getUserInputCommand().equalsIgnoreCase(UserCommands.NORTH.getCommand())
                   || commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.NORTH.getShortcut())) {
@@ -103,31 +102,36 @@ public class GameController implements Controller {
           } else if (commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.USE.getCommand())
                   || commandReader.getUserInputCommand().equalsIgnoreCase(
-                  UserCommands.USE.getShortcut())) {
+                  UserCommands.USE.getShortcut())
+                  && commandReader.getUserInputArgument() != null) {
             this.out.append(this.model.useItem(commandReader.getUserInputArgument()));
 
           } else if (commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.TAKE.getCommand())
                   || commandReader.getUserInputCommand().equalsIgnoreCase(
-                  UserCommands.TAKE.getShortcut())) {
+                  UserCommands.TAKE.getShortcut())
+                  && commandReader.getUserInputArgument() != null) {
             this.out.append(this.model.takeItem(commandReader.getUserInputArgument()));
 
           } else if (commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.DROP.getCommand())
                   || commandReader.getUserInputCommand().equalsIgnoreCase(
-                  UserCommands.DROP.getShortcut())) {
+                  UserCommands.DROP.getShortcut())
+                  && commandReader.getUserInputArgument() != null) {
             this.out.append(this.model.dropItem(commandReader.getUserInputArgument()));
 
           } else if (commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.EXAMINE.getCommand())
                   || commandReader.getUserInputCommand().equalsIgnoreCase(
-                  UserCommands.EXAMINE.getShortcut())) {
+                  UserCommands.EXAMINE.getShortcut())
+                  && commandReader.getUserInputArgument() != null) {
             this.out.append(this.model.examine(commandReader.getUserInputArgument()));
 
           } else if (commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.ANSWER.getCommand())
                   || commandReader.getUserInputCommand().equalsIgnoreCase(
-                  UserCommands.ANSWER.getShortcut())) {
+                  UserCommands.ANSWER.getShortcut())
+                  && commandReader.getUserInputArgument() != null) {
             this.out.append(this.model.answer(commandReader.getUserInputArgument()));
 
           } else if (commandReader.getUserInputCommand().equalsIgnoreCase(
@@ -141,9 +145,12 @@ public class GameController implements Controller {
             this.out.append("Game restored!");
             this.model.restoreGame(DEFAULT_SAVE_FILE);
             playerCommandExecuted = false;
+          } else if (this.isValidCommand(commandReader.getUserInputCommand())
+                  && commandReader.getUserInputArgument() == null) {
+            this.out.append(commandReader.getUserInputCommand()).append(REQUIRED_ARGUMENT);
           }
         } else if (this.isValidCommand(commandReader.getUserInputCommand())
-                && !this.isValidCommand(commandReader.getUserInputArgument())) {
+                && commandReader.getUserInputArgument() == null) {
           this.out.append(commandReader.getUserInputCommand()).append(REQUIRED_ARGUMENT);
         } else {
           this.out.append(UNKNOWN_COMMAND);
