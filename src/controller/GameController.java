@@ -23,6 +23,7 @@ public class GameController implements Controller {
 
   // constants
   private static final String UNKNOWN_COMMAND = "Unknown command\n";
+  private static final String DEFAULT_SAVE_FILE = "./data/save_file.json";
 
   /**
    * The GameController constructor instantiates a GameController object to be
@@ -131,11 +132,12 @@ public class GameController implements Controller {
           } else if (commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.SAVE.getCommand())) {
             this.out.append("Game saved!"); // temp - remove
-            this.model.saveGame();
+            this.model.saveGame(DEFAULT_SAVE_FILE);
 
           } else if (commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.RESTORE.getCommand())) {
-            this.out.append(UserCommands.RESTORE.getCommand());
+            this.out.append("Game restored!");
+            this.model.restoreGame(DEFAULT_SAVE_FILE);
           }
         } else {
           this.out.append(UNKNOWN_COMMAND);
