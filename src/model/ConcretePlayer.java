@@ -140,7 +140,7 @@ public class ConcretePlayer extends AbstractElement implements Player {
 
   @Override
   public UseSuccessful useItem(String itemName) {
-    Puzzle enemy = this.activeRoom.getRoomEnvironmentEffector();
+    Puzzle enemy = this.activeRoom.getRoomEnvironmentAffector();
     /*
      * short circuit if player doesn't have the item,
      * active room doesn't have the enemy, or enemy is already deactivated.
@@ -209,7 +209,7 @@ public class ConcretePlayer extends AbstractElement implements Player {
 
   @Override
   public boolean answer(String answer) {
-    Puzzle enemy = this.activeRoom.getRoomEnvironmentEffector();
+    Puzzle enemy = this.activeRoom.getRoomEnvironmentAffector();
     //short circuit if enemy is already deactivated.
     if (!enemy.isActive())
       return false;

@@ -3,12 +3,12 @@ package model;
 /**
  * The Puzzle type represents enemies in an adventure
  * game that need to be defeated to stop their effect on a Room.
- * extends AbstractElement and implements Activatable, Effector, and PlayerAffector.
+ * extends AbstractElement and implements Activatable, Affector, and PlayerAffector.
  *
  * @author Joe Sikowitz
  * @author Vasilios Nicholas
  */
-public interface Puzzle extends Element, Activatable, Effector, Scorable, PlayerAffector,
+public interface Puzzle extends Element, Activatable, Affector, Scorable, PlayerAffector,
         Targeter, Picturable {
 
   /**

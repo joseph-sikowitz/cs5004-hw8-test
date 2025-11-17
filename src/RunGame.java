@@ -4,7 +4,7 @@ import java.io.InputStreamReader;
 import enginedriver.GameEngineApp;
 
 /**
- * Class for running GameEngineApp
+ * Class for running GameEngineApp.
  */
 public class RunGame {
 
@@ -14,7 +14,7 @@ public class RunGame {
    * @throws IOException if file not found.
    */
   public static void main(String[] args) throws IOException {
-    GameEngineApp game = new GameEngineApp("data/simple_hallway.json",
+    GameEngineApp game = new GameEngineApp("data/museum.json",
             new InputStreamReader(System.in), System.out);
     game.start();
   }

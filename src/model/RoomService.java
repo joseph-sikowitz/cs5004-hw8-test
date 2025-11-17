@@ -91,8 +91,8 @@ class RoomService {
     if (!this.rooms.containsKey(Math.abs(roomNumber)))
       throw new IllegalArgumentException("Room doesn't exist!");
 
-    if (roomNumber < 0 && room.getRoomEnvironmentEffector() != null
-            && !room.getRoomEnvironmentEffector().isActive())
+    if (roomNumber < 0 && room.getRoomEnvironmentAffector() != null
+            && !room.getRoomEnvironmentAffector().isActive())
       roomNumber = Math.abs(roomNumber);
 
     if (roomNumber <= 0) {

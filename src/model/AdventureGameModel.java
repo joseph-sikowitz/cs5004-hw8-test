@@ -100,8 +100,8 @@ public class AdventureGameModel implements IAdventureGameModel {
     this.firstDisplay = false;
 
     //hide visibility of items.
-    if (activeRoom.getRoomEnvironmentEffector() != null
-            && activeRoom.getRoomEnvironmentEffector().isActive()) {
+    if (activeRoom.getRoomEnvironmentAffector() != null
+            && activeRoom.getRoomEnvironmentAffector().isActive()) {
       return roomDescription;
     }
 
