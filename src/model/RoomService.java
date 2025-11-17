@@ -88,8 +88,8 @@ class RoomService {
     if (roomNumber == room.getRoomNumber()) {
       throw new IllegalArgumentException("Room cannot have a passage back to itself!");
     }
-    if (roomNumber > rooms.size())
-      throw new IllegalArgumentException("Room number out of range!");
+    if (!this.rooms.containsKey(roomNumber))
+      throw new IllegalArgumentException("Room doesn't exist!");
 
     if (roomNumber < 0 && room.getRoomEnvironmentEffector() != null
             && !room.getRoomEnvironmentEffector().isActive())
