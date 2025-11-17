@@ -10,10 +10,20 @@ public enum RoomStatus {
 
   final String status;
 
+  /**
+   * The constructor for the RoomStatus enum initializes the status attribute.
+   *
+   * @param status String of the RoomStatus' status message.
+   */
   RoomStatus(String status) {
     this.status = status;
   }
 
+  /**
+   * The getter for the RoomStatus enum's status.
+   *
+   * @return String of the status message.
+   */
   public String getStatus() {
     return status;
   }
