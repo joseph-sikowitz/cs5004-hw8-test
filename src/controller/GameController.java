@@ -22,8 +22,9 @@ public class GameController implements Controller {
   private final Appendable out;
 
   // constants
-  private static final String UNKNOWN_COMMAND = "Unknown command\n";
+  private static final String UNKNOWN_COMMAND = "Unknown command!\n";
   private static final String DEFAULT_SAVE_FILE = "./data/save_file.json";
+  private static final String REQUIRED_ARGUMENT = " requires an argument!\n";
 
   /**
    * The GameController constructor instantiates a GameController object to be
@@ -62,7 +63,8 @@ public class GameController implements Controller {
 
       while (!this.model.gameOver() && commandReader.getUserInput()) {
         boolean playerCommandExecuted = true;
-        if (this.isValidCommand(commandReader.getUserInputCommand())) {
+        if (this.isValidCommand(commandReader.getUserInputCommand())
+                && this.isValidCommand(commandReader.getUserInputArgument())) {
           if (commandReader.getUserInputCommand().equalsIgnoreCase(UserCommands.NORTH.getCommand())
                   || commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.NORTH.getShortcut())) {
@@ -140,6 +142,9 @@ public class GameController implements Controller {
             this.model.restoreGame(DEFAULT_SAVE_FILE);
             playerCommandExecuted = false;
           }
+        } else if (this.isValidCommand(commandReader.getUserInputCommand())
+                && !this.isValidCommand(commandReader.getUserInputArgument())) {
+          this.out.append(commandReader.getUserInputCommand()).append(REQUIRED_ARGUMENT);
         } else {
           this.out.append(UNKNOWN_COMMAND);
         }
@@ -176,6 +181,9 @@ public class GameController implements Controller {
    * @return boolean indicating if the given command is valid.
    */
   public boolean isValidCommand(String command) {
+    if (command == null)
+      return false;
+
     UserCommands[] options = UserCommands.values();
     ArrayList<String> allCommands = new ArrayList<>();
 
