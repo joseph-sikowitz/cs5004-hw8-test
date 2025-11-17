@@ -182,7 +182,7 @@ public class FileProcessor {
         if (item.get(ItemJsonFields.NAME.getValue()).isNull()) {
           name = null;
         } else {
-          name = item.get(ItemJsonFields.NAME.getValue()).asText().toLowerCase();
+          name = item.get(ItemJsonFields.NAME.getValue()).asText();
         }
 
         if (this.uniqueElementNames.add(name)) {
@@ -213,8 +213,8 @@ public class FileProcessor {
             useDescription = item.get(ItemJsonFields.WHEN_USED.getValue()).asText();
           }
 
-          this.items.put(name, new ConcreteItem(name, description, score, weight, picture, maxUses,
-                  usesRemaining, useDescription));
+          this.items.put(name.toLowerCase(), new ConcreteItem(name, description, score, weight,
+                  picture, maxUses, usesRemaining, useDescription));
         }
 
 
@@ -239,7 +239,7 @@ public class FileProcessor {
         if (fixture.get(ItemJsonFields.NAME.getValue()).isNull()) {
           name = null;
         } else {
-          name = fixture.get(FixtureJsonFields.NAME.getValue()).asText().toLowerCase();
+          name = fixture.get(FixtureJsonFields.NAME.getValue()).asText();
 
         }
 
@@ -264,8 +264,8 @@ public class FileProcessor {
             picture = fixture.get(FixtureJsonFields.PICTURE.getValue()).asText();
           }
 
-          this.fixtures.put(name, new ConcreteFixture(name, description, weight, puzzle,
-                  states, picture));
+          this.fixtures.put(name.toLowerCase(), new ConcreteFixture(name, description, weight,
+                  puzzle, states, picture));
         }
 
       }
@@ -289,7 +289,7 @@ public class FileProcessor {
         if (monster.get(ItemJsonFields.NAME.getValue()).isNull()) {
           name = null;
         } else {
-          name = monster.get(MonsterJsonFields.NAME.getValue()).asText().toLowerCase();
+          name = monster.get(MonsterJsonFields.NAME.getValue()).asText();
         }
 
         if (this.uniqueElementNames.add(name)) {
@@ -308,7 +308,7 @@ public class FileProcessor {
           if (monster.get(MonsterJsonFields.TARGET.getValue()).isNull()) {
             target = null;
           } else {
-            target = monster.get(MonsterJsonFields.TARGET.getValue()).asText().toLowerCase();
+            target = monster.get(MonsterJsonFields.TARGET.getValue().toLowerCase()).asText();
           }
 
           boolean affectsPlayer = monster.get(
@@ -342,7 +342,7 @@ public class FileProcessor {
 
           String solution;
           if (monster.get(MonsterJsonFields.SOLUTION.getValue()).isNull()) {
-            this.monsters.put(name, new ConcreteMonster(name, description, active,
+            this.monsters.put(name.toLowerCase(), new ConcreteMonster(name, description, active,
                     affectsTarget, target, affectsPlayer, null, null,
                     score, effects, damage, picture, canAttack, attackDescription));
           } else {
@@ -350,11 +350,11 @@ public class FileProcessor {
             Pattern pattern = Pattern.compile("'(.*)'");
             Matcher matcher = pattern.matcher(solution);
             if (matcher.matches()) {
-              this.monsters.put(name, new ConcreteMonster(name, description, active,
+              this.monsters.put(name.toLowerCase(), new ConcreteMonster(name, description, active,
                       affectsTarget, target, affectsPlayer, matcher.group(MATCH_GROUP), null,
                       score, effects, damage, picture, canAttack, attackDescription));
             } else {
-              this.monsters.put(name, new ConcreteMonster(name, description, active,
+              this.monsters.put(name.toLowerCase(), new ConcreteMonster(name, description, active,
                       affectsTarget, target, affectsPlayer, null, solution,
                       score, effects, damage, picture, canAttack, attackDescription));
             }
@@ -381,7 +381,7 @@ public class FileProcessor {
         if (puzzleData.get(ItemJsonFields.NAME.getValue()).isNull()) {
           name = null;
         } else {
-          name = puzzleData.get(PuzzleJsonFields.NAME.getValue()).asText().toLowerCase();
+          name = puzzleData.get(PuzzleJsonFields.NAME.getValue()).asText();
 
         }
 
@@ -401,7 +401,7 @@ public class FileProcessor {
           if (puzzleData.get(PuzzleJsonFields.TARGET.getValue()).isNull()) {
             target = null;
           } else {
-            target = puzzleData.get(PuzzleJsonFields.TARGET.getValue()).asText().toLowerCase();
+            target = puzzleData.get(PuzzleJsonFields.TARGET.getValue().toLowerCase()).asText();
           }
 
           boolean affectsPlayer = puzzleData.get(
@@ -426,20 +426,20 @@ public class FileProcessor {
 
           String solution;
           if (puzzleData.get(PuzzleJsonFields.SOLUTION.getValue()).isNull()) {
-            this.puzzles.put(name, new ConcretePuzzle(name, description, active, affectsTarget,
-                    target, affectsPlayer, null, null, score, effect,
-                    damage, picture));
+            this.puzzles.put(name.toLowerCase(), new ConcretePuzzle(name, description, active,
+                    affectsTarget, target, affectsPlayer, null, null, score,
+                    effect, damage, picture));
           } else {
             solution = puzzleData.get(PuzzleJsonFields.SOLUTION.getValue()).asText();
             Pattern pattern = Pattern.compile("'(.*)'");
             Matcher matcher = pattern.matcher(solution);
             if (matcher.matches()) {
-              this.puzzles.put(name, new ConcretePuzzle(name, description, active, affectsTarget,
-                      target, affectsPlayer, matcher.group(MATCH_GROUP), null, score, effect,
-                      damage, picture));
+              this.puzzles.put(name.toLowerCase(), new ConcretePuzzle(name, description, active,
+                      affectsTarget, target, affectsPlayer, matcher.group(MATCH_GROUP),
+                      null, score, effect, damage, picture));
             } else {
-              this.puzzles.put(name, new ConcretePuzzle(name, description, active, affectsTarget,
-                      target, affectsPlayer, null, solution, score, effect,
+              this.puzzles.put(name.toLowerCase(), new ConcretePuzzle(name, description, active,
+                      affectsTarget, target, affectsPlayer, null, solution, score, effect,
                       damage, picture));
             }
           }
@@ -471,7 +471,7 @@ public class FileProcessor {
         if (roomData.get(RoomJsonFields.ROOM_NAME.getValue()).isNull()) {
           name = null;
         } else {
-          name = roomData.get(RoomJsonFields.ROOM_NAME.getValue()).asText().toLowerCase();
+          name = roomData.get(RoomJsonFields.ROOM_NAME.getValue()).asText();
         }
 
         if (this.uniqueElementNames.add(name)) {
@@ -512,10 +512,10 @@ public class FileProcessor {
             }
           }
 
-          String monster = roomData.get(RoomJsonFields.MONSTER.getValue()).asText().toLowerCase();
+          String monster = roomData.get(RoomJsonFields.MONSTER.getValue().toLowerCase()).asText();
           Monster roomMonster = this.monsters.getOrDefault(monster, null);
 
-          String puzzle = roomData.get(RoomJsonFields.PUZZLE.getValue()).asText().toLowerCase();
+          String puzzle = roomData.get(RoomJsonFields.PUZZLE.getValue().toLowerCase()).asText();
           Puzzle roomPuzzle;
           roomPuzzle = this.puzzles.getOrDefault(puzzle, null);
 
@@ -765,7 +765,7 @@ public class FileProcessor {
 
       ArrayList<String> itemNames = new ArrayList<>();
       for (Map.Entry<String, Item> entry : this.rooms.get(keyNumber).getItems().entrySet()) {
-        itemNames.add(entry.getKey());
+        itemNames.add(entry.getValue().getName());
       }
       String itemString = String.join(", ", itemNames);
       if (itemString.isEmpty()) {
@@ -776,7 +776,7 @@ public class FileProcessor {
 
       ArrayList<String> fixtureNames = new ArrayList<>();
       for (Map.Entry<String, Fixture> entry : this.rooms.get(keyNumber).getFixtures().entrySet()) {
-        fixtureNames.add(entry.getKey());
+        fixtureNames.add(entry.getValue().getName());
       }
       String fixtureString = String.join(", ", fixtureNames);
       if (fixtureString.isEmpty()) {
