@@ -513,11 +513,11 @@ public class FileProcessor {
           }
 
           String monster = roomData.get(RoomJsonFields.MONSTER.getValue().toLowerCase()).asText();
-          Monster roomMonster = this.monsters.getOrDefault(monster, null);
+          Monster roomMonster = this.monsters.getOrDefault(monster.toLowerCase(), null);
 
           String puzzle = roomData.get(RoomJsonFields.PUZZLE.getValue().toLowerCase()).asText();
           Puzzle roomPuzzle;
-          roomPuzzle = this.puzzles.getOrDefault(puzzle, null);
+          roomPuzzle = this.puzzles.getOrDefault(puzzle.toLowerCase(), null);
 
           String picture;
           if (roomData.get(RoomJsonFields.PICTURE.getValue()).isNull()) {
