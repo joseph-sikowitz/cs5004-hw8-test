@@ -93,15 +93,17 @@ public class ConcreteRoom extends AbstractElement implements Room {
     this.puzzle = puzzle;
     this.picture = picture;
     this.roomEnvironmentEffector = monster != null ? monster : puzzle;
+
     //determine if roomEnvironmentEffector effects room or fixture.
-    /*
-    if (this.roomEnvironmentEffector != null && !this.roomEnvironmentEffector.getTarget().contains(":")) {
+    if (this.roomEnvironmentEffector != null && this.roomEnvironmentEffector.getTarget()
+            != null && !this.roomEnvironmentEffector.getTarget().contains(":")) {
       this.roomEnvironmentEffector = null;
-    } else if (this.roomEnvironmentEffector != null
-            && !this.roomEnvironmentEffector.getTarget().split(":")[0].equals(this.getName())) {
-      throw new IllegalArgumentException("Puzzle is affected another room!");
+    } else if (this.roomEnvironmentEffector != null && this.roomEnvironmentEffector.getTarget() != null
+            && !this.roomEnvironmentEffector.getTarget().split(":")[1].equals(this.getName())) {
+      throw new IllegalArgumentException("Monster/Puzzle is affecting another room!"
+              + "Room name: " + this.getName() + " Monster/Puzzle Target Room name: "
+              + this.roomEnvironmentEffector.getTarget().split(":")[1]);
     }
-     */
 
     //Add this Room instance to roomService
     ConcreteRoom.ROOM_SERVICE.addRoom(this);
