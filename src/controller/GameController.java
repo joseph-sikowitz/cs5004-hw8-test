@@ -40,13 +40,6 @@ public class GameController implements Controller {
     this.model = model;
   }
 
-  /**
-   * The go() method starts the game by prompting the user to enter their username and
-   * then capturing it. After that, it accepts user input commands that make calls to
-   * the model for interactive game play until the user quits the game.
-   *
-   * @throws IOException if there is an error using the provided input or output.
-   */
   @Override
   public void go() throws IOException {
     try {

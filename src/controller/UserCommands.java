@@ -1,8 +1,5 @@
 package controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * The UserCommands enum contains the commands that users are allowed to input
  * into the game. Each command has a full command and a shortcut.
