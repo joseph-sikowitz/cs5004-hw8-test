@@ -170,7 +170,7 @@ public class ConcretePlayer extends AbstractElement implements Player {
       return TakeItemStatus.ITEM_NOT_ADDED_OVER_CAPACITY;
 
     //add item to Player's inventory.
-    this.inventory.put(itemToPickUp.getName(), this.activeRoom.removeItem(item));
+    this.inventory.put(itemToPickUp.getName().toLowerCase(), this.activeRoom.removeItem(item));
     //increment currentWeight by itemToPickUp's weight.
     this.currentWeight += itemToPickUp.getWeight();
 

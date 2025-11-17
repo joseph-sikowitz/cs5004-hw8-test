@@ -168,7 +168,7 @@ public class ConcreteRoom extends AbstractElement implements Room {
 
   @Override
   public Item removeItem(String itemName) {
-    return this.items.remove(itemName);
+    return this.items.remove(itemName.toLowerCase());
   }
 
   @Override
