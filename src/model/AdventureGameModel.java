@@ -98,16 +98,19 @@ public class AdventureGameModel implements IAdventureGameModel {
     String roomDescription = firstDisplay ? "You start in " + activeRoom.getName() + ":\n" : "";
     roomDescription += activeRoom.getDescription() + "\n";
     this.firstDisplay = false;
-    String fixtures = getElementNames(activeRoom.getFixtures());
-    String fixturesFormatted = fixtures.isEmpty() ? "" : "Fixtures you see here: "
-            + fixtures + "\n";
-    String items = getElementNames(activeRoom.getItems());
-    String itemsFormatted = items.isEmpty() ? "" : "Items you see here: " + items + "\n";
+
     //hide visibility of items.
     if (activeRoom.getRoomEnvironmentEffector() != null
             && activeRoom.getRoomEnvironmentEffector().isActive()) {
       return roomDescription;
     }
+
+    String fixtures = getElementNames(activeRoom.getFixtures());
+    String fixturesFormatted = fixtures.isEmpty() ? "" : "Fixtures you see here: "
+            + fixtures + "\n";
+    String items = getElementNames(activeRoom.getItems());
+    String itemsFormatted = items.isEmpty() ? "" : "Items you see here: " + items + "\n";
+
     return roomDescription + "\n"
             + fixturesFormatted
             + itemsFormatted;
