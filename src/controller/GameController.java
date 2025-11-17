@@ -140,6 +140,7 @@ public class GameController implements Controller {
         } else {
           this.out.append(UNKNOWN_COMMAND);
         }
+        //if there is a Monster in the room, have it "affect" the Player in the model.
         this.out.append(this.model.affectPlayer());
       }
     } catch (IOException e) {
