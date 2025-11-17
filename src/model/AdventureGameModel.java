@@ -148,12 +148,15 @@ public class AdventureGameModel implements IAdventureGameModel {
   }
 
   @Override
-  public void saveGame() throws IOException {
-    this.fileProcessor.saveGame(null);
+  public void saveGame(String saveFile) throws IOException {
+    this.fileProcessor.saveGame(saveFile);
   }
 
   @Override
-  public void restoreGame() {
+  public void restoreGame(String saveFile) throws IOException {
+    this.fileProcessor = new FileProcessor(saveFile, this.playerName);
+    this.player = this.fileProcessor.setUpGame();
+    this.warnings = this.fileProcessor.getGameFileWarnings();
   }
 
 
