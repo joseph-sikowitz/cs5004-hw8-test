@@ -182,7 +182,7 @@ public class FileProcessor {
         if (item.get(ItemJsonFields.NAME.getValue()).isNull()) {
           name = null;
         } else {
-          name = item.get(ItemJsonFields.NAME.getValue()).asText();
+          name = item.get(ItemJsonFields.NAME.getValue()).asText().toLowerCase();
         }
 
         if (this.uniqueElementNames.add(name)) {
@@ -239,7 +239,7 @@ public class FileProcessor {
         if (fixture.get(ItemJsonFields.NAME.getValue()).isNull()) {
           name = null;
         } else {
-          name = fixture.get(FixtureJsonFields.NAME.getValue()).asText();
+          name = fixture.get(FixtureJsonFields.NAME.getValue()).asText().toLowerCase();
 
         }
 
@@ -289,7 +289,7 @@ public class FileProcessor {
         if (monster.get(ItemJsonFields.NAME.getValue()).isNull()) {
           name = null;
         } else {
-          name = monster.get(MonsterJsonFields.NAME.getValue()).asText();
+          name = monster.get(MonsterJsonFields.NAME.getValue()).asText().toLowerCase();
         }
 
         if (this.uniqueElementNames.add(name)) {
@@ -498,23 +498,24 @@ public class FileProcessor {
           String[] itemsArray = roomData.get(RoomJsonFields.ITEMS.getValue()).asText().split(",");
           Map<String, Item> roomItems = new HashMap<>();
           for (String item : itemsArray) {
-            if (this.items.containsKey(item.trim())) {
-              roomItems.put(item.trim(), this.items.get(item.trim()));
+            if (this.items.containsKey(item.trim().toLowerCase())) {
+              roomItems.put(item.trim().toLowerCase(), this.items.get(item.trim().toLowerCase()));
             }
           }
 
           String[] fixtures = roomData.get(RoomJsonFields.FIXTURES.getValue()).asText().split(",");
           Map<String, Fixture> roomFixtures = new HashMap<>();
           for (String fixture : fixtures) {
-            if (this.fixtures.containsKey(fixture.trim())) {
-              roomFixtures.put(fixture.trim(), this.fixtures.get(fixture.trim()));
+            if (this.fixtures.containsKey(fixture.trim().toLowerCase())) {
+              roomFixtures.put(fixture.trim().toLowerCase(),
+                      this.fixtures.get(fixture.trim().toLowerCase()));
             }
           }
 
-          String monster = roomData.get(RoomJsonFields.MONSTER.getValue()).asText();
+          String monster = roomData.get(RoomJsonFields.MONSTER.getValue()).asText().toLowerCase();
           Monster roomMonster = this.monsters.getOrDefault(monster, null);
 
-          String puzzle = roomData.get(RoomJsonFields.PUZZLE.getValue()).asText();
+          String puzzle = roomData.get(RoomJsonFields.PUZZLE.getValue()).asText().toLowerCase();
           Puzzle roomPuzzle;
           roomPuzzle = this.puzzles.getOrDefault(puzzle, null);
 
