@@ -139,8 +139,7 @@ public class AdventureGameModel implements IAdventureGameModel {
   @Override
   public String affectPlayer() {
     Monster enemy = this.player.getActiveRoom().getMonster();
-    if (enemy != null && enemy.getCanAttack()) {
-      this.player.subtractHealth(enemy.getDamage());
+    if (enemy != null && enemy.attack(this.player)) {
       String returnMessage = enemy.getName() + " " + enemy.getAttackDescription();
       returnMessage += "\nYou take " + enemy.getDamage() + " damage!\n";
       return returnMessage;
