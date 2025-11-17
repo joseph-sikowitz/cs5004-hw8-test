@@ -98,7 +98,7 @@ public class GameCommandReader {
    * @return String of user command.
    */
   public String getUserInputCommand() {
-    return this.userInput[FIRST_COMMAND];
+    return this.userInput.length >= 1 ? this.userInput[FIRST_COMMAND] : null;
   }
 
   /**
@@ -109,7 +109,7 @@ public class GameCommandReader {
    * @return String of user argument.
    */
   public String getUserInputArgument() {
-    return this.userInput[SECOND_COMMAND];
+    return this.userInput.length >= 2 ? this.userInput[SECOND_COMMAND] : null;
   }
 
   /**
