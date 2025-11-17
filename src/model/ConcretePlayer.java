@@ -1,7 +1,9 @@
 package model;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * The ConcretePlayer class represents the game's player. It extends AbstractElement
@@ -22,8 +24,9 @@ public class ConcretePlayer extends AbstractElement implements Player {
   private double health;
   private final double maxWeight;
   private double currentWeight;
-  private Map<String, Item> inventory;
+  private final Map<String, Item> inventory;
   private Room activeRoom;
+  private final Set<String> itemsAdded;
 
   // constants
   private static final String DEFAULT_PLAYER_DESCRIPTION = "Default player";
@@ -72,6 +75,7 @@ public class ConcretePlayer extends AbstractElement implements Player {
 
     this.inventory = inventory;
     this.activeRoom = activeRoom;
+    this.itemsAdded = new HashSet<>();
   }
 
   /**
@@ -172,6 +176,10 @@ public class ConcretePlayer extends AbstractElement implements Player {
     this.inventory.put(itemToPickUp.getName().toLowerCase(), this.activeRoom.removeItem(item));
     //increment currentWeight by itemToPickUp's weight.
     this.currentWeight += itemToPickUp.getWeight();
+
+    //Increase Player's score the first time they pick up an item.
+    if (itemsAdded.add(itemToPickUp.getName().toLowerCase()))
+      this.addToScore(itemToPickUp.getScore());
 
     return TakeItemStatus.ITEM_ADDED;
   }
