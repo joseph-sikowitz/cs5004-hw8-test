@@ -72,15 +72,13 @@ public class ConcreteItem extends AbstractElement implements Item {
   }
 
   @Override
-  public UseSuccessful use(Puzzle enemy) throws IllegalArgumentException {
-    if (enemy == null) {
-      throw new IllegalArgumentException("enemy cannot be null!");
-    }
-
-    String use = this.use();
+  public UseSuccessful use(Puzzle enemy)  {
     //decrement uses remaining whether Item use was successful or not.
     this.usesRemaining--;
-    return new UseSuccessful(use, enemy.solve(this));
+    if (enemy == null) {
+      return new UseSuccessful(this.use(), false);
+    }
+    return new UseSuccessful(this.use(), enemy.solve(this));
   }
 
   @Override
