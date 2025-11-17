@@ -2,6 +2,9 @@ package model;
 
 /**
  * An Enum type containing error message states for RoomService.
+ *
+ * @author Joe Sikowitz
+ * @author Vasilios Nicholas
  */
 public enum RoomStatus {
   BLOCKED("Passage to Room is blocked!"),
