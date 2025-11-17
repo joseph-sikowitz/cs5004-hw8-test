@@ -1,7 +1,6 @@
 package model;
 
 import java.io.IOException;
-import java.util.Map;
 
 /**
  * Model for the AdventureGame that executes commands from controller on the rest of the model.
@@ -54,9 +53,10 @@ public interface IAdventureGameModel {
   String movePlayerWest();
 
   /**
-   * The checkInventory() method returns the player's inventory to be displayed.
+   * Concatenates and returns a String with the names of the Items in the Player's inventory.
+   * @return a String with the names of the Items in the Player's inventory.
    */
-  Map<String, Item> checkInventory();
+  String checkInventory();
 
   /**
    * The lookAround() method returns the description and other details of the active
@@ -71,7 +71,7 @@ public interface IAdventureGameModel {
    *
    * @param item Item to be used within the room.
    */
-  void useItem(String item);
+  String useItem(String item);
 
   /**
    * The takeItem() method takes an item from the active room and adds it to the player's
@@ -79,7 +79,7 @@ public interface IAdventureGameModel {
    *
    * @param item Item to be added to inventory.
    */
-  void takeItem(String item);
+  String takeItem(String item);
 
   /**
    * The dropItem() method drops an item out of the player's inventory and leaves it in the
@@ -87,7 +87,7 @@ public interface IAdventureGameModel {
    *
    * @param item Item to be dropped from inventory.
    */
-  void dropItem(String item);
+  String dropItem(String item);
 
   /**
    * The examine() method gets the description of an element.
@@ -107,6 +107,24 @@ public interface IAdventureGameModel {
   String answer(String answer);
 
   /**
+   * Returns whether the Player's health status has changed.
+   * @return true if Players health status has changed
+   */
+  boolean changeInHealthStatus();
+
+  /**
+   * Returns the health status of the Player as a String.
+   * @return A String representing the health status of the Player
+   */
+  String playerHealthStatus();
+
+  /**
+   * Has the Player's activeRoom's roomEnvironmentEffector perform its actions on the Player if any.
+   * @return a String describing the effects of the roomEnvironmentEffector on the Player.
+   */
+  String affectPlayer();
+
+  /**
    * The saveGame() method saves the game to a file.
    *
    * @throws IOException if there is an error writing to the save file.
@@ -118,13 +136,24 @@ public interface IAdventureGameModel {
    */
   void restoreGame();
 
-
   /**
    * Returns a String with all warnings accumulating from initializing Elements
    *     within the model from the data file.
    * @return a String with all warnings accumulating from initializing Elements
    *            within the model from the data file.
    */
-  public String getGameFileWarnings();
+  String getGameFileWarnings();
+
+  /**
+   * Prints an exit message.
+   * @return A String with an exit message for the game.
+   */
+  String quitMessage();
+
+  /**
+   * Returns whether the game is over.
+   * @return true if the game is over. False, otherwise.
+   */
+  boolean gameOver();
 
 }
