@@ -53,7 +53,7 @@ public class ConcreteRoom extends AbstractElement implements Room {
                       String picture) throws IllegalArgumentException {
     super(name, description);
 
-    if (roomNumber < 0) {
+    if (roomNumber <= 0) {
       throw new IllegalArgumentException("Invalid room number");
     }
 
@@ -98,7 +98,8 @@ public class ConcreteRoom extends AbstractElement implements Room {
     if (this.roomEnvironmentEffector != null && this.roomEnvironmentEffector.getTarget()
             != null && !this.roomEnvironmentEffector.getTarget().contains(":")) {
       this.roomEnvironmentEffector = null;
-    } else if (this.roomEnvironmentEffector != null && this.roomEnvironmentEffector.getTarget() != null
+    } else if (this.roomEnvironmentEffector != null
+            && this.roomEnvironmentEffector.getTarget() != null
             && !this.roomEnvironmentEffector.getTarget().split(":")[1].equals(this.getName())) {
       throw new IllegalArgumentException("Monster/Puzzle is affecting another room!"
               + "Room name: " + this.getName() + " Monster/Puzzle Target Room name: "
