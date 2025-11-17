@@ -235,4 +235,9 @@ public class ConcretePlayer extends AbstractElement implements Player {
   public Map<String, Item> getInventory() {
     return new HashMap<>(this.inventory);
   }
+
+  @Override
+  public double getMaxWeight() {
+    return this.maxWeight;
+  }
 }

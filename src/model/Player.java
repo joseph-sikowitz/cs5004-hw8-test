@@ -121,5 +121,10 @@ public interface Player extends Activatable, Element, Scorable {
    */
   Map<String, Item> getInventory();
 
-
+  /**
+   * The getter for a Player's maximum weight.
+   *
+   * @return double of the Player's maximum allowed weight.
+   */
+  double getMaxWeight();
 }
