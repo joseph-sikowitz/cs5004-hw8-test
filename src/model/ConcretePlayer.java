@@ -208,16 +208,20 @@ public class ConcretePlayer extends AbstractElement implements Player {
   }
 
   @Override
-  public boolean answer(String answer) {
+  public UseSuccessful answer(String answer) {
     Puzzle enemy = this.activeRoom.getRoomEnvironmentAffector();
+    if (enemy == null)
+      return new UseSuccessful("No Puzzle or Monster exists in the current room"
+              + " to use the answer on!", false);
+
     //short circuit if enemy is already deactivated.
     if (!enemy.isActive())
-      return false;
+      return new UseSuccessful(enemy.getName() + " already deactivated!", false);
 
     boolean enemySolved = enemy.solve(answer.toLowerCase());
     if (enemySolved)
       this.addToScore(enemy.getScore());
-    return enemySolved;
+    return new UseSuccessful(enemy.getName() + " was deactivated by " + answer + "!", true);
   }
 
   @Override
