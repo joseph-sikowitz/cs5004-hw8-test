@@ -59,8 +59,9 @@ public class ConcreteRoom extends AbstractElement implements Room {
 
     this.roomNumber = roomNumber;
 
-    if (passages == null) {
-      throw new IllegalArgumentException("Room must have a passage to another Room!");
+
+    if (passages == null || passages.size() != 4) {
+      throw new IllegalArgumentException("Room must have 4 passages!");
     }
     //filter out 0's and get room numbers from passages
     List<Integer> checkPassages = passages.values().stream()
