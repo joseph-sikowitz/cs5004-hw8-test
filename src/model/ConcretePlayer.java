@@ -145,7 +145,7 @@ public class ConcretePlayer extends AbstractElement implements Player {
      * short circuit if player doesn't have the item,
      * active room doesn't have the enemy, or enemy is already deactivated.
      */
-    if (!inventory.containsKey(itemName)) {
+    if (!inventory.containsKey(itemName.toLowerCase())) {
       return new UseSuccessful(itemName + " not found within inventory", false);
     }
     if (enemy == null )
@@ -161,7 +161,7 @@ public class ConcretePlayer extends AbstractElement implements Player {
 
   @Override
   public TakeItemStatus takeItem(String item) {
-    Item itemToPickUp = this.activeRoom.getItem(item);
+    Item itemToPickUp = this.activeRoom.getItem(item.toLowerCase());
     if (itemToPickUp == null )
       return TakeItemStatus.ITEM_NOT_FOUND;
 
@@ -184,7 +184,7 @@ public class ConcretePlayer extends AbstractElement implements Player {
       return false;
 
     //remove Item from inventory.
-    Item droppedItem = this.inventory.remove(item);
+    Item droppedItem = this.inventory.remove(item.toLowerCase());
     //decrement currentWeight by droppedItem's weight.
     this.currentWeight -= droppedItem.getWeight();
     //add droppedItem to Room player is in.
@@ -213,7 +213,7 @@ public class ConcretePlayer extends AbstractElement implements Player {
     if (!enemy.isActive())
       return false;
 
-    boolean enemySolved = enemy.solve(answer);
+    boolean enemySolved = enemy.solve(answer.toLowerCase());
     if (enemySolved)
       this.addToScore(enemy.getScore());
     return enemySolved;
