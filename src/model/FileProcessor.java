@@ -308,7 +308,7 @@ public class FileProcessor {
           if (monster.get(MonsterJsonFields.TARGET.getValue()).isNull()) {
             target = null;
           } else {
-            target = monster.get(MonsterJsonFields.TARGET.getValue()).asText();
+            target = monster.get(MonsterJsonFields.TARGET.getValue()).asText().toLowerCase();
           }
 
           boolean affectsPlayer = monster.get(
@@ -401,7 +401,7 @@ public class FileProcessor {
           if (puzzleData.get(PuzzleJsonFields.TARGET.getValue()).isNull()) {
             target = null;
           } else {
-            target = puzzleData.get(PuzzleJsonFields.TARGET.getValue()).asText();
+            target = puzzleData.get(PuzzleJsonFields.TARGET.getValue()).asText().toLowerCase();
           }
 
           boolean affectsPlayer = puzzleData.get(
@@ -471,7 +471,7 @@ public class FileProcessor {
         if (roomData.get(RoomJsonFields.ROOM_NAME.getValue()).isNull()) {
           name = null;
         } else {
-          name = roomData.get(RoomJsonFields.ROOM_NAME.getValue()).asText();
+          name = roomData.get(RoomJsonFields.ROOM_NAME.getValue()).asText().toLowerCase();
         }
 
         if (this.uniqueElementNames.add(name)) {
