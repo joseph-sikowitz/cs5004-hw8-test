@@ -83,13 +83,13 @@ class RoomService {
   Room getRoom(Room room, Directions direction) throws IllegalArgumentException,
           CannotGetRoomException {
     if (room == null)
-      throw new IllegalArgumentException("room cannot be null!");
+      throw new IllegalArgumentException("Room cannot be null!");
     int roomNumber = room.getPassageValue(direction);
     if (roomNumber == room.getRoomNumber()) {
       throw new IllegalArgumentException("Room cannot have a passage back to itself!");
     }
-    if (roomNumber >= rooms.size())
-      throw new IllegalArgumentException("room number out of range");
+    if (roomNumber > rooms.size())
+      throw new IllegalArgumentException("Room number out of range!");
 
     if (roomNumber < 0 && room.getRoomEnvironmentEffector() != null
             && !room.getRoomEnvironmentEffector().isActive())
