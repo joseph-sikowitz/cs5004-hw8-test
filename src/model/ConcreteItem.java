@@ -81,7 +81,7 @@ public class ConcreteItem extends AbstractElement implements Item {
       return new UseSuccessful(use, false);
     }
     boolean enemySolved = enemy.solve(this);
-    return new UseSuccessful(enemySolved ? (use + enemy.getName()
+    return new UseSuccessful(enemySolved ? (use + "\n" + enemy.getName()
             +  " was deactivated by " + this.getName() + "!") : use, enemySolved);
   }
 
