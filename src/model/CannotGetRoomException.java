@@ -16,6 +16,11 @@ public class CannotGetRoomException extends IllegalArgumentException {
     this.roomExceptionStatus = roomExceptionStatus;
   }
 
+  /**
+   * The getter for the RoomExceptionStatus.
+   *
+   * @return RoomStatus of result.
+   */
   public RoomStatus getRoomExceptionStatus() {
     return roomExceptionStatus;
   }
