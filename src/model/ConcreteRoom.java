@@ -136,15 +136,13 @@ public class ConcreteRoom extends AbstractElement implements Room {
 
   @Override
   public Fixture getFixture(String fixtureName) {
-    return this.fixtures.get(fixtureName);
+    return this.fixtures.get(fixtureName.toLowerCase());
   }
 
   @Override
   public Item getItem(String itemName) {
-    return this.items.get(itemName);
+    return this.items.get(itemName.toLowerCase());
   }
-
-
 
 
   @Override
@@ -164,7 +162,7 @@ public class ConcreteRoom extends AbstractElement implements Room {
 
   @Override
   public void addItem(Item item) {
-    this.items.put(item.getName(), item);
+    this.items.put(item.getName().toLowerCase(), item);
   }
 
   @Override
