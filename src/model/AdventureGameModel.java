@@ -141,8 +141,8 @@ public class AdventureGameModel implements IAdventureGameModel {
     Monster enemy = this.player.getActiveRoom().getMonster();
     if (enemy != null && enemy.getCanAttack()) {
       this.player.subtractHealth(enemy.getDamage());
-      String returnMessage = enemy.getAttackDescription();
-      returnMessage += "You take " + enemy.getDamage() + "damage!";
+      String returnMessage = enemy.getName() + " " + enemy.getAttackDescription();
+      returnMessage += "\nYou take " + enemy.getDamage() + " damage!\n";
       return returnMessage;
     }
     return "";
