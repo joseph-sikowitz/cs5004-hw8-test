@@ -5,7 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class  AdventureGameModel implements IAdventureGameModel {
+/**
+ * The AdventureGameModel class defines the game play. It is the main point
+ * of communication for the controller. AdventureGameModels have a game file name,
+ * a player name, a player object, the last health value of the player, warnings,
+ * a file processor object, and a first display boolean.
+ */
+public class AdventureGameModel implements IAdventureGameModel {
 
   // constants
   private String gameFileName;
@@ -19,6 +25,13 @@ public class  AdventureGameModel implements IAdventureGameModel {
   // attributes
   private static final String ENTER = " You enter: ";
 
+  /**
+   * The constructor initializes the model by taking in a game file name,
+   * initializing the player's last health to a default and the first display
+   * to true.
+   *
+   * @param gameFileName String of the game file name to load into the model.
+   */
   public AdventureGameModel(String gameFileName) {
     this.gameFileName = gameFileName;
     //set to value outside range to so that health status is communicated to user at start of game.
@@ -38,6 +51,14 @@ public class  AdventureGameModel implements IAdventureGameModel {
     this.warnings = this.fileProcessor.getGameFileWarnings();
   }
 
+  /**
+   * The move() method moves a player into another room or returns an
+   * error message indicating that the player cannot move into a blocked
+   * or impassable room.
+   *
+   * @param direction Directions enum indicating the direction to move the player.
+   * @return String of result of the player attempting to move.
+   */
   private String move(Directions direction) {
     RoomStatus status = this.player.walk(direction);
 
