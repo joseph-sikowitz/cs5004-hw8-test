@@ -5,7 +5,7 @@ package model;
  */
 public enum RoomStatus {
   BLOCKED("Passage to Room is blocked!"),
-  NO_PASSAGE("Wall or no Passage to this Room from current Room!"),
+  NO_PASSAGE("Wall or no Passage in this direction!"),
   OPEN("The passage between rooms is open!");
 
   final String status;
