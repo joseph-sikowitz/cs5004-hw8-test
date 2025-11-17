@@ -63,9 +63,6 @@ public class GameController implements Controller {
 
       while (commandReader.getUserInput()) {
         if (this.isValidCommand(commandReader.getUserInputCommand())) {
-          //display player's health status if it has changed since last turn.
-          if (this.model.changeInHealthStatus())
-            this.out.append(this.model.playerHealthStatus());
           if (commandReader.getUserInputCommand().equalsIgnoreCase(UserCommands.NORTH.getCommand())
                   || commandReader.getUserInputCommand().equalsIgnoreCase(
                   UserCommands.NORTH.getShortcut())) {
@@ -145,6 +142,9 @@ public class GameController implements Controller {
         }
         //if there is a Monster in the room, have it "affect" the Player in the model.
         this.out.append(this.model.affectPlayer());
+        //display player's health status if it has changed since last command.
+        if (this.model.changeInHealthStatus())
+          this.out.append(this.model.playerHealthStatus());
       }
       //displays player stats
       this.out.append(this.model.quitMessage());
