@@ -595,6 +595,15 @@ public class FileProcessor {
     return this.warnings.toString();
   }
 
+  /**
+   * The saveFile() method saves the current state of the game as a JSON file in the
+   * file given as an argument. The JSON format is similar to an input file for a
+   * new game, but adds a player element so that the player can be restored in their
+   * saved state.
+   *
+   * @param saveFile String of file name and path to save to.
+   * @throws IOException if file cannot be written to.
+   */
   protected void saveGame(String saveFile) throws IOException {
     ObjectMapper mapper = new ObjectMapper();
 
@@ -613,6 +622,12 @@ public class FileProcessor {
     mapper.writeValue(new File(saveFile), allElements);
   }
 
+  /**
+   * The formatItemsForJson() method takes the game's items and puts them into an
+   * ArrayList so that they can be converted to JSON for the save file.
+   *
+   * @return ArrayList of item Maps.
+   */
   private ArrayList<Map<String, String>> formatItemsForJson() {
     ArrayList<Map<String, String>> itemList = new ArrayList<>();
 
@@ -639,6 +654,12 @@ public class FileProcessor {
     return itemList;
   }
 
+  /**
+   * The formatFixturesForJson() method takes the game's fixtures and puts them into an
+   * ArrayList so that they can be converted to JSON for the save file.
+   *
+   * @return ArrayList of fixture Maps.
+   */
   private ArrayList<Map<String, String>> formatFixturesForJson() {
     ArrayList<Map<String, String>> fixtureList = new ArrayList<>();
 
@@ -668,6 +689,12 @@ public class FileProcessor {
     return fixtureList;
   }
 
+  /**
+   * The formatMonstersForJson() method takes the game's monsters and puts them into an
+   * ArrayList so that they can be converted to JSON for the save file.
+   *
+   * @return ArrayList of monster Maps.
+   */
   private ArrayList<Map<String, String>> formatMonstersForJson() {
     ArrayList<Map<String, String>> monsterList = new ArrayList<>();
 
@@ -704,6 +731,12 @@ public class FileProcessor {
     return monsterList;
   }
 
+  /**
+   * The formatPuzzlesForJson() method takes the game's puzzles and puts them into an
+   * ArrayList so that they can be converted to JSON for the save file.
+   *
+   * @return ArrayList of puzzle Maps.
+   */
   private ArrayList<Map<String, String>> formatPuzzlesForJson() {
     ArrayList<Map<String, String>> puzzleList = new ArrayList<>();
 
@@ -740,6 +773,12 @@ public class FileProcessor {
 
     return puzzleList;
   }
+  /**
+   * The formatRoomsForJson() method takes the game's rooms and puts them into an
+   * ArrayList so that they can be converted to JSON for the save file.
+   *
+   * @return ArrayList of room Maps.
+   */
 
   private ArrayList<Map<String, String>> formatRoomsForJson() {
     ArrayList<Map<String, String>> roomsList = new ArrayList<>();
@@ -807,6 +846,12 @@ public class FileProcessor {
     return roomsList;
   }
 
+  /**
+   * The formatPlayerForJson() method takes the game's player and puts it into a
+   * Map so that it can be converted to JSON for the save file.
+   *
+   * @return Map of player's state.
+   */
   private Map<String, String> formatPlayerForJson() {
     Map<String, String> playerMap = new HashMap<>();
 
