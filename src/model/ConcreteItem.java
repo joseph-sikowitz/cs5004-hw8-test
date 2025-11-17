@@ -68,17 +68,19 @@ public class ConcreteItem extends AbstractElement implements Item {
   public String use() {
     if (isActive())
       return this.useDescription;
-    return cannotUse;
+    return this.cannotUse;
   }
 
   @Override
   public UseSuccessful use(Puzzle enemy)  {
+    String use = this.use();
     //decrement uses remaining whether Item use was successful or not.
-    this.usesRemaining--;
+    if (usesRemaining > 0)
+      this.usesRemaining--;
     if (enemy == null) {
-      return new UseSuccessful(this.use(), false);
+      return new UseSuccessful(use, false);
     }
-    return new UseSuccessful(this.use(), enemy.solve(this));
+    return new UseSuccessful(use, enemy.solve(this));
   }
 
   @Override
