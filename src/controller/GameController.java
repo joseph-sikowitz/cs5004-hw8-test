@@ -61,7 +61,7 @@ public class GameController implements Controller {
 
 
 
-      while (commandReader.getUserInput()) {
+      while (!this.model.gameOver() && commandReader.getUserInput()) {
         if (this.isValidCommand(commandReader.getUserInputCommand())) {
           if (commandReader.getUserInputCommand().equalsIgnoreCase(UserCommands.NORTH.getCommand())
                   || commandReader.getUserInputCommand().equalsIgnoreCase(
