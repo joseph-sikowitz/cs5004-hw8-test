@@ -111,9 +111,7 @@ public class AdventureGameModel implements IAdventureGameModel {
 
   @Override
   public String takeItem(String item) {
-    if (this.player.takeItem(item))
-      return item + " added to your inventory!\n";
-    return item + " not added to your inventory!\n";
+    return item + this.player.takeItem(item).getStatus() + "\n";
   }
 
   @Override
