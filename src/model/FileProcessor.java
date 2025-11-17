@@ -64,6 +64,11 @@ public class FileProcessor {
     this.playerName = playerName;
     this.warnings = new StringBuilder();
     this.uniqueElementNames = new HashSet<>();
+    this.items = new HashMap<>();
+    this.fixtures = new HashMap<>();
+    this.monsters = new HashMap<>();
+    this.puzzles = new HashMap<>();
+    this.rooms = new HashMap<>();
   }
 
   /**
@@ -168,7 +173,8 @@ public class FileProcessor {
    * @param node JsonNode array of item input data.
    */
   private void createItems(JsonNode node) {
-    this.items = new HashMap<>();
+    //clear anything already in the Map
+    this.items.clear();
 
     if (node.isArray()) {
       for (JsonNode item : node) {
@@ -224,7 +230,8 @@ public class FileProcessor {
    * @param node JsonNode array of fixture input data.
    */
   private void createFixtures(JsonNode node) {
-    this.fixtures = new HashMap<>();
+    //clear anything already in the Map
+    this.fixtures.clear();
 
     if (node.isArray()) {
       for (JsonNode fixture : node) {
@@ -273,7 +280,8 @@ public class FileProcessor {
    * @param node JsonNode array of monster input data.
    */
   private void createMonsters(JsonNode node) {
-    this.monsters = new HashMap<>();
+    //clear anything already in the Map
+    this.monsters.clear();
 
     if (node.isArray()) {
       for (JsonNode monster : node) {
@@ -364,7 +372,8 @@ public class FileProcessor {
    * @param node JsonNode array of puzzle input data.
    */
   private void createPuzzles(JsonNode node) {
-    this.puzzles = new HashMap<>();
+    //clear anything already in the Map
+    this.puzzles.clear();
 
     if (node.isArray()) {
       for (JsonNode puzzleData : node) {
@@ -449,7 +458,8 @@ public class FileProcessor {
    * @param node JsonNode array of room input data.
    */
   private void createRooms(JsonNode node) throws IllegalArgumentException {
-    this.rooms = new HashMap<>();
+    //clear anything already in the Map
+    this.rooms.clear();
 
     if (node.isEmpty()) {
       throw new IllegalArgumentException("Rooms data cannot be empty");
