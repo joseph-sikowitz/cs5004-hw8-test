@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -45,7 +46,6 @@ public class FileProcessor {
 
   // constants
   private static final Integer NEW_PLAYER_START = 1;
-  private static final String DEFAULT_SAVE_FILE = "./data/save_file.json";
   private static final int MATCH_GROUP = 1;
 
   /**
@@ -148,10 +148,11 @@ public class FileProcessor {
     this.createRooms(this.elementFields.get(JsonFields.ROOMS.getValue()));
 
     if (!this.newGame) {
-      this.createSavedPlayer(this.elementFields.get(JsonFields.PLAYER.getValue()));
+      this.createSavedPlayer(this.player);
     } else {
       this.createNewPlayer();
     }
+
   }
 
   /**
@@ -437,14 +438,14 @@ public class FileProcessor {
     if (node.isArray()) {
       for (JsonNode roomData : node) {
         String name;
-        if (roomData.get(ItemJsonFields.NAME.getValue()).isNull()) {
+        if (roomData.get(RoomJsonFields.ROOM_NAME.getValue()).isNull()) {
           name = null;
         } else {
           name = roomData.get(RoomJsonFields.ROOM_NAME.getValue()).asText();
         }
 
         String description;
-        if (roomData.get(ItemJsonFields.DESCRIPTION.getValue()).isNull()) {
+        if (roomData.get(RoomJsonFields.DESCRIPTION.getValue()).isNull()) {
           description = null;
         } else {
           description = roomData.get(RoomJsonFields.DESCRIPTION.getValue()).asText();
@@ -463,19 +464,19 @@ public class FileProcessor {
         passages.put(Directions.EAST, east);
         passages.put(Directions.WEST, west);
 
-        String[] items = roomData.get(RoomJsonFields.ITEMS.getValue()).asText().split(",");
+        String[] itemsArray = roomData.get(RoomJsonFields.ITEMS.getValue()).asText().split(",");
         Map<String, Item> roomItems = new HashMap<>();
-        for (String item : items) {
-          if (this.items.containsKey(item)) {
-            roomItems.put(item, this.items.get(item));
+        for (String item : itemsArray) {
+          if (this.items.containsKey(item.trim())) {
+            roomItems.put(item.trim(), this.items.get(item.trim()));
           }
         }
 
         String[] fixtures = roomData.get(RoomJsonFields.FIXTURES.getValue()).asText().split(",");
         Map<String, Fixture> roomFixtures = new HashMap<>();
         for (String fixture : fixtures) {
-          if (this.fixtures.containsKey(fixture)) {
-            roomFixtures.put(fixture, this.fixtures.get(fixture));
+          if (this.fixtures.containsKey(fixture.trim())) {
+            roomFixtures.put(fixture.trim(), this.fixtures.get(fixture.trim()));
           }
         }
 
@@ -564,18 +565,19 @@ public class FileProcessor {
   protected void saveGame(String saveFile) throws IOException {
     ObjectMapper mapper = new ObjectMapper();
 
-    if (saveFile == null) {
-      Map<String, Object> allElements = new HashMap<>();
-      allElements.put(JsonFields.NAME.getValue(), this.name);
-      allElements.put(JsonFields.VERSION.getValue(), this.version);
+    Map<String, Object> allElements = new HashMap<>();
+    allElements.put(JsonFields.NAME.getValue(), this.name);
+    allElements.put(JsonFields.VERSION.getValue(), this.version);
 
-      allElements.put(JsonFields.ITEMS.getValue(), formatItemsForJson());
-      allElements.put(JsonFields.FIXTURES.getValue(), formatFixturesForJson());
-      allElements.put(JsonFields.MONSTERS.getValue(), formatMonstersForJson());
-      allElements.put(JsonFields.PUZZLES.getValue(), formatPuzzlesForJson());
+    allElements.put(JsonFields.ITEMS.getValue(), formatItemsForJson());
+    allElements.put(JsonFields.FIXTURES.getValue(), formatFixturesForJson());
+    allElements.put(JsonFields.MONSTERS.getValue(), formatMonstersForJson());
+    allElements.put(JsonFields.PUZZLES.getValue(), formatPuzzlesForJson());
+    allElements.put(JsonFields.ROOMS.getValue(), formatRoomsForJson());
 
-      mapper.writeValue(new File(DEFAULT_SAVE_FILE), allElements);
-    }
+    allElements.put(JsonFields.PLAYER.getValue(), formatPlayerForJson());
+
+    mapper.writeValue(new File(saveFile), allElements);
   }
 
   private ArrayList<Map<String, String>> formatItemsForJson() {
@@ -659,7 +661,7 @@ public class FileProcessor {
       monsterMap.put(MonsterJsonFields.PICTURE.getValue(),
               this.monsters.get(keyName).getPicturePath());
       monsterMap.put(MonsterJsonFields.CAN_ATTACK.getValue(),
-              Boolean.toString(this.monsters.get(keyName).getCanAttack()));
+              Boolean.toString(this.monsters.get(keyName).canAttack()));
       monsterMap.put(MonsterJsonFields.ATTACK.getValue(),
               this.monsters.get(keyName).getAttackDescription());
 
@@ -685,8 +687,15 @@ public class FileProcessor {
       puzzleMap.put(PuzzleJsonFields.TARGET.getValue(), this.puzzles.get(keyName).getTarget());
       puzzleMap.put(PuzzleJsonFields.AFFECTS_PLAYER.getValue(),
               Boolean.toString(this.puzzles.get(keyName).affectsPlayer()));
-      puzzleMap.put(PuzzleJsonFields.SOLUTION.getValue(),
-              this.puzzles.get(keyName).getSolutionItem());
+
+      if (this.puzzles.get(keyName).getSolutionItem() != null) {
+        puzzleMap.put(PuzzleJsonFields.SOLUTION.getValue(),
+                this.puzzles.get(keyName).getSolutionItem());
+      } else {
+        puzzleMap.put(PuzzleJsonFields.SOLUTION.getValue(),
+                this.puzzles.get(keyName).getSolutionText());
+      }
+
       puzzleMap.put(PuzzleJsonFields.VALUE.getValue(),
               Double.toString(this.puzzles.get(keyName).getScore()));
       puzzleMap.put(PuzzleJsonFields.EFFECTS.getValue(), this.puzzles.get(keyName).getEffect());
@@ -700,14 +709,98 @@ public class FileProcessor {
   }
 
   private ArrayList<Map<String, String>> formatRoomsForJson() {
-    //String name, String description, int roomNumber,
-    //                      Map<Directions, Integer> passages, Map<String, Item> items,
-    //                      Map<String, Fixture> fixtures, Monster monster, Puzzle puzzle,
-    //                      String picture
-
     ArrayList<Map<String, String>> roomsList = new ArrayList<>();
 
+    for (Integer keyNumber : this.rooms.keySet()) {
+      Map<String, String> roomMap = new HashMap<>();
+
+      roomMap.put(RoomJsonFields.ROOM_NAME.getValue(), this.rooms.get(keyNumber).getName());
+      roomMap.put(RoomJsonFields.DESCRIPTION.getValue(),
+              this.rooms.get(keyNumber).getDescription());
+      roomMap.put(RoomJsonFields.ROOM_NUMBER.getValue(),
+              Integer.toString(this.rooms.get(keyNumber).getRoomNumber()));
+
+      Map<Directions, Integer> passages = this.rooms.get(keyNumber).getPassages();
+      roomMap.put(RoomJsonFields.NORTH.getValue(),
+              Integer.toString(passages.get(Directions.NORTH)));
+      roomMap.put(RoomJsonFields.SOUTH.getValue(),
+              Integer.toString(passages.get(Directions.SOUTH)));
+      roomMap.put(RoomJsonFields.EAST.getValue(),
+              Integer.toString(passages.get(Directions.EAST)));
+      roomMap.put(RoomJsonFields.WEST.getValue(),
+              Integer.toString(passages.get(Directions.WEST)));
+
+      ArrayList<String> itemNames = new ArrayList<>();
+      for (Map.Entry<String, Item> entry : this.rooms.get(keyNumber).getItems().entrySet()) {
+        itemNames.add(entry.getKey());
+      }
+      String itemString = String.join(", ", itemNames);
+      if (itemString.isEmpty()) {
+        roomMap.put(RoomJsonFields.ITEMS.getValue(), null);
+      } else {
+        roomMap.put(RoomJsonFields.ITEMS.getValue(), itemString);
+      }
+
+      ArrayList<String> fixtureNames = new ArrayList<>();
+      for (Map.Entry<String, Fixture> entry : this.rooms.get(keyNumber).getFixtures().entrySet()) {
+        fixtureNames.add(entry.getKey());
+      }
+      String fixtureString = String.join(", ", fixtureNames);
+      if (fixtureString.isEmpty()) {
+        roomMap.put(RoomJsonFields.FIXTURES.getValue(), null);
+      } else {
+        roomMap.put(RoomJsonFields.FIXTURES.getValue(), fixtureString);
+      }
+
+      if (this.rooms.get(keyNumber).getMonster() == null) {
+        roomMap.put(RoomJsonFields.MONSTER.getValue(), null);
+      } else {
+        roomMap.put(RoomJsonFields.MONSTER.getValue(),
+                this.rooms.get(keyNumber).getMonster().getName());
+      }
+
+      if (this.rooms.get(keyNumber).getPuzzle() == null) {
+        roomMap.put(RoomJsonFields.PUZZLE.getValue(), null);
+      } else {
+        roomMap.put(RoomJsonFields.PUZZLE.getValue(),
+                this.rooms.get(keyNumber).getPuzzle().getName());
+      }
+
+      roomMap.put(RoomJsonFields.PICTURE.getValue(), this.rooms.get(keyNumber).getPicturePath());
+
+      roomsList.add(roomMap);
+    }
+
     return roomsList;
+  }
+
+  private Map<String, String> formatPlayerForJson() {
+    Map<String, String> playerMap = new HashMap<>();
+
+    playerMap.put(PlayerJsonFields.NAME.getValue(), this.currentPlayer.getName());
+    playerMap.put(PlayerJsonFields.DESCRIPTION.getValue(), this.currentPlayer.getDescription());
+    playerMap.put(PlayerJsonFields.SCORE.getValue(),
+            Double.toString(this.currentPlayer.getScore()));
+    playerMap.put(PlayerJsonFields.HEALTH.getValue(),
+            Double.toString(this.currentPlayer.getHealth()));
+    playerMap.put(PlayerJsonFields.MAX_WEIGHT.getValue(),
+            Double.toString(this.currentPlayer.getMaxWeight()));
+
+    ArrayList<String> itemNames = new ArrayList<>();
+    for (Map.Entry<String, Item> entry : this.currentPlayer.getInventory().entrySet()) {
+      itemNames.add(entry.getKey());
+    }
+    String itemString = String.join(", ", itemNames);
+    if (itemString.isEmpty()) {
+      playerMap.put(PlayerJsonFields.INVENTORY.getValue(), null);
+    } else {
+      playerMap.put(PlayerJsonFields.INVENTORY.getValue(), itemString);
+    }
+
+    playerMap.put(PlayerJsonFields.ACTIVE_ROOM.getValue(),
+            Integer.toString(this.currentPlayer.getActiveRoom().getRoomNumber()));
+
+    return playerMap;
   }
 
 }
