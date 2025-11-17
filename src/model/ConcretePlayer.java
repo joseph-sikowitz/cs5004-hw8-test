@@ -119,15 +119,11 @@ public class ConcretePlayer extends AbstractElement implements Player {
     return this.health;
   }
 
-  @Override
-  public void addHealth(double health) {
-    if (this.health + health <= MAX_HEALTH)
-      this.health += health;
-  }
 
   @Override
-  public void subtractHealth(double health) {
-    this.health -= health;
+  public void changeHealth(double health) {
+    if (this.health + health <= MAX_HEALTH)
+      this.health += health;
   }
 
   @Override

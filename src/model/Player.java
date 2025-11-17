@@ -43,19 +43,13 @@ public interface Player extends Activatable, Element, Scorable {
    */
   double getHealth();
 
-  /**
-   * The addHealth method increases the player's health by the given amount.
-   *
-   * @param health double of amount to add to player's health.
-   */
-  void addHealth(double health);
 
   /**
-   * The subtractHealth method decreases the player's health by the given amount.
-   *
+   * The changeHealth method changes the Player's health by a parameter-specified amount.
+   * Player's health cannot go over 100.0.
    * @param health double of amount to subtract from player's health.
    */
-  void subtractHealth(double health);
+  void changeHealth(double health);
 
   /**
    * Returns the discrete HealthState of the Player as a HealthStatus enum type.

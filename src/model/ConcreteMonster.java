@@ -77,7 +77,7 @@ public class ConcreteMonster extends AbstractPuzzle implements Monster {
   public boolean attack(Player player) {
     if (player == null || !this.canAttack || !this.isActive())
       return false;
-    player.subtractHealth(this.getDamage());
+    player.changeHealth(this.getDamage());
     return true;
   }
 }
