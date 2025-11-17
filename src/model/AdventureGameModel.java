@@ -69,7 +69,7 @@ public class AdventureGameModel implements IAdventureGameModel {
   }
 
   /**
-   * Concatenates String keys from a mMp to a single String with keys seperated by commas.
+   * Concatenates String keys from a Map to a single String with keys seperated by commas.
    * @param map a Map with String as the key and a subtype of Element as the value.
    * @return a String with names of elements separated by commas.
    */
