@@ -76,9 +76,9 @@ public interface Player extends Activatable, Element, Scorable {
    * The takeItem() method takes an item from the room the player is currently in.
    *
    * @param item String of item to add to the player's inventory.
-   * @return boolean indicating if item was taken.
+   * @return TakeItemStatus indicating if item was taken, not taken, not found.
    */
-  boolean takeItem(String item);
+  TakeItemStatus takeItem(String item);
 
   /**
    * The dropItem() method takes an item out of a player's inventory and drops it

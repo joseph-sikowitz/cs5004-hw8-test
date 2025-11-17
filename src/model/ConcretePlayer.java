@@ -164,18 +164,21 @@ public class ConcretePlayer extends AbstractElement implements Player {
   }
 
   @Override
-  public boolean takeItem(String item) {
+  public TakeItemStatus takeItem(String item) {
     Item itemToPickUp = this.activeRoom.getItem(item);
-    if (itemToPickUp == null || itemToPickUp.getWeight() + this.currentWeight > this.maxWeight) {
-      return false;
-    }
+    if (itemToPickUp == null )
+      return TakeItemStatus.ITEM_NOT_FOUND;
+
+
+    if (itemToPickUp.getWeight() + this.currentWeight > this.maxWeight)
+      return TakeItemStatus.ITEM_NOT_ADDED_OVER_CAPACITY;
 
     //add item to Player's inventory.
     this.inventory.put(itemToPickUp.getName(), this.activeRoom.removeItem(item));
     //increment currentWeight by itemToPickUp's weight.
     this.currentWeight += itemToPickUp.getWeight();
 
-    return true;
+    return TakeItemStatus.ITEM_ADDED;
   }
 
   @Override
