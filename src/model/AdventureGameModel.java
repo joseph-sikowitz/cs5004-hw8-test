@@ -204,4 +204,14 @@ public class AdventureGameModel implements IAdventureGameModel {
   public boolean gameOver() {
     return this.player.getHealthStatus() == HealthStatus.SLEEP;
   }
+
+  @Override
+  public String getPlayerName() {
+    return this.playerName;
+  }
+
+  @Override
+  public double getPlayerScore() {
+    return this.player.getScore();
+  }
 }

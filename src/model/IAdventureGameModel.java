@@ -160,4 +160,20 @@ public interface IAdventureGameModel {
    */
   boolean gameOver();
 
+  /**
+   * The getPlayerName() method returns the player's name to be used when restoring
+   * from a file.
+   *
+   * @return String of player's name.
+   */
+  String getPlayerName();
+
+  /**
+   * The getPlayerScore() method returns the player's score to be used when restoring
+   * from a file.
+   *
+   * @return double of player's score.
+   */
+  double getPlayerScore();
+
 }
