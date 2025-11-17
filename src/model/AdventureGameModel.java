@@ -14,6 +14,7 @@ public class AdventureGameModel implements IAdventureGameModel {
   private double playersLastHealth;
   private String warnings;
   private FileProcessor fileProcessor;
+  private boolean firstDisplay;
 
   // attributes
   private static final String ENTER = " You enter: ";
@@ -22,6 +23,7 @@ public class AdventureGameModel implements IAdventureGameModel {
     this.gameFileName = gameFileName;
     //set to value outside range to so that health status is communicated to user at start of game.
     this.playersLastHealth = -1.0;
+    this.firstDisplay = true;
   }
 
   @Override
@@ -91,11 +93,15 @@ public class AdventureGameModel implements IAdventureGameModel {
   @Override
   public String lookAround() {
     Room activeRoom = this.player.getActiveRoom();
+    String roomDescription = activeRoom.getDescription();
+    roomDescription += firstDisplay ? "You start in " + activeRoom.getName() + ":\n" : "";
+    this.firstDisplay = false;
     String fixtures = getElementNames(activeRoom.getFixtures());
-    String fixturesFormatted = fixtures.isEmpty() ? "" : "Fixtures you see here: " + fixtures + "\n";
+    String fixturesFormatted = fixtures.isEmpty() ? "" : "Fixtures you see here: "
+            + fixtures + "\n";
     String items = getElementNames(activeRoom.getItems());
     String itemsFormatted = items.isEmpty() ? "" : "Items you see here: " + items + "\n";
-    return activeRoom.getDescription() + "\n"
+    return roomDescription + "\n"
             + fixturesFormatted
             + itemsFormatted;
   }
