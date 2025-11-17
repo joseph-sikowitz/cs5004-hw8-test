@@ -116,6 +116,12 @@ public class  AdventureGameModel implements IAdventureGameModel {
             + itemsFormatted;
   }
 
+  /**
+   * Private helper for outputting return type from solving Puzzles/Monsters
+   *     with items/answers.
+   * @param getUse an instance of UseSuccessful.
+   * @return a return messages depending on the states UseSuccessful fields.
+   */
   private String solvePuzzle(UseSuccessful getUse) {
     String returnMessage = getUse.getUse();
     if (getUse.getUseSuccessful())
