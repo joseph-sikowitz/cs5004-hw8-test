@@ -381,7 +381,7 @@ public class FileProcessor {
         if (puzzleData.get(ItemJsonFields.NAME.getValue()).isNull()) {
           name = null;
         } else {
-          name = puzzleData.get(PuzzleJsonFields.NAME.getValue()).asText();
+          name = puzzleData.get(PuzzleJsonFields.NAME.getValue()).asText().toLowerCase();
 
         }
 
