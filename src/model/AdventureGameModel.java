@@ -93,8 +93,8 @@ public class AdventureGameModel implements IAdventureGameModel {
   @Override
   public String lookAround() {
     Room activeRoom = this.player.getActiveRoom();
-    String roomDescription = activeRoom.getDescription();
-    roomDescription += firstDisplay ? "You start in " + activeRoom.getName() + ":\n" : "";
+    String roomDescription = firstDisplay ? "You start in " + activeRoom.getName() + ":\n" : "";
+    roomDescription += activeRoom.getDescription() + "\n";
     this.firstDisplay = false;
     String fixtures = getElementNames(activeRoom.getFixtures());
     String fixturesFormatted = fixtures.isEmpty() ? "" : "Fixtures you see here: "
