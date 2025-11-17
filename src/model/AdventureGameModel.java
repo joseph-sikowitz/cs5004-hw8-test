@@ -103,6 +103,11 @@ public class AdventureGameModel implements IAdventureGameModel {
             + fixtures + "\n";
     String items = getElementNames(activeRoom.getItems());
     String itemsFormatted = items.isEmpty() ? "" : "Items you see here: " + items + "\n";
+    //hide visibility of items.
+    if (activeRoom.getRoomEnvironmentEffector() != null
+            && activeRoom.getRoomEnvironmentEffector().isActive()) {
+      return roomDescription;
+    }
     return roomDescription + "\n"
             + fixturesFormatted
             + itemsFormatted;
