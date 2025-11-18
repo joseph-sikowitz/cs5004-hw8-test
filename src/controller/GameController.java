@@ -51,10 +51,10 @@ public class GameController implements Controller {
 
       //initial look
       this.out.append(this.model.lookAround());
-      //print initial health status after loading/starting game
-      this.out.append(this.model.playerHealthStatus());
 
+      this.executeEndOfTurnModelActions(true);
 
+      //get user input while command isn't equal
       while (!this.model.gameOver() && commandReader.getUserInput()) {
         boolean playerCommandExecuted = true;
         if (this.isValidCommand(commandReader.getUserInputCommand())) {
@@ -138,9 +138,7 @@ public class GameController implements Controller {
                   UserCommands.RESTORE.getCommand())) {
             this.model.restoreGame(DATA_DIR + DEFAULT_SAVE_FILE);
             this.out.append("Game restored!\n");
-            this.out.append("Welcome back " + this.model.getPlayerName() + "\n");
-            this.out.append(this.model.playerHealthStatus());
-            this.out.append("Current rank: " + this.model.getPlayerRank());
+            this.out.append(this.model.restoreMessage());
             playerCommandExecuted = false;
 
           } else if (this.isValidCommand(commandReader.getUserInputCommand())
@@ -153,13 +151,7 @@ public class GameController implements Controller {
         } else {
           this.out.append(UNKNOWN_COMMAND);
         }
-        if (playerCommandExecuted) {
-          //if there is a Monster in the room, have it "affect" the Player in the model.
-          this.out.append(this.model.affectPlayer());
-          //display player's health status if it has changed since last command.
-          if (this.model.changeInPlayerHealthStatus())
-            this.out.append(this.model.playerHealthStatus());
-        }
+        this.executeEndOfTurnModelActions(playerCommandExecuted);
       }
       //displays player stats
       this.out.append(this.model.quitMessage());
@@ -169,14 +161,30 @@ public class GameController implements Controller {
   }
 
   /**
+   * Executes model actions that affect the player and
+   * prints player status if it has changed since the last command.
+   */
+  private void executeEndOfTurnModelActions(boolean playerCommandExecuted) throws IOException {
+    if (playerCommandExecuted) {
+      //if there is a Monster in the room, have it "affect" the Player in the model.
+      this.out.append(this.model.affectPlayer());
+      //display player's health status if it has changed since last command.
+      if (this.model.changeInPlayerHealthStatus())
+        this.out.append(this.model.playerHealthStatus());
+      //display player's score if it has changed since last command.
+      if (this.model.changeInPlayerScore())
+        this.out.append("Your current score: " + this.model.getPlayerScore());
+      //display player's rank if it has changed since last command.
+      if (this.model.changeInPlayerRank())
+        this.out.append(this.model.getPlayerRank());
+    }
+  }
+
+  /**
    * Prints warnings to the Player/user about possible errors in game data file.
    */
-  public void printGameFileWarnings() {
-    try {
-      this.out.append(this.model.getGameFileWarnings());
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+  private void printGameFileWarnings() throws IOException {
+    this.out.append(this.model.getGameFileWarnings());
   }
 
   /**
@@ -185,7 +193,7 @@ public class GameController implements Controller {
    * @param command String of user command.
    * @return boolean indicating if the given command is valid.
    */
-  public boolean isValidCommand(String command) {
+  private boolean isValidCommand(String command) {
     if (command == null)
       return false;
 
@@ -207,7 +215,7 @@ public class GameController implements Controller {
    * @param command String of command entered by user.
    * @return UserCommand with a value matching the command entered by user.
    */
-  public UserCommands getUserCommand(String command) {
+  private UserCommands getUserCommand(String command) {
     UserCommands[] options = UserCommands.values();
 
     for (UserCommands userCommand : options) {
