@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -572,11 +571,11 @@ public class FileProcessor {
     double health = node.get(PlayerJsonFields.HEALTH.getValue()).asDouble();
     double maxWeight = node.get(PlayerJsonFields.MAX_WEIGHT.getValue()).asDouble();
 
-    String[] items = node.get(PlayerJsonFields.INVENTORY.getValue()).asText().split(",");
+    String[] itemList = node.get(PlayerJsonFields.INVENTORY.getValue()).asText().split(",");
     Map<String, Item> inventory = new HashMap<>();
-    for (String item : items) {
-      if (this.items.containsKey(item)) {
-        inventory.put(item, this.items.get(item));
+    for (String item : itemList) {
+      if (this.items.containsKey(item.trim().toLowerCase())) {
+        inventory.put(item.trim().toLowerCase(), this.items.get(item.trim().toLowerCase()));
       }
     }
 
@@ -584,7 +583,6 @@ public class FileProcessor {
 
     this.currentPlayer = new ConcretePlayer(name, description, score, health, maxWeight, inventory,
             this.rooms.get(activeRoomNumber));
-
   }
 
   /**
