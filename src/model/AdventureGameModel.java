@@ -243,4 +243,14 @@ public class AdventureGameModel implements IAdventureGameModel {
   public double getPlayerScore() {
     return this.player.getScore();
   }
+
+  @Override
+  public String findPlayerRank(double score) {
+    for (PlayerRanks playerRank : PlayerRanks.values()) {
+      if (score >= playerRank.getLowValue() && score < playerRank.getHighValue()) {
+        return playerRank.getName();
+      }
+    }
+    return PlayerRanks.NOVICE.getName();
+  }
 }

@@ -140,7 +140,7 @@ public class GameController implements Controller {
             this.out.append("Game restored!\n");
             this.out.append("Welcome back " + this.model.getPlayerName() + "\n");
             this.out.append(this.model.playerHealthStatus());
-            this.out.append("Current rank: " + this.findPlayerRank(this.model.getPlayerScore()));
+            this.out.append("Current rank: " + this.model.findPlayerRank(this.model.getPlayerScore()));
             playerCommandExecuted = false;
 
           } else if (this.isValidCommand(commandReader.getUserInputCommand())
@@ -218,22 +218,6 @@ public class GameController implements Controller {
     }
 
     return null;
-  }
-
-  /**
-   * The findPlayerRank() method gets a player's rank based on their current
-   * score.
-   *
-   * @param score double of the player's score.
-   * @return String of the player's rank.
-   */
-  public String findPlayerRank(double score) {
-    for (PlayerRanks playerRank : PlayerRanks.values()) {
-      if (score >= playerRank.getLowValue() && score < playerRank.getHighValue()) {
-        return playerRank.getName();
-      }
-    }
-    return PlayerRanks.NOVICE.getName();
   }
 
 }

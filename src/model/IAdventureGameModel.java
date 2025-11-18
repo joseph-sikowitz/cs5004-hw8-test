@@ -176,4 +176,13 @@ public interface IAdventureGameModel {
    */
   double getPlayerScore();
 
+  /**
+   * The findPlayerRank() method gets a player's rank based on their current
+   * score.
+   *
+   * @param score double of the player's score.
+   * @return String of the player's rank.
+   */
+  public String findPlayerRank(double score);
+
 }

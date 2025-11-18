@@ -3,6 +3,8 @@ package controller;
 import java.io.IOException;
 import java.util.Scanner;
 
+import model.PlayerRanks;
+
 /**
  * The GameCommandReader class starts the game by getting the user's name
  * and processes user input during game play. GameCommandReaders have
@@ -47,8 +49,6 @@ public class GameCommandReader {
    */
   public String startGame() throws IOException {
     try {
-      this.out.append(UserPrompts.PLAYER_RANK_PROMPT.getPrompt()).append(
-              PlayerRanks.NOVICE.getName()).append("\n");
       this.out.append(UserPrompts.NEW_PLAYER_PROMPT.getPrompt());
 
       Scanner scanner = new Scanner(this.in);
