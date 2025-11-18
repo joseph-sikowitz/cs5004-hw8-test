@@ -31,16 +31,6 @@ public interface Room extends Element, Picturable, EnvironmentAffectedForPlayer 
   int getPassageValue(Directions direction);
 
   /**
-   * The setPassageValue() method is the setter for a passage's value within a room.
-   * Negative values can be changed to positive indicating that the passage is now
-   * passable, i.e. abs(passageValue).
-   *
-   * @param direction Directions enum indicating if the passage is NORTH, SOUTH,
-   *                  EAST or WEST.
-   */
-  void setPassageValue(Directions direction);
-
-  /**
    * The getFixture() method is the getter for a Fixture stored in a Map in a Room.
    *
    * @param fixtureName String of fixture's name to return.
@@ -60,7 +50,7 @@ public interface Room extends Element, Picturable, EnvironmentAffectedForPlayer 
    * Gets the Puzzle effecting the Room environment.
    * @return an instance of a Puzzle type or null.
    */
-  public Puzzle getRoomEnvironmentAffector();
+  Puzzle getRoomEnvironmentAffector();
 
   /**
    * The getMonster() method is the getter for a Room's Monster.

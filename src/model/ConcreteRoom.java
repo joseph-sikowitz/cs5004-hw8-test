@@ -135,10 +135,7 @@ public class ConcreteRoom extends AbstractElement implements Room {
     return this.passages.get(direction);
   }
 
-  @Override
-  public void setPassageValue(Directions direction) {
-    this.passages.put(direction, Math.abs(this.passages.get(direction)));
-  }
+
 
   @Override
   public Fixture getFixture(String fixtureName) {
