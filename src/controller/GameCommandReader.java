@@ -3,7 +3,6 @@ package controller;
 import java.io.IOException;
 import java.util.Scanner;
 
-import model.PlayerRanks;
 
 /**
  * The GameCommandReader class starts the game by getting the user's name
@@ -100,7 +99,8 @@ public class GameCommandReader {
    * @return String of user command.
    */
   public String getUserInputCommand() {
-    return this.userInput.length >= ONE_COMMAND_LENGTH ? this.userInput[FIRST_COMMAND] : null;
+    return this.userInput.length
+            >= ONE_COMMAND_LENGTH ? this.userInput[FIRST_COMMAND].trim() : null;
   }
 
   /**
@@ -111,7 +111,8 @@ public class GameCommandReader {
    * @return String of user argument.
    */
   public String getUserInputArgument() {
-    return this.userInput.length >= TWO_COMMAND_LENGTH ? this.userInput[SECOND_COMMAND] : null;
+    return this.userInput.length
+            >= TWO_COMMAND_LENGTH ? this.userInput[SECOND_COMMAND].trim() : null;
   }
 
   /**
