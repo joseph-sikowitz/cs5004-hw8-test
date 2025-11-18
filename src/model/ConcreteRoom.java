@@ -221,6 +221,11 @@ public class ConcreteRoom extends AbstractElement implements Room {
     return this.picture;
   }
 
+  @Override
+  public String getTrueDescription() {
+    return super.getDescription();
+  }
+
   /**
    * Check if all passages between Rooms are Reflexive.
    * @return true if all passage relations are reflexive, false if one relation isn't reflexive.

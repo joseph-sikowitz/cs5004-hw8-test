@@ -124,4 +124,13 @@ public interface Room extends Element, Picturable, EnvironmentAffectedForPlayer 
    * @return boolean indicating if there is a path blocker in the room.
    */
   boolean isPathBlocked();
+
+
+  /**
+   * The getTrueDescription() method gets the Room's description regardless
+   * if there is an Affector overwriting it in the output.
+   *
+   * @return String of the Room's true description.
+   */
+  String getTrueDescription();
 }
