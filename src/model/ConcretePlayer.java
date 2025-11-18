@@ -15,8 +15,6 @@ import java.util.Set;
  * @author Vasilios Nicholas
  */
 public class ConcretePlayer extends AbstractElement implements Player {
-  private static final double MAX_HEALTH = 100.0;
-  private static final double MAX_WEIGHT = 13.0;
 
   // attributes
   private double score;
@@ -30,6 +28,11 @@ public class ConcretePlayer extends AbstractElement implements Player {
 
   // constants
   private static final String DEFAULT_PLAYER_DESCRIPTION = "Default player";
+  private static final double MAX_HEALTH = 100.0;
+  private static final double MIN_HEALTH = 0.0;
+  private static final double MAX_WEIGHT = 13.0;
+  private static final double MIN_WEIGHT = 0.0;
+  private static final double MIN_SCORE = 0.0;
 
   /**
    * The constructor for ConcretePlayer initializes its attributes using its parent
@@ -47,17 +50,17 @@ public class ConcretePlayer extends AbstractElement implements Player {
                         double health, double maxWeight, Map<String, Item> inventory,
                         Room activeRoom) {
     super(name, description);
-    if (score < 0.0)
+    if (score < MIN_SCORE)
       throw new IllegalArgumentException("Score cannot be negative");
     this.score = score;
-    if (health < 0.0 || health > 100.0)
+    if (health < MIN_HEALTH || health > MAX_HEALTH)
       throw new IllegalArgumentException("Health isn't greater than 0"
               + " and less than or equal 100.!");
 
     this.health = health;
     //clamp maxWeight value to 13.0
     this.maxWeight = Math.min(maxWeight, MAX_WEIGHT);
-    if (currentWeight < 0.0)
+    if (currentWeight < MIN_WEIGHT)
       throw new IllegalArgumentException("Current weight isn't greater than 0!");
 
     if (currentWeight > maxWeight) {
@@ -87,12 +90,13 @@ public class ConcretePlayer extends AbstractElement implements Player {
    * @param activeRoom Room where the player will start the game.
    */
   public ConcretePlayer(String name, Map<String, Item> inventory, Room activeRoom) {
-    this(name, DEFAULT_PLAYER_DESCRIPTION, 0.0, 100.0, 13.0, inventory, activeRoom);
+    this(name, DEFAULT_PLAYER_DESCRIPTION, MIN_SCORE, MAX_HEALTH, MAX_WEIGHT,
+            inventory, activeRoom);
   }
 
   @Override
   public boolean isActive() {
-    return this.health > 0.0;
+    return this.health > MIN_HEALTH;
   }
 
   @Override
@@ -112,7 +116,7 @@ public class ConcretePlayer extends AbstractElement implements Player {
 
   @Override
   public void addToScore(double score) throws IllegalArgumentException {
-    if (score < 0.0)
+    if (score < MIN_SCORE)
       throw new IllegalArgumentException("Player score cannot be decreased!");
 
     this.score += score;
