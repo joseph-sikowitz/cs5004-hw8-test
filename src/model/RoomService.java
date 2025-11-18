@@ -14,6 +14,8 @@ import java.util.Map;
 class RoomService {
 
   private static final RoomService INSTANCE = new RoomService();
+  private static final int IMPASSABLE = 0;
+  private static final int BLOCKED = 0;
 
   private final Map<Integer, Room> rooms;
 
@@ -23,7 +25,7 @@ class RoomService {
   private RoomService() {
     this.rooms = new HashMap<>();
     //add 0 as null room because it represents a wall or no passage
-    this.rooms.put(0, null);
+    this.rooms.put(IMPASSABLE, null);
   }
 
   /**
@@ -50,7 +52,8 @@ class RoomService {
       if (room != null) {
         for (Directions direction : Directions.values()) {
           int passageRoomNumber = Math.abs(room.getPassages().get(direction));
-          if (passageRoomNumber != 0 && Math.abs(this.rooms.get(passageRoomNumber).getPassages()
+          if (passageRoomNumber != IMPASSABLE
+                  && Math.abs(this.rooms.get(passageRoomNumber).getPassages()
                   .get(direction.getOppositeDirection())) != room.getRoomNumber()) {
             return false;
           }
@@ -89,12 +92,12 @@ class RoomService {
     if (!this.rooms.containsKey(Math.abs(roomNumber)))
       throw new IllegalArgumentException("Room doesn't exist!");
 
-    if (roomNumber < 0 && room.getRoomEnvironmentAffector() != null
+    if (roomNumber < BLOCKED && room.getRoomEnvironmentAffector() != null
             && !room.getRoomEnvironmentAffector().isActive())
       roomNumber = Math.abs(roomNumber);
 
-    if (roomNumber <= 0) {
-      throw new CannotGetRoomException(roomNumber == 0 ? RoomStatus.NO_PASSAGE
+    if (roomNumber <= BLOCKED) {
+      throw new CannotGetRoomException(roomNumber == IMPASSABLE ? RoomStatus.NO_PASSAGE
               : RoomStatus.BLOCKED);
     }
 
