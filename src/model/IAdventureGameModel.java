@@ -126,12 +126,19 @@ public interface IAdventureGameModel {
   boolean changeInPlayerScore();
 
   /**
-   * The getPlayerScore() method returns the player's score to be used when restoring
+   * The getPlayerScore() method returns the player's score
    * from a file.
    *
    * @return double of player's score.
    */
   double getPlayerScore();
+
+  /**
+   * The getPlayerScore() method returns the player's score as a String.
+   *
+   * @return formatting String of player's score.
+   */
+  String getPlayerScoreFormatted();
 
   /**
    * Returns whether the Player's rank has changed.
