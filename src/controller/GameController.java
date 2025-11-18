@@ -140,7 +140,7 @@ public class GameController implements Controller {
             this.out.append("Game restored!\n");
             this.out.append("Welcome back " + this.model.getPlayerName() + "\n");
             this.out.append(this.model.playerHealthStatus());
-            this.out.append("Current rank: " + this.model.getPlayerRank(this.model.getPlayerScore()));
+            this.out.append("Current rank: " + this.model.getPlayerRank());
             playerCommandExecuted = false;
 
           } else if (this.isValidCommand(commandReader.getUserInputCommand())
@@ -157,7 +157,7 @@ public class GameController implements Controller {
           //if there is a Monster in the room, have it "affect" the Player in the model.
           this.out.append(this.model.affectPlayer());
           //display player's health status if it has changed since last command.
-          if (this.model.changeInHealthStatus())
+          if (this.model.changeInPlayerHealthStatus())
             this.out.append(this.model.playerHealthStatus());
         }
       }
