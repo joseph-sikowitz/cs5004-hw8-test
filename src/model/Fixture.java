@@ -15,12 +15,20 @@ public interface Fixture extends Element, Weightable, Picturable, EnvironmentAff
    * Returns the states of the Fixture.
    * @return a String representing the states of the Fixture.
    */
-  public String getStates();
+  String getStates();
 
   /**
    * The getter for the fixture's Puzzle.
    *
    * @return Puzzle object associated with the fixture.
    */
-  public Puzzle getPuzzle();
+  Puzzle getPuzzle();
+
+  /**
+   * Returns the Fixture's true description.
+   * For use when saving Fixture into json.
+   * @return A String representing the Fixture's true description.
+   */
+  String getTrueDescription();
+
 }
