@@ -118,15 +118,6 @@ public interface Room extends Element, Picturable, EnvironmentAffectedForPlayer 
   Map<String, Fixture> getFixtures();
 
   /**
-   * The isPathBlocked() method indicates whether there is a path blocker,
-   * a monster or puzzle, in the room blocking certain passages.
-   *
-   * @return boolean indicating if there is a path blocker in the room.
-   */
-  boolean isPathBlocked();
-
-
-  /**
    * The getTrueDescription() method gets the Room's description regardless
    * if there is an Affector overwriting it in the output.
    *

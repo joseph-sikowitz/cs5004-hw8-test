@@ -211,10 +211,6 @@ public class ConcreteRoom extends AbstractElement implements Room {
     return new HashMap<>(this.fixtures);
   }
 
-  @Override
-  public boolean isPathBlocked() {
-    return this.roomEnvironmentAffector.isActive();
-  }
 
   @Override
   public String getPicturePath() {
