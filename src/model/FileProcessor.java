@@ -692,7 +692,7 @@ public class FileProcessor {
 
       if (this.fixtures.get(keyName).getPuzzle() != null) {
         fixtureMap.put(FixtureJsonFields.PUZZLE.getValue(),
-                this.fixtures.get(keyName).getPuzzle().toString());
+                this.fixtures.get(keyName).getPuzzle().getName().toLowerCase());
       } else {
         fixtureMap.put(FixtureJsonFields.PUZZLE.getValue(), null);
       }

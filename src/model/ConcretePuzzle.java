@@ -36,8 +36,4 @@ public class ConcretePuzzle extends AbstractPuzzle implements Puzzle {
             solutionItem, effects, damage, picture);
   }
 
-  @Override
-  public String toString() {
-    return super.getName();
-  }
 }
