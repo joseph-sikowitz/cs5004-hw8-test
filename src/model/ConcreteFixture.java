@@ -73,6 +73,11 @@ public class ConcreteFixture extends AbstractElement implements Fixture {
   }
 
   @Override
+  public String getTrueDescription() {
+    return super.getDescription();
+  }
+
+  @Override
   public boolean affectorAffectsPlayer() {
     return this.puzzle != null && puzzle.isActive()
             && puzzle.affectsPlayer();
