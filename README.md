@@ -15,7 +15,7 @@ based on user input. The controller is comprised of two classes: GameController 
 GameController to process commands entered by the user. The GameController takes the input from the user given by the GameCommandReader and 
 sends it to the model for processing. It is also reponsible for taking a Readable input and appending to an Appendable output.
 
-Between homework 7 and homework 8, our design has evolved in significant ways. The creation of the additional interfaces to guarantee 
+Between homework 7 and homework 8, our design evolved in significant ways. The creation of the additional interfaces to guarantee 
 functionality was a large change as was the creation of a RoomService class to allow for all Room objects to have access to all other Room
 objects. The largest difference between our original design and the current one was the elimination of the ActionDelegate hierachy.
 Originally, ActionDelegates were to be used by game elements to perform actions on themselves or other game elements. After reviewing the
