@@ -686,7 +686,7 @@ public class FileProcessor {
 
       fixtureMap.put(FixtureJsonFields.NAME.getValue(), this.fixtures.get(keyName).getName());
       fixtureMap.put(FixtureJsonFields.DESCRIPTION.getValue(),
-              this.fixtures.get(keyName).getDescription());
+              this.fixtures.get(keyName).getTrueDescription());
       fixtureMap.put(FixtureJsonFields.WEIGHT.getValue(), Double.toString(
               this.fixtures.get(keyName).getWeight()));
 
