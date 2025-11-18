@@ -77,6 +77,9 @@ public class ConcreteItem extends AbstractElement implements Item {
     //decrement uses remaining whether Item use was successful or not.
     if (usesRemaining > 0)
       this.usesRemaining--;
+    else
+      return new UseSuccessful(use, false);
+
     if (enemy == null) {
       return new UseSuccessful(use, false);
     }
