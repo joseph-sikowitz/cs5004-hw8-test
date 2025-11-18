@@ -1,13 +1,13 @@
 package model;
 
 /**
- * Represents the discrete Health states of the player.
+ * Represents the discrete health states of the player.
  */
 public enum HealthStatus {
   SLEEP(0, "Asleep"),
   WOOZY(40, "Woozy"),
   FATIGUED(70, "Fatigued"),
-  AWAKE(100, "Awake"),;
+  AWAKE(100, "Awake");
 
   final int maxHealth;
   final String healthStatus;
@@ -23,7 +23,7 @@ public enum HealthStatus {
   }
 
   /**
-   * Returns the max health value for the HealthState.
+   * Returns the max health value for the specific HealthStatus state.
    * @return an int representing the max health value for the state.
    */
   public int getMaxHealth() {
