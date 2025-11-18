@@ -199,7 +199,6 @@ public class AdventureGameModel implements IAdventureGameModel {
   }
 
 
-
   @Override
   public String affectPlayer() {
     Monster enemy = this.player.getActiveRoom().getMonster();
@@ -231,13 +230,20 @@ public class AdventureGameModel implements IAdventureGameModel {
 
 
   @Override
+  public String restoreMessage() {
+    return "Welcome back " + this.getPlayerName() + "\n" + this.playerHealthStatus()
+            + "\n" + this.getPlayerRank();
+  }
+
+  @Override
   public String quitMessage() {
-    return "Thanks for playing!\nFinal score: " + this.player.getScore() + " \n";
+    return "Thanks for playing!\nFinal score: " + this.player.getScore()
+            + " \n" + this.getPlayerRank() + " \n";
   }
 
   @Override
   public boolean gameOver() {
-    return this.player.getHealthStatus() == HealthStatus.SLEEP;
+    return this.player.getHealthStatus() == HealthStatus.ZERO_HEALTH;
   }
 
   @Override
@@ -270,7 +276,7 @@ public class AdventureGameModel implements IAdventureGameModel {
 
   @Override
   public String getPlayerRank() {
-    return getPlayerRanks().getName();
+    return "Your rank: " + getPlayerRanks().getName();
   }
 
   /**
