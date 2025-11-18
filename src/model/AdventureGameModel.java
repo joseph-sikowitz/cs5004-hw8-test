@@ -1,6 +1,7 @@
 package model;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -24,8 +25,27 @@ public class AdventureGameModel implements IAdventureGameModel {
   private FileProcessor fileProcessor;
   private boolean firstDisplay;
 
+  private final DecimalFormat decimalFormat;
+
   // attributes
   private static final String ENTER = " You enter: ";
+
+  /**
+   *  The constructor initializes the model by taking in a game file name,
+   * initializing the player's last health to a default and the first display
+   *  to true.
+   * @param gameFileName String of the game file name to load into the model.
+   * @param decimalFormat Decimal format of numerical data to output to controller.
+   */
+  public AdventureGameModel(String gameFileName, DecimalFormat decimalFormat) {
+    this.gameFileName = gameFileName;
+    //set to value outside range to so that status is communicated to user at start of game.
+    this.playersLastHealth = -1.0;
+    this.playersLastScore = -1.0;
+    this.playersLastRank = null;
+    this.firstDisplay = true;
+    this.decimalFormat = decimalFormat;
+  }
 
   /**
    * The constructor initializes the model by taking in a game file name,
@@ -35,13 +55,9 @@ public class AdventureGameModel implements IAdventureGameModel {
    * @param gameFileName String of the game file name to load into the model.
    */
   public AdventureGameModel(String gameFileName) {
-    this.gameFileName = gameFileName;
-    //set to value outside range to so that status is communicated to user at start of game.
-    this.playersLastHealth = -1.0;
-    this.playersLastScore = -1.0;
-    this.playersLastRank = null;
-    this.firstDisplay = true;
+    this(gameFileName, new DecimalFormat("0.##"));
   }
+
 
   @Override
   public void setPlayerName(String playerName) {
@@ -204,7 +220,7 @@ public class AdventureGameModel implements IAdventureGameModel {
     Monster enemy = this.player.getActiveRoom().getMonster();
     if (enemy != null && enemy.attack(this.player)) {
       String returnMessage = enemy.getName() + " " + enemy.getAttackDescription();
-      returnMessage += "\nYou take " + enemy.getDamage() + " damage!\n";
+      returnMessage += "\nYou take " + decimalFormat.format(enemy.getDamage()) + " damage!\n";
       return returnMessage;
     }
     return "";
@@ -237,8 +253,8 @@ public class AdventureGameModel implements IAdventureGameModel {
 
   @Override
   public String quitMessage() {
-    return "Thanks for playing!\nFinal score: " + this.player.getScore()
-            + " \n" + this.getPlayerRank() + " \n";
+    return "Thanks for playing!\nFinal score: " + decimalFormat.format(this.player.getScore())
+            + " \n" + this.getPlayerRank();
   }
 
   @Override
@@ -266,6 +282,11 @@ public class AdventureGameModel implements IAdventureGameModel {
   }
 
   @Override
+  public String getPlayerScoreFormatted() {
+    return "Your current score: " + this.decimalFormat.format(this.getPlayerScore() + "\n");
+  }
+
+  @Override
   public boolean changeInPlayerRank() {
     if (this.playersLastRank != this.getPlayerRanks()) {
       this.playersLastRank = this.getPlayerRanks();
@@ -276,7 +297,7 @@ public class AdventureGameModel implements IAdventureGameModel {
 
   @Override
   public String getPlayerRank() {
-    return "Your rank: " + getPlayerRanks().getName();
+    return "Your rank: " + getPlayerRanks().getName() + "\n";
   }
 
   /**
