@@ -589,7 +589,7 @@ public class FileProcessor {
    * The createNewPlayer() method instantiates a player object without input data
    * for a new game.
    */
-  public void createNewPlayer() {
+  private void createNewPlayer() {
     Map<String, Item> inventory = new HashMap<>();
     this.currentPlayer = new ConcretePlayer(
             this.playerName, inventory, this.rooms.get(NEW_PLAYER_START));
