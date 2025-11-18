@@ -15,6 +15,9 @@ public class ConcreteMonster extends AbstractPuzzle implements Monster {
   private boolean canAttack;
   private final String attackDescription;
 
+  // constants
+  private static final double MINIMUM_DAMAGE = 0.0;
+
   /**
    * The ConcreteMonster constructor initializes most of its attributes using its superclass,
    * but initializes canAttack and attackDescription here.
@@ -43,13 +46,13 @@ public class ConcreteMonster extends AbstractPuzzle implements Monster {
             solutionItem, effects, damage, picture);
 
     //canAttack == true requires negative damage and valid attackDescription
-    if (canAttack && (damage == 0.0 || checkIfInvalid(attackDescription))) {
+    if (canAttack && (damage == MINIMUM_DAMAGE || checkIfInvalid(attackDescription))) {
       throw new IllegalArgumentException("If monster can attack player, it must"
               + " deal damage and it must have an attack description!");
     }
 
     //canAttack == false requires no damage to be dealt.
-    if (!canAttack && damage != 0.0) {
+    if (!canAttack && damage != MINIMUM_DAMAGE) {
       throw new IllegalArgumentException("If monster can't attack player,"
               + " it must not deal damage!");
     }
