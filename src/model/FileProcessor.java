@@ -806,7 +806,7 @@ public class FileProcessor {
 
       roomMap.put(RoomJsonFields.ROOM_NAME.getValue(), this.rooms.get(keyNumber).getName());
       roomMap.put(RoomJsonFields.DESCRIPTION.getValue(),
-              this.rooms.get(keyNumber).getDescription());
+              this.rooms.get(keyNumber).getTrueDescription());
       roomMap.put(RoomJsonFields.ROOM_NUMBER.getValue(),
               Integer.toString(this.rooms.get(keyNumber).getRoomNumber()));
 
