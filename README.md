@@ -1,5 +1,7 @@
 Group Members: Vasilios Nicholas, Joseph Sikowitz
+
 Team: Boston Celtics
+
 Project: CS5004, Fall 2025, Homework 8
 
 Our design for this adventure game uses the model and controller components of the MVC framework. The model contains the elements 
