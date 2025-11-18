@@ -18,6 +18,8 @@ public class AdventureGameModel implements IAdventureGameModel {
   private String playerName;
   private Player player;
   private double playersLastHealth;
+  private double playersLastScore;
+  private PlayerRanks playersLastRank;
   private String warnings;
   private FileProcessor fileProcessor;
   private boolean firstDisplay;
@@ -34,8 +36,10 @@ public class AdventureGameModel implements IAdventureGameModel {
    */
   public AdventureGameModel(String gameFileName) {
     this.gameFileName = gameFileName;
-    //set to value outside range to so that health status is communicated to user at start of game.
+    //set to value outside range to so that status is communicated to user at start of game.
     this.playersLastHealth = -1.0;
+    this.playersLastScore = -1.0;
+    this.playersLastRank = null;
     this.firstDisplay = true;
   }
 
@@ -179,7 +183,7 @@ public class AdventureGameModel implements IAdventureGameModel {
 
 
   @Override
-  public boolean changeInHealthStatus() {
+  public boolean changeInPlayerHealthStatus() {
     if (this.playersLastHealth != this.player.getHealth()) {
       this.playersLastHealth = this.player.getHealth();
       return true;
@@ -193,6 +197,8 @@ public class AdventureGameModel implements IAdventureGameModel {
             ? "fully " : "still ";
     return "You are " + adjective + this.player.getHealthStatus().getHealthStatus() + "\n";
   }
+
+
 
   @Override
   public String affectPlayer() {
@@ -240,17 +246,43 @@ public class AdventureGameModel implements IAdventureGameModel {
   }
 
   @Override
+  public boolean changeInPlayerScore() {
+    if (this.playersLastScore != this.getPlayerScore()) {
+      this.playersLastScore = this.getPlayerScore();
+      return true;
+    }
+    return false;
+  }
+
+  @Override
   public double getPlayerScore() {
     return this.player.getScore();
   }
 
   @Override
-  public String getPlayerRank(double score) {
+  public boolean changeInPlayerRank() {
+    if (this.playersLastRank != this.getPlayerRanks()) {
+      this.playersLastRank = this.getPlayerRanks();
+      return true;
+    }
+    return false;
+  }
+
+  @Override
+  public String getPlayerRank() {
+    return getPlayerRanks().getName();
+  }
+
+  /**
+   * Helper method that computes the Player's current rank from the PlayerRanks enum type.
+   */
+  private PlayerRanks getPlayerRanks() {
     for (PlayerRanks playerRank : PlayerRanks.values()) {
-      if (score >= playerRank.getLowValue() && score < playerRank.getHighValue()) {
-        return playerRank.getName();
+      if (this.getPlayerScore() >= playerRank.getLowValue()
+              && this.getPlayerScore() < playerRank.getHighValue()) {
+        return playerRank;
       }
     }
-    return PlayerRanks.NOVICE.getName();
+    return PlayerRanks.NOVICE;
   }
 }

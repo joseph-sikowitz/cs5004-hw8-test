@@ -110,13 +110,41 @@ public interface IAdventureGameModel {
    * Returns whether the Player's health status has changed.
    * @return true if Players health status has changed
    */
-  boolean changeInHealthStatus();
+  boolean changeInPlayerHealthStatus();
 
   /**
    * Returns the health status of the Player as a String.
    * @return A String representing the health status of the Player
    */
   String playerHealthStatus();
+
+
+  /**
+   * Returns whether the Player's score has changed.
+   * @return true if the Player's score has changed, otherwise false.
+   */
+  boolean changeInPlayerScore();
+
+  /**
+   * The getPlayerScore() method returns the player's score to be used when restoring
+   * from a file.
+   *
+   * @return double of player's score.
+   */
+  double getPlayerScore();
+
+  /**
+   * Returns whether the Player's rank has changed.
+   * @return true if the Player's rank has changed, otherwise false.
+   */
+  boolean changeInPlayerRank();
+
+  /**
+   * The getPlayerRank() method gets a player's rank based on their current
+   * score.
+   * @return String of the player's rank.
+   */
+  String getPlayerRank();
 
   /**
    * Has the Player's activeRoom's roomEnvironmentEffector perform its actions on the Player if any.
@@ -167,25 +195,5 @@ public interface IAdventureGameModel {
    * @return String of player's name.
    */
   String getPlayerName();
-
-  /**
-   * The getPlayerScore() method returns the player's score to be used when restoring
-   * from a file.
-   *
-   * @return double of player's score.
-   */
-  double getPlayerScore();
-
-
-
-
-  /**
-   * The getPlayerRank() method gets a player's rank based on their current
-   * score.
-   *
-   * @param score double of the player's score.
-   * @return String of the player's rank.
-   */
-  String getPlayerRank(double score);
 
 }
