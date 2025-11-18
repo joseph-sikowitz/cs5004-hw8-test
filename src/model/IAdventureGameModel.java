@@ -177,6 +177,12 @@ public interface IAdventureGameModel {
   String getGameFileWarnings();
 
   /**
+   * Prints a restore message.
+   * @return A String with a restore message for the game.
+   */
+  String restoreMessage();
+
+  /**
    * Prints an exit message.
    * @return A String with an exit message for the game.
    */
