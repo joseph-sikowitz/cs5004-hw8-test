@@ -283,7 +283,7 @@ public class AdventureGameModel implements IAdventureGameModel {
 
   @Override
   public String getPlayerScoreFormatted() {
-    return "Your current score: " + this.decimalFormat.format(this.getPlayerScore() + "\n");
+    return "Your current score: " + this.decimalFormat.format(this.getPlayerScore()) + "\n";
   }
 
   @Override
