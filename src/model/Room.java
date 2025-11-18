@@ -26,7 +26,7 @@ public interface Room extends Element, Picturable, EnvironmentAffectedForPlayer 
    * @param direction Directions enum indicating if the passage is NORTH, SOUTH,
    *                  EAST or WEST.
    * @return int of the passage's value; negative for blocked, zero for impassable,
-   * and positive for passable.
+   *     and positive for passable.
    */
   int getPassageValue(Directions direction);
 
