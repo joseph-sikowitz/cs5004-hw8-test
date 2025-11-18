@@ -132,14 +132,14 @@ public class ConcretePlayer extends AbstractElement implements Player {
 
   @Override
   public HealthStatus getHealthStatus() {
-    if (health <= HealthStatus.SLEEP.getMaxHealth()) {
-      return HealthStatus.SLEEP;
-    } else if (health <= HealthStatus.WOOZY.getMaxHealth()) {
-      return HealthStatus.WOOZY;
-    } else if (health <= HealthStatus.FATIGUED.getMaxHealth()) {
-      return HealthStatus.FATIGUED;
+    if (health <= HealthStatus.ZERO_HEALTH.getMaxHealth()) {
+      return HealthStatus.ZERO_HEALTH;
+    } else if (health <= HealthStatus.LOW_HEALTH.getMaxHealth()) {
+      return HealthStatus.LOW_HEALTH;
+    } else if (health <= HealthStatus.HIGH_HEALTH.getMaxHealth()) {
+      return HealthStatus.HIGH_HEALTH;
     }
-    return HealthStatus.AWAKE;
+    return HealthStatus.FULL_HEALTH;
   }
 
   @Override
