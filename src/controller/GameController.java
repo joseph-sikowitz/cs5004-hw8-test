@@ -140,7 +140,7 @@ public class GameController implements Controller {
             this.out.append("Game restored!\n");
             this.out.append("Welcome back " + this.model.getPlayerName() + "\n");
             this.out.append(this.model.playerHealthStatus());
-            this.out.append("Current rank: " + this.model.findPlayerRank(this.model.getPlayerScore()));
+            this.out.append("Current rank: " + this.model.getPlayerRank(this.model.getPlayerScore()));
             playerCommandExecuted = false;
 
           } else if (this.isValidCommand(commandReader.getUserInputCommand())
