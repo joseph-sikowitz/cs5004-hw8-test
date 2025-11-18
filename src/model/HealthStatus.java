@@ -4,10 +4,10 @@ package model;
  * Represents the discrete health states of the player.
  */
 public enum HealthStatus {
-  SLEEP(0, "Asleep"),
-  WOOZY(40, "Woozy"),
-  FATIGUED(70, "Fatigued"),
-  AWAKE(100, "Awake");
+  ZERO_HEALTH(0, "Asleep"),
+  LOW_HEALTH(40, "Woozy"),
+  HIGH_HEALTH(70, "Fatigued"),
+  FULL_HEALTH(100, "Awake");
 
   final int maxHealth;
   final String healthStatus;
