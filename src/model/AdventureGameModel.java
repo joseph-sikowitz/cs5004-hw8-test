@@ -210,11 +210,12 @@ public class AdventureGameModel implements IAdventureGameModel {
 
   @Override
   public String playerHealthStatus() {
-    String adjective = this.player.getHealth() == this.player.getHealthStatus().getMaxHealth()
-            ? "fully " : "still ";
+    String adjective = this.player.getHealthStatus()
+            == HealthStatus.FULL_HEALTH ? "becoming less " : "becoming more ";
+    if (this.player.getHealth() == this.player.getHealthStatus().getMaxHealth())
+      adjective = this.player.getHealthStatus() == HealthStatus.FULL_HEALTH ? "fully " : "now ";
     return "You are " + adjective + this.player.getHealthStatus().getHealthStatus() + "\n";
   }
-
 
   @Override
   public String affectPlayer() {
