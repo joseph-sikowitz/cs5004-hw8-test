@@ -150,7 +150,7 @@ public class ConcretePlayer extends AbstractElement implements Player {
      * active room doesn't have the enemy, or enemy is already deactivated.
      */
     if (!inventory.containsKey(itemName.toLowerCase())) {
-      return new UseSuccessful(itemName + " not found within inventory", false);
+      return new UseSuccessful(itemName + " not found within inventory!\n", false);
     }
     /*
       return new UseSuccessful("You can't use " + itemName + " on this puzzle.", false);
