@@ -28,7 +28,12 @@ public class ConcreteRoom extends AbstractElement implements Room {
   private final Monster monster;
   private final Puzzle puzzle;
   private final String picture;
+
+  // constants
   private static final RoomService ROOM_SERVICE = RoomService.getInstance();
+  private static final int MIN_ROOM_NUMBER = 0;
+  private static final int PASSAGE_COUNT = 4;
+  private static final int IMPASSABLE = 0;
 
   /**
    * The ConcreteRoom constructor initializes its attributes using the parent
@@ -53,19 +58,19 @@ public class ConcreteRoom extends AbstractElement implements Room {
                       String picture) throws IllegalArgumentException {
     super(name, description);
 
-    if (roomNumber <= 0) {
+    if (roomNumber <= MIN_ROOM_NUMBER) {
       throw new IllegalArgumentException("Invalid room number");
     }
 
     this.roomNumber = roomNumber;
 
 
-    if (passages == null || passages.size() != 4) {
+    if (passages == null || passages.size() != PASSAGE_COUNT) {
       throw new IllegalArgumentException("Room must have 4 passages!");
     }
     //filter out 0's and get room numbers from passages
     List<Integer> checkPassages = passages.values().stream()
-            .filter((i) -> i != 0).toList();
+            .filter((i) -> i != IMPASSABLE).toList();
 
     //all directions have a value of 0 or no key-value pairs in passages.
     /*
