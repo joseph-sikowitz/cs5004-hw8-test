@@ -51,7 +51,7 @@ public class ConcreteItem extends AbstractElement implements Item {
     }
     this.weight = weight;
 
-    this.cannotUse = this.getName() + " can no longer be used!";
+    this.cannotUse = this.getName() + " can no longer be used!\n";
   }
 
   @Override
