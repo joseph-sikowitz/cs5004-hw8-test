@@ -11,7 +11,7 @@ public enum RoomStatus {
   NO_PASSAGE("Wall or no Passage in this direction!"),
   OPEN("The passage between rooms is open!");
 
-  final String status;
+  private final String status;
 
   /**
    * The constructor for the RoomStatus enum initializes the status attribute.

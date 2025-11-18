@@ -9,15 +9,15 @@ public enum HealthStatus {
   HIGH_HEALTH(70, "Fatigued"),
   FULL_HEALTH(100, "Awake");
 
-  final int maxHealth;
-  final String healthStatus;
+  private final double maxHealth;
+  private final String healthStatus;
 
   /**
    * Initializes the values for each enum.
    * @param maxHealth an int representing the max health value for the state.
    * @param healthStatus a String describing the health state.
    */
-  HealthStatus(int maxHealth, String healthStatus) {
+  HealthStatus(double maxHealth, String healthStatus) {
     this.maxHealth = maxHealth;
     this.healthStatus = healthStatus;
   }
@@ -26,7 +26,7 @@ public enum HealthStatus {
    * Returns the max health value for the specific HealthStatus state.
    * @return an int representing the max health value for the state.
    */
-  public int getMaxHealth() {
+  public double getMaxHealth() {
     return maxHealth;
   }
 
