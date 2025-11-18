@@ -170,7 +170,7 @@ public class GameController implements Controller {
       this.out.append(this.model.affectPlayer());
       //display player's health status if it has changed since last command.
       if (this.model.changeInPlayerHealthStatus())
-        this.out.append(this.model.playerHealthStatus());
+        this.out.append(this.model.getPlayerHealthStatus());
       //display player's score if it has changed since last command.
       if (this.model.changeInPlayerScore())
         this.out.append(this.model.getPlayerScoreFormatted());

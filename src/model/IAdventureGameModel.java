@@ -116,7 +116,7 @@ public interface IAdventureGameModel {
    * Returns the health status of the Player as a String.
    * @return A String representing the health status of the Player
    */
-  String playerHealthStatus();
+  String getPlayerHealthStatus();
 
 
   /**

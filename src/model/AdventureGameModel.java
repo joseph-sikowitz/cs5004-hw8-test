@@ -209,7 +209,7 @@ public class AdventureGameModel implements IAdventureGameModel {
   }
 
   @Override
-  public String playerHealthStatus() {
+  public String getPlayerHealthStatus() {
     String adjective = this.player.getHealthStatus()
             == HealthStatus.FULL_HEALTH ? "becoming less " : "becoming more ";
     if (this.player.getHealth() == this.player.getHealthStatus().getMaxHealth())
@@ -249,7 +249,7 @@ public class AdventureGameModel implements IAdventureGameModel {
 
   @Override
   public String restoreMessage() {
-    return "Welcome back " + this.getPlayerName() + "\n" + this.playerHealthStatus()
+    return "Welcome back " + this.getPlayerName() + "\n" + this.getPlayerHealthStatus()
             + "\n" + this.getPlayerRank();
   }
 
