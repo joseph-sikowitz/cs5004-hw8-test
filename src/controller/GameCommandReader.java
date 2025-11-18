@@ -23,6 +23,8 @@ public class GameCommandReader {
   private static final int FIRST_COMMAND = 0;
   private static final int SECOND_COMMAND = 1;
   private static final int COMMAND_LIMIT = 2;
+  private static final int ONE_COMMAND_LENGTH = 1;
+  private static final int TWO_COMMAND_LENGTH = 2;
   private static final String QUIT_COMMAND = "quit";
   private static final String Q_COMMAND = "q";
 
@@ -80,8 +82,8 @@ public class GameCommandReader {
       String input = scanner.nextLine();
       this.userInput = this.parseCommand(input);
 
-      return !this.userInput[0].equalsIgnoreCase(QUIT_COMMAND)
-              && !this.userInput[0].equalsIgnoreCase(Q_COMMAND);
+      return !this.userInput[FIRST_COMMAND].equalsIgnoreCase(QUIT_COMMAND)
+              && !this.userInput[FIRST_COMMAND].equalsIgnoreCase(Q_COMMAND);
 
     } catch (IOException e) {
       e.printStackTrace();
@@ -98,7 +100,7 @@ public class GameCommandReader {
    * @return String of user command.
    */
   public String getUserInputCommand() {
-    return this.userInput.length >= 1 ? this.userInput[FIRST_COMMAND] : null;
+    return this.userInput.length >= ONE_COMMAND_LENGTH ? this.userInput[FIRST_COMMAND] : null;
   }
 
   /**
@@ -109,7 +111,7 @@ public class GameCommandReader {
    * @return String of user argument.
    */
   public String getUserInputArgument() {
-    return this.userInput.length >= 2 ? this.userInput[SECOND_COMMAND] : null;
+    return this.userInput.length >= TWO_COMMAND_LENGTH ? this.userInput[SECOND_COMMAND] : null;
   }
 
   /**
