@@ -28,7 +28,8 @@ public class AdventureGameModel implements IAdventureGameModel {
   private final DecimalFormat decimalFormat;
 
   // attributes
-  private static final String ENTER = " You enter: ";
+  private static final double DEFAULT_HEALTH = -1.0;
+  private static final double DEFAULT_SCORE = -1.0;
 
   /**
    *  The constructor initializes the model by taking in a game file name,
@@ -40,8 +41,8 @@ public class AdventureGameModel implements IAdventureGameModel {
   public AdventureGameModel(String gameFileName, DecimalFormat decimalFormat) {
     this.gameFileName = gameFileName;
     //set to value outside range to so that status is communicated to user at start of game.
-    this.playersLastHealth = -1.0;
-    this.playersLastScore = -1.0;
+    this.playersLastHealth = DEFAULT_HEALTH;
+    this.playersLastScore = DEFAULT_SCORE;
     this.playersLastRank = null;
     this.firstDisplay = true;
     this.decimalFormat = decimalFormat;
@@ -85,7 +86,7 @@ public class AdventureGameModel implements IAdventureGameModel {
     return switch (status) {
       case BLOCKED -> RoomStatus.BLOCKED.getStatus() + "\n";
       case NO_PASSAGE -> RoomStatus.NO_PASSAGE.getStatus() + "\n";
-      case OPEN -> RoomStatus.OPEN.getStatus() + ENTER
+      case OPEN -> RoomStatus.OPEN.getStatus() + " You enter: "
               + this.player.getActiveRoom().getName() + "\n"
               + this.lookAround() + "\n";
     };
