@@ -11,7 +11,8 @@ public enum PlayerJsonFields {
   HEALTH("health"),
   MAX_WEIGHT("max_weight"),
   INVENTORY("inventory"),
-  ACTIVE_ROOM("active_room");
+  ACTIVE_ROOM("active_room"),
+  ITEMS_ADDED("items_added");
 
   private final String name;
 
