@@ -85,7 +85,7 @@ class AbstractPuzzleTest {
     assertThrows(IllegalArgumentException.class, () -> {
       new ConcreteMonster("testName2", "testDescription2", true,
               true, "1:testRoom", true, null, "testName1", 70,
-              "big effect", -100, "picture", true, "attack");
+              "", -100, "picture", true, "attack");
     });
   }
 
@@ -95,7 +95,7 @@ class AbstractPuzzleTest {
   void testGetPuzzleDamage() {
     assertEquals(0, ((ConcretePuzzle) testPuzzleWithAnswerSolution).getPuzzleDamage());
 
-    assertEquals(-100, ((ConcretePuzzle) testPuzzleWithItemSolution).getPuzzleDamage());
+    assertEquals(-100, ((ConcreteMonster) testPuzzleWithItemSolution).getPuzzleDamage());
   }
 
   @Test
@@ -106,8 +106,8 @@ class AbstractPuzzleTest {
 
   @Test
   void testAffectsPlayer() {
-    assertFalse(testPuzzleWithItemSolution.affectsPlayer());
-    assertTrue(testPuzzleWithAnswerSolution.affectsPlayer());
+    assertTrue(testPuzzleWithItemSolution.affectsPlayer());
+    assertFalse(testPuzzleWithAnswerSolution.affectsPlayer());
   }
 
   @Test
@@ -130,8 +130,8 @@ class AbstractPuzzleTest {
 
   @Test
   void testGetEffect() {
-    assertEquals("no effect", testPuzzleWithItemSolution.getEffect());
-    assertEquals("big effect", testPuzzleWithAnswerSolution.getEffect());
+    assertEquals("no effect", testPuzzleWithAnswerSolution.getEffect());
+    assertEquals("big effect", testPuzzleWithItemSolution.getEffect());
   }
 
   @Test
@@ -143,7 +143,7 @@ class AbstractPuzzleTest {
   @Test
   void testGetSolutionItem() {
     assertEquals(null, testPuzzleWithAnswerSolution.getSolutionItem());
-    assertEquals("test", testPuzzleWithItemSolution.getSolutionItem());
+    assertEquals("testName1", testPuzzleWithItemSolution.getSolutionItem());
   }
 
   @Test
@@ -155,13 +155,13 @@ class AbstractPuzzleTest {
   @Test
   void testSolve() {
     assertFalse(testPuzzleWithAnswerSolution.solve((String) null));
-    assertFalse(testPuzzleWithAnswerSolution.isActive());
+    assertTrue(testPuzzleWithAnswerSolution.isActive());
     assertFalse(testPuzzleWithAnswerSolution.solve(testItemSolution));
-    assertFalse(testPuzzleWithAnswerSolution.isActive());
+    assertTrue(testPuzzleWithAnswerSolution.isActive());
     assertFalse(testPuzzleWithAnswerSolution.solve((Item) null));
-    assertFalse(testPuzzleWithAnswerSolution.isActive());
+    assertTrue(testPuzzleWithAnswerSolution.isActive());
     assertFalse(testPuzzleWithAnswerSolution.solve(testItemNotSolution));
-    assertFalse(testPuzzleWithAnswerSolution.isActive());
+    assertTrue(testPuzzleWithAnswerSolution.isActive());
     assertTrue(testPuzzleWithAnswerSolution.solve("test"));
     assertFalse(testPuzzleWithAnswerSolution.isActive());
     assertFalse(testPuzzleWithAnswerSolution.solve("test"));
