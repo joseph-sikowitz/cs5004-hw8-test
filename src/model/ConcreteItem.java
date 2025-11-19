@@ -76,7 +76,7 @@ public class ConcreteItem extends AbstractElement implements Item {
     //get use of String before decrementing usesRemaining
     String use = this.use();
 
-    if ((usesRemaining < 0 || enemy == null || !enemy.isActive())) {
+    if ((usesRemaining <= 0 || enemy == null || !enemy.isActive())) {
       this.usesRemaining--;
       return new UseSuccessful(use, false);
     }

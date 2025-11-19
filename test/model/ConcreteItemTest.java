@@ -123,7 +123,8 @@ class ConcreteItemTest {
   @Test
   void testUse() {
     UseSuccessful result = i1.use(p1);
-    assertEquals("You light the lamp with the flint.", result.getUse());
+    assertEquals("You light the lamp with the flint.\nDARKNESS was deactivated by Lamp!",
+            result.getUse());
     assertTrue(result.getUseSuccessful());
     assertEquals(19, i1.getUsesRemaining());
 
@@ -143,12 +144,27 @@ class ConcreteItemTest {
   }
 
   /**
-   * The testUseNullEnemy() tests that the use() method throws an IllegalArgumentException
-   * when passed a null value for the enemy argument.
+   * The testUseNullEnemy() tests that the use() method returns false when given a null
+   * value for enemy.
    */
   @Test
   void testUseNullEnemy() {
-    assertThrows(IllegalArgumentException.class, () -> i1.use(null));
+    UseSuccessful result = i1.use(null);
+    assertFalse(result.getUseSuccessful());
+  }
+
+  /**
+   * The testUseNoUsesLeft() tests that the use() method returns false when there are not more
+   * uses allowed.
+   */
+  @Test
+  void testUseNoUsesLeft() {
+    i3.use(null);
+    assertEquals(0, i3.getUsesRemaining());
+    UseSuccessful result = i3.use(null);
+    assertFalse(result.getUseSuccessful());
+
+
   }
 
   /**
@@ -189,5 +205,13 @@ class ConcreteItemTest {
     assertTrue(i3.isActive());
     i3.use(p1);
     assertFalse(i3.isActive());
+  }
+
+  /**
+   * Tests the getter for the item's use description.
+   */
+  @Test
+  void testGetUseDescription() {
+    assertEquals("You light the lamp with the flint.", i1.getUseDescription());
   }
 }
