@@ -122,14 +122,22 @@ public class GameController implements Controller {
             this.out.append(this.model.answer(commandReader.getUserInputArgument()));
 
           } else if (commandMatches(commandReader, UserCommands.SAVE)) {
-            this.out.append("Game saved!\n");
-            this.model.saveGame(DATA_DIR + DEFAULT_SAVE_FILE);
-            playerCommandExecuted = false;
+            try {
+              this.out.append("Game saved!\n");
+              this.model.saveGame(DATA_DIR + DEFAULT_SAVE_FILE);
+              playerCommandExecuted = false;
+            } catch (Exception e) {
+              this.out.append("Error saving game data!\n");
+            }
 
           } else if (commandMatches(commandReader, UserCommands.RESTORE)) {
-            this.model.restoreGame(DATA_DIR + DEFAULT_SAVE_FILE);
-            this.out.append("Game restored!\n");
-            this.out.append(this.model.restoreMessage());
+            try {
+              this.model.restoreGame(DATA_DIR + DEFAULT_SAVE_FILE);
+              this.out.append("Game restored!\n");
+              this.out.append(this.model.restoreMessage());
+            } catch (Exception e) {
+              this.out.append("Error: could not restore game!\n");
+            }
             playerCommandExecuted = false;
 
           } else if (this.isValidCommand(commandReader.getUserInputCommand())
