@@ -903,10 +903,11 @@ public class FileProcessor {
     playerMap.put(PlayerJsonFields.ACTIVE_ROOM.getValue(),
             Integer.toString(this.currentPlayer.getActiveRoom().getRoomNumber()));
 
-    String itemsAdded  = String.join(", ", this.currentPlayer.getItemsAdded());
-    if  (itemsAdded.isEmpty() || itemsAdded.equalsIgnoreCase("null")) {
+    if (this.currentPlayer.getItemsAdded() == null
+            || this.currentPlayer.getItemsAdded().isEmpty()) {
       playerMap.put(PlayerJsonFields.ITEMS_ADDED.getValue(), null);
     } else {
+      String itemsAdded  = String.join(", ", this.currentPlayer.getItemsAdded());
       playerMap.put(PlayerJsonFields.ITEMS_ADDED.getValue(), itemsAdded);
     }
 

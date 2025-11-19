@@ -78,7 +78,12 @@ public class ConcretePlayer extends AbstractElement implements Player {
 
     this.inventory = inventory;
     this.activeRoom = activeRoom;
-    this.itemsAdded = itemsAdded;
+
+    if (itemsAdded == null) {
+      this.itemsAdded  = new HashSet<>();
+    } else {
+      this.itemsAdded = itemsAdded;
+    }
   }
 
   /**
