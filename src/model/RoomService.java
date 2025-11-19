@@ -44,6 +44,23 @@ class RoomService {
   }
 
   /**
+   * Checks that all check all roomNumbers in passages of
+   * each room in rooms leads to another Room in rooms.
+   * @return true if all roomNumbers contained in all passages Maps
+   *     of Room instances in rooms lead to another Room in rooms.
+   */
+  boolean checkAllPassagesLeadToInstantiatedRooms() {
+    for (Room room : this.rooms.values()) {
+      for (int roomNumber : room.getPassages().values()) {
+        if (roomNumber != IMPASSABLE && !this.rooms.containsKey(roomNumber) ) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  /**
    * Checks reflexivity of passages within each Room.
    * @return if all passages are reflexive, false if one passage is unidirectional.
    */
@@ -53,8 +70,9 @@ class RoomService {
         for (Directions direction : Directions.values()) {
           int passageRoomNumber = Math.abs(room.getPassages().get(direction));
           if (passageRoomNumber != IMPASSABLE
-                  && Math.abs(this.rooms.get(passageRoomNumber).getPassages()
-                  .get(direction.getOppositeDirection())) != room.getRoomNumber()) {
+                  && (this.rooms.get(passageRoomNumber) == null
+                  || Math.abs(this.rooms.get(passageRoomNumber).getPassages()
+                  .get(direction.getOppositeDirection())) != room.getRoomNumber())) {
             return false;
           }
         }
