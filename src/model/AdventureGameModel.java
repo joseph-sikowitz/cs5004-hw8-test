@@ -67,7 +67,9 @@ public class AdventureGameModel implements IAdventureGameModel {
 
   @Override
   public void loadGameData() {
-    this.fileProcessor = new FileProcessor(this.gameFileName, this.playerName);
+    this.fileProcessor = (this.playerName != null && !this.playerName.isEmpty())
+            ? new FileProcessor(this.gameFileName, this.playerName)
+            : new FileProcessor(this.gameFileName);
     this.player = this.fileProcessor.setUpGame();
     this.warnings = this.fileProcessor.getGameFileWarnings();
   }
