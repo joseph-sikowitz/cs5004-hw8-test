@@ -18,7 +18,6 @@ public class ConcretePlayer extends AbstractElement implements Player {
 
   // attributes
   private double score;
-  private boolean active;
   private double health;
   private final double maxWeight;
   private double currentWeight;
