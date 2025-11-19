@@ -57,7 +57,8 @@ public abstract class AbstractPuzzle extends AbstractElement
 
     //either solutionText or solutionItem must be non-null and non-empty.
     if (checkIfInvalid(solutionText) && checkIfInvalid(solutionItem)) {
-      throw new IllegalArgumentException("solutionText and solutionItem cannot both be null/empty!");
+      throw new IllegalArgumentException("solutionText and solutionItem "
+              + "cannot both be null/empty!");
     }
 
     //damage must be less than or equal 0.0
@@ -94,7 +95,7 @@ public abstract class AbstractPuzzle extends AbstractElement
 
   @Override
   public boolean solve(String answer) {
-    if (this.solutionText != null && this.solutionText.equalsIgnoreCase(answer)) {
+    if (this.active && this.solutionText != null && this.solutionText.equalsIgnoreCase(answer)) {
       this.active = false;
       return true;
     }
@@ -103,7 +104,7 @@ public abstract class AbstractPuzzle extends AbstractElement
 
   @Override
   public boolean solve(Item item) {
-    if (this.solutionItem != null && item.isActive()
+    if (this.active && this.solutionItem != null && item.isActive()
             && this.solutionItem.equalsIgnoreCase(item.getName())) {
       this.active = false;
       return true;
