@@ -70,6 +70,7 @@ public class FileProcessor {
     this.monsters = new HashMap<>();
     this.puzzles = new HashMap<>();
     this.rooms = new HashMap<>();
+    RoomService.clear();
   }
 
   /**
@@ -565,6 +566,10 @@ public class FileProcessor {
         }
       }
     }
+
+    if (!RoomService.getInstance().checkAllPassagesLeadToInstantiatedRooms())
+        this.addGameFileWarning("One or more Rooms at the end of passages do not exist!");
+
     //After all Rooms have been instantiated, check reflexivity of passages.
     //Apparently not necessary!
     if (!ConcreteRoom.checkReflexivity()) {
