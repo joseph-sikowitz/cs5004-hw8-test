@@ -1,8 +1,11 @@
 package model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,6 +21,7 @@ class ConcreteFixtureTest {
   private ConcreteFixture f1;
   private Fixture f2;
   private ConcreteFixture f3;
+  private Puzzle p1;
 
   /**
    * The setUp() method creates a Puzzle object to be passed to ConcreteFixture constructors
@@ -25,7 +29,7 @@ class ConcreteFixtureTest {
    */
   @BeforeEach
   void setUp() {
-    Puzzle p1 = new ConcretePuzzle("DARKNESS", "Darkness! You cannot see!",
+    p1 = new ConcretePuzzle("DARKNESS", "Darkness! You cannot see!",
             true, true, "6:Kitchen", true, null,
             "Lamp", 150,
             "It's dark! You cannot see anything! Maybe we should go back?",
@@ -176,5 +180,62 @@ class ConcreteFixtureTest {
   void testGetStates() {
     assertEquals("Solid|Liquid|Gas", f2.getStates());
     assertEquals("Connecticut; Rhode Island; Mass", f3.getStates());
+  }
+
+  /**
+   * Tests the getter for the fixture's puzzle.
+   */
+  @Test
+  void testGetPuzzle() {
+    assertNull(f2.getPuzzle());
+    assertEquals(p1, f3.getPuzzle());
+  }
+
+  /**
+   * Tests the getter for the fixture's true description, unobscured by a puzzle or monster.
+   */
+  @Test
+  void testGetTrueDescription() {
+    assertEquals("It's dark! You cannot see anything! Maybe we should go back?",
+            f1.getDescription());
+    assertEquals("A bookshelf filled with books of magic", f1.getTrueDescription());
+  }
+
+  /**
+   * Tests that affectorAffectsPlayer returns correct boolean based on its status.
+   */
+  @Test
+  void testAffectorAffectsPlayer() {
+    Puzzle puzz = new ConcretePuzzle("DARKNESS", "Darkness! You cannot see!",
+            true, true, "6:Kitchen", true, null,
+            "Lamp", 150,
+            "It's dark! You cannot see anything! Maybe we should go back?",
+            0.0, "darkness.png");
+    Fixture fix = new ConcreteFixture("Bookshelf", "A bookshelf filled with books of magic",
+            250.0, puzz, null, "pictures/bookshelf.jpg");
+    assertTrue(fix.affectorAffectsPlayer());
+
+    Puzzle puzz2 = new ConcretePuzzle("DARKNESS", "Darkness! You cannot see!",
+            false, true, "6:Kitchen", true, null,
+            "Lamp", 150,
+            "It's dark! You cannot see anything! Maybe we should go back?",
+            0.0, "darkness.png");
+    Fixture fix2 = new ConcreteFixture("Bookshelf", "A bookshelf filled with books of magic",
+            250.0, puzz2, null, "pictures/bookshelf.jpg");
+    assertFalse(fix2.affectorAffectsPlayer());
+
+    Puzzle puzz3 = new ConcretePuzzle("DARKNESS", "Darkness! You cannot see!",
+            true, true, "6:Kitchen", false, null,
+            "Lamp", 150,
+            "It's dark! You cannot see anything! Maybe we should go back?",
+            0.0, "darkness.png");
+    Fixture fix3 = new ConcreteFixture("Bookshelf", "A bookshelf filled with books of magic",
+            250.0, puzz3, null, "pictures/bookshelf.jpg");
+    assertFalse(fix3.affectorAffectsPlayer());
+
+    Fixture fix4 = new ConcreteFixture("Bookshelf", "A bookshelf filled with books of magic",
+            250.0, null, null, "pictures/bookshelf.jpg");
+    assertFalse(fix4.affectorAffectsPlayer());
+
   }
 }
