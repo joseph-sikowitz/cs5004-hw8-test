@@ -174,7 +174,7 @@ public class ConcretePlayer extends AbstractElement implements Player {
 
   @Override
   public TakeItemStatus takeItem(String item) {
-    Item itemToPickUp = this.activeRoom.getItem(item.toLowerCase());
+    Item itemToPickUp = this.activeRoom.getItem(item);
     if (itemToPickUp == null )
       return TakeItemStatus.ITEM_NOT_FOUND;
 
