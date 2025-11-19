@@ -41,6 +41,8 @@ class RoomService {
    */
   static void clear() {
     INSTANCE.rooms.clear();
+    //re-add base case.
+    INSTANCE.rooms.put(IMPASSABLE, null);
   }
 
   /**
@@ -51,9 +53,11 @@ class RoomService {
    */
   boolean checkAllPassagesLeadToInstantiatedRooms() {
     for (Room room : this.rooms.values()) {
-      for (int roomNumber : room.getPassages().values()) {
-        if (roomNumber != IMPASSABLE && !this.rooms.containsKey(roomNumber) ) {
-          return false;
+      if (room != null) {
+        for (int roomNumber : room.getPassages().values()) {
+          if (roomNumber != IMPASSABLE && !this.rooms.containsKey(roomNumber) ) {
+            return false;
+          }
         }
       }
     }
