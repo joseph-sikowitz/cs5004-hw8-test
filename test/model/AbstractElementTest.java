@@ -31,7 +31,8 @@ class AbstractElementTest {
 
   @BeforeEach
   void setUp() {
-    this.testItem = new ConcreteItem("testName1", "testDescription1", 0.0, 0.0, null, 10, 10, "test");
+    this.testItem = new ConcreteItem("testName1", "testDescription1", 0.0, 0.0, null,
+            10, 10, "test");
     this.testPuzzle = new ConcretePuzzle("testName2", "testDescription2", true, true, "1:testRoom",
             true, "test", "test", 12, "no effect", -10, null);
     this.testMonster = new ConcreteMonster("testName3", "testDescription3", true, true,
