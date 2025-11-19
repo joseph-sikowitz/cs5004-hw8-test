@@ -83,7 +83,12 @@ public class AdventureGameModel implements IAdventureGameModel {
    * @return String of result of the player attempting to move.
    */
   private String move(Directions direction) {
-    RoomStatus status = this.player.walk(direction);
+    RoomStatus status;
+    try {
+      status = this.player.walk(direction);
+    } catch (Exception e) {
+      return e.getMessage() + "\n";
+    }
 
     return switch (status) {
       case BLOCKED -> RoomStatus.BLOCKED.getStatus() + "\n";
