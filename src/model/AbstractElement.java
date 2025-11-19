@@ -48,15 +48,6 @@ public abstract class AbstractElement implements Element {
   }
 
   /**
-   * The setter for the AbstractElement's name.
-   *
-   * @param name String of the AbstractElement's name.
-   */
-  protected void setName(String name) {
-    this.name = name;
-  }
-
-  /**
    * Checks whether a String is null or empty.
    * @param str a String to check if it is null or empty.
    * @return true if the String is null or empty, otherwise false.

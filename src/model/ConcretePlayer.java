@@ -230,9 +230,11 @@ public class ConcretePlayer extends AbstractElement implements Player {
       return new UseSuccessful(enemy.getName() + " already deactivated!", false);
 
     boolean enemySolved = enemy.solve(answer.toLowerCase());
-    if (enemySolved)
+    if (enemySolved) {
       this.addToScore(enemy.getScore());
-    return new UseSuccessful(enemy.getName() + " was deactivated by " + answer + "!", true);
+      return new UseSuccessful(enemy.getName() + " was deactivated by " + answer + "!", true);
+    }
+    return new UseSuccessful(answer + " had no effect on " + enemy.getName() + "!", false);
   }
 
   @Override
