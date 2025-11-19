@@ -139,7 +139,7 @@ public class ConcreteRoom extends AbstractElement implements Room {
 
   @Override
   public Fixture getFixture(String fixtureName) {
-    if (this.affectorAffectsPlayer()) {
+    if (fixtureName == null || this.affectorAffectsPlayer()) {
       return null;
     }
     return this.fixtures.get(fixtureName.toLowerCase());
@@ -147,7 +147,7 @@ public class ConcreteRoom extends AbstractElement implements Room {
 
   @Override
   public Item getItem(String itemName) {
-    if (this.affectorAffectsPlayer()) {
+    if (itemName == null || this.affectorAffectsPlayer()) {
       return null;
     }
     return this.items.get(itemName.toLowerCase());
@@ -177,12 +177,14 @@ public class ConcreteRoom extends AbstractElement implements Room {
 
   @Override
   public void addItem(Item item) {
+    if (item == null)
+      return;
     this.items.put(item.getName().toLowerCase(), item);
   }
 
   @Override
   public Item removeItem(String itemName) {
-    if (this.affectorAffectsPlayer()) {
+    if (itemName == null || this.affectorAffectsPlayer()) {
       return null;
     }
     return this.items.remove(itemName.toLowerCase());
