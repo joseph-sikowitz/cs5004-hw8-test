@@ -581,7 +581,8 @@ public class FileProcessor {
 
     int activeRoomNumber = node.get(PlayerJsonFields.ACTIVE_ROOM.getValue()).asInt();
 
-    String[] itemsAdded = node.get(PlayerJsonFields.ITEMS_ADDED.getValue()).asText().split(",");
+    String[] itemsAdded = node.get(PlayerJsonFields.ITEMS_ADDED.getValue()) != null
+            ? node.get(PlayerJsonFields.ITEMS_ADDED.getValue()).asText().split(",") : new String[0];
     Set<String> itemsToAdd = new HashSet<>();
     for (String added : itemsAdded) {
       itemsToAdd.add(added.trim().toLowerCase());
