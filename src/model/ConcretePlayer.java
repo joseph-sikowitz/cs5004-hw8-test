@@ -210,6 +210,8 @@ public class ConcretePlayer extends AbstractElement implements Player {
 
   @Override
   public String examine(String element) {
+    if (element == null )
+      return "You cannot see or examine nothing!";
     //Player either examines Item in their inventory or Item in activeRoom
     Item itemToExamine = this.inventory.get(element.toLowerCase()) != null
             ? this.inventory.get(element.toLowerCase())
