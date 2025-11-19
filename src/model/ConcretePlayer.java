@@ -191,7 +191,7 @@ public class ConcretePlayer extends AbstractElement implements Player {
   @Override
   public boolean dropItem(String item) {
     //Item not in Player's inventory
-    if (!this.inventory.containsKey(item.toLowerCase()))
+    if (item == null || !this.inventory.containsKey(item.toLowerCase()))
       return false;
 
     //remove Item from inventory.
