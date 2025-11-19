@@ -783,7 +783,7 @@ public class FileProcessor {
                 this.puzzles.get(keyName).getSolutionItem());
       } else {
         puzzleMap.put(PuzzleJsonFields.SOLUTION.getValue(),
-                this.puzzles.get(keyName).getSolutionText());
+                "'" + this.puzzles.get(keyName).getSolutionText() + "'");
       }
 
       puzzleMap.put(PuzzleJsonFields.VALUE.getValue(),
