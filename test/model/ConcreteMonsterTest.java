@@ -14,6 +14,9 @@ import org.junit.jupiter.api.Test;
 
 /**
  * The ConcreteMonsterTest class tests the methods of ConcreteMonster.
+ *
+ * @author Joe Sikowitz
+ * @author Vasilios Nicholas
  */
 class ConcreteMonsterTest {
 
