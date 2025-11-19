@@ -527,7 +527,4 @@ class ConcreteRoomTest {
     assertEquals("Now named Amica Center", r3.getTrueDescription());
   }
 
-  @Test
-  void testCheckReflexivity() {
-  }
 }
