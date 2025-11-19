@@ -62,9 +62,6 @@ public class FileProcessor {
     this.gameFileName = gameFileName;
     this.elementFields = new HashMap<>();
     this.newGame = true;
-    if (playerName == null) {
-      throw new IllegalArgumentException("Player name cannot be null!");
-    }
     this.playerName = playerName;
     this.warnings = new StringBuilder();
     this.uniqueElementNames = new HashSet<>();
