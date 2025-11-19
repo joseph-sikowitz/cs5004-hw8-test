@@ -581,8 +581,14 @@ public class FileProcessor {
 
     int activeRoomNumber = node.get(PlayerJsonFields.ACTIVE_ROOM.getValue()).asInt();
 
+    String[] itemsAdded = node.get(PlayerJsonFields.ITEMS_ADDED.getValue()).asText().split(",");
+    Set<String> itemsToAdd = new HashSet<>();
+    for (String added : itemsAdded) {
+      itemsToAdd.add(added.trim().toLowerCase());
+    }
+
     this.currentPlayer = new ConcretePlayer(name, description, score, health, maxWeight, inventory,
-            this.rooms.get(activeRoomNumber));
+            this.rooms.get(activeRoomNumber), itemsToAdd);
   }
 
   /**
@@ -895,6 +901,9 @@ public class FileProcessor {
 
     playerMap.put(PlayerJsonFields.ACTIVE_ROOM.getValue(),
             Integer.toString(this.currentPlayer.getActiveRoom().getRoomNumber()));
+
+    String itemsAdded  = String.join(", ", this.currentPlayer.getItemsAdded());
+    playerMap.put(PlayerJsonFields.ITEMS_ADDED.getValue(), itemsAdded);
 
     return playerMap;
   }
