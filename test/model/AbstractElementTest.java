@@ -4,6 +4,7 @@ package model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.HashMap;
@@ -48,12 +49,30 @@ class AbstractElementTest {
     this.testPlayer = new ConcretePlayer("testName5", this.inventory, (Room) this.testRoom);
   }
 
+
+
   @Test
   void testCheckIfInvalid() {
     assertTrue(AbstractElement.checkIfInvalid(null));
     assertTrue(AbstractElement.checkIfInvalid(""));
     assertFalse(AbstractElement.checkIfInvalid(" "));
     assertFalse(AbstractElement.checkIfInvalid("Test"));
+  }
+
+  @Test
+  void testConstructorThrowsInvalidArgumentException() {
+    assertThrows(IllegalArgumentException.class, () ->
+            new ConcreteItem("testName1", null, 0.0, 0.0, null, 10, 10, "test"));
+    assertThrows(IllegalArgumentException.class, () ->
+            new ConcreteItem("testName1", "", 0.0, 0.0, null, 10, 10, "test"));
+
+    assertThrows(IllegalArgumentException.class, () -> new ConcretePuzzle(null, "testDescription2",
+            true, true, "1:testRoom", true, "test", "test", 12, "no effect", -10, null));
+
+    assertThrows(IllegalArgumentException.class, () -> new ConcretePuzzle("", "testDescription2",
+            true, true, "1:testRoom", true, "test", "test", 12, "no effect", -10, null));
+
+
   }
 
   @Test
