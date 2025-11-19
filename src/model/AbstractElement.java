@@ -22,7 +22,7 @@ public abstract class AbstractElement implements Element {
    */
   public AbstractElement(String name, String description) throws IllegalArgumentException {
     if (checkIfInvalid(name) || checkIfInvalid(description)) {
-      throw new IllegalArgumentException("Room and Description must be non-null,"
+      throw new IllegalArgumentException("Name and Description must be non-null,"
               + " non-empty Strings");
     }
     this.name = name;
