@@ -94,7 +94,7 @@ public abstract class AbstractPuzzle extends AbstractElement
 
   @Override
   public boolean solve(String answer) {
-    if (this.solutionText.equalsIgnoreCase(answer)) {
+    if (this.solutionText != null && this.solutionText.equalsIgnoreCase(answer)) {
       this.active = false;
       return true;
     }
@@ -103,7 +103,8 @@ public abstract class AbstractPuzzle extends AbstractElement
 
   @Override
   public boolean solve(Item item) {
-    if (item.isActive() && this.solutionItem.equalsIgnoreCase(item.getName())) {
+    if (this.solutionItem != null && item.isActive()
+            && this.solutionItem.equalsIgnoreCase(item.getName())) {
       this.active = false;
       return true;
     }
