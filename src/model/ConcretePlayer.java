@@ -8,8 +8,8 @@ import java.util.Set;
 /**
  * The ConcretePlayer class represents the game's player. It extends AbstractElement
  * and implements Activatable. ConcretePlayers have a name, description, score, active
- * status, maximum carrying weight, current carrying weight, a Map of ConcreteItems, and a
- * currently active ConcreteRoom.
+ * status, maximum carrying weight, current carrying weight, a Map of ConcreteItems, a
+ * currently active ConcreteRoom, and a set of items added to inventory.
  *
  * @author Joe Sikowitz
  * @author Vasilios Nicholas
