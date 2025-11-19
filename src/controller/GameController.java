@@ -40,6 +40,36 @@ public class GameController implements Controller {
     this.model = model;
   }
 
+  /**
+   * Evaluates where a command from the commandReader matches a valid command from UserCommands
+   * to pass to the IAdventureGameModel.
+   * @param commandReader an instance of GameCommandReader
+   * @param userCommand an instance of a UserCommands Enum.
+   * @return true if command isn't null and matches a command
+   *      (either full word or shortcut), otherwise false.
+   */
+  private boolean commandMatches(GameCommandReader commandReader, UserCommands userCommand) {
+    return commandReader.getUserInputCommand() != null
+            && (commandReader.getUserInputCommand().equalsIgnoreCase(userCommand.getCommand())
+            || (userCommand.getShortcut() != null
+            && commandReader.getUserInputCommand().equalsIgnoreCase(userCommand.getShortcut())));
+  }
+
+  /**
+   * Evaluates where a command and an argument from the commandReader
+   * matches a valid command from UserCommands
+   * to pass to the IAdventureGameModel.
+   * @param commandReader an instance of GameCommandReader
+   * @param userCommand an instance of a UserCommands Enum.
+   * @return true if command isn't null and matches a command (either full word or shortcut)
+   *     and the argument isn't null, otherwise false.
+   */
+  private boolean commandAndArgumentMatches(GameCommandReader commandReader,
+                                            UserCommands userCommand) {
+    return commandReader.getUserInputArgument() != null
+            && this.commandMatches(commandReader, userCommand);
+  }
+
   @Override
   public void go() throws IOException {
     try {
@@ -54,88 +84,49 @@ public class GameController implements Controller {
 
       this.executeEndOfTurnModelActions(true);
 
-      //get user input while command isn't equal
+      //get user input while command is quit and model is still reporting that game isn't over.
       while (!this.model.gameOver() && commandReader.getUserInput()) {
         boolean playerCommandExecuted = true;
         if (this.isValidCommand(commandReader.getUserInputCommand())) {
-          if (commandReader.getUserInputCommand().equalsIgnoreCase(UserCommands.NORTH.getCommand())
-                  || commandReader.getUserInputCommand().equalsIgnoreCase(
-                  UserCommands.NORTH.getShortcut())) {
+          if (this.commandMatches(commandReader, UserCommands.NORTH)) {
             this.out.append(this.model.movePlayerNorth());
 
-          } else if (commandReader.getUserInputCommand().equalsIgnoreCase(
-                  UserCommands.SOUTH.getCommand())
-                  || commandReader.getUserInputCommand().equalsIgnoreCase(
-                  UserCommands.SOUTH.getShortcut())) {
+          } else if (this.commandMatches(commandReader, UserCommands.SOUTH)) {
             this.out.append(this.model.movePlayerSouth());
 
-          } else if (commandReader.getUserInputCommand().equalsIgnoreCase(
-                  UserCommands.EAST.getCommand())
-                  || commandReader.getUserInputCommand().equalsIgnoreCase(
-                  UserCommands.EAST.getShortcut())) {
+          } else if (this.commandMatches(commandReader, UserCommands.EAST)) {
             this.out.append(this.model.movePlayerEast());
 
-          } else if (commandReader.getUserInputCommand().equalsIgnoreCase(
-                  UserCommands.WEST.getCommand())
-                  || commandReader.getUserInputCommand().equalsIgnoreCase(
-                  UserCommands.WEST.getShortcut())) {
+          } else if (this.commandMatches(commandReader, UserCommands.WEST)) {
             this.out.append(this.model.movePlayerWest());
 
-          } else if (commandReader.getUserInputCommand().equalsIgnoreCase(
-                  UserCommands.INVENTORY.getCommand())
-                  || commandReader.getUserInputCommand().equalsIgnoreCase(
-                  UserCommands.INVENTORY.getShortcut())) {
+          } else if (this.commandMatches(commandReader, UserCommands.INVENTORY)) {
             this.out.append(this.model.checkInventory());
 
-          } else if (commandReader.getUserInputCommand().equalsIgnoreCase(
-                  UserCommands.LOOK.getCommand())
-                  || commandReader.getUserInputCommand().equalsIgnoreCase(
-                  UserCommands.LOOK.getShortcut())) {
+          } else if (this.commandMatches(commandReader, UserCommands.LOOK)) {
             this.out.append(this.model.lookAround());
 
-          } else if (commandReader.getUserInputCommand().equalsIgnoreCase(
-                  UserCommands.USE.getCommand())
-                  || commandReader.getUserInputCommand().equalsIgnoreCase(
-                  UserCommands.USE.getShortcut())
-                  && commandReader.getUserInputArgument() != null) {
+          } else if (this.commandAndArgumentMatches(commandReader, UserCommands.USE)) {
             this.out.append(this.model.useItem(commandReader.getUserInputArgument()));
 
-          } else if (commandReader.getUserInputCommand().equalsIgnoreCase(
-                  UserCommands.TAKE.getCommand())
-                  || commandReader.getUserInputCommand().equalsIgnoreCase(
-                  UserCommands.TAKE.getShortcut())
-                  && commandReader.getUserInputArgument() != null) {
+          } else if (this.commandAndArgumentMatches(commandReader, UserCommands.TAKE)) {
             this.out.append(this.model.takeItem(commandReader.getUserInputArgument()));
 
-          } else if (commandReader.getUserInputCommand().equalsIgnoreCase(
-                  UserCommands.DROP.getCommand())
-                  || commandReader.getUserInputCommand().equalsIgnoreCase(
-                  UserCommands.DROP.getShortcut())
-                  && commandReader.getUserInputArgument() != null) {
+          } else if (this.commandAndArgumentMatches(commandReader, UserCommands.DROP)) {
             this.out.append(this.model.dropItem(commandReader.getUserInputArgument()));
 
-          } else if (commandReader.getUserInputCommand().equalsIgnoreCase(
-                  UserCommands.EXAMINE.getCommand())
-                  || commandReader.getUserInputCommand().equalsIgnoreCase(
-                  UserCommands.EXAMINE.getShortcut())
-                  && commandReader.getUserInputArgument() != null) {
+          } else if (this.commandAndArgumentMatches(commandReader, UserCommands.EXAMINE)) {
             this.out.append(this.model.examine(commandReader.getUserInputArgument()));
 
-          } else if (commandReader.getUserInputCommand().equalsIgnoreCase(
-                  UserCommands.ANSWER.getCommand())
-                  || commandReader.getUserInputCommand().equalsIgnoreCase(
-                  UserCommands.ANSWER.getShortcut())
-                  && commandReader.getUserInputArgument() != null) {
+          } else if (this.commandAndArgumentMatches(commandReader, UserCommands.ANSWER)) {
             this.out.append(this.model.answer(commandReader.getUserInputArgument()));
 
-          } else if (commandReader.getUserInputCommand().equalsIgnoreCase(
-                  UserCommands.SAVE.getCommand())) {
-            this.out.append("Game saved!"); // temp - remove
+          } else if (commandMatches(commandReader, UserCommands.SAVE)) {
+            this.out.append("Game saved!\n");
             this.model.saveGame(DATA_DIR + DEFAULT_SAVE_FILE);
             playerCommandExecuted = false;
 
-          } else if (commandReader.getUserInputCommand().equalsIgnoreCase(
-                  UserCommands.RESTORE.getCommand())) {
+          } else if (commandMatches(commandReader, UserCommands.RESTORE)) {
             this.model.restoreGame(DATA_DIR + DEFAULT_SAVE_FILE);
             this.out.append("Game restored!\n");
             this.out.append(this.model.restoreMessage());
