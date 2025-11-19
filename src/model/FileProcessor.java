@@ -904,7 +904,11 @@ public class FileProcessor {
             Integer.toString(this.currentPlayer.getActiveRoom().getRoomNumber()));
 
     String itemsAdded  = String.join(", ", this.currentPlayer.getItemsAdded());
-    playerMap.put(PlayerJsonFields.ITEMS_ADDED.getValue(), itemsAdded);
+    if  (itemsAdded.isEmpty()) {
+      playerMap.put(PlayerJsonFields.ITEMS_ADDED.getValue(), null);
+    } else {
+      playerMap.put(PlayerJsonFields.ITEMS_ADDED.getValue(), itemsAdded);
+    }
 
     return playerMap;
   }
