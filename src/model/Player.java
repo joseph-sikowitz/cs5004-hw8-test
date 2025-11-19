@@ -1,6 +1,7 @@
 package model;
 
 import java.util.Map;
+import java.util.Set;
 
 /**
  * The Player interface defines the Player type in an adventure game. Players
@@ -123,4 +124,11 @@ public interface Player extends Activatable, Element, Scorable {
    * @return double of the Player's maximum allowed weight.
    */
   double getMaxWeight();
+
+  /**
+   * The getter for a Player's itemsAdded to inventory.
+   *
+   * @return Set of items already added.
+   */
+  Set<String> getItemsAdded();
 }

@@ -44,10 +44,11 @@ public class ConcretePlayer extends AbstractElement implements Player {
    * @param maxWeight     double of the maximum weight a player can carry.
    * @param inventory     Map of the player's item inventory.
    * @param activeRoom    ConcreteRoom where the player is currently positioned.
+   * @param itemsAdded    Set of Strings of items the player has already picked up.
    */
   public ConcretePlayer(String name, String description, double score,
                         double health, double maxWeight, Map<String, Item> inventory,
-                        Room activeRoom) {
+                        Room activeRoom, Set<String> itemsAdded) {
     super(name, description);
     if (score < MIN_SCORE)
       throw new IllegalArgumentException("Score cannot be negative");
@@ -77,7 +78,7 @@ public class ConcretePlayer extends AbstractElement implements Player {
 
     this.inventory = inventory;
     this.activeRoom = activeRoom;
-    this.itemsAdded = new HashSet<>();
+    this.itemsAdded = itemsAdded;
   }
 
   /**
@@ -90,7 +91,7 @@ public class ConcretePlayer extends AbstractElement implements Player {
    */
   public ConcretePlayer(String name, Map<String, Item> inventory, Room activeRoom) {
     this(name, DEFAULT_PLAYER_DESCRIPTION, MIN_SCORE, MAX_HEALTH, MAX_WEIGHT,
-            inventory, activeRoom);
+            inventory, activeRoom, new HashSet<>());
   }
 
   @Override
@@ -253,5 +254,10 @@ public class ConcretePlayer extends AbstractElement implements Player {
   @Override
   public double getMaxWeight() {
     return this.maxWeight;
+  }
+
+  @Override
+  public Set<String> getItemsAdded() {
+    return this.itemsAdded;
   }
 }
