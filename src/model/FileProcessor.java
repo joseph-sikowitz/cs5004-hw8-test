@@ -50,16 +50,21 @@ public class FileProcessor {
   // constants
   private static final Integer NEW_PLAYER_START = 1;
   private static final int MATCH_GROUP = 1;
+  private static final String DEFAULT_PLAYER_NAME = "Player 1";
 
   /**
    * The FileProcessor constructor initializes the gameFileName.
    *
    * @param gameFileName String of game's file name.
+   * @param playerName  String representing Player's name.
    */
-  public FileProcessor(String gameFileName, String playerName) {
+  public FileProcessor(String gameFileName, String playerName) throws IllegalArgumentException {
     this.gameFileName = gameFileName;
     this.elementFields = new HashMap<>();
     this.newGame = true;
+    if (playerName == null) {
+      throw new IllegalArgumentException("Player name cannot be null!");
+    }
     this.playerName = playerName;
     this.warnings = new StringBuilder();
     this.uniqueElementNames = new HashSet<>();
@@ -68,6 +73,15 @@ public class FileProcessor {
     this.monsters = new HashMap<>();
     this.puzzles = new HashMap<>();
     this.rooms = new HashMap<>();
+  }
+
+  /**
+   * The FileProcessor constructor initializes the gameFileName with a default player name
+   * of Player 1.
+   * @param gameFileName String of game's file name.
+   */
+  public FileProcessor(String gameFileName) throws IllegalArgumentException {
+    this(gameFileName, DEFAULT_PLAYER_NAME);
   }
 
   /**
@@ -142,14 +156,18 @@ public class FileProcessor {
   private void buildElements() {
     for (Map.Entry<String, JsonNode> field : this.elementFields.entrySet()) {
       if (field.getValue().isArray()) {
-        if (field.getKey().equalsIgnoreCase(JsonFields.ITEMS.getValue())) {
-          this.createItems(field.getValue());
-        } else if (field.getKey().equalsIgnoreCase(JsonFields.FIXTURES.getValue())) {
-          this.createFixtures(field.getValue());
-        } else if (field.getKey().equalsIgnoreCase(JsonFields.MONSTERS.getValue())) {
-          this.createMonsters(field.getValue());
-        } else if (field.getKey().equalsIgnoreCase(JsonFields.PUZZLES.getValue())) {
-          this.createPuzzles(field.getValue());
+        try {
+          if (field.getKey().equalsIgnoreCase(JsonFields.ITEMS.getValue())) {
+            this.createItems(field.getValue());
+          } else if (field.getKey().equalsIgnoreCase(JsonFields.FIXTURES.getValue())) {
+            this.createFixtures(field.getValue());
+          } else if (field.getKey().equalsIgnoreCase(JsonFields.MONSTERS.getValue())) {
+            this.createMonsters(field.getValue());
+          } else if (field.getKey().equalsIgnoreCase(JsonFields.PUZZLES.getValue())) {
+            this.createPuzzles(field.getValue());
+          }
+        }  catch (Exception e) {
+          this.addGameFileWarning("Error creating an Element: " + e.getMessage());
         }
       }
     }
