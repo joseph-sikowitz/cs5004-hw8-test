@@ -13,7 +13,10 @@ file so that the user can save and restore the current game state. Finally, the 
 class. This class is the main point of communication for the controller. It provides access to the models components to enable game play 
 based on user input. The controller is composed of two classes: GameController and GameCommandReader. The GameCommandReader is used by the 
 GameController to process commands entered by the user. The GameController takes the input from the user given by the GameCommandReader and 
-sends it to the model for processing. It is also responsible for taking a Readable input and appending to an Appendable output.
+sends it to the model for processing. It is also responsible for taking a Readable input and appending to an Appendable output. Our team
+decided to provide the player with four health statuses. Full health is awake, after losing health the player becomes fatigued, after that
+the player is woozy, and finally the player is asleep. For scoring, we used the values provided by the JSON but created our own rankings 
+(in ascending order): Novice, Squire, Knight, Baron, Prince, and King. We also opted to not change the "user menu" from what is in the specs.
 
 Between homework 7 and homework 8, our design evolved in significant ways. The creation of the additional interfaces to guarantee 
 functionality was a large change as was the creation of a RoomService class to allow for all Room objects to have access to all other Room
