@@ -56,4 +56,22 @@ public abstract class AbstractElement implements Element {
     return str == null || str.isEmpty();
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    AbstractElement that = (AbstractElement) o;
+    return this.name.equalsIgnoreCase(that.name);
+  }
+
+  @Override
+  public int hashCode() {
+    return this.name.toLowerCase().hashCode();
+  }
+
 }
