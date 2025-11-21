@@ -14,7 +14,7 @@ public class RunGame {
    * @throws IOException if file not found.
    */
   public static void main(String[] args) throws IOException {
-    GameEngineApp game = new GameEngineApp("data/museum.json",
+    GameEngineApp game = new GameEngineApp("data/align_quest_game_elements.json",
             new InputStreamReader(System.in), System.out);
     game.start();
   }
