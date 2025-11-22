@@ -23,6 +23,11 @@ class Inventory<T extends Element> {
     }
   }
 
+  /**
+   * Helper method formats a String for use as a key by Inventory's elements Map.
+   * @param name a String representing the name of an Element.
+   * @return a trimmed String with all lowercase characters.
+   */
   private static String formatName(String name) {
     return name.trim().toLowerCase();
   }
