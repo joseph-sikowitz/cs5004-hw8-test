@@ -48,6 +48,15 @@ class Inventory<T extends Element> {
   }
 
   /**
+   * Returns whether this Inventory contains an Element of a given name.
+   * @param name a String representing the name of an Element.
+   * @return true if an Element with this name exists in this Inventory, otherwise false.
+   */
+  boolean containsElement(String name) {
+    return this.elements.containsKey(formatName(name));
+  }
+
+  /**
    * Returns an Element subtype stored in this Inventory.
    * @param name a String representing the name of an Element
    *     that may exist within the Inventory.
