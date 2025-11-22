@@ -1,6 +1,6 @@
 package model;
 
-import java.util.HashMap;
+
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -21,7 +21,7 @@ public class ConcretePlayer extends AbstractElement implements Player {
   private double health;
   private final double maxWeight;
   private double currentWeight;
-  private final Map<String, Item> inventory;
+  private final Inventory<Item> inventory;
   private Room activeRoom;
   private final Set<String> itemsAdded;
 
@@ -76,13 +76,13 @@ public class ConcretePlayer extends AbstractElement implements Player {
       throw new IllegalArgumentException("Weight of inventory is over maxWeight!");
     }
 
-    this.inventory = inventory;
+    this.inventory = new Inventory<>(inventory);
     this.activeRoom = activeRoom;
 
     if (itemsAdded == null) {
       this.itemsAdded  = new HashSet<>();
     } else {
-      this.itemsAdded = itemsAdded;
+      this.itemsAdded = new HashSet<>(itemsAdded);
     }
   }
 
@@ -158,14 +158,14 @@ public class ConcretePlayer extends AbstractElement implements Player {
      * short circuit if player doesn't have the item,
      * active room doesn't have the enemy, or enemy is already deactivated.
      */
-    if (!inventory.containsKey(itemName.toLowerCase())) {
+    if (!inventory.containsElement(itemName)) {
       return new UseSuccessful(itemName + " not found within inventory!\n", false);
     }
     /*
       return new UseSuccessful("You can't use " + itemName + " on this puzzle.", false);
 
      */
-    Item item = inventory.get(itemName.toLowerCase());
+    Item item = inventory.getElement(itemName);
     UseSuccessful wasUseSuccessful = item.use(enemy);
     if (wasUseSuccessful.getUseSuccessful())
       this.addToScore(enemy.getScore());
@@ -182,7 +182,7 @@ public class ConcretePlayer extends AbstractElement implements Player {
       return TakeItemStatus.ITEM_NOT_ADDED_OVER_CAPACITY;
 
     //add item to Player's inventory.
-    this.inventory.put(itemToPickUp.getName().toLowerCase(), this.activeRoom.removeItem(item));
+    this.inventory.addElement(this.activeRoom.removeItem(item));
     //increment currentWeight by itemToPickUp's weight.
     this.currentWeight += itemToPickUp.getWeight();
 
@@ -196,11 +196,11 @@ public class ConcretePlayer extends AbstractElement implements Player {
   @Override
   public boolean dropItem(String item) {
     //Item not in Player's inventory
-    if (item == null || !this.inventory.containsKey(item.toLowerCase()))
+    if (item == null || !this.inventory.containsElement(item))
       return false;
 
     //remove Item from inventory.
-    Item droppedItem = this.inventory.remove(item.toLowerCase());
+    Item droppedItem = this.inventory.removeElement(item);
     //decrement currentWeight by droppedItem's weight.
     this.currentWeight -= droppedItem.getWeight();
     //add droppedItem to Room player is in.
@@ -213,8 +213,8 @@ public class ConcretePlayer extends AbstractElement implements Player {
     if (element == null )
       return "You cannot see or examine nothing!";
     //Player either examines Item in their inventory or Item in activeRoom
-    Item itemToExamine = this.inventory.get(element.toLowerCase()) != null
-            ? this.inventory.get(element.toLowerCase())
+    Item itemToExamine = this.inventory.getElement(element) != null
+            ? this.inventory.getElement(element)
             : this.activeRoom.getItem(element);
     Fixture fixtureToExamine = this.activeRoom.getFixture(element);
     String description = "You cannot see or examine " +  element;
@@ -257,7 +257,7 @@ public class ConcretePlayer extends AbstractElement implements Player {
 
   @Override
   public Map<String, Item> getInventory() {
-    return new HashMap<>(this.inventory);
+    return this.inventory.getElements();
   }
 
   @Override

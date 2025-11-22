@@ -22,8 +22,8 @@ public class ConcreteRoom extends AbstractElement implements Room {
   // attributes
   private final int roomNumber;
   private final Map<Directions, Integer> passages;
-  private final Map<String, Item> items;
-  private final Map<String, Fixture> fixtures;
+  private final Inventory<Item> items;
+  private final Inventory<Fixture> fixtures;
   private Puzzle roomEnvironmentAffector;
   private final Monster monster;
   private final Puzzle puzzle;
@@ -88,8 +88,8 @@ public class ConcreteRoom extends AbstractElement implements Room {
     }
 
     this.passages = new HashMap<>(passages);
-    this.items = items;
-    this.fixtures = fixtures;
+    this.items = new Inventory<>(items);
+    this.fixtures = new Inventory<>(fixtures);
 
     if (monster != null && puzzle != null) {
       throw new IllegalArgumentException("A Room may have either one Monster or one Puzzle!");
@@ -142,7 +142,7 @@ public class ConcreteRoom extends AbstractElement implements Room {
     if (fixtureName == null || this.affectorAffectsPlayer()) {
       return null;
     }
-    return this.fixtures.get(fixtureName.toLowerCase());
+    return this.fixtures.getElement(fixtureName);
   }
 
   @Override
@@ -150,7 +150,7 @@ public class ConcreteRoom extends AbstractElement implements Room {
     if (itemName == null || this.affectorAffectsPlayer()) {
       return null;
     }
-    return this.items.get(itemName.toLowerCase());
+    return this.items.getElement(itemName);
   }
 
 
@@ -179,7 +179,7 @@ public class ConcreteRoom extends AbstractElement implements Room {
   public void addItem(Item item) {
     if (item == null)
       return;
-    this.items.put(item.getName().toLowerCase(), item);
+    this.items.addElement(item);
   }
 
   @Override
@@ -187,7 +187,7 @@ public class ConcreteRoom extends AbstractElement implements Room {
     if (itemName == null || this.affectorAffectsPlayer()) {
       return null;
     }
-    return this.items.remove(itemName.toLowerCase());
+    return this.items.removeElement(itemName);
   }
 
   @Override
@@ -202,12 +202,12 @@ public class ConcreteRoom extends AbstractElement implements Room {
 
   @Override
   public Map<String, Item> getItems() {
-    return new HashMap<>(this.items);
+    return this.items.getElements();
   }
 
   @Override
   public Map<String, Fixture> getFixtures() {
-    return new HashMap<>(this.fixtures);
+    return this.fixtures.getElements();
   }
 
 
