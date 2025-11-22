@@ -55,7 +55,7 @@ class RoomService {
     for (Room room : this.rooms.values()) {
       if (room != null) {
         for (int roomNumber : room.getPassages().values()) {
-          if (roomNumber != IMPASSABLE && !this.rooms.containsKey(roomNumber) ) {
+          if (roomNumber != IMPASSABLE && !this.rooms.containsKey(Math.abs(roomNumber)) ) {
             return false;
           }
         }
