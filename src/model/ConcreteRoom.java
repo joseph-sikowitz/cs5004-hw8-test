@@ -87,7 +87,7 @@ public class ConcreteRoom extends AbstractElement implements Room {
       throw new IllegalArgumentException("Room cannot have more than one passage to another Room!");
     }
 
-    this.passages = passages;
+    this.passages = new HashMap<>(passages);
     this.items = items;
     this.fixtures = fixtures;
 
