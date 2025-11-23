@@ -8,6 +8,7 @@ public interface ICommand {
   /**
    * The execute() method executes the command defined by the class.
    *
+   * @param userArgument String of the argument provided by the user.
    * @return String of result of attempting to move player.
    */
   String execute(String userArgument);
