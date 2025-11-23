@@ -8,7 +8,7 @@ import java.util.Map;
  * Stores Elements in a map hashed by the Elements' names in all lowercase.
  * @param <T> a subtype of Element.
  */
-class Inventory<T extends Element> {
+class Inventory<T extends Element> implements Iterable<T> {
   private final Map<String, T> elements;
 
   /**
@@ -84,4 +84,8 @@ class Inventory<T extends Element> {
     return new HashMap<>(this.elements);
   }
 
+  @Override
+  public Iterator<T> iterator() {
+    return this.elements.values().iterator();
+  }
 }
