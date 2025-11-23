@@ -10,5 +10,5 @@ public interface ICommand {
    *
    * @return String of result of attempting to move player.
    */
-  String execute();
+  String execute(String userArgument);
 }
