@@ -20,7 +20,7 @@ public class NorthCommand implements ICommand {
   }
 
   @Override
-  public String execute() {
+  public String execute(String userArgument) {
     return this.model.movePlayerNorth();
   }
 }

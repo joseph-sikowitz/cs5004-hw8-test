@@ -20,7 +20,7 @@ public class EastCommand implements ICommand {
   }
 
   @Override
-  public String execute() {
+  public String execute(String userArgument) {
     return this.model.movePlayerEast();
   }
 }
