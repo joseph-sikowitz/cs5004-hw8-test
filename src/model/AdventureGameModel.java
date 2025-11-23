@@ -124,7 +124,7 @@ public class AdventureGameModel implements IAdventureGameModel {
    * @param map a Map with String as the key and a subtype of Element as the value.
    * @return a String with names of elements separated by commas.
    */
-  private String getElementNames(Map<String, ? extends Element> map) {
+  private String getElementNamesConcatenated(Map<String, ? extends Element> map) {
     StringBuilder elements = new StringBuilder();
     List<String> names = new ArrayList<>(map.values().stream().map(Element::getName).toList());
     if (names.isEmpty())
@@ -136,7 +136,7 @@ public class AdventureGameModel implements IAdventureGameModel {
 
   @Override
   public String checkInventory() {
-    String playerInventory = getElementNames(this.player.getInventory());
+    String playerInventory = getElementNamesConcatenated(this.player.getInventory());
     return playerInventory.isEmpty() ? "You have no items in your inventory!\n"
             : playerInventory + "\n";
   }
@@ -154,10 +154,10 @@ public class AdventureGameModel implements IAdventureGameModel {
       return roomDescription;
     }
 
-    String fixtures = getElementNames(activeRoom.getFixtures());
+    String fixtures = getElementNamesConcatenated(activeRoom.getFixtures());
     String fixturesFormatted = fixtures.isEmpty() ? "" : "Fixtures you see here: "
             + fixtures + "\n";
-    String items = getElementNames(activeRoom.getItems());
+    String items = getElementNamesConcatenated(activeRoom.getItems());
     String itemsFormatted = items.isEmpty() ? "" : "Items you see here: " + items + "\n";
 
     return roomDescription + "\n"
