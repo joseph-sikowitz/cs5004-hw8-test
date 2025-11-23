@@ -533,7 +533,7 @@ public class FileProcessor {
           }
 
           String monster = roomData.get(RoomJsonFields.MONSTER.getValue().toLowerCase()).asText();
-          Monster roomMonster = this.monsters.getElement(monster;
+          Monster roomMonster = this.monsters.getElement(monster);
 
           String puzzle = roomData.get(RoomJsonFields.PUZZLE.getValue().toLowerCase()).asText();
           Puzzle roomPuzzle;
@@ -583,7 +583,7 @@ public class FileProcessor {
     String[] itemList = node.get(PlayerJsonFields.INVENTORY.getValue()).asText().split(",");
     Inventory<Item> inventory = new Inventory<>();
     for (String item : itemList) {
-      if (this.items.containsElement(item) {
+      if (this.items.containsElement(item)) {
         inventory.addElement(this.items.getElement(item));
       }
     }
@@ -665,22 +665,22 @@ public class FileProcessor {
   private ArrayList<Map<String, String>> formatItemsForJson() {
     ArrayList<Map<String, String>> itemList = new ArrayList<>();
 
-    for (String keyName : this.items.keySet()) {
+    for (Item item : this.items) {
       Map<String, String> itemMap = new HashMap<>();
 
-      itemMap.put(ItemJsonFields.NAME.getValue(), this.items.get(keyName).getName());
-      itemMap.put(ItemJsonFields.DESCRIPTION.getValue(), this.items.get(keyName).getDescription());
+      itemMap.put(ItemJsonFields.NAME.getValue(), item.getName());
+      itemMap.put(ItemJsonFields.DESCRIPTION.getValue(), item.getDescription());
       itemMap.put(ItemJsonFields.VALUE.getValue(), Double.toString(
-              this.items.get(keyName).getScore()));
+              item.getScore()));
       itemMap.put(ItemJsonFields.WEIGHT.getValue(), Double.toString(
-              this.items.get(keyName).getWeight()));
+              item.getWeight()));
 
-      itemMap.put(ItemJsonFields.PICTURE.getValue(), this.items.get(keyName).getPicturePath());
+      itemMap.put(ItemJsonFields.PICTURE.getValue(), item.getPicturePath());
       itemMap.put(ItemJsonFields.MAX_USES.getValue(), Integer.toString(
-              this.items.get(keyName).getMaxUses()));
+              item.getMaxUses()));
       itemMap.put(ItemJsonFields.USES_REMAINING.getValue(), Integer.toString(
-              this.items.get(keyName).getUsesRemaining()));
-      itemMap.put(ItemJsonFields.WHEN_USED.getValue(), this.items.get(keyName).getUseDescription());
+              item.getUsesRemaining()));
+      itemMap.put(ItemJsonFields.WHEN_USED.getValue(), item.getUseDescription());
 
       itemList.add(itemMap);
     }
@@ -697,25 +697,25 @@ public class FileProcessor {
   private ArrayList<Map<String, String>> formatFixturesForJson() {
     ArrayList<Map<String, String>> fixtureList = new ArrayList<>();
 
-    for (String keyName : this.fixtures.keySet()) {
+    for (Fixture fixture : this.fixtures) {
       Map<String, String> fixtureMap = new HashMap<>();
 
-      fixtureMap.put(FixtureJsonFields.NAME.getValue(), this.fixtures.get(keyName).getName());
+      fixtureMap.put(FixtureJsonFields.NAME.getValue(), fixture.getName());
       fixtureMap.put(FixtureJsonFields.DESCRIPTION.getValue(),
-              this.fixtures.get(keyName).getTrueDescription());
+              fixture.getTrueDescription());
       fixtureMap.put(FixtureJsonFields.WEIGHT.getValue(), Double.toString(
-              this.fixtures.get(keyName).getWeight()));
+              fixture.getWeight()));
 
-      if (this.fixtures.get(keyName).getPuzzle() != null) {
+      if (fixture.getPuzzle() != null) {
         fixtureMap.put(FixtureJsonFields.PUZZLE.getValue(),
-                this.fixtures.get(keyName).getPuzzle().getName().toLowerCase());
+                fixture.getPuzzle().getName().toLowerCase());
       } else {
         fixtureMap.put(FixtureJsonFields.PUZZLE.getValue(), null);
       }
 
-      fixtureMap.put(FixtureJsonFields.STATES.getValue(), this.fixtures.get(keyName).getStates());
+      fixtureMap.put(FixtureJsonFields.STATES.getValue(), fixture.getStates());
       fixtureMap.put(FixtureJsonFields.PICTURE.getValue(),
-              this.fixtures.get(keyName).getPicturePath());
+              fixture.getPicturePath());
 
       fixtureList.add(fixtureMap);
     }
@@ -732,32 +732,32 @@ public class FileProcessor {
   private ArrayList<Map<String, String>> formatMonstersForJson() {
     ArrayList<Map<String, String>> monsterList = new ArrayList<>();
 
-    for (String keyName : this.monsters.keySet()) {
+    for (Monster monster : this.monsters) {
       Map<String, String> monsterMap = new HashMap<>();
 
-      monsterMap.put(MonsterJsonFields.NAME.getValue(), this.monsters.get(keyName).getName());
+      monsterMap.put(MonsterJsonFields.NAME.getValue(), monster.getName());
       monsterMap.put(MonsterJsonFields.DESCRIPTION.getValue(),
-              this.monsters.get(keyName).getDescription());
+              monster.getDescription());
       monsterMap.put(MonsterJsonFields.ACTIVE.getValue(),
-              Boolean.toString(monsters.get(keyName).isActive()));
+              Boolean.toString(monster.isActive()));
       monsterMap.put(MonsterJsonFields.AFFECTS_TARGET.getValue(),
-              Boolean.toString(this.monsters.get(keyName).affectsTarget()));
-      monsterMap.put(MonsterJsonFields.TARGET.getValue(), this.monsters.get(keyName).getTarget());
+              Boolean.toString(monster.affectsTarget()));
+      monsterMap.put(MonsterJsonFields.TARGET.getValue(), monster.getTarget());
       monsterMap.put(MonsterJsonFields.AFFECTS_PLAYER.getValue(),
-              Boolean.toString(this.monsters.get(keyName).affectsPlayer()));
+              Boolean.toString(monster.affectsPlayer()));
       monsterMap.put(MonsterJsonFields.SOLUTION.getValue(),
-              this.monsters.get(keyName).getSolutionItem());
+              monster.getSolutionItem());
       monsterMap.put(MonsterJsonFields.VALUE.getValue(),
-              Double.toString(this.monsters.get(keyName).getScore()));
-      monsterMap.put(MonsterJsonFields.EFFECTS.getValue(), this.monsters.get(keyName).getEffect());
+              Double.toString(monster.getScore()));
+      monsterMap.put(MonsterJsonFields.EFFECTS.getValue(), monster.getEffect());
       monsterMap.put(MonsterJsonFields.DAMAGE.getValue(),
-              Double.toString(this.monsters.get(keyName).getDamage()));
+              Double.toString(monster.getDamage()));
       monsterMap.put(MonsterJsonFields.PICTURE.getValue(),
-              this.monsters.get(keyName).getPicturePath());
+              monster.getPicturePath());
       monsterMap.put(MonsterJsonFields.CAN_ATTACK.getValue(),
-              Boolean.toString(this.monsters.get(keyName).canAttack()));
+              Boolean.toString(monster.canAttack()));
       monsterMap.put(MonsterJsonFields.ATTACK.getValue(),
-              this.monsters.get(keyName).getAttackDescription());
+              monster.getAttackDescription());
 
       monsterList.add(monsterMap);
     }
@@ -774,33 +774,33 @@ public class FileProcessor {
   private ArrayList<Map<String, String>> formatPuzzlesForJson() {
     ArrayList<Map<String, String>> puzzleList = new ArrayList<>();
 
-    for (String keyName : this.puzzles.keySet()) {
+    for (Puzzle puzzle : this.puzzles) {
       Map<String, String> puzzleMap = new HashMap<>();
 
-      puzzleMap.put(PuzzleJsonFields.NAME.getValue(), this.puzzles.get(keyName).getName());
+      puzzleMap.put(PuzzleJsonFields.NAME.getValue(), puzzle.getName());
       puzzleMap.put(PuzzleJsonFields.DESCRIPTION.getValue(),
-              this.puzzles.get(keyName).getDescription());
+              puzzle.getDescription());
       puzzleMap.put(PuzzleJsonFields.ACTIVE.getValue(),
-              Boolean.toString(this.puzzles.get(keyName).isActive()));
+              Boolean.toString(puzzle.isActive()));
       puzzleMap.put(PuzzleJsonFields.AFFECTS_TARGET.getValue(),
-              Boolean.toString(this.puzzles.get(keyName).affectsTarget()));
-      puzzleMap.put(PuzzleJsonFields.TARGET.getValue(), this.puzzles.get(keyName).getTarget());
+              Boolean.toString(puzzle.affectsTarget()));
+      puzzleMap.put(PuzzleJsonFields.TARGET.getValue(), puzzle.getTarget());
       puzzleMap.put(PuzzleJsonFields.AFFECTS_PLAYER.getValue(),
-              Boolean.toString(this.puzzles.get(keyName).affectsPlayer()));
+              Boolean.toString(puzzle.affectsPlayer()));
 
-      if (this.puzzles.get(keyName).getSolutionItem() != null) {
+      if (puzzle.getSolutionItem() != null) {
         puzzleMap.put(PuzzleJsonFields.SOLUTION.getValue(),
-                this.puzzles.get(keyName).getSolutionItem());
+                puzzle.getSolutionItem());
       } else {
         puzzleMap.put(PuzzleJsonFields.SOLUTION.getValue(),
-                "'" + this.puzzles.get(keyName).getSolutionText() + "'");
+                "'" + puzzle.getSolutionText() + "'");
       }
 
       puzzleMap.put(PuzzleJsonFields.VALUE.getValue(),
-              Double.toString(this.puzzles.get(keyName).getScore()));
-      puzzleMap.put(PuzzleJsonFields.EFFECTS.getValue(), this.puzzles.get(keyName).getEffect());
+              Double.toString(puzzle.getScore()));
+      puzzleMap.put(PuzzleJsonFields.EFFECTS.getValue(), puzzle.getEffect());
       puzzleMap.put(PuzzleJsonFields.PICTURE.getValue(),
-              this.puzzles.get(keyName).getPicturePath());
+              puzzle.getPicturePath());
 
       puzzleList.add(puzzleMap);
     }
