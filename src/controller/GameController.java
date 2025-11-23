@@ -2,14 +2,16 @@ package controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import model.IAdventureGameModel;
 
 /**
  * The GameController class gets input from the user and sends it to the model
  * for processing. It appends the results from the model to the given output.
- * GameControllers have a Readable input, an Appendable output, and a GameModel
- * to interact with the model through.
+ * GameControllers have a Readable input, an Appendable output, commands, and a
+ * GameModel to interact with the model through.
  *
  * @author Joe Sikowitz
  * @author Vasilios Nicholas
@@ -20,6 +22,7 @@ public class GameController implements Controller {
   private IAdventureGameModel model;
   private final Readable in;
   private final Appendable out;
+  private Map<UserCommands, ICommand> commands;
 
   // constants
   private static final String UNKNOWN_COMMAND = "Unknown command!\n";
@@ -38,6 +41,7 @@ public class GameController implements Controller {
     this.in = source;
     this.out = output;
     this.model = model;
+    this.loadCommands();
   }
 
   /**
@@ -88,38 +92,15 @@ public class GameController implements Controller {
       while (!this.model.gameOver() && commandReader.getUserInput()) {
         boolean playerCommandExecuted = true;
         if (this.isValidCommand(commandReader.getUserInputCommand())) {
-          if (this.commandMatches(commandReader, UserCommands.NORTH)) {
-            this.out.append(this.model.movePlayerNorth());
+          if (!this.commandMatches(commandReader, UserCommands.SAVE)
+                  && !this.commandMatches(commandReader, UserCommands.RESTORE)) {
 
-          } else if (this.commandMatches(commandReader, UserCommands.SOUTH)) {
-            this.out.append(this.model.movePlayerSouth());
-
-          } else if (this.commandMatches(commandReader, UserCommands.EAST)) {
-            this.out.append(this.model.movePlayerEast());
-
-          } else if (this.commandMatches(commandReader, UserCommands.WEST)) {
-            this.out.append(this.model.movePlayerWest());
-
-          } else if (this.commandMatches(commandReader, UserCommands.INVENTORY)) {
-            this.out.append(this.model.checkInventory());
-
-          } else if (this.commandMatches(commandReader, UserCommands.LOOK)) {
-            this.out.append(this.model.lookAround());
-
-          } else if (this.commandAndArgumentMatches(commandReader, UserCommands.USE)) {
-            this.out.append(this.model.useItem(commandReader.getUserInputArgument()));
-
-          } else if (this.commandAndArgumentMatches(commandReader, UserCommands.TAKE)) {
-            this.out.append(this.model.takeItem(commandReader.getUserInputArgument()));
-
-          } else if (this.commandAndArgumentMatches(commandReader, UserCommands.DROP)) {
-            this.out.append(this.model.dropItem(commandReader.getUserInputArgument()));
-
-          } else if (this.commandAndArgumentMatches(commandReader, UserCommands.EXAMINE)) {
-            this.out.append(this.model.examine(commandReader.getUserInputArgument()));
-
-          } else if (this.commandAndArgumentMatches(commandReader, UserCommands.ANSWER)) {
-            this.out.append(this.model.answer(commandReader.getUserInputArgument()));
+            //uses command structure in commands Map instead of if/else
+            UserCommands userCommand = this.findUserCommand(commandReader.getUserInputCommand());
+            if (userCommand != null) {
+              this.out.append(
+                      this.commands.get(userCommand).execute(commandReader.getUserInputArgument()));
+            }
 
           } else if (commandMatches(commandReader, UserCommands.SAVE)) {
             try {
@@ -208,6 +189,26 @@ public class GameController implements Controller {
   }
 
   /**
+   * The findUserCommand() method matches a player's command input to the UserCommands
+   * enum and returns the correct enum value. This is used to call commands in the
+   * controller's commands Map.
+   *
+   * @param command String of command entered by user.
+   * @return UserCommands enum that corresponds to the user command String.
+   */
+  private UserCommands findUserCommand(String command) {
+    for (UserCommands userCommand : UserCommands.values()) {
+      if (userCommand.getCommand().equalsIgnoreCase(command)) {
+        return userCommand;
+      } else if (userCommand.getShortcut().equalsIgnoreCase(command)) {
+        return userCommand;
+      }
+    }
+
+    return null;
+  }
+
+  /**
    * The getUserCommand() method converts a user's String command into the
    * enum that it corresponds to in UserCommands.
    *
@@ -225,6 +226,26 @@ public class GameController implements Controller {
     }
 
     return null;
+  }
+
+  /**
+   * The loadCommands() method loads the command classes into the controller's
+   * commands Map so that they can be called by the user and executed.
+   */
+  private void loadCommands() {
+    this.commands = new HashMap<>();
+
+    this.commands.put(UserCommands.NORTH, new NorthCommand(this.model));
+    this.commands.put(UserCommands.SOUTH, new SouthCommand(this.model));
+    this.commands.put(UserCommands.EAST, new EastCommand(this.model));
+    this.commands.put(UserCommands.WEST, new WestCommand(this.model));
+    this.commands.put(UserCommands.INVENTORY, new InventoryCommand(this.model));
+    this.commands.put(UserCommands.LOOK, new LookCommand(this.model));
+    this.commands.put(UserCommands.USE, new UseCommand(this.model));
+    this.commands.put(UserCommands.TAKE, new TakeCommand(this.model));
+    this.commands.put(UserCommands.DROP, new DropCommand(this.model));
+    this.commands.put(UserCommands.EXAMINE, new ExamineCommand(this.model));
+    this.commands.put(UserCommands.ANSWER, new AnswerCommand(this.model));
   }
 
 }
