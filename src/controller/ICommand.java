@@ -7,6 +7,8 @@ public interface ICommand {
 
   /**
    * The execute() method executes the command defined by the class.
+   *
+   * @return String of result of attempting to move player.
    */
-  void execute();
+  String execute();
 }
