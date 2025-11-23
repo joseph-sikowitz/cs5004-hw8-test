@@ -39,11 +39,11 @@ public class FileProcessor {
   private boolean newGame;
   private final StringBuilder warnings;
 
-  private Map<String, Item> items;
-  private Map<String, Fixture> fixtures;
-  private Map<String, Monster> monsters;
-  private Map<String, Puzzle> puzzles;
-  private Map<Integer, Room> rooms;
+  private Inventory<Item> items;
+  private Inventory<Fixture> fixtures;
+  private Inventory<Monster> monsters;
+  private Inventory<Puzzle> puzzles;
+  private Map<Integer,Room> rooms;
   //keeps track of unique names so that Elements cannot be redefined a second time.
   private final Set<String> uniqueElementNames;
 
@@ -65,10 +65,10 @@ public class FileProcessor {
     this.playerName = playerName;
     this.warnings = new StringBuilder();
     this.uniqueElementNames = new HashSet<>();
-    this.items = new HashMap<>();
-    this.fixtures = new HashMap<>();
-    this.monsters = new HashMap<>();
-    this.puzzles = new HashMap<>();
+    this.items = new Inventory<>();
+    this.fixtures = new Inventory<>();
+    this.monsters = new Inventory<>();
+    this.puzzles = new Inventory<>();
     this.rooms = new HashMap<>();
     RoomService.clear();
   }
@@ -188,8 +188,6 @@ public class FileProcessor {
    * @param node JsonNode array of item input data.
    */
   private void createItems(JsonNode node) {
-    //clear anything already in the Map
-    this.items.clear();
 
     if (node.isArray()) {
       for (JsonNode item : node) {
@@ -229,7 +227,7 @@ public class FileProcessor {
           }
 
           try {
-            this.items.put(name.toLowerCase(), new ConcreteItem(name, description, score, weight,
+            this.items.addElement(new ConcreteItem(name, description, score, weight,
                     picture, maxUses, usesRemaining, useDescription));
           } catch (Exception e) {
             this.addGameFileWarning("Error creating concrete item: " + e.getMessage());
@@ -249,8 +247,6 @@ public class FileProcessor {
    * @param node JsonNode array of fixture input data.
    */
   private void createFixtures(JsonNode node) {
-    //clear anything already in the Map
-    this.fixtures.clear();
 
     if (node.isArray()) {
       for (JsonNode fixture : node) {
@@ -284,7 +280,7 @@ public class FileProcessor {
           }
 
           try {
-            this.fixtures.put(name.toLowerCase(), new ConcreteFixture(name, description, weight,
+            this.fixtures.addElement(new ConcreteFixture(name, description, weight,
                     puzzle, states, picture));
           } catch (Exception e) {
             this.addGameFileWarning("Error creating fixture: " + e.getMessage());
@@ -303,8 +299,6 @@ public class FileProcessor {
    * @param node JsonNode array of monster input data.
    */
   private void createMonsters(JsonNode node) {
-    //clear anything already in the Map
-    this.monsters.clear();
 
     if (node.isArray()) {
       for (JsonNode monster : node) {
@@ -366,7 +360,7 @@ public class FileProcessor {
           try {
             String solution;
             if (monster.get(MonsterJsonFields.SOLUTION.getValue()).isNull()) {
-              this.monsters.put(name.toLowerCase(), new ConcreteMonster(name, description, active,
+              this.monsters.addElement(new ConcreteMonster(name, description, active,
                       affectsTarget, target, affectsPlayer, null, null,
                       score, effects, damage, picture, canAttack, attackDescription));
             } else {
@@ -374,11 +368,11 @@ public class FileProcessor {
               Pattern pattern = Pattern.compile("'(.*)'");
               Matcher matcher = pattern.matcher(solution);
               if (matcher.matches()) {
-                this.monsters.put(name.toLowerCase(), new ConcreteMonster(name, description, active,
+                this.monsters.addElement(new ConcreteMonster(name, description, active,
                         affectsTarget, target, affectsPlayer, matcher.group(MATCH_GROUP), null,
                         score, effects, damage, picture, canAttack, attackDescription));
               } else {
-                this.monsters.put(name.toLowerCase(), new ConcreteMonster(name, description, active,
+                this.monsters.addElement(new ConcreteMonster(name, description, active,
                         affectsTarget, target, affectsPlayer, null, solution,
                         score, effects, damage, picture, canAttack, attackDescription));
               }
@@ -399,8 +393,6 @@ public class FileProcessor {
    * @param node JsonNode array of puzzle input data.
    */
   private void createPuzzles(JsonNode node) {
-    //clear anything already in the Map
-    this.puzzles.clear();
 
     if (node.isArray()) {
       for (JsonNode puzzleData : node) {
@@ -454,7 +446,7 @@ public class FileProcessor {
           try {
             String solution;
             if (puzzleData.get(PuzzleJsonFields.SOLUTION.getValue()).isNull()) {
-              this.puzzles.put(name.toLowerCase(), new ConcretePuzzle(name, description, active,
+              this.puzzles.addElement(new ConcretePuzzle(name, description, active,
                       affectsTarget, target, affectsPlayer, null, null, score,
                       effect, damage, picture));
             } else {
@@ -462,11 +454,11 @@ public class FileProcessor {
               Pattern pattern = Pattern.compile("'(.*)'");
               Matcher matcher = pattern.matcher(solution);
               if (matcher.matches()) {
-                this.puzzles.put(name.toLowerCase(), new ConcretePuzzle(name, description, active,
+                this.puzzles.addElement(new ConcretePuzzle(name, description, active,
                         affectsTarget, target, affectsPlayer, matcher.group(MATCH_GROUP),
                         null, score, effect, damage, picture));
               } else {
-                this.puzzles.put(name.toLowerCase(), new ConcretePuzzle(name, description, active,
+                this.puzzles.addElement(new ConcretePuzzle(name, description, active,
                         affectsTarget, target, affectsPlayer, null, solution, score, effect,
                         damage, picture));
               }
@@ -489,8 +481,6 @@ public class FileProcessor {
    * @param node JsonNode array of room input data.
    */
   private void createRooms(JsonNode node) throws IllegalArgumentException {
-    //clear anything already in the Map
-    this.rooms.clear();
 
     if (node.isEmpty()) {
       throw new IllegalArgumentException("Rooms data cannot be empty");
@@ -527,28 +517,27 @@ public class FileProcessor {
           passages.put(Directions.WEST, west);
 
           String[] itemsArray = roomData.get(RoomJsonFields.ITEMS.getValue()).asText().split(",");
-          Map<String, Item> roomItems = new HashMap<>();
+          Inventory<Item> roomItems = new Inventory<>();
           for (String item : itemsArray) {
-            if (this.items.containsKey(item.trim().toLowerCase())) {
-              roomItems.put(item.trim().toLowerCase(), this.items.get(item.trim().toLowerCase()));
+            if (this.items.containsElement(item)) {
+              roomItems.addElement(this.items.getElement(item));
             }
           }
 
           String[] fixtures = roomData.get(RoomJsonFields.FIXTURES.getValue()).asText().split(",");
-          Map<String, Fixture> roomFixtures = new HashMap<>();
+          Inventory<Fixture> roomFixtures = new Inventory<>();
           for (String fixture : fixtures) {
-            if (this.fixtures.containsKey(fixture.trim().toLowerCase())) {
-              roomFixtures.put(fixture.trim().toLowerCase(),
-                      this.fixtures.get(fixture.trim().toLowerCase()));
+            if (this.fixtures.containsElement(fixture)) {
+              roomFixtures.addElement(this.fixtures.getElement(fixture));
             }
           }
 
           String monster = roomData.get(RoomJsonFields.MONSTER.getValue().toLowerCase()).asText();
-          Monster roomMonster = this.monsters.getOrDefault(monster.toLowerCase(), null);
+          Monster roomMonster = this.monsters.getElement(monster;
 
           String puzzle = roomData.get(RoomJsonFields.PUZZLE.getValue().toLowerCase()).asText();
           Puzzle roomPuzzle;
-          roomPuzzle = this.puzzles.getOrDefault(puzzle.toLowerCase(), null);
+          roomPuzzle = this.puzzles.getElement(puzzle);
 
           String picture;
           if (roomData.get(RoomJsonFields.PICTURE.getValue()).isNull()) {
@@ -559,7 +548,7 @@ public class FileProcessor {
 
           try {
             this.rooms.put(roomNumber, new ConcreteRoom(name, description, roomNumber, passages,
-                    roomItems, roomFixtures, roomMonster, roomPuzzle, picture));
+                    roomItems.getElements(), roomFixtures.getElements(), roomMonster, roomPuzzle, picture));
           } catch (Exception e) {
             this.addGameFileWarning("Error creating room: " + e.getMessage());
           }
@@ -592,10 +581,10 @@ public class FileProcessor {
     double maxWeight = node.get(PlayerJsonFields.MAX_WEIGHT.getValue()).asDouble();
 
     String[] itemList = node.get(PlayerJsonFields.INVENTORY.getValue()).asText().split(",");
-    Map<String, Item> inventory = new HashMap<>();
+    Inventory<Item> inventory = new Inventory<>();
     for (String item : itemList) {
-      if (this.items.containsKey(item.trim().toLowerCase())) {
-        inventory.put(item.trim().toLowerCase(), this.items.get(item.trim().toLowerCase()));
+      if (this.items.containsElement(item) {
+        inventory.addElement(this.items.getElement(item));
       }
     }
 
@@ -608,7 +597,7 @@ public class FileProcessor {
       itemsToAdd.add(added.trim().toLowerCase());
     }
 
-    this.currentPlayer = new ConcretePlayer(name, description, score, health, maxWeight, inventory,
+    this.currentPlayer = new ConcretePlayer(name, description, score, health, maxWeight, inventory.getElements(),
             this.rooms.get(activeRoomNumber), itemsToAdd);
   }
 
