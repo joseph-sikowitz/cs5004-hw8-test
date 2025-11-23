@@ -126,12 +126,21 @@ public class AdventureGameModel implements IAdventureGameModel {
    */
   private String getElementNamesConcatenated(Map<String, ? extends Element> map) {
     StringBuilder elements = new StringBuilder();
-    List<String> names = new ArrayList<>(map.values().stream().map(Element::getName).toList());
+    List<String> names = getElementNames(map);
     if (names.isEmpty())
       return "";
     String lastName = names.removeLast();
     return names.stream().map((key) -> key + ", ").reduce(elements, StringBuilder::append,
             StringBuilder::append).append(lastName).toString();
+  }
+
+  /**
+   * Returns a List of Element names from a Map of Elements hashed by their names.
+   * @param map a Map of Elements hashed by their names.
+   * @return a List of Strings representing element names.
+   */
+  private List<String> getElementNames(Map<String, ? extends Element> map) {
+    return new ArrayList<>(map.values().stream().map(Element::getName).toList());
   }
 
   @Override
