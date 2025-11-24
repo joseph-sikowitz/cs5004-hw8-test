@@ -4,8 +4,8 @@ package view;
 
 import controller.GameCommandReader;
 
-//TODO: Create Supertype for GameCommandReader.
-//TODO: make generic C able to be any subtype of said supertype.
+//TODO: Create Supertype for GameCommandReader called CommandInterpreter.
+//TODO: make generic C able to be any subtype of CommandInterpreter.
 /**
  * An Interface the view subsystem of an AdventureGame.
  * @param <T> The type of data to be passed to the view.
