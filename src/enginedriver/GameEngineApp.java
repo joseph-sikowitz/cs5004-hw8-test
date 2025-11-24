@@ -9,6 +9,8 @@ import java.nio.file.Path;
 import controller.GameController;
 import model.AdventureGameModel;
 import model.IAdventureGameModel;
+import view.ConcreteTextView;
+import view.ITextView;
 
 /**
  * The GameEngineApp class is the entry point for an adventure game. It has a game filename
@@ -49,7 +51,8 @@ public class GameEngineApp {
     }
 
     IAdventureGameModel model = new AdventureGameModel(this.gameFileName);
-    GameController controller = new GameController(this.source, this.output, model);
+    ITextView view = new ConcreteTextView(this.output);
+    GameController controller = new GameController(this.source, model, view);
     controller.go();
   }
 }
