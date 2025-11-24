@@ -6,9 +6,6 @@ import java.io.InputStreamReader;
 
 import model.AdventureGameModel;
 import model.IAdventureGameModel;
-import view.ConcreteTextView;
-import view.ITextView;
-
 import org.junit.jupiter.api.Test;
 
 /**
@@ -27,9 +24,8 @@ class GameControllerTest {
   void testConstructor() {
     String gameFileName = "data/simple_hallway.json";
     IAdventureGameModel model = new AdventureGameModel(gameFileName);
-    ITextView view = new ConcreteTextView(System.out);
     GameController controller = new GameController(
-            new InputStreamReader(System.in), model, view);
+            new InputStreamReader(System.in), System.out, model);
     assertInstanceOf(GameController.class, controller);
   }
 }

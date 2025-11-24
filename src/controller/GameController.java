@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import model.IAdventureGameModel;
-import view.ITextView;
 
 /**
  * The GameController class gets input from the user and sends it to the model
@@ -21,8 +20,8 @@ public class GameController implements Controller {
 
   // attributes
   private IAdventureGameModel model;
-  private ITextView view;
   private final Readable in;
+  private final Appendable out;
   private Map<UserCommands, ICommand> commands;
 
   // constants
@@ -36,13 +35,12 @@ public class GameController implements Controller {
    * used to take user input in order to interact with the model.
    *
    * @param source Readable of the source of the game's input.
-   * @param model IAdventureGameModel of the game's model for business logic.
-   * @param view ITextView of the game's view for display.
+   * @param output Appendable of the game's output.
    */
-  public GameController(Readable source, IAdventureGameModel model, ITextView view) {
+  public GameController(Readable source, Appendable output, IAdventureGameModel model) {
     this.in = source;
+    this.out = output;
     this.model = model;
-    this.view = view;
     this.loadCommands();
   }
 
@@ -79,14 +77,14 @@ public class GameController implements Controller {
   @Override
   public void go() throws IOException {
     try {
-      GameCommandReader commandReader = new GameCommandReader(this.in, this.view.getOutput());
+      GameCommandReader commandReader = new GameCommandReader(this.in, this.out);
       this.model.setPlayerName(commandReader.startGame());
       this.model.loadGameData();
       //print any warnings about the data from the model.
       this.printGameFileWarnings();
 
       //initial look
-      this.view.display(this.model.lookAround());
+      this.out.append(this.model.lookAround());
 
       this.executeEndOfTurnModelActions(true);
 
@@ -100,43 +98,43 @@ public class GameController implements Controller {
             //uses command structure in commands Map instead of if/else
             UserCommands userCommand = this.findUserCommand(commandReader.getUserInputCommand());
             if (userCommand != null) {
-              this.view.display(
+              this.out.append(
                       this.commands.get(userCommand).execute(commandReader.getUserInputArgument()));
             }
 
           } else if (commandMatches(commandReader, UserCommands.SAVE)) {
             try {
-              this.view.display("Game saved!\n");
+              this.out.append("Game saved!\n");
               this.model.saveGame(DATA_DIR + DEFAULT_SAVE_FILE);
               playerCommandExecuted = false;
             } catch (Exception e) {
-              this.view.display("Error saving game data!\n");
+              this.out.append("Error saving game data!\n");
             }
 
           } else if (commandMatches(commandReader, UserCommands.RESTORE)) {
             try {
               this.model.restoreGame(DATA_DIR + DEFAULT_SAVE_FILE);
-              this.view.display("Game restored!\n");
-              this.view.display(this.model.restoreMessage());
+              this.out.append("Game restored!\n");
+              this.out.append(this.model.restoreMessage());
             } catch (Exception e) {
-              this.view.display("Error: could not restore game!\n");
+              this.out.append("Error: could not restore game!\n");
             }
             playerCommandExecuted = false;
 
           } else if (this.isValidCommand(commandReader.getUserInputCommand())
                   && commandReader.getUserInputArgument() == null) {
-            this.view.display(commandReader.getUserInputCommand() + REQUIRED_ARGUMENT);
+            this.out.append(commandReader.getUserInputCommand()).append(REQUIRED_ARGUMENT);
           }
         } else if (this.isValidCommand(commandReader.getUserInputCommand())
                 && commandReader.getUserInputArgument() == null) {
-          this.view.display(commandReader.getUserInputCommand() + REQUIRED_ARGUMENT);
+          this.out.append(commandReader.getUserInputCommand()).append(REQUIRED_ARGUMENT);
         } else {
-          this.view.display(UNKNOWN_COMMAND);
+          this.out.append(UNKNOWN_COMMAND);
         }
         this.executeEndOfTurnModelActions(playerCommandExecuted);
       }
       //displays player stats
-      this.view.display(this.model.quitMessage());
+      this.out.append(this.model.quitMessage());
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -149,16 +147,16 @@ public class GameController implements Controller {
   private void executeEndOfTurnModelActions(boolean playerCommandExecuted) throws IOException {
     if (playerCommandExecuted) {
       //if there is a Monster in the room, have it "affect" the Player in the model.
-      this.view.display(this.model.affectPlayer());
+      this.out.append(this.model.affectPlayer());
       //display player's health status if it has changed since last command.
       if (this.model.changeInPlayerHealthStatus())
-        this.view.display(this.model.getPlayerHealthStatus());
+        this.out.append(this.model.getPlayerHealthStatus());
       //display player's score if it has changed since last command.
       if (this.model.changeInPlayerScore())
-        this.view.display(this.model.getPlayerScoreFormatted());
+        this.out.append(this.model.getPlayerScoreFormatted());
       //display player's rank if it has changed since last command.
       if (this.model.changeInPlayerRank())
-        this.view.display(this.model.getPlayerRank());
+        this.out.append(this.model.getPlayerRank());
     }
   }
 
@@ -166,7 +164,7 @@ public class GameController implements Controller {
    * Prints warnings to the Player/user about possible errors in game data file.
    */
   private void printGameFileWarnings() throws IOException {
-    this.view.display(this.model.getGameFileWarnings());
+    this.out.append(this.model.getGameFileWarnings());
   }
 
   /**
