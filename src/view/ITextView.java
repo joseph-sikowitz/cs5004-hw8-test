@@ -3,17 +3,17 @@ package view;
 import java.io.IOException;
 
 /**
- * The IView interface determines the types of views for an adventure game.
+ * The ITextView interface determines the types of views for an adventure game.
  */
-public interface IView<T> {
+public interface ITextView {
 
   /**
    * The display() method displays the results of a user's action.
    *
-   * @param message T to display.
+   * @param message String of message to display.
    * @throws IOException if there is an error displaying output.
    */
-  void display(T message) throws IOException;
+  void display(String message) throws IOException;
 
   /**
    * The getter for the view's output.
