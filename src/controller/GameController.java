@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import model.IAdventureGameModel;
-import view.ITextView;
+import view.IView;
 
 /**
  * The GameController class gets input from the user and sends it to the model
@@ -21,7 +21,7 @@ public class GameController implements Controller {
 
   // attributes
   private IAdventureGameModel model;
-  private ITextView view;
+  private IView<String> view;
   private final Readable in;
   private Map<UserCommands, ICommand> commands;
 
@@ -37,9 +37,9 @@ public class GameController implements Controller {
    *
    * @param source Readable of the source of the game's input.
    * @param model IAdventureGameModel of the game's model for business logic.
-   * @param view ITextView of the game's view for display.
+   * @param view IView of the game's view for display.
    */
-  public GameController(Readable source, IAdventureGameModel model, ITextView view) {
+  public GameController(Readable source, IAdventureGameModel model, IView view) {
     this.in = source;
     this.model = model;
     this.view = view;

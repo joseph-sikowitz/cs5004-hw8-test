@@ -3,10 +3,10 @@ package view;
 import java.io.IOException;
 
 /**
- * The ConcreteTextView class handles the display for a text-based adventure game view. TextViews
+ * The TextView class handles the display for a text-based adventure game view. TextViews
  * have an Appendable out attribute.
  */
-public class ConcreteTextView implements ITextView {
+public class TextView implements IView<String> {
 
   private final Appendable out;
 
@@ -16,7 +16,7 @@ public class ConcreteTextView implements ITextView {
    *
    * @param out Appendable for game output.
    */
-  public ConcreteTextView(Appendable out) {
+  public TextView(Appendable out) {
     this.out = out;
   }
 
