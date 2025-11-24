@@ -6,10 +6,9 @@ import java.io.InputStreamReader;
 
 import model.AdventureGameModel;
 import model.IAdventureGameModel;
-import view.TextView;
-import view.IView;
-
 import org.junit.jupiter.api.Test;
+import view.IView;
+import view.TextView;
 
 /**
  * The GameControllerTest performs a trivial test of the GameController class
