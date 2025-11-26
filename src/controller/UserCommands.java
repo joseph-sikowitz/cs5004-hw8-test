@@ -18,8 +18,8 @@ public enum UserCommands {
   DROP("drop", "d"),
   EXAMINE("examine", "x"),
   ANSWER("answer", "a"),
-  SAVE("save", null),
-  RESTORE("restore", null);
+  SAVE("save", "save"),
+  RESTORE("restore", "restore");
 
   private final String command;
   private final String shortcut;
