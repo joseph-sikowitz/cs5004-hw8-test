@@ -163,17 +163,17 @@ public interface IAdventureGameModel {
    * The saveGame() method saves the game to a file.
    *
    * @param saveFile String of file name to save to.
-   * @throws IOException if there is an error writing to the save file.
+   * @return String of game saved message.
    */
-  void saveGame(String saveFile) throws IOException;
+  String saveGame(String saveFile);
 
   /**
    * The restoreGame() method restores the last saved game.
    *
    * @param saveFile String of file name to restore.
-   * @throws IOException if there is an error reading the save file.
+   * @return String of game restored message.
    */
-  void restoreGame(String saveFile) throws IOException;
+  String restoreGame(String saveFile);
 
   /**
    * Returns a String with all warnings accumulating from initializing Elements
