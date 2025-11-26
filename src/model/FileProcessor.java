@@ -636,9 +636,8 @@ public class FileProcessor {
    * saved state.
    *
    * @param saveFile String of file name and path to save to.
-   * @throws IOException if file cannot be written to.
    */
-  protected void saveGame(String saveFile) throws IOException {
+  protected void saveGame(String saveFile) {
     ObjectMapper mapper = new ObjectMapper();
 
     Map<String, Object> allElements = new HashMap<>();
@@ -653,7 +652,11 @@ public class FileProcessor {
 
     allElements.put(JsonFields.PLAYER.getValue(), formatPlayerForJson());
 
-    mapper.writeValue(new File(saveFile), allElements);
+    try {
+      mapper.writeValue(new File(saveFile), allElements);
+    } catch (IOException e) {
+      System.out.println(e.getMessage());
+    }
   }
 
   /**
