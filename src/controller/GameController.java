@@ -1,9 +1,12 @@
 package controller;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import model.IAdventureGameModel;
 
@@ -92,42 +95,38 @@ public class GameController implements Controller {
       while (!this.model.gameOver() && commandReader.getUserInput()) {
         boolean playerCommandExecuted = true;
         if (this.isValidCommand(commandReader.getUserInputCommand())) {
-          if (!this.commandMatches(commandReader, UserCommands.SAVE)
-                  && !this.commandMatches(commandReader, UserCommands.RESTORE)) {
 
-            //uses command structure in commands Map instead of if/else
-            UserCommands userCommand = this.findUserCommand(commandReader.getUserInputCommand());
-            if (userCommand != null) {
+          //uses command structure in commands Map instead of if/else
+          UserCommands userCommand = this.findUserCommand(commandReader.getUserInputCommand());
+
+          if (userCommand != null && userCommand.equals(UserCommands.SAVE)) {
+            try {
               this.out.append(
-                      this.commands.get(userCommand).execute(commandReader.getUserInputArgument()));
-            }
-
-          } else if (commandMatches(commandReader, UserCommands.SAVE)) {
-            try {
-              this.out.append("Game saved!\n");
-              this.model.saveGame(DATA_DIR + DEFAULT_SAVE_FILE);
+                      this.commands.get(userCommand).execute(DATA_DIR + DEFAULT_SAVE_FILE));
               playerCommandExecuted = false;
-            } catch (Exception e) {
-              this.out.append("Error saving game data!\n");
+            } catch (FileNotFoundException e) {
+              System.out.println("File not found: " + e.getMessage());
             }
-
-          } else if (commandMatches(commandReader, UserCommands.RESTORE)) {
+          } else if (userCommand != null && userCommand.equals(UserCommands.RESTORE)) {
             try {
-              this.model.restoreGame(DATA_DIR + DEFAULT_SAVE_FILE);
-              this.out.append("Game restored!\n");
-              this.out.append(this.model.restoreMessage());
-            } catch (Exception e) {
-              this.out.append("Error: could not restore game!\n");
+              this.out.append(
+                      this.commands.get(userCommand).execute(DATA_DIR + DEFAULT_SAVE_FILE));
+              playerCommandExecuted = false;
+            } catch (FileNotFoundException e) {
+              System.out.println("File not found: " + e.getMessage());
             }
-            playerCommandExecuted = false;
+          } else if (userCommand != null && this.requiresArgument(userCommand)
+                  && commandReader.getUserInputArgument() == null) {
+            this.out.append(commandReader.getUserInputCommand()).append(REQUIRED_ARGUMENT);
+          } else if (userCommand != null) {
+            this.out.append(
+                    this.commands.get(userCommand).execute(commandReader.getUserInputArgument()));
+          }
 
-          } else if (this.isValidCommand(commandReader.getUserInputCommand())
+           else if (this.isValidCommand(commandReader.getUserInputCommand())
                   && commandReader.getUserInputArgument() == null) {
             this.out.append(commandReader.getUserInputCommand()).append(REQUIRED_ARGUMENT);
           }
-        } else if (this.isValidCommand(commandReader.getUserInputCommand())
-                && commandReader.getUserInputArgument() == null) {
-          this.out.append(commandReader.getUserInputCommand()).append(REQUIRED_ARGUMENT);
         } else {
           this.out.append(UNKNOWN_COMMAND);
         }
@@ -246,6 +245,21 @@ public class GameController implements Controller {
     this.commands.put(UserCommands.DROP, new DropCommand(this.model));
     this.commands.put(UserCommands.EXAMINE, new ExamineCommand(this.model));
     this.commands.put(UserCommands.ANSWER, new AnswerCommand(this.model));
+    this.commands.put(UserCommands.SAVE, new SaveCommand(this.model));
+    this.commands.put(UserCommands.RESTORE, new RestoreCommand(this.model));
+  }
+
+  /**
+   * The requiresArgument() method checks if a command requires an argument and
+   * returns a boolean indicating whether it does or not.
+   *
+   * @param userCommand UserCommands enum to check if an argument is required.
+   * @return boolean indicating if an argument is required.
+   */
+  private boolean requiresArgument(UserCommands userCommand) {
+    Set<UserCommands> argumentCommands = EnumSet.of(UserCommands.USE, UserCommands.TAKE,
+            UserCommands.DROP, UserCommands.EXAMINE, UserCommands.ANSWER);
+    return argumentCommands.contains(userCommand);
   }
 
 }
