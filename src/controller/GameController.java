@@ -122,11 +122,6 @@ public class GameController implements Controller {
             this.out.append(
                     this.commands.get(userCommand).execute(commandReader.getUserInputArgument()));
           }
-
-           else if (this.isValidCommand(commandReader.getUserInputCommand())
-                  && commandReader.getUserInputArgument() == null) {
-            this.out.append(commandReader.getUserInputCommand()).append(REQUIRED_ARGUMENT);
-          }
         } else {
           this.out.append(UNKNOWN_COMMAND);
         }
