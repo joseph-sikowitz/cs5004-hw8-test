@@ -17,7 +17,7 @@ public interface IAdventureGameView<T, C extends GameCommandReader> {
    * Sets the controller class that interprets commands passed in through the view.
    * @param commandInterpreter interprets commands.
    */
-  void setEventHandler(GameCommandReader commandInterpreter);
+  void setEventHandler(C commandInterpreter);
 
   /**
    * Returns a command from the model.
