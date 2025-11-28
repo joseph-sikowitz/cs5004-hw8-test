@@ -118,25 +118,14 @@ public class GameController implements Controller {
           //uses command structure in commands Map instead of if/else
           UserCommands userCommand = this.findUserCommand(ioProcessor.getUserInputCommand());
 
-          if (userCommand != null && userCommand.equals(UserCommands.SAVE)) {
-            try {
-              this.commands.get(userCommand).execute();
-              playerCommandExecuted = false;
-            } catch (FileNotFoundException e) {
-              this.ioProcessor.messageToPlayer("File not found: " + e.getMessage());
-            }
-          } else if (userCommand != null && userCommand.equals(UserCommands.RESTORE)) {
-            try {
-              this.commands.get(userCommand).execute();
-              playerCommandExecuted = false;
-            } catch (FileNotFoundException e) {
-              this.ioProcessor.messageToPlayer("File not found: " + e.getMessage());
-            }
-          } else if (userCommand != null && this.requiresArgument(userCommand)
+          if (userCommand != null && this.requiresArgument(userCommand)
                   && ioProcessor.getUserInputArgument() == null) {
             this.ioProcessor.messageToPlayer(ioProcessor.getUserInputCommand()
                     + REQUIRED_ARGUMENT);
           } else if (userCommand != null) {
+            if (userCommand.equals(UserCommands.SAVE)
+                    || userCommand.equals(UserCommands.RESTORE))
+              playerCommandExecuted = false;
             this.commands.get(userCommand).execute();
           }
         } else {
