@@ -107,7 +107,7 @@ public class GameController implements Controller {
 
       //this.model.setPlayerName(this.startGame(ioProcessor));
       //this.model.loadGameData();
-      this.startGameCommand.execute();
+      boolean gameRunnable = this.startGameCommand.execute();
 
       //print any warnings about the data from the model.
       //this.printGameFileWarnings();
@@ -117,9 +117,9 @@ public class GameController implements Controller {
       this.commands.get(UserCommands.LOOK).execute();
 
       //this.executeEndOfTurnModelActions(true);
-      this.endOfTurnActions.execute();
+      gameRunnable = this.endOfTurnActions.execute();
       //get user input while command is quit and model is still reporting that game isn't over.
-      while (!this.model.gameOver() && ioProcessor.getUserInput()) {
+      while (gameRunnable && ioProcessor.getUserInput()) {
         boolean playerCommandExecuted = true;
         if (this.isValidCommand(ioProcessor.getUserInputCommand())) {
 
@@ -134,14 +134,14 @@ public class GameController implements Controller {
             if (userCommand.equals(UserCommands.SAVE)
                     || userCommand.equals(UserCommands.RESTORE))
               playerCommandExecuted = false;
-            this.commands.get(userCommand).execute();
+            gameRunnable = this.commands.get(userCommand).execute();
           }
         } else {
           this.ioProcessor.messageToPlayer(UNKNOWN_COMMAND);
         }
         //this.executeEndOfTurnModelActions(playerCommandExecuted);
         if (playerCommandExecuted) {
-          this.endOfTurnActions.execute();
+          gameRunnable = this.endOfTurnActions.execute();
         }
       }
       //displays player stats TODO: Make this an ICommand class?
