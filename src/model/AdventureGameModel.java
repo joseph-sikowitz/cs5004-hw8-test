@@ -1,10 +1,14 @@
 package model;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static java.nio.file.Files.exists;
 
 /**
  * The AdventureGameModel class defines the game play. It is the main point
@@ -261,13 +265,17 @@ public class AdventureGameModel implements IAdventureGameModel {
   }
 
   @Override
-  public String saveGame(String saveFile) {
+  public String saveGame(String saveFile) throws FileNotFoundException {
+    if (!exists(Path.of(saveFile)))
+      throw new FileNotFoundException("File was not saved!");
     this.fileProcessor.saveGame(saveFile);
     return "Game saved!\n";
   }
 
   @Override
-  public String restoreGame(String saveFile) {
+  public String restoreGame(String saveFile) throws FileNotFoundException {
+    if (!exists(Path.of(saveFile)))
+      throw new FileNotFoundException("File was not found!");
     this.fileProcessor = new FileProcessor(saveFile, this.playerName);
     this.player = this.fileProcessor.setUpGame();
     this.warnings = this.fileProcessor.getGameFileWarnings();

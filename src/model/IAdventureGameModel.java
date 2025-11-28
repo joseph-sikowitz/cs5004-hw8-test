@@ -1,5 +1,6 @@
 package model;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
@@ -177,16 +178,18 @@ public interface IAdventureGameModel {
    *
    * @param saveFile String of file name to save to.
    * @return String of game saved message.
+   * @throws FileNotFoundException if file was not created.
    */
-  String saveGame(String saveFile);
+  String saveGame(String saveFile) throws FileNotFoundException;
 
   /**
    * The restoreGame() method restores the last saved game.
    *
    * @param saveFile String of file name to restore.
    * @return String of game restored message.
+   * @throws FileNotFoundException if file was not found.
    */
-  String restoreGame(String saveFile);
+  String restoreGame(String saveFile) throws FileNotFoundException;
 
   /**
    * Returns a String with all warnings accumulating from initializing Elements
