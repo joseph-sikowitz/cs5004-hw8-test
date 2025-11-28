@@ -20,7 +20,8 @@ public class TakeCommand extends AbstractCommand {
   }
 
   @Override
-  public void execute() throws IOException {
+  public boolean execute() throws IOException {
     this.processor.messageToPlayer(this.model.takeItem(this.processor.getUserInputArgument()));
+    return super.execute();
   }
 }

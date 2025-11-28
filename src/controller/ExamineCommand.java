@@ -20,7 +20,8 @@ public class ExamineCommand extends AbstractCommand {
   }
 
   @Override
-  public void execute() throws IOException {
+  public boolean execute() throws IOException {
     this.processor.messageToPlayer(this.model.examine(this.processor.getUserInputArgument()));
+    return super.execute();
   }
 }

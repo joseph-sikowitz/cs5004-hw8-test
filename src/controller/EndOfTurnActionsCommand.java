@@ -15,7 +15,7 @@ public class EndOfTurnActionsCommand extends AbstractCommand {
   }
 
   @Override
-  public void execute() throws IOException {
+  public boolean execute() throws IOException {
     StringBuilder message = new StringBuilder();
     //if there is a Monster in the room, have it "affect" the Player in the model.
     message.append(this.model.affectPlayer());
@@ -29,5 +29,6 @@ public class EndOfTurnActionsCommand extends AbstractCommand {
     if (this.model.changeInPlayerRank())
       message.append(this.model.getPlayerRank());
     this.processor.messageToPlayer(message.toString());
+    return super.execute();
   }
 }

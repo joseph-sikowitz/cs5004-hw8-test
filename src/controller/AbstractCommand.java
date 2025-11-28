@@ -1,5 +1,7 @@
 package controller;
 
+import java.io.IOException;
+
 import model.IAdventureGameModel;
 
 /**
@@ -15,6 +17,11 @@ public abstract class AbstractCommand implements ICommand {
   public AbstractCommand(IAdventureGameModel model, GameInputOutputProcessor processor) {
     this.model = model;
     this.processor = processor;
+  }
+
+  @Override
+  public boolean execute() throws IOException {
+    return !this.model.gameOver();
   }
 
 }

@@ -9,7 +9,9 @@ public interface ICommand {
 
   /**
    * The execute() method executes the command defined by the class.
+   * @return true if commands can still be executed
+   *      after this command finishes executing, otherwise false.
    * @throws IOException If I/O error occurs.
    */
-  void execute() throws IOException;
+  boolean execute() throws IOException;
 }

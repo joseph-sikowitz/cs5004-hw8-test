@@ -20,7 +20,8 @@ public class LookCommand extends AbstractCommand {
   }
 
   @Override
-  public void execute() throws IOException {
+  public boolean execute() throws IOException {
     this.processor.updateRoom(model.lookAround());
+    return super.execute();
   }
 }

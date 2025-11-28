@@ -19,9 +19,10 @@ public class UseCommand extends AbstractCommand {
   }
 
   @Override
-  public void execute() throws IOException {
+  public boolean execute() throws IOException {
      this.processor.messageToPlayer(model.useItem(this.processor.getUserInputArgument()));
      if (this.model.roomChanged())
        this.processor.updateRoom(this.model.lookAround());
+    return super.execute();
   }
 }

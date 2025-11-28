@@ -15,7 +15,7 @@ public class StartGameCommand extends AbstractCommand {
   }
 
   @Override
-  public void execute() throws IOException {
+  public boolean execute() throws IOException {
     this.processor.messageToPlayer(UserPrompts.NEW_PLAYER_PROMPT.getPrompt());
     this.model.setPlayerName(processor.getUserMessage());
     this.model.loadGameData();
@@ -23,5 +23,6 @@ public class StartGameCommand extends AbstractCommand {
             + this.model.getPlayerName()  + "\n");
     if (!this.model.getGameFileWarnings().isEmpty())
       this.processor.messageToPlayer(this.model.getGameFileWarnings());
+    return super.execute();
   }
 }

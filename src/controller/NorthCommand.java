@@ -20,10 +20,11 @@ public class NorthCommand extends AbstractCommand {
   }
 
   @Override
-  public void execute() throws IOException {
+  public boolean execute() throws IOException {
     String response = this.model.movePlayerNorth();
     this.processor.messageToPlayer(response);
     if (this.model.roomChanged())
       this.processor.updateRoom(this.model.lookAround());
+    return super.execute();
   }
 }
