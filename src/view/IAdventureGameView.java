@@ -20,7 +20,7 @@ public interface IAdventureGameView<T, C extends GameTextInputOutputProcessor> {
   void setEventHandler(C commandInterpreter);
 
   /**
-   * Returns a command from the model.
+   * Returns a command from the User.
    * @return a String for the controller to interpret as a command.
    */
   String getCommand();
