@@ -47,7 +47,7 @@ public interface IAdventureGameView<T, C extends GameTextInputOutputProcessor> {
   void updateRoom(T data) throws IOException;
 
   /**
-   * Updates the ELements that the Player can examine.
+   * Updates the Elements that the Player can examine.
    * @param data the data to display.
    * @throws IOException If I/O error occurs.
    */
