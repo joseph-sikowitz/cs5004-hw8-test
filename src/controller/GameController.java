@@ -22,7 +22,7 @@ import model.IAdventureGameModel;
 public class GameController implements Controller {
 
   // attributes
-  private  IAdventureGameModel model = null;
+  private IAdventureGameModel model;
   private final Readable in;
   private final Appendable out;
   private Map<UserCommands, ICommand> commands;
