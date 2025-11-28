@@ -22,10 +22,11 @@ import model.IAdventureGameModel;
 public class GameController implements Controller {
 
   // attributes
-  private IAdventureGameModel model;
+  private  IAdventureGameModel model = null;
   private final Readable in;
   private final Appendable out;
   private Map<UserCommands, ICommand> commands;
+  private GameTextInputOutputProcessor ioProcessor;
 
   // constants
   private static final String UNKNOWN_COMMAND = "Unknown command!\n";
@@ -44,18 +45,21 @@ public class GameController implements Controller {
     this.in = source;
     this.out = output;
     this.model = model;
+    this.ioProcessor = new GameTextInputOutputProcessor(this.in, this.out);
     this.loadCommands();
   }
+
 
   /**
    * Evaluates where a command from the commandReader matches a valid command from UserCommands
    * to pass to the IAdventureGameModel.
-   * @param commandReader an instance of GameCommandReader
+   * @param commandReader an instance of GameTextInputOutputProcessor
    * @param userCommand an instance of a UserCommands Enum.
    * @return true if command isn't null and matches a command
    *      (either full word or shortcut), otherwise false.
    */
-  private boolean commandMatches(GameCommandReader commandReader, UserCommands userCommand) {
+  private boolean commandMatches(GameTextInputOutputProcessor commandReader,
+                                 UserCommands userCommand) {
     return commandReader.getUserInputCommand() != null
             && (commandReader.getUserInputCommand().equalsIgnoreCase(userCommand.getCommand())
             || (userCommand.getShortcut() != null
@@ -66,69 +70,82 @@ public class GameController implements Controller {
    * Evaluates where a command and an argument from the commandReader
    * matches a valid command from UserCommands
    * to pass to the IAdventureGameModel.
-   * @param commandReader an instance of GameCommandReader
+   * @param commandReader an instance of GameTextInputOutputProcessor
    * @param userCommand an instance of a UserCommands Enum.
    * @return true if command isn't null and matches a command (either full word or shortcut)
    *     and the argument isn't null, otherwise false.
    */
-  private boolean commandAndArgumentMatches(GameCommandReader commandReader,
+  private boolean commandAndArgumentMatches(GameTextInputOutputProcessor commandReader,
                                             UserCommands userCommand) {
     return commandReader.getUserInputArgument() != null
             && this.commandMatches(commandReader, userCommand);
   }
 
+  /**
+   * The startGame() method starts a game by prompting the user to put in their
+   * name. It throws an IOException
+   * TODO: Make this behavior into an ICommand
+   * @return String of player's name.
+   * @throws IOException if there is an error printing to output or getting user
+   *                     data.
+   */
+  private String startGame(GameTextInputOutputProcessor gameCommandReader) throws IOException {
+    gameCommandReader.messageToPlayer(UserPrompts.NEW_PLAYER_PROMPT.getPrompt());
+    String playerName = gameCommandReader.getUserMessage();
+    gameCommandReader.messageToPlayer(UserPrompts.NEW_PLAYER_NAME_PROMPT.getPrompt()
+            + playerName  + "\n");
+    return playerName;
+  }
+
   @Override
   public void go() throws IOException {
     try {
-      GameCommandReader commandReader = new GameCommandReader(this.in, this.out);
-      this.model.setPlayerName(commandReader.startGame());
+      this.model.setPlayerName(this.startGame(ioProcessor));
       this.model.loadGameData();
       //print any warnings about the data from the model.
       this.printGameFileWarnings();
 
       //initial look
-      this.out.append(this.model.lookAround());
+      this.ioProcessor.updateRoom(this.model.lookAround());
 
       this.executeEndOfTurnModelActions(true);
 
       //get user input while command is quit and model is still reporting that game isn't over.
-      while (!this.model.gameOver() && commandReader.getUserInput()) {
+      while (!this.model.gameOver() && ioProcessor.getUserInput()) {
         boolean playerCommandExecuted = true;
-        if (this.isValidCommand(commandReader.getUserInputCommand())) {
+        if (this.isValidCommand(ioProcessor.getUserInputCommand())) {
 
           //uses command structure in commands Map instead of if/else
-          UserCommands userCommand = this.findUserCommand(commandReader.getUserInputCommand());
+          UserCommands userCommand = this.findUserCommand(ioProcessor.getUserInputCommand());
 
           if (userCommand != null && userCommand.equals(UserCommands.SAVE)) {
             try {
-              this.out.append(
-                      this.commands.get(userCommand).execute(DATA_DIR + DEFAULT_SAVE_FILE));
+              this.commands.get(userCommand).execute();
               playerCommandExecuted = false;
             } catch (FileNotFoundException e) {
-              System.out.println("File not found: " + e.getMessage());
+              this.ioProcessor.messageToPlayer("File not found: " + e.getMessage());
             }
           } else if (userCommand != null && userCommand.equals(UserCommands.RESTORE)) {
             try {
-              this.out.append(
-                      this.commands.get(userCommand).execute(DATA_DIR + DEFAULT_SAVE_FILE));
+              this.commands.get(userCommand).execute();
               playerCommandExecuted = false;
             } catch (FileNotFoundException e) {
-              System.out.println("File not found: " + e.getMessage());
+              this.ioProcessor.messageToPlayer("File not found: " + e.getMessage());
             }
           } else if (userCommand != null && this.requiresArgument(userCommand)
-                  && commandReader.getUserInputArgument() == null) {
-            this.out.append(commandReader.getUserInputCommand()).append(REQUIRED_ARGUMENT);
+                  && ioProcessor.getUserInputArgument() == null) {
+            this.ioProcessor.messageToPlayer(ioProcessor.getUserInputCommand()
+                    + REQUIRED_ARGUMENT);
           } else if (userCommand != null) {
-            this.out.append(
-                    this.commands.get(userCommand).execute(commandReader.getUserInputArgument()));
+            this.commands.get(userCommand).execute();
           }
         } else {
-          this.out.append(UNKNOWN_COMMAND);
+          this.ioProcessor.messageToPlayer(UNKNOWN_COMMAND);
         }
         this.executeEndOfTurnModelActions(playerCommandExecuted);
       }
       //displays player stats
-      this.out.append(this.model.quitMessage());
+      this.ioProcessor.messageToPlayer(this.model.quitMessage());
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -140,17 +157,19 @@ public class GameController implements Controller {
    */
   private void executeEndOfTurnModelActions(boolean playerCommandExecuted) throws IOException {
     if (playerCommandExecuted) {
+      StringBuilder message = new StringBuilder();
       //if there is a Monster in the room, have it "affect" the Player in the model.
-      this.out.append(this.model.affectPlayer());
+      message.append(this.model.affectPlayer());
       //display player's health status if it has changed since last command.
       if (this.model.changeInPlayerHealthStatus())
-        this.out.append(this.model.getPlayerHealthStatus());
+        message.append(this.model.getPlayerHealthStatus());
       //display player's score if it has changed since last command.
       if (this.model.changeInPlayerScore())
-        this.out.append(this.model.getPlayerScoreFormatted());
+        message.append(this.model.getPlayerScoreFormatted());
       //display player's rank if it has changed since last command.
       if (this.model.changeInPlayerRank())
-        this.out.append(this.model.getPlayerRank());
+        message.append(this.model.getPlayerRank());
+      this.ioProcessor.messageToPlayer(message.toString());
     }
   }
 
@@ -158,7 +177,7 @@ public class GameController implements Controller {
    * Prints warnings to the Player/user about possible errors in game data file.
    */
   private void printGameFileWarnings() throws IOException {
-    this.out.append(this.model.getGameFileWarnings());
+    this.ioProcessor.messageToPlayer(this.model.getGameFileWarnings());
   }
 
   /**
@@ -229,19 +248,19 @@ public class GameController implements Controller {
   private void loadCommands() {
     this.commands = new HashMap<>();
 
-    this.commands.put(UserCommands.NORTH, new NorthCommand(this.model));
-    this.commands.put(UserCommands.SOUTH, new SouthCommand(this.model));
-    this.commands.put(UserCommands.EAST, new EastCommand(this.model));
-    this.commands.put(UserCommands.WEST, new WestCommand(this.model));
-    this.commands.put(UserCommands.INVENTORY, new InventoryCommand(this.model));
-    this.commands.put(UserCommands.LOOK, new LookCommand(this.model));
-    this.commands.put(UserCommands.USE, new UseCommand(this.model));
-    this.commands.put(UserCommands.TAKE, new TakeCommand(this.model));
-    this.commands.put(UserCommands.DROP, new DropCommand(this.model));
-    this.commands.put(UserCommands.EXAMINE, new ExamineCommand(this.model));
-    this.commands.put(UserCommands.ANSWER, new AnswerCommand(this.model));
-    this.commands.put(UserCommands.SAVE, new SaveCommand(this.model));
-    this.commands.put(UserCommands.RESTORE, new RestoreCommand(this.model));
+    this.commands.put(UserCommands.NORTH, new NorthCommand(this.model, this.ioProcessor));
+    this.commands.put(UserCommands.SOUTH, new SouthCommand(this.model, this.ioProcessor));
+    this.commands.put(UserCommands.EAST, new EastCommand(this.model, this.ioProcessor));
+    this.commands.put(UserCommands.WEST, new WestCommand(this.model, this.ioProcessor));
+    this.commands.put(UserCommands.INVENTORY, new InventoryCommand(this.model, this.ioProcessor));
+    this.commands.put(UserCommands.LOOK, new LookCommand(this.model, this.ioProcessor));
+    this.commands.put(UserCommands.USE, new UseCommand(this.model, this.ioProcessor));
+    this.commands.put(UserCommands.TAKE, new TakeCommand(this.model, this.ioProcessor));
+    this.commands.put(UserCommands.DROP, new DropCommand(this.model, this.ioProcessor));
+    this.commands.put(UserCommands.EXAMINE, new ExamineCommand(this.model, this.ioProcessor));
+    this.commands.put(UserCommands.ANSWER, new AnswerCommand(this.model, this.ioProcessor));
+    this.commands.put(UserCommands.SAVE, new SaveCommand(this.model, this.ioProcessor));
+    this.commands.put(UserCommands.RESTORE, new RestoreCommand(this.model, this.ioProcessor));
   }
 
   /**
