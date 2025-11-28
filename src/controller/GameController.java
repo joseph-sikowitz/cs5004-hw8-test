@@ -26,11 +26,13 @@ public class GameController implements Controller {
   private final Readable in;
   private final Appendable out;
   private Map<UserCommands, ICommand> commands;
-  private GameTextInputOutputProcessor ioProcessor;
+  private GameInputOutputProcessor ioProcessor;
+  private ICommand startGameCommand;
+  private ICommand endOfTurnActions;
 
   // constants
   private static final String UNKNOWN_COMMAND = "Unknown command!\n";
-  private static final String DATA_DIR = System.getProperty("user.dir") + "/data/";
+  private static final String DATA_DIR = System.getProperty("user.dir") + "/resources/";
   private static final String DEFAULT_SAVE_FILE = "save_file.json";
   private static final String REQUIRED_ARGUMENT = " requires an argument!\n";
 
@@ -47,6 +49,8 @@ public class GameController implements Controller {
     this.model = model;
     this.ioProcessor = new GameTextInputOutputProcessor(this.in, this.out);
     this.loadCommands();
+    this.startGameCommand = new StartGameCommand(this.model, this.ioProcessor);
+    this.endOfTurnActions = new EndOfTurnActionsCommand(this.model, this.ioProcessor);
   }
 
 
@@ -89,7 +93,7 @@ public class GameController implements Controller {
    * @throws IOException if there is an error printing to output or getting user
    *                     data.
    */
-  private String startGame(GameTextInputOutputProcessor gameCommandReader) throws IOException {
+  private String startGame(GameInputOutputProcessor gameCommandReader) throws IOException {
     gameCommandReader.messageToPlayer(UserPrompts.NEW_PLAYER_PROMPT.getPrompt());
     String playerName = gameCommandReader.getUserMessage();
     gameCommandReader.messageToPlayer(UserPrompts.NEW_PLAYER_NAME_PROMPT.getPrompt()
@@ -100,16 +104,20 @@ public class GameController implements Controller {
   @Override
   public void go() throws IOException {
     try {
-      this.model.setPlayerName(this.startGame(ioProcessor));
-      this.model.loadGameData();
+
+      //this.model.setPlayerName(this.startGame(ioProcessor));
+      //this.model.loadGameData();
+      this.startGameCommand.execute();
+
       //print any warnings about the data from the model.
       this.printGameFileWarnings();
 
       //initial look
-      this.ioProcessor.updateRoom(this.model.lookAround());
+      //this.ioProcessor.updateRoom(this.model.lookAround());
+      this.commands.get(UserCommands.LOOK).execute();
 
-      this.executeEndOfTurnModelActions(true);
-
+      //this.executeEndOfTurnModelActions(true);
+      this.endOfTurnActions.execute();
       //get user input while command is quit and model is still reporting that game isn't over.
       while (!this.model.gameOver() && ioProcessor.getUserInput()) {
         boolean playerCommandExecuted = true;
@@ -131,7 +139,10 @@ public class GameController implements Controller {
         } else {
           this.ioProcessor.messageToPlayer(UNKNOWN_COMMAND);
         }
-        this.executeEndOfTurnModelActions(playerCommandExecuted);
+        //this.executeEndOfTurnModelActions(playerCommandExecuted);
+        if (playerCommandExecuted) {
+          this.endOfTurnActions.execute();
+        }
       }
       //displays player stats
       this.ioProcessor.messageToPlayer(this.model.quitMessage());
@@ -143,6 +154,7 @@ public class GameController implements Controller {
   /**
    * Executes model actions that affect the player and
    * prints player status if it has changed since the last command.
+   * TODO: Make this into an ICommand
    */
   private void executeEndOfTurnModelActions(boolean playerCommandExecuted) throws IOException {
     if (playerCommandExecuted) {
@@ -164,6 +176,7 @@ public class GameController implements Controller {
 
   /**
    * Prints warnings to the Player/user about possible errors in game data file.
+   * TODO: Make this into an ICommand
    */
   private void printGameFileWarnings() throws IOException {
     this.ioProcessor.messageToPlayer(this.model.getGameFileWarnings());
