@@ -88,7 +88,7 @@ public class GameController implements Controller {
   /**
    * The startGame() method starts a game by prompting the user to put in their
    * name. It throws an IOException
-   * TODO: Make this behavior into an ICommand
+   * TODO: Make this behavior into an ICommand - done
    * @return String of player's name.
    * @throws IOException if there is an error printing to output or getting user
    *                     data.
@@ -144,7 +144,7 @@ public class GameController implements Controller {
           this.endOfTurnActions.execute();
         }
       }
-      //displays player stats
+      //displays player stats TODO: Make this an ICommand class?
       this.ioProcessor.messageToPlayer(this.model.quitMessage());
     } catch (IOException e) {
       e.printStackTrace();
@@ -154,7 +154,7 @@ public class GameController implements Controller {
   /**
    * Executes model actions that affect the player and
    * prints player status if it has changed since the last command.
-   * TODO: Make this into an ICommand
+   * TODO: Make this into an ICommand - done
    */
   private void executeEndOfTurnModelActions(boolean playerCommandExecuted) throws IOException {
     if (playerCommandExecuted) {
@@ -176,7 +176,7 @@ public class GameController implements Controller {
 
   /**
    * Prints warnings to the Player/user about possible errors in game data file.
-   * TODO: Incorporate this into StartGameCommand
+   * TODO: Incorporate this into StartGameCommand - done
    */
   private void printGameFileWarnings() throws IOException {
     this.ioProcessor.messageToPlayer(this.model.getGameFileWarnings());
