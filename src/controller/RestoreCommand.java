@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import model.IAdventureGameModel;
@@ -22,8 +23,12 @@ public class RestoreCommand extends AbstractCommand {
 
   @Override
   public void execute() throws IOException {
-    this.processor.messageToPlayer(this.model.restoreGame(DATA_DIR + DEFAULT_SAVE_FILE));
-    this.processor.messageToPlayer(this.model.restoreMessage());
-    this.processor.updateRoom(this.model.lookAround());
+    try {
+      this.processor.messageToPlayer(this.model.restoreGame(DATA_DIR + DEFAULT_SAVE_FILE));
+      this.processor.messageToPlayer(this.model.restoreMessage());
+      this.processor.updateRoom(this.model.lookAround());
+    } catch (Exception e) {
+      this.processor.messageToPlayer("File not found: " + e.getMessage());
+    }
   }
 }
