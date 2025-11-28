@@ -110,7 +110,7 @@ public class GameController implements Controller {
       this.startGameCommand.execute();
 
       //print any warnings about the data from the model.
-      this.printGameFileWarnings();
+      //this.printGameFileWarnings();
 
       //initial look
       //this.ioProcessor.updateRoom(this.model.lookAround());
@@ -176,7 +176,7 @@ public class GameController implements Controller {
 
   /**
    * Prints warnings to the Player/user about possible errors in game data file.
-   * TODO: Make this into an ICommand
+   * TODO: Incorporate this into StartGameCommand
    */
   private void printGameFileWarnings() throws IOException {
     this.ioProcessor.messageToPlayer(this.model.getGameFileWarnings());

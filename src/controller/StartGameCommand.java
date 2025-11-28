@@ -16,10 +16,12 @@ public class StartGameCommand extends AbstractCommand {
 
   @Override
   public void execute() throws IOException {
-    processor.messageToPlayer(UserPrompts.NEW_PLAYER_PROMPT.getPrompt());
+    this.processor.messageToPlayer(UserPrompts.NEW_PLAYER_PROMPT.getPrompt());
     this.model.setPlayerName(processor.getUserMessage());
     this.model.loadGameData();
-    processor.messageToPlayer(UserPrompts.NEW_PLAYER_NAME_PROMPT.getPrompt()
+    this.processor.messageToPlayer(UserPrompts.NEW_PLAYER_NAME_PROMPT.getPrompt()
             + this.model.getPlayerName()  + "\n");
+    if (!this.model.getGameFileWarnings().isEmpty())
+      this.processor.messageToPlayer(this.model.getGameFileWarnings());
   }
 }
