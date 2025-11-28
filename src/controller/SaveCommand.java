@@ -21,6 +21,6 @@ public class SaveCommand extends AbstractCommand {
 
   @Override
   public void execute() throws IOException {
-    this.model.saveGame(processor.getUserInputArgument());
+    this.processor.messageToPlayer(this.model.saveGame(DATA_DIR + DEFAULT_SAVE_FILE));
   }
 }

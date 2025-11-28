@@ -22,6 +22,8 @@ public class RestoreCommand extends AbstractCommand {
 
   @Override
   public void execute() throws IOException {
-    this.model.restoreGame(this.processor.getUserInputArgument());
+    this.processor.messageToPlayer(this.model.restoreGame(DATA_DIR + DEFAULT_SAVE_FILE));
+    this.processor.messageToPlayer(this.model.restoreMessage());
+    this.processor.updateRoom(this.model.lookAround());
   }
 }
