@@ -1,25 +1,26 @@
 package controller;
 
+import java.io.IOException;
+
 import model.IAdventureGameModel;
 
 /**
  * The LookCommand class is used to look around a room. It has a model attribute.
  */
-public class LookCommand implements ICommand {
+public class LookCommand extends AbstractCommand {
 
-  private final IAdventureGameModel model;
 
   /**
    * The constructor for the LookCommand class initializes the game model.
    *
    * @param model IAdventureGameModel object to execute the look command for.
    */
-  public LookCommand(IAdventureGameModel model) {
-    this.model = model;
+  public LookCommand(IAdventureGameModel model, GameInputOutputProcessor processor) {
+    super(model, processor);
   }
 
   @Override
-  public String execute(String userArgument) {
-    return this.model.lookAround();
+  public void execute() throws IOException {
+    this.processor.updateRoom(model.lookAround());
   }
 }

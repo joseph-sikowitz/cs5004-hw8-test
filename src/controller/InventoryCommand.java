@@ -1,26 +1,27 @@
 package controller;
 
+import java.io.IOException;
+
 import model.IAdventureGameModel;
 
 /**
  * The InventoryCommand class is used to check a player's inventory. It has a model
  * attribute.
  */
-public class InventoryCommand implements ICommand {
+public class InventoryCommand extends AbstractCommand {
 
-  private final IAdventureGameModel model;
 
   /**
    * The constructor for the InventoryCommand class initializes the game model.
    *
    * @param model IAdventureGameModel object to execute the Inventory command for.
    */
-  public InventoryCommand(IAdventureGameModel model) {
-    this.model = model;
+  public InventoryCommand(IAdventureGameModel model, GameInputOutputProcessor processor) {
+    super(model, processor);
   }
 
   @Override
-  public String execute(String userArgument) {
-    return this.model.checkInventory();
+  public void execute() throws IOException {
+    this.processor.updateInventory(this.model.checkInventory());
   }
 }

@@ -1,25 +1,26 @@
 package controller;
 
+import java.io.IOException;
+
 import model.IAdventureGameModel;
 
 /**
  * The SaveCommand class is used to save a game's state. It has a model attribute.
  */
-public class SaveCommand implements ICommand {
+public class SaveCommand extends AbstractCommand {
 
-  private final IAdventureGameModel model;
 
   /**
    * The constructor for the SaveCommand class initializes the game model.
    *
    * @param model IAdventureGameModel object to execute the command for.
    */
-  public SaveCommand(IAdventureGameModel model) {
-    this.model = model;
+  public SaveCommand(IAdventureGameModel model, GameInputOutputProcessor processor) {
+    super(model, processor);
   }
 
   @Override
-  public String execute(String userArgument) {
-    return this.model.saveGame(userArgument);
+  public void execute() throws IOException {
+    this.model.saveGame(processor.getUserInputArgument());
   }
 }

@@ -1,26 +1,29 @@
 package controller;
 
+import java.io.IOException;
+
 import model.IAdventureGameModel;
 
 /**
  * The WestCommand class is used to move a player in the model west. It has a model
  * attribute.
  */
-public class WestCommand implements ICommand {
-
-  private final IAdventureGameModel model;
+public class WestCommand extends AbstractCommand {
 
   /**
    * The constructor for the WestCommand class initializes the game model.
    *
    * @param model IAdventureGameModel object to execute the move west command for.
    */
-  public WestCommand(IAdventureGameModel model) {
-    this.model = model;
+  public WestCommand(IAdventureGameModel model, GameInputOutputProcessor processor) {
+    super(model, processor);
   }
 
   @Override
-  public String execute(String userArgument) {
-    return this.model.movePlayerWest();
+  public void execute() throws IOException {
+    String response = this.model.movePlayerWest();
+    this.processor.messageToPlayer(response);
+    if (this.model.roomChanged())
+      this.processor.updateRoom(this.model.lookAround());
   }
 }

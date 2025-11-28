@@ -1,26 +1,28 @@
 package controller;
 
+import java.io.IOException;
+
 import model.IAdventureGameModel;
 
 /**
  * The AnswerCommand class is used to by a player to examine an element. It has a model attribute.
  */
-public class AnswerCommand implements ICommand {
+public class AnswerCommand extends AbstractCommand {
 
-  private final IAdventureGameModel model;
 
   /**
    * The constructor for the AnswerCommand class initializes the game model.
    *
    * @param model IAdventureGameModel object to execute the command for.
    */
-  public AnswerCommand(IAdventureGameModel model) {
-
-    this.model = model;
+  public AnswerCommand(IAdventureGameModel model, GameInputOutputProcessor processor) {
+    super(model, processor);
   }
 
   @Override
-  public String execute(String userArgument) {
-    return this.model.answer(userArgument);
+  public void execute() throws IOException {
+    this.processor.messageToPlayer(model.answer(this.processor.getUserInputArgument()));
+    if (this.model.roomChanged())
+      this.processor.updateRoom(this.model.lookAround());
   }
 }
