@@ -21,6 +21,19 @@ public interface IAdventureGameModel {
   void loadGameData();
 
   /**
+   * Returns whether the Player's activeRoom has changed
+   * or the activeRoom's environment has changed.
+   * @return true if the Player the state of the Player's activeRoom has changed, false otherwise.
+   */
+  boolean roomChanged();
+
+  /**
+   * Returns the name of the Player's activeRoom.
+   * @return a String with the name of the Room.
+   */
+  String getRoomName();
+
+  /**
    * The movePlayerNorth() method moves the player into the room to the north of the
    * current active room if possible.
    *

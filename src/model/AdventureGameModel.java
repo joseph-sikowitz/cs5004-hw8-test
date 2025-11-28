@@ -24,6 +24,8 @@ public class AdventureGameModel implements IAdventureGameModel {
   private String warnings;
   private FileProcessor fileProcessor;
   private boolean firstDisplay;
+  private String activeRoomName;
+  private boolean roomEnvironmentChanged;
 
   private final DecimalFormat decimalFormat;
 
@@ -72,6 +74,21 @@ public class AdventureGameModel implements IAdventureGameModel {
             : new FileProcessor(this.gameFileName);
     this.player = this.fileProcessor.setUpGame();
     this.warnings = this.fileProcessor.getGameFileWarnings();
+    this.activeRoomName = this.player.getActiveRoom().getName();
+  }
+
+  @Override
+  public boolean roomChanged() {
+    boolean roomChanged = !this.getRoomName().equals(this.activeRoomName)
+            || this.roomEnvironmentChanged;
+    this.activeRoomName = this.getRoomName();
+    this.roomEnvironmentChanged = false;
+    return roomChanged;
+  }
+
+  @Override
+  public String getRoomName() {
+    return this.player.getActiveRoom().getName();
   }
 
   /**
@@ -94,8 +111,7 @@ public class AdventureGameModel implements IAdventureGameModel {
       case BLOCKED -> RoomStatus.BLOCKED.getStatus() + "\n";
       case NO_PASSAGE -> RoomStatus.NO_PASSAGE.getStatus() + "\n";
       case OPEN -> RoomStatus.OPEN.getStatus() + " You enter: "
-              + this.player.getActiveRoom().getName() + "\n"
-              + this.lookAround() + "\n";
+              + this.player.getActiveRoom().getName() + "\n";
     };
   }
 
@@ -182,19 +198,18 @@ public class AdventureGameModel implements IAdventureGameModel {
    */
   private String solvePuzzle(UseSuccessful getUse) {
     String returnMessage = getUse.getUse();
-    if (getUse.getUseSuccessful())
-      returnMessage += "\n" + lookAround();
+    this.roomEnvironmentChanged = getUse.getUseSuccessful();
     return returnMessage;
   }
 
   @Override
   public String useItem(String item) {
-    return solvePuzzle(this.player.useItem(item));
+    return solvePuzzle(this.player.useItem(item)) + "\n";
   }
 
   @Override
   public String answer(String answer) {
-    return solvePuzzle(this.player.answer(answer));
+    return solvePuzzle(this.player.answer(answer)) + "\n";
   }
 
   @Override
