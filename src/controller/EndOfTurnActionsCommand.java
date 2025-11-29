@@ -28,7 +28,7 @@ public class EndOfTurnActionsCommand extends AbstractCommand {
     //display player's rank if it has changed since last command.
     if (this.model.changeInPlayerRank())
       message.append(this.model.getPlayerRank());
-    this.processor.messageToPlayer(message.toString());
+    this.processor.updatePlayerStats(message.toString());
     boolean gameRunnable = super.execute();
     if (!gameRunnable)
       this.processor.messageToPlayer(this.model.quitMessage());
