@@ -19,7 +19,8 @@ public enum UserCommands {
   EXAMINE("examine", "x"),
   ANSWER("answer", "a"),
   SAVE("save", "save"),
-  RESTORE("restore", "restore");
+  RESTORE("restore", "restore"),
+  QUIT("quit", "q");
 
   private final String command;
   private final String shortcut;
