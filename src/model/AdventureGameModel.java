@@ -1,6 +1,7 @@
 package model;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -267,9 +268,11 @@ public class AdventureGameModel implements IAdventureGameModel {
 
   @Override
   public String saveGame(String saveFile) throws FileNotFoundException {
-    if (!exists(Path.of(saveFile)))
+    try {
+      this.fileProcessor.saveGame(saveFile);
+    } catch (Exception e) {
       throw new FileNotFoundException("File was not saved!");
-    this.fileProcessor.saveGame(saveFile);
+    }
     return "Game saved!\n";
   }
 
