@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * This class type processes user input and sends output to the View.
@@ -13,7 +14,7 @@ public interface GameInputOutputProcessor<T> {
    * @return a String or null.
    * @throws IOException If I/O error occurs.
    */
-  public String getUserMessage() throws IOException;
+  String getUserMessage() throws IOException;
 
   /**
    * The getUserInput() method prompts the user for game actions and
@@ -23,7 +24,7 @@ public interface GameInputOutputProcessor<T> {
    * @throws IOException if there is an error appending to output or receiving
    *                     user input.
    */
-  public boolean getUserInput() throws IOException;
+  boolean getUserInput() throws IOException;
 
   /**
    * The getUserInputCommand() is the getter for a command entered by the user.
@@ -32,7 +33,7 @@ public interface GameInputOutputProcessor<T> {
    *
    * @return String of user command.
    */
-  public String getUserInputCommand();
+  String getUserInputCommand();
 
   /**
    * The getUserInputArgument() method is the getter for the command argument
@@ -41,7 +42,7 @@ public interface GameInputOutputProcessor<T> {
    *
    * @return String of user argument.
    */
-  public String getUserInputArgument();
+  String getUserInputArgument();
 
   /**
    * Displays message to player.
@@ -65,7 +66,7 @@ public interface GameInputOutputProcessor<T> {
   void updateRoom(T data) throws IOException;
 
   /**
-   * Updates the ELements that the Player can examine.
+   * Updates the Elements that the Player can examine.
    * @param data the data to display.
    * @throws IOException If I/O error occurs.
    */
@@ -76,7 +77,7 @@ public interface GameInputOutputProcessor<T> {
    * @param data the data to display.
    * @throws IOException If I/O error occurs.
    */
-  void updateInventory(T data) throws IOException;
+  void updateInventory(List<String> data) throws IOException;
 
   /**
    * Updates the player Affector.

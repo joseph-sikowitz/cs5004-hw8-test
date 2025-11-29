@@ -1,7 +1,6 @@
 package model;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -164,10 +163,12 @@ public class AdventureGameModel implements IAdventureGameModel {
   }
 
   @Override
-  public String checkInventory() {
-    String playerInventory = getElementNamesConcatenated(this.player.getInventory());
-    return playerInventory.isEmpty() ? "You have no items in your inventory!\n"
-            : playerInventory + "\n";
+  public List<String> checkInventory() {
+    //String playerInventory = getElementNamesConcatenated(this.player.getInventory());
+    List<String> playerInventory = getElementNames(this.player.getInventory());
+    if (playerInventory.isEmpty())
+      playerInventory.add("You have no items in your inventory!");
+    return playerInventory;
   }
 
   @Override

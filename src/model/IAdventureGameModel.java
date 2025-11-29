@@ -1,7 +1,7 @@
 package model;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.util.List;
 
 /**
  * Model for the AdventureGame that executes commands from controller on the rest of the model.
@@ -68,9 +68,10 @@ public interface IAdventureGameModel {
 
   /**
    * Concatenates and returns a String with the names of the Items in the Player's inventory.
+   *
    * @return a String with the names of the Items in the Player's inventory.
    */
-  String checkInventory();
+  List<String> checkInventory();
 
   /**
    * The lookAround() method returns the description and other details of the active

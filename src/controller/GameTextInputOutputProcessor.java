@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import view.AdventureGameTextView;
 import view.IAdventureGameView;
@@ -93,6 +94,15 @@ public class GameTextInputOutputProcessor implements GameInputOutputProcessor<St
     return command.split(delimiter, COMMAND_LIMIT);
   }
 
+  private String concatenateList(List<String> list) {
+    StringBuilder elements = new StringBuilder();
+    if (list.isEmpty())
+      return "";
+    String lastName = list.removeLast();
+    return list.stream().map((key) -> key + ", ").reduce(elements, StringBuilder::append,
+            StringBuilder::append).append(lastName).append("\n").toString();
+  }
+
   @Override
   public void messageToPlayer(String data) throws IOException {
     this.gameView.messageToPlayer(data);
@@ -114,8 +124,8 @@ public class GameTextInputOutputProcessor implements GameInputOutputProcessor<St
   }
 
   @Override
-  public void updateInventory(String data) throws IOException {
-    this.gameView.updateInventory(data);
+  public void updateInventory(List<String> data) throws IOException {
+    this.gameView.updateInventory(concatenateList(data));
   }
 
   @Override
