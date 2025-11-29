@@ -53,53 +53,6 @@ public class GameController implements Controller {
   }
 
 
-  /**
-   * Evaluates where a command from the commandReader matches a valid command from UserCommands
-   * to pass to the IAdventureGameModel.
-   * @param commandReader an instance of GameTextInputOutputProcessor
-   * @param userCommand an instance of a UserCommands Enum.
-   * @return true if command isn't null and matches a command
-   *      (either full word or shortcut), otherwise false.
-   */
-  private boolean commandMatches(GameTextInputOutputProcessor commandReader,
-                                 UserCommands userCommand) {
-    return commandReader.getUserInputCommand() != null
-            && (commandReader.getUserInputCommand().equalsIgnoreCase(userCommand.getCommand())
-            || (userCommand.getShortcut() != null
-            && commandReader.getUserInputCommand().equalsIgnoreCase(userCommand.getShortcut())));
-  }
-
-  /**
-   * Evaluates where a command and an argument from the commandReader
-   * matches a valid command from UserCommands
-   * to pass to the IAdventureGameModel.
-   * @param commandReader an instance of GameTextInputOutputProcessor
-   * @param userCommand an instance of a UserCommands Enum.
-   * @return true if command isn't null and matches a command (either full word or shortcut)
-   *     and the argument isn't null, otherwise false.
-   */
-  private boolean commandAndArgumentMatches(GameTextInputOutputProcessor commandReader,
-                                            UserCommands userCommand) {
-    return commandReader.getUserInputArgument() != null
-            && this.commandMatches(commandReader, userCommand);
-  }
-
-  /**
-   * The startGame() method starts a game by prompting the user to put in their
-   * name. It throws an IOException
-   * TODO: Make this behavior into an ICommand - done
-   * @return String of player's name.
-   * @throws IOException if there is an error printing to output or getting user
-   *                     data.
-   */
-  private String startGame(GameInputOutputProcessor gameCommandReader) throws IOException {
-    gameCommandReader.messageToPlayer(UserPrompts.NEW_PLAYER_PROMPT.getPrompt());
-    String playerName = gameCommandReader.getUserMessage();
-    gameCommandReader.messageToPlayer(UserPrompts.NEW_PLAYER_NAME_PROMPT.getPrompt()
-            + playerName  + "\n");
-    return playerName;
-  }
-
   //@Override
   public void oldGo() throws IOException {
     try {
@@ -163,8 +116,6 @@ public class GameController implements Controller {
   public void go() throws IOException {
     try {
 
-      //this.model.setPlayerName(this.startGame(ioProcessor));
-      //this.model.loadGameData();
       boolean gameRunnable = this.startGameCommand.execute();
 
       //get user input while commands can be executed.
@@ -199,13 +150,6 @@ public class GameController implements Controller {
     return true;
   }
 
-  /**
-   * Prints warnings to the Player/user about possible errors in game data file.
-   * TODO: Incorporate this into StartGameCommand - done
-   */
-  private void printGameFileWarnings() throws IOException {
-    this.ioProcessor.messageToPlayer(this.model.getGameFileWarnings());
-  }
 
   /**
    * The isValidCommand() method checks if the command input by a user is valid.
@@ -249,25 +193,6 @@ public class GameController implements Controller {
     return UserCommands.INVALID_COMMAND;
   }
 
-  /**
-   * The getUserCommand() method converts a user's String command into the
-   * enum that it corresponds to in UserCommands.
-   *
-   * @param command String of command entered by user.
-   * @return UserCommand with a value matching the command entered by user.
-   */
-  private UserCommands getUserCommand(String command) {
-    UserCommands[] options = UserCommands.values();
-
-    for (UserCommands userCommand : options) {
-      if (userCommand.getCommand().equalsIgnoreCase(command)
-              || userCommand.getShortcut().equalsIgnoreCase(command)) {
-        return userCommand;
-      }
-    }
-
-    return null;
-  }
 
   /**
    * The loadCommands() method loads the command classes into the controller's
