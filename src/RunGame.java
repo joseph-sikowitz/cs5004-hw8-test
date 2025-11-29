@@ -14,7 +14,9 @@ import enginedriver.GameEngineApp;
  * Class for running GameEngineApp.
  */
 public class RunGame {
-  private static final String DATA_DIR = System.getProperty("user.dir") + "/resources/";
+  private static final String DATA_DIR = System.getProperty("user.dir")
+          + System.getProperty("file.separator") + "resources"
+          + System.getProperty("file.separator");
   private static final String TEXT = "-text";
   private static final String GRAPHICS = "-graphics";
   private static final String BATCH = "-batch";
