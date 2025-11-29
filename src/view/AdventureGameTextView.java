@@ -13,6 +13,7 @@ public class AdventureGameTextView implements
 
   private final Readable in;
   private final Appendable out;
+  private final Scanner scanner;
 
   /**
    * Constructor initializes in and out fields based on parameters.
@@ -22,6 +23,7 @@ public class AdventureGameTextView implements
   public AdventureGameTextView(Readable in, Appendable out) {
     this.in = in;
     this.out = out;
+    this.scanner = new Scanner(this.in);
   }
 
   @Override
@@ -30,8 +32,10 @@ public class AdventureGameTextView implements
 
   @Override
   public String getCommand() {
-    Scanner scanner = new Scanner(this.in);
-    return scanner.nextLine();
+    if (scanner.hasNextLine()) {
+      return scanner.nextLine();
+    }
+    return null;
   }
 
   @Override
