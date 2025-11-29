@@ -122,8 +122,7 @@ public class GameController implements Controller {
       UserCommands userCommand = UserCommands.LOOK;
       while (gameRunnable && this.commands.get(userCommand).execute()
               && this.executeEndOfTurnActions(userCommand.isPlayerCommand())) {
-        //TODO: refactor this such that getUserInput throws the IOException.
-        if (!this.ioProcessor.getUserInput())
+        if (!this.ioProcessor.getUserInput()) //TODO: refactor this such that getUserInput throws the IOException.
           throw new IOException();
         //uses command structure in commands Map instead of if/else
         userCommand = this.findUserCommand(ioProcessor.getUserInputCommand());
