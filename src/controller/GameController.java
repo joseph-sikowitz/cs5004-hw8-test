@@ -52,73 +52,13 @@ public class GameController implements Controller {
     this.endOfTurnActions = new EndOfTurnActionsCommand(this.model, this.ioProcessor);
   }
 
-
-  //@Override
-  public void oldGo() throws IOException {
-    try {
-
-      //this.model.setPlayerName(this.startGame(ioProcessor));
-      //this.model.loadGameData();
-      boolean gameRunnable = this.startGameCommand.execute();
-
-      //print any warnings about the data from the model.
-      //this.printGameFileWarnings();
-
-
-      if (gameRunnable) {
-        //initial look
-        //this.ioProcessor.updateRoom(this.model.lookAround());
-        this.commands.get(UserCommands.LOOK).execute();
-        //this.executeEndOfTurnModelActions(true);
-        gameRunnable = this.endOfTurnActions.execute();
-      }
-
-      //get user input while command is quit and model is still reporting that game isn't over.
-      while (gameRunnable) {
-        //TODO: refactor this such that getUserInput throws the IOException.
-        if (!this.ioProcessor.getUserInput())
-          throw new IOException();
-        boolean playerCommandExecuted = true;
-        if (this.isValidCommand(ioProcessor.getUserInputCommand())) {
-
-          //uses command structure in commands Map instead of if/else
-          UserCommands userCommand = this.findUserCommand(ioProcessor.getUserInputCommand());
-
-          if (userCommand != null && this.requiresArgument(userCommand)
-                  && ioProcessor.getUserInputArgument() == null) {
-            this.ioProcessor.messageToPlayer(ioProcessor.getUserInputCommand()
-                    + REQUIRED_ARGUMENT);
-          } else if (userCommand != null) {
-            if (userCommand.equals(UserCommands.SAVE)
-                    || userCommand.equals(UserCommands.RESTORE)
-                    || userCommand.equals(UserCommands.QUIT))
-              playerCommandExecuted = false;
-            gameRunnable = this.commands.get(userCommand).execute();
-          }
-        } else {
-          this.ioProcessor.messageToPlayer(UNKNOWN_COMMAND);
-        }
-        //this.executeEndOfTurnModelActions(playerCommandExecuted);
-        if (playerCommandExecuted && gameRunnable) {
-          gameRunnable = this.endOfTurnActions.execute();
-        }
-      }
-      //displays player stats TODO: Make this an ICommand class? - done
-
-      //this.ioProcessor.messageToPlayer(this.model.quitMessage());
-      //this.quitGame.execute(); //TODO: add to Map of commands. - done
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
-
   @Override
   public void go() throws IOException {
     try {
       //Run the start game command and check if next command is runnable.
       boolean gameRunnable = this.startGameCommand.execute();
 
-      //first command is auto-executed by before entering loop.
+      //first command is auto-executed during first phase of loop.
       UserCommands userCommand = UserCommands.LOOK;
       while (gameRunnable && this.commands.get(userCommand).execute()
               && this.executeEndOfTurnActions(userCommand.isPlayerCommand())) {
@@ -150,28 +90,6 @@ public class GameController implements Controller {
     return true;
   }
 
-
-  /**
-   * The isValidCommand() method checks if the command input by a user is valid.
-   *
-   * @param command String of user command.
-   * @return boolean indicating if the given command is valid.
-   */
-  private boolean isValidCommand(String command) {
-    if (command == null)
-      return false;
-
-    UserCommands[] options = UserCommands.values();
-    ArrayList<String> allCommands = new ArrayList<>();
-
-    for (UserCommands userCommand : options) {
-      allCommands.add(userCommand.getCommand());
-      allCommands.add(userCommand.getShortcut());
-    }
-
-    return allCommands.contains(command.toLowerCase());
-  }
-
   /**
    * The findUserCommand() method matches a player's command input to the UserCommands
    * enum and returns the correct enum value. This is used to call commands in the
@@ -192,7 +110,6 @@ public class GameController implements Controller {
 
     return UserCommands.INVALID_COMMAND;
   }
-
 
   /**
    * The loadCommands() method loads the command classes into the controller's
@@ -218,19 +135,6 @@ public class GameController implements Controller {
     this.commands.put(UserCommands.INVALID_COMMAND, new InvalidCommand(null, this.ioProcessor));
     this.commands.put(UserCommands.INVALID_COMMAND_ARGUMENT,
             new InvalidArgumentCommand(null, this.ioProcessor));
-  }
-
-  /**
-   * The requiresArgument() method checks if a command requires an argument and
-   * returns a boolean indicating whether it does or not.
-   *
-   * @param userCommand UserCommands enum to check if an argument is required.
-   * @return boolean indicating if an argument is required.
-   */
-  private boolean requiresArgument(UserCommands userCommand) {
-    Set<UserCommands> argumentCommands = EnumSet.of(UserCommands.USE, UserCommands.TAKE,
-            UserCommands.DROP, UserCommands.EXAMINE, UserCommands.ANSWER);
-    return argumentCommands.contains(userCommand);
   }
 
 }
