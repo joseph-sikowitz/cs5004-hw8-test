@@ -115,13 +115,14 @@ public class GameController implements Controller {
   @Override
   public void go() throws IOException {
     try {
-
+      //Run the start game command and check if next command is runnable.
       boolean gameRunnable = this.startGameCommand.execute();
 
-      //get user input while commands can be executed.
+      //first command is auto-executed by before entering loop.
       UserCommands userCommand = UserCommands.LOOK;
       while (gameRunnable && this.commands.get(userCommand).execute()
               && this.executeEndOfTurnActions(userCommand.isPlayerCommand())) {
+        //get user input while commands can be executed.
         if (!this.ioProcessor.getUserInput()) //TODO: refactor this such that getUserInput throws the IOException.
           throw new IOException();
         //uses command structure in commands Map instead of if/else
