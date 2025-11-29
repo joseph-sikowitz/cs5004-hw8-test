@@ -1,8 +1,6 @@
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -32,6 +30,7 @@ public class RunGame {
     Reader in = null;
     Appendable out = null;
     FileWriter targetFileWriter = null;
+    String targetFileName = null;
 
     try {
       if (args.length <= 1) {
@@ -52,14 +51,16 @@ public class RunGame {
           if (args.length < 3 || args.length > 4) {
             throw new IllegalArgumentException();
           }
-          in = new InputStreamReader(new FileInputStream(formatFileName(args[2])));
+          in = new FileReader(formatFileName(args[2]));
 
           if (args.length == 4) {
-            String targetFileName = args[3].contains(DATA_DIR) ? args[3] : DATA_DIR + args[3];
+            targetFileName = args[3].contains(DATA_DIR) ? args[3] : DATA_DIR + args[3];
             if (Files.exists(Path.of(targetFileName))) {
               targetFileWriter = new FileWriter(targetFileName);
-              out = targetFileWriter;
+            } else {
+              targetFileWriter = new FileWriter(new File(targetFileName));
             }
+            out = targetFileWriter;
 
           } else {
             out = System.out;
@@ -74,6 +75,7 @@ public class RunGame {
               in, out);
       game.start();
       if (targetFileWriter != null) {
+        System.out.println("See output at: "  + targetFileName);
         targetFileWriter.close();
       }
     } catch (IllegalArgumentException e) {
