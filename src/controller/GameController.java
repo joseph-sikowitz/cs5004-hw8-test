@@ -1,6 +1,5 @@
 package controller;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -101,8 +100,8 @@ public class GameController implements Controller {
     return playerName;
   }
 
-  @Override
-  public void go() throws IOException {
+  //@Override
+  public void oldGo() throws IOException {
     try {
 
       //this.model.setPlayerName(this.startGame(ioProcessor));
@@ -123,6 +122,7 @@ public class GameController implements Controller {
 
       //get user input while command is quit and model is still reporting that game isn't over.
       while (gameRunnable) {
+        //TODO: refactor this such that getUserInput throws the IOException.
         if (!this.ioProcessor.getUserInput())
           throw new IOException();
         boolean playerCommandExecuted = true;
@@ -159,27 +159,44 @@ public class GameController implements Controller {
     }
   }
 
+  @Override
+  public void go() throws IOException {
+    try {
+
+      //this.model.setPlayerName(this.startGame(ioProcessor));
+      //this.model.loadGameData();
+      boolean gameRunnable = this.startGameCommand.execute();
+
+      //get user input while commands can be executed.
+      UserCommands userCommand = UserCommands.LOOK;
+      while (gameRunnable && this.commands.get(userCommand).execute()
+              && this.executeEndOfTurnActions(userCommand.isPlayerCommand())) {
+        //TODO: refactor this such that getUserInput throws the IOException.
+        if (!this.ioProcessor.getUserInput())
+          throw new IOException();
+        //uses command structure in commands Map instead of if/else
+        userCommand = this.findUserCommand(ioProcessor.getUserInputCommand());
+        if (userCommand != null && userCommand.requiresArgument()
+                && ioProcessor.getUserInputArgument() == null) {
+          userCommand = UserCommands.INVALID_COMMAND_ARGUMENT;
+        }
+      }
+    }
+    catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
   /**
    * Executes model actions that affect the player and
    * prints player status if it has changed since the last command.
-   * TODO: Make this into an ICommand - done
+   * @return true if game is still runnable after executing actions.
    */
-  private void executeEndOfTurnModelActions(boolean playerCommandExecuted) throws IOException {
+  private boolean executeEndOfTurnActions(boolean playerCommandExecuted) throws IOException {
     if (playerCommandExecuted) {
-      StringBuilder message = new StringBuilder();
-      //if there is a Monster in the room, have it "affect" the Player in the model.
-      message.append(this.model.affectPlayer());
-      //display player's health status if it has changed since last command.
-      if (this.model.changeInPlayerHealthStatus())
-        message.append(this.model.getPlayerHealthStatus());
-      //display player's score if it has changed since last command.
-      if (this.model.changeInPlayerScore())
-        message.append(this.model.getPlayerScoreFormatted());
-      //display player's rank if it has changed since last command.
-      if (this.model.changeInPlayerRank())
-        message.append(this.model.getPlayerRank());
-      this.ioProcessor.messageToPlayer(message.toString());
+      return this.endOfTurnActions.execute();
     }
+    return true;
   }
 
   /**
@@ -221,14 +238,15 @@ public class GameController implements Controller {
    */
   private UserCommands findUserCommand(String command) {
     for (UserCommands userCommand : UserCommands.values()) {
-      if (userCommand.getCommand().equalsIgnoreCase(command)) {
+      if (userCommand.getCommand() != null && userCommand.getCommand().equalsIgnoreCase(command)) {
         return userCommand;
-      } else if (userCommand.getShortcut().equalsIgnoreCase(command)) {
+      } else if (userCommand.getShortcut() != null
+              && userCommand.getShortcut().equalsIgnoreCase(command)) {
         return userCommand;
       }
     }
 
-    return null;
+    return UserCommands.INVALID_COMMAND;
   }
 
   /**
@@ -272,6 +290,9 @@ public class GameController implements Controller {
     this.commands.put(UserCommands.SAVE, new SaveCommand(this.model, this.ioProcessor));
     this.commands.put(UserCommands.RESTORE, new RestoreCommand(this.model, this.ioProcessor));
     this.commands.put(UserCommands.QUIT, new QuitCommand(this.model, this.ioProcessor));
+    this.commands.put(UserCommands.INVALID_COMMAND, new InvalidCommand(null, this.ioProcessor));
+    this.commands.put(UserCommands.INVALID_COMMAND_ARGUMENT,
+            new InvalidArgumentCommand(null, this.ioProcessor));
   }
 
   /**
