@@ -114,14 +114,18 @@ public class GameController implements Controller {
       //print any warnings about the data from the model.
       //this.printGameFileWarnings();
 
-      //initial look
-      //this.ioProcessor.updateRoom(this.model.lookAround());
-      this.commands.get(UserCommands.LOOK).execute();
 
-      //this.executeEndOfTurnModelActions(true);
-      gameRunnable = this.endOfTurnActions.execute();
+      if (gameRunnable) {
+        //initial look
+        //this.ioProcessor.updateRoom(this.model.lookAround());
+        this.commands.get(UserCommands.LOOK).execute();
+        //this.executeEndOfTurnModelActions(true);
+        gameRunnable = this.endOfTurnActions.execute();
+      }
+
       //get user input while command is quit and model is still reporting that game isn't over.
-      while (gameRunnable && ioProcessor.getUserInput()) {
+      while (gameRunnable) {
+        this.ioProcessor.getUserInput();
         boolean playerCommandExecuted = true;
         if (this.isValidCommand(ioProcessor.getUserInputCommand())) {
 
@@ -134,7 +138,8 @@ public class GameController implements Controller {
                     + REQUIRED_ARGUMENT);
           } else if (userCommand != null) {
             if (userCommand.equals(UserCommands.SAVE)
-                    || userCommand.equals(UserCommands.RESTORE))
+                    || userCommand.equals(UserCommands.RESTORE)
+                    || userCommand.equals(UserCommands.QUIT))
               playerCommandExecuted = false;
             gameRunnable = this.commands.get(userCommand).execute();
           }
@@ -142,14 +147,14 @@ public class GameController implements Controller {
           this.ioProcessor.messageToPlayer(UNKNOWN_COMMAND);
         }
         //this.executeEndOfTurnModelActions(playerCommandExecuted);
-        if (playerCommandExecuted) {
+        if (playerCommandExecuted && gameRunnable) {
           gameRunnable = this.endOfTurnActions.execute();
         }
       }
       //displays player stats TODO: Make this an ICommand class? - done
 
       //this.ioProcessor.messageToPlayer(this.model.quitMessage());
-      this.quitGame.execute(); //TODO: add to Map of commands.
+      //this.quitGame.execute(); //TODO: add to Map of commands.
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -267,6 +272,7 @@ public class GameController implements Controller {
     this.commands.put(UserCommands.ANSWER, new AnswerCommand(this.model, this.ioProcessor));
     this.commands.put(UserCommands.SAVE, new SaveCommand(this.model, this.ioProcessor));
     this.commands.put(UserCommands.RESTORE, new RestoreCommand(this.model, this.ioProcessor));
+    this.commands.put(UserCommands.QUIT, new QuitCommand(this.model, this.ioProcessor));
   }
 
   /**
