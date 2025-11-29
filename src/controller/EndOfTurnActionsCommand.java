@@ -29,6 +29,9 @@ public class EndOfTurnActionsCommand extends AbstractCommand {
     if (this.model.changeInPlayerRank())
       message.append(this.model.getPlayerRank());
     this.processor.messageToPlayer(message.toString());
-    return super.execute();
+    boolean gameRunnable = super.execute();
+    if (!gameRunnable)
+      this.processor.messageToPlayer(this.model.quitMessage());
+    return gameRunnable;
   }
 }
