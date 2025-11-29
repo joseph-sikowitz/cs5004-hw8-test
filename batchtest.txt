@@ -1,0 +1,7 @@
+Player 1
+Examine Ticket
+Take Ticket
+Inspect Ticket
+Use Ticket
+N
+Q
