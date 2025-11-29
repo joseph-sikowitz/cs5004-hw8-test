@@ -50,10 +50,12 @@ public class GameTextInputOutputProcessor implements GameInputOutputProcessor<St
     try {
       this.gameView.messageToPlayer(UserPrompts.BASIC_PROMPT.getPrompt());
       this.gameView.messageToPlayer(UserPrompts.USER_CHOICE.getPrompt());
-
-      this.userInput = this.parseCommand(this.gameView.getCommand());
-      return !this.userInput[FIRST_COMMAND].equalsIgnoreCase(QUIT_COMMAND)
-              && !this.userInput[FIRST_COMMAND].equalsIgnoreCase(Q_COMMAND);
+      String command = this.gameView.getCommand();
+      if (command == null) {
+        return false;
+      }
+      this.userInput = this.parseCommand(command);
+      return true;
 
     } catch (IOException e) {
       e.printStackTrace();
