@@ -29,6 +29,7 @@ public class GameController implements Controller {
   private GameInputOutputProcessor ioProcessor;
   private ICommand startGameCommand;
   private ICommand endOfTurnActions;
+  private ICommand quitGame;
 
   // constants
   private static final String UNKNOWN_COMMAND = "Unknown command!\n";
@@ -51,6 +52,7 @@ public class GameController implements Controller {
     this.loadCommands();
     this.startGameCommand = new StartGameCommand(this.model, this.ioProcessor);
     this.endOfTurnActions = new EndOfTurnActionsCommand(this.model, this.ioProcessor);
+    this.quitGame = new QuitCommand(this.model, this.ioProcessor);
   }
 
 
@@ -144,8 +146,10 @@ public class GameController implements Controller {
           gameRunnable = this.endOfTurnActions.execute();
         }
       }
-      //displays player stats TODO: Make this an ICommand class?
-      this.ioProcessor.messageToPlayer(this.model.quitMessage());
+      //displays player stats TODO: Make this an ICommand class? - done
+
+      //this.ioProcessor.messageToPlayer(this.model.quitMessage());
+      this.quitGame.execute(); //TODO: add to Map of commands.
     } catch (IOException e) {
       e.printStackTrace();
     }
