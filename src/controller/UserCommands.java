@@ -7,23 +7,27 @@ package controller;
  * @author Joe Sikowitz
  */
 public enum UserCommands {
-  NORTH("north", "n"),
-  SOUTH("south", "s"),
-  EAST("east", "e"),
-  WEST("west", "w"),
-  INVENTORY("inventory", "i"),
-  LOOK("look", "l"),
-  USE("use", "u"),
-  TAKE("take", "t"),
-  DROP("drop", "d"),
-  EXAMINE("examine", "x"),
-  ANSWER("answer", "a"),
-  SAVE("save", "save"),
-  RESTORE("restore", "restore"),
-  QUIT("quit", "q");
+  NORTH("north", "n", true, false),
+  SOUTH("south", "s", true, false),
+  EAST("east", "e", true, false),
+  WEST("west", "w",true, false),
+  INVENTORY("inventory", "i", true, false),
+  LOOK("look", "l", true, false),
+  USE("use", "u", true, true),
+  TAKE("take", "t", true, true),
+  DROP("drop", "d", true, true),
+  EXAMINE("examine", "x", true, true),
+  ANSWER("answer", "a", true, true),
+  SAVE("save", "save", false, false),
+  RESTORE("restore", "restore", false, false),
+  QUIT("quit", "q", false, false),
+  INVALID_COMMAND(null, null, false, false),
+  INVALID_COMMAND_ARGUMENT(null, null, false, false);
 
   private final String command;
   private final String shortcut;
+  private final boolean playerCommand;
+  private final boolean requiresArgument;
 
   /**
    * The UserCommands constructor initializes the attributes of the command.
@@ -31,9 +35,11 @@ public enum UserCommands {
    * @param command String of the user command.
    * @param shortcut String of the user command's shortcut.
    */
-  UserCommands(String command, String shortcut) {
+  UserCommands(String command, String shortcut, boolean playerCommand, boolean requiresArgument) {
     this.command = command;
     this.shortcut = shortcut;
+    this.playerCommand = playerCommand;
+    this.requiresArgument = requiresArgument;
   }
 
   /**
@@ -52,5 +58,22 @@ public enum UserCommands {
    */
   String getShortcut() {
     return this.shortcut;
+  }
+
+
+  /**
+   * Returns whether the command counts as a turn in the game.
+   * @return true if the command counts as a turn in the game, false otherwise.
+   */
+  boolean isPlayerCommand() {
+    return this.playerCommand;
+  }
+
+  /**
+   *
+   * @return
+   */
+  boolean requiresArgument() {
+    return this.requiresArgument;
   }
 }
