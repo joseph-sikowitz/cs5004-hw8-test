@@ -125,7 +125,8 @@ public class GameController implements Controller {
 
       //get user input while command is quit and model is still reporting that game isn't over.
       while (gameRunnable) {
-        this.ioProcessor.getUserInput();
+        if (!this.ioProcessor.getUserInput())
+          throw new IOException();
         boolean playerCommandExecuted = true;
         if (this.isValidCommand(ioProcessor.getUserInputCommand())) {
 
