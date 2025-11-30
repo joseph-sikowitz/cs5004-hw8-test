@@ -54,7 +54,7 @@ public class GameController implements Controller {
         if (!this.ioProcessor.getUserInput()) //TODO: refactor this such that getUserInput throws the IOException.
           throw new IOException();
         //uses command structure in commands Map instead of if/else
-        userCommand = this.findUserCommand(ioProcessor.getUserInputCommand());
+        userCommand = this.ioProcessor.getUserInputCommand();
       }
     }
     catch (IOException e) {
@@ -74,26 +74,6 @@ public class GameController implements Controller {
     return true;
   }
 
-  /**
-   * The findUserCommand() method matches a player's command input to the UserCommands
-   * enum and returns the correct enum value. This is used to call commands in the
-   * controller's commands Map.
-   *
-   * @param command String of command entered by user.
-   * @return UserCommands enum that corresponds to the user command String.
-   */
-  private UserCommands findUserCommand(String command) {
-    for (UserCommands userCommand : UserCommands.values()) {
-      if ((userCommand.getCommand() != null && userCommand.getCommand().equalsIgnoreCase(command))
-              || (userCommand.getShortcut() != null
-              && userCommand.getShortcut().equalsIgnoreCase(command))) {
-        //return userCommand if
-        return (!userCommand.requiresArgument() || ioProcessor.getUserInputArgument() != null)
-                ? userCommand :  UserCommands.INVALID_COMMAND_ARGUMENT;
-      }
-    }
-    return UserCommands.INVALID_COMMAND;
-  }
 
 
   /**

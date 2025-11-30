@@ -76,4 +76,28 @@ public enum UserCommands {
   boolean requiresArgument() {
     return this.requiresArgument;
   }
+
+  /**
+   * The findUserCommand() method matches a player's command input to the UserCommands
+   * enum and returns the correct enum value. This is used to call commands in the
+   * controller's commands Map.
+   *
+   * @param command String of command entered by user.
+   * @param argument String of argument entered by user.
+   * @return UserCommands enum that corresponds to the user command String.
+   */
+  public static UserCommands findUserCommand(String command, String argument) {
+    if (command != null) {
+      for (UserCommands userCommand : UserCommands.values()) {
+        if ((userCommand.getCommand() != null && userCommand.getCommand().equalsIgnoreCase(command))
+                || (userCommand.getShortcut() != null
+                && userCommand.getShortcut().equalsIgnoreCase(command))) {
+          //check if userCommand requires Argument and check if argument is not null.
+          return (!userCommand.requiresArgument() || argument != null)
+                  ? userCommand : UserCommands.INVALID_COMMAND_ARGUMENT;
+        }
+      }
+    }
+    return UserCommands.INVALID_COMMAND;
+  }
 }
