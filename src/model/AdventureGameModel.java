@@ -1,14 +1,14 @@
 package model;
 
+import static java.nio.file.Files.exists;
+
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static java.nio.file.Files.exists;
 
 /**
  * The AdventureGameModel class defines the game play. It is the main point
