@@ -55,10 +55,6 @@ public class GameController implements Controller {
           throw new IOException();
         //uses command structure in commands Map instead of if/else
         userCommand = this.findUserCommand(ioProcessor.getUserInputCommand());
-        if (userCommand != null && userCommand.requiresArgument()
-                && ioProcessor.getUserInputArgument() == null) {
-          userCommand = UserCommands.INVALID_COMMAND_ARGUMENT;
-        }
       }
     }
     catch (IOException e) {
@@ -88,16 +84,17 @@ public class GameController implements Controller {
    */
   private UserCommands findUserCommand(String command) {
     for (UserCommands userCommand : UserCommands.values()) {
-      if (userCommand.getCommand() != null && userCommand.getCommand().equalsIgnoreCase(command)) {
-        return userCommand;
-      } else if (userCommand.getShortcut() != null
-              && userCommand.getShortcut().equalsIgnoreCase(command)) {
-        return userCommand;
+      if ((userCommand.getCommand() != null && userCommand.getCommand().equalsIgnoreCase(command))
+              || (userCommand.getShortcut() != null
+              && userCommand.getShortcut().equalsIgnoreCase(command))) {
+        //return userCommand if
+        return (!userCommand.requiresArgument() || ioProcessor.getUserInputArgument() != null)
+                ? userCommand :  UserCommands.INVALID_COMMAND_ARGUMENT;
       }
     }
-
     return UserCommands.INVALID_COMMAND;
   }
+
 
   /**
    * The loadCommands() method loads the command classes into the controller's
