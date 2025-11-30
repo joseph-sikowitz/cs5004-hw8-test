@@ -13,6 +13,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import controller.GameController;
+import controller.GameGraphicInputOutputProcessor;
+import controller.GameInputOutputProcessor;
+import controller.GameTextInputOutputProcessor;
 import model.AdventureGameModel;
 import model.IAdventureGameModel;
 
@@ -32,20 +35,22 @@ public class GameEngineApp {
   private String gameFileName;
   private Readable source;
   private Appendable output;
+  private GameInputOutputProcessor ioProcessor;
 
   /**
    * The constructor for the GameEngineApp initializes its attributes and instantiates
    * a GameEngineApp object.
    *
    * @param gameFileName String of an adventure game file.
-   * @param source Readable from a buffered source of characters, either a String or input stream.
-   * @param output Appendable output, either the command line or a file.
+   * @param ioProcessor
    */
-  public GameEngineApp(String gameFileName, Readable source, Appendable output) {
+  public GameEngineApp(String gameFileName, GameInputOutputProcessor ioProcessor) {
     this.gameFileName = gameFileName;
-    this.source = source;
-    this.output = output;
+    this.ioProcessor = ioProcessor;
   }
+
+
+
 
   /**
    * The start() method creates the game and controller and tells the controller to
@@ -61,7 +66,7 @@ public class GameEngineApp {
     }
 
     IAdventureGameModel model = new AdventureGameModel(this.gameFileName);
-    GameController controller = new GameController(this.source, this.output, model);
+    GameController controller = new GameController(this.ioProcessor, model);
     controller.go();
   }
 
@@ -71,10 +76,10 @@ public class GameEngineApp {
    * @throws IOException if file not found.
    */
   public static void main(String[] args) throws IOException {
-    Reader in = null;
-    Appendable out = null;
     FileWriter targetFileWriter = null;
     String targetFileName = null;
+
+    GameInputOutputProcessor ioProcessor = null;
 
     try {
       if (args.length <= 1) {
@@ -85,16 +90,17 @@ public class GameEngineApp {
 
       switch (option) {
         case TEXT:
-          in = new InputStreamReader(System.in);
-          out = System.out;
+          ioProcessor = new GameTextInputOutputProcessor(new InputStreamReader(System.in), System.out);
           break;
         case GRAPHICS:
-          System.out.println("Not implemented yet!");
-          return;
+          ioProcessor = new GameGraphicInputOutputProcessor();
+          break;
         case BATCH:
           if (args.length < 3 || args.length > 4) {
             throw new IllegalArgumentException();
           }
+          Reader in = null;
+          Appendable out = null;
           in = new FileReader(formatFileName(args[2]));
 
           if (args.length == 4) {
@@ -109,6 +115,7 @@ public class GameEngineApp {
           } else {
             out = System.out;
           }
+          ioProcessor = new GameTextInputOutputProcessor(in, out);
           break;
         default:
           throw new IllegalArgumentException();
@@ -116,7 +123,7 @@ public class GameEngineApp {
 
 
       GameEngineApp game = new GameEngineApp(fileName,
-              in, out);
+              ioProcessor);
       game.start();
       if (targetFileWriter != null) {
         System.out.println("See output at: "  + targetFileName);
