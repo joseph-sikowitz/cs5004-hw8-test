@@ -96,13 +96,20 @@ public class GameTextInputOutputProcessor implements GameInputOutputProcessor {
     return command.split(delimiter, COMMAND_LIMIT);
   }
 
+  /**
+   * Concatenates a List of Strings into a single String with a delimiter.
+   * @param data a List of Strings
+   * @param delimiter A String representing the delimiter to concatenate between elements.
+   * @return a String with names of elements separated by commas.
+   */
   private String concatenateList(List<String> data, String delimiter) {
     StringBuilder elements = new StringBuilder();
     if (data.isEmpty())
       return "";
-    String element = data.removeLast();
-    return data.stream().map((key) -> key + delimiter).reduce(elements, StringBuilder::append,
-            StringBuilder::append).append(element).append("\n").toString();
+    String lastElement = data.removeLast();
+    return data.stream().map((element) -> element + delimiter)
+            .reduce(elements, StringBuilder::append,
+            StringBuilder::append).append(lastElement).append("\n").toString();
   }
 
   @Override
