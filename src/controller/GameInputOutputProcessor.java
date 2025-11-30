@@ -31,9 +31,18 @@ public interface GameInputOutputProcessor {
    * A command is the first word or character entered by a character in an
    * input String.
    *
-   * @return String of user command.
+   * @return UserCommand corresponding to the String the user entered.
    */
   UserCommands getUserInputCommand();
+
+  /**
+   * The getUserInputCommand() is the getter for a command entered by the user.
+   * A command is the first word or character entered by a character in an
+   * input String.
+   *
+   * @return String of user command.
+   */
+  String getRawUserInputCommand();
 
   /**
    * The getUserInputArgument() method is the getter for the command argument

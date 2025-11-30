@@ -16,7 +16,7 @@ public class InvalidArgumentCommand extends AbstractCommand {
 
   @Override
   public boolean execute() throws IOException {
-    this.processor.messageToPlayer(this.processor.getUserInputCommand()
+    this.processor.messageToPlayer(this.processor.getRawUserInputCommand()
             + REQUIRED_ARGUMENT);
     return true;
   }
