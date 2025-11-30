@@ -1,4 +1,4 @@
-package controller;
+package utilities;
 
 /**
  * The UserCommands enum contains the commands that users are allowed to input
@@ -47,7 +47,7 @@ public enum UserCommands {
    *
    * @return String of the user command.
    */
-  String getCommand() {
+  public String getCommand() {
     return this.command;
   }
 
@@ -56,7 +56,7 @@ public enum UserCommands {
    *
    * @return String of the user command shortcut.
    */
-  String getShortcut() {
+  public String getShortcut() {
     return this.shortcut;
   }
 
@@ -65,7 +65,7 @@ public enum UserCommands {
    * Returns whether the command counts as a turn in the game.
    * @return true if the command counts as a turn in the game, false otherwise.
    */
-  boolean isPlayerCommand() {
+  public boolean isPlayerCommand() {
     return this.playerCommand;
   }
 
@@ -73,7 +73,7 @@ public enum UserCommands {
    * Returns whether the UserCommand requires an argument.
    * @return true if the UserCommand requires an argument, false otherwise.
    */
-  boolean requiresArgument() {
+  public boolean requiresArgument() {
     return this.requiresArgument;
   }
 

@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
+import utilities.UserCommands;
+
 /**
  * Test suite for the UserCommands enum.
  */

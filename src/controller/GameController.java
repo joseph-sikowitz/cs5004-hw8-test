@@ -1,13 +1,11 @@
 package controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import model.IAdventureGameModel;
+import utilities.UserCommands;
 
 /**
  * The GameController class gets input from the user and sends it to the model
