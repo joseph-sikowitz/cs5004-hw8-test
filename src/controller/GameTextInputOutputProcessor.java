@@ -13,7 +13,7 @@ import view.IAdventureGameView;
  * GameCommandReaders have an array of user input and
  * an AdventureGameTextView to receive inputs and send outputs to.
  */
-public class GameTextInputOutputProcessor implements GameInputOutputProcessor<String> {
+public class GameTextInputOutputProcessor implements GameInputOutputProcessor {
 
   // attributes
   private String[] userInput;
@@ -94,32 +94,32 @@ public class GameTextInputOutputProcessor implements GameInputOutputProcessor<St
     return command.split(delimiter, COMMAND_LIMIT);
   }
 
-  private String concatenateList(List<String> list) {
+  private String concatenateList(List<String> data) {
     StringBuilder elements = new StringBuilder();
-    if (list.isEmpty())
+    if (data.isEmpty())
       return "";
-    String lastName = list.removeLast();
-    return list.stream().map((key) -> key + ", ").reduce(elements, StringBuilder::append,
+    String lastName = data.removeLast();
+    return data.stream().map((key) -> key + ", ").reduce(elements, StringBuilder::append,
             StringBuilder::append).append(lastName).append("\n").toString();
   }
 
   @Override
-  public void messageToPlayer(String data) throws IOException {
+  public void messageToPlayer(List<String> data) throws IOException {
     this.gameView.messageToPlayer(data);
   }
 
   @Override
-  public void updatePlayerStats(String data) throws IOException {
+  public void updatePlayerStats(List<String> data) throws IOException {
     this.gameView.updatePlayerStats(data);
   }
 
   @Override
-  public void updateRoom(String data) throws IOException {
+  public void updateRoom(List<String> data) throws IOException {
     this.gameView.updateRoom(data);
   }
 
   @Override
-  public void updateExaminer(String data) throws IOException {
+  public void updateExaminer(List<String> data) throws IOException {
     this.gameView.updateExaminer(data);
   }
 
@@ -129,7 +129,7 @@ public class GameTextInputOutputProcessor implements GameInputOutputProcessor<St
   }
 
   @Override
-  public void updatePlayerAffector(String data) throws IOException {
+  public void updatePlayerAffector(List<String> data) throws IOException {
     this.gameView.updatePlayerAffector(data);
   }
 }

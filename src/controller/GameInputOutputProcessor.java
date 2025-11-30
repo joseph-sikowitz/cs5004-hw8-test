@@ -5,9 +5,9 @@ import java.util.List;
 
 /**
  * This class type processes user input and sends output to the View.
- * @param <T> The type of input to be passed to the View through the GameInputOutputProcessor.
+ * It functions as an Adaptor Pattern, formatting data to pass to the Controller and to the View.
  */
-public interface GameInputOutputProcessor<T> {
+public interface GameInputOutputProcessor {
 
   /**
    * Gets an unparsed message from the User.
@@ -49,28 +49,28 @@ public interface GameInputOutputProcessor<T> {
    * @param data the data to display.
    * @throws IOException If I/O error occurs.
    */
-  void messageToPlayer(T data) throws IOException;
+  void messageToPlayer(List<String> data) throws IOException;
 
   /**
    * Updates the Player's stats.
    * @param data the data to display.
    * @throws IOException If I/O error occurs.
    */
-  void updatePlayerStats(T data) throws IOException;
+  void updatePlayerStats(List<String> data) throws IOException;
 
   /**
    * Updates the Room's name and description.
    * @param data the data to display.
    * @throws IOException If I/O error occurs.
    */
-  void updateRoom(T data) throws IOException;
+  void updateRoom(List<String> data) throws IOException;
 
   /**
    * Updates the Elements that the Player can examine.
    * @param data the data to display.
    * @throws IOException If I/O error occurs.
    */
-  void updateExaminer(T data) throws IOException;
+  void updateExaminer(List<String> data) throws IOException;
 
   /**
    * Updates the Player's inventory.
@@ -84,5 +84,5 @@ public interface GameInputOutputProcessor<T> {
    * @param data the data to display.
    * @throws IOException If I/O error occurs.
    */
-  void updatePlayerAffector(T data) throws IOException;
+  void updatePlayerAffector(List<String> data) throws IOException;
 }
