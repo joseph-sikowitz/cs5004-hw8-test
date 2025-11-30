@@ -33,7 +33,7 @@ public interface GameInputOutputProcessor {
    *
    * @return String of user command.
    */
-  String getUserInputCommand();
+  UserCommands getUserInputCommand();
 
   /**
    * The getUserInputArgument() method is the getter for the command argument

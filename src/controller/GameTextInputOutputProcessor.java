@@ -67,9 +67,9 @@ public class GameTextInputOutputProcessor implements GameInputOutputProcessor {
   }
 
   @Override
-  public String getUserInputCommand() {
-    return this.userInput.length
-            >= ONE_COMMAND_LENGTH ? this.userInput[FIRST_COMMAND].trim() : null;
+  public UserCommands getUserInputCommand() {
+    return UserCommands.findUserCommand( this.userInput.length
+            >= ONE_COMMAND_LENGTH ? this.userInput[FIRST_COMMAND].trim() : null, this.getUserInputArgument());
   }
 
   @Override
@@ -142,6 +142,7 @@ public class GameTextInputOutputProcessor implements GameInputOutputProcessor {
   public void promptPlayer(String data) throws IOException {
     this.gameView.promptPlayer(data);
   }
+
 
 
 }
