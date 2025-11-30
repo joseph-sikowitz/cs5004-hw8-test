@@ -296,8 +296,9 @@ public class AdventureGameModel implements IAdventureGameModel {
 
   @Override
   public String restoreMessage() {
-    return "Welcome back " + this.getPlayerName() + "\n" + this.getPlayerHealthStatus()
-            + this.getPlayerScoreFormatted() + this.getPlayerRank();
+    return "Welcome back " + this.getPlayerName() + "\n" + this.getPlayerHealthStatus() + "\n"
+            + this.getPlayerScoreFormatted() + "\n" + this.getPlayerRank()
+            + "\nYou are currently in " + this.getRoomName() + ":";
   }
 
   @Override
