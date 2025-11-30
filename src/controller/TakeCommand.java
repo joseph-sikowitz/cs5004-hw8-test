@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import model.IAdventureGameModel;
 
@@ -21,7 +22,7 @@ public class TakeCommand extends AbstractCommand {
 
   @Override
   public boolean execute() throws IOException {
-    this.processor.messageToPlayer(this.model.takeItem(this.processor.getUserInputArgument()));
+    this.processor.messageToPlayer(Arrays.asList(this.model.takeItem(this.processor.getUserInputArgument()), null));
     return super.execute();
   }
 }

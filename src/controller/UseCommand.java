@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import model.IAdventureGameModel;
 
@@ -20,7 +21,7 @@ public class UseCommand extends AbstractCommand {
 
   @Override
   public boolean execute() throws IOException {
-     this.processor.messageToPlayer(model.useItem(this.processor.getUserInputArgument()));
+     this.processor.messageToPlayer(Arrays.asList(model.useItem(this.processor.getUserInputArgument()), null));
      if (this.model.roomChanged())
        this.processor.updateRoom(this.model.lookAround());
     return super.execute();

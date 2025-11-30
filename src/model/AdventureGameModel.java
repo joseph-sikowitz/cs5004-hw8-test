@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -108,14 +109,14 @@ public class AdventureGameModel implements IAdventureGameModel {
     try {
       status = this.player.walk(direction);
     } catch (Exception e) {
-      return e.getMessage() + "\n";
+      return e.getMessage();
     }
 
     return switch (status) {
-      case BLOCKED -> RoomStatus.BLOCKED.getStatus() + "\n";
-      case NO_PASSAGE -> RoomStatus.NO_PASSAGE.getStatus() + "\n";
+      case BLOCKED -> RoomStatus.BLOCKED.getStatus();
+      case NO_PASSAGE -> RoomStatus.NO_PASSAGE.getStatus();
       case OPEN -> RoomStatus.OPEN.getStatus() + " You enter: "
-              + this.player.getActiveRoom().getName() + "\n";
+              + this.player.getActiveRoom().getName();
     };
   }
 
@@ -173,27 +174,27 @@ public class AdventureGameModel implements IAdventureGameModel {
   }
 
   @Override
-  public String lookAround() {
+  public List<String> lookAround() {
     Room activeRoom = this.player.getActiveRoom();
     String roomDescription = firstDisplay ? "You start in " + activeRoom.getName() + ":\n" : "";
-    roomDescription += activeRoom.getDescription() + "\n";
+    roomDescription += activeRoom.getDescription();
     this.firstDisplay = false;
 
     //hide visibility of items.
     if (activeRoom.getRoomEnvironmentAffector() != null
             && activeRoom.affectorAffectsPlayer()) {
-      return roomDescription;
+      return  new ArrayList<>(Arrays.asList(this.getRoomName(), roomDescription,
+              this.player.getActiveRoom().getPicturePath()));
     }
 
     String fixtures = getElementNamesConcatenated(activeRoom.getFixtures());
     String fixturesFormatted = fixtures.isEmpty() ? "" : "Fixtures you see here: "
             + fixtures + "\n";
     String items = getElementNamesConcatenated(activeRoom.getItems());
-    String itemsFormatted = items.isEmpty() ? "" : "Items you see here: " + items + "\n";
-
-    return roomDescription + "\n"
-            + fixturesFormatted
-            + itemsFormatted;
+    String itemsFormatted = items.isEmpty() ? "" : "Items you see here: " + items;
+    roomDescription += "\n" + fixturesFormatted + itemsFormatted;
+    return new ArrayList<>(Arrays.asList(this.getRoomName(), roomDescription,
+            this.player.getActiveRoom().getPicturePath()));
   }
 
   /**
@@ -210,29 +211,29 @@ public class AdventureGameModel implements IAdventureGameModel {
 
   @Override
   public String useItem(String item) {
-    return solvePuzzle(this.player.useItem(item)) + "\n";
+    return solvePuzzle(this.player.useItem(item));
   }
 
   @Override
   public String answer(String answer) {
-    return solvePuzzle(this.player.answer(answer)) + "\n";
+    return solvePuzzle(this.player.answer(answer));
   }
 
   @Override
   public String takeItem(String item) {
-    return item + this.player.takeItem(item).getStatus() + "\n";
+    return item + this.player.takeItem(item).getStatus();
   }
 
   @Override
   public String dropItem(String item) {
     if (this.player.dropItem(item))
-      return item + " removed from your inventory!\n";
-    return item + " not found in your inventory!\n";
+      return item + " removed from your inventory!";
+    return item + " not found in your inventory!";
   }
 
   @Override
-  public String examine(String element) {
-    return this.player.examine(element) + "\n";
+  public List<String> examine(String element) {
+    return this.player.examine(element);
   }
 
 
@@ -252,18 +253,18 @@ public class AdventureGameModel implements IAdventureGameModel {
     if (this.player.getHealth() == this.player.getHealthStatus().getMaxHealth()
             || this.changeInPlayerHealthStatus())
       adjective = this.player.getHealthStatus() == HealthStatus.FULL_HEALTH ? "fully " : "now ";
-    return "You are " + adjective + this.player.getHealthStatus().getHealthStatus() + "\n";
+    return "You are " + adjective + this.player.getHealthStatus().getHealthStatus();
   }
 
   @Override
-  public String affectPlayer() {
+  public List<String> affectPlayer() {
     Monster enemy = this.player.getActiveRoom().getMonster();
     if (enemy != null && enemy.attack(this.player)) {
       String returnMessage = enemy.getName() + " " + enemy.getAttackDescription();
-      returnMessage += "\nYou take " + decimalFormat.format(enemy.getDamage()) + " damage!\n";
-      return returnMessage;
+      returnMessage += "\nYou take " + decimalFormat.format(enemy.getDamage()) + " damage!";
+      return new ArrayList<>(Arrays.asList(returnMessage,  enemy.getPicturePath()));
     }
-    return "";
+    return new ArrayList<>(Arrays.asList("", null));
   }
 
   @Override
@@ -273,7 +274,7 @@ public class AdventureGameModel implements IAdventureGameModel {
     } catch (Exception e) {
       throw new FileNotFoundException("File was not saved!");
     }
-    return "Game saved!\n";
+    return "Game saved!";
   }
 
   @Override
@@ -283,7 +284,7 @@ public class AdventureGameModel implements IAdventureGameModel {
     this.fileProcessor = new FileProcessor(saveFile, this.playerName);
     this.player = this.fileProcessor.setUpGame();
     this.warnings = this.fileProcessor.getGameFileWarnings();
-    return "Game restored!\n";
+    return "Game restored!";
   }
 
 
@@ -331,7 +332,7 @@ public class AdventureGameModel implements IAdventureGameModel {
 
   @Override
   public String getPlayerScoreFormatted() {
-    return "Your current score: " + this.decimalFormat.format(this.getPlayerScore()) + "\n";
+    return "Your current score: " + this.decimalFormat.format(this.getPlayerScore());
   }
 
   @Override
@@ -345,7 +346,7 @@ public class AdventureGameModel implements IAdventureGameModel {
 
   @Override
   public String getPlayerRank() {
-    return "Your rank: " + getPlayerRanks().getName() + "\n";
+    return "Your rank: " + getPlayerRanks().getName();
   }
 
   /**

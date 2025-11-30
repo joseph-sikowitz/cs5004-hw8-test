@@ -52,6 +52,13 @@ public interface GameInputOutputProcessor {
   void messageToPlayer(List<String> data) throws IOException;
 
   /**
+   * Displays message to player.
+   * @param data the data to display.
+   * @throws IOException If I/O error occurs.
+   */
+  void messageToPlayer(String data) throws IOException;
+
+  /**
    * Updates the Player's stats.
    * @param data the data to display.
    * @throws IOException If I/O error occurs.
@@ -85,4 +92,11 @@ public interface GameInputOutputProcessor {
    * @throws IOException If I/O error occurs.
    */
   void updatePlayerAffector(List<String> data) throws IOException;
+
+  /**
+   * Displays data to user and Asks user to input text.
+   * @param data data to display.
+   * @throws IOException If I/O error occurs.
+   */
+  void promptPlayer(String data) throws IOException;
 }

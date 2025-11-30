@@ -68,4 +68,9 @@ public interface IAdventureGameView<T, C extends GameInputOutputProcessor> {
    */
   void updatePlayerAffector(T data) throws IOException;
 
+  /**
+   * Displays data to user and Asks user to input text.
+   * @param data data to display.
+   */
+  void promptPlayer(String data) throws IOException;
 }

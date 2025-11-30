@@ -17,8 +17,6 @@ public class GameTextInputOutputProcessor implements GameInputOutputProcessor {
 
   // attributes
   private String[] userInput;
-  //private final Readable in;
-  //private final Appendable out;
   private final IAdventureGameView<String, GameTextInputOutputProcessor> gameView;
 
   // constants
@@ -38,8 +36,6 @@ public class GameTextInputOutputProcessor implements GameInputOutputProcessor {
    * @param output Appendable for game output.
    */
   public GameTextInputOutputProcessor(Readable source, Appendable output) {
-    //this.in = source;
-    //this.out = output;
     this.userInput = new String[COMMAND_LIMIT];
     this.gameView = new AdventureGameTextView(source, output);
     this.gameView.setEventHandler(this);
@@ -94,42 +90,58 @@ public class GameTextInputOutputProcessor implements GameInputOutputProcessor {
     return command.split(delimiter, COMMAND_LIMIT);
   }
 
-  private String concatenateList(List<String> data) {
+  private String concatenateList(List<String> data, String delimiter) {
     StringBuilder elements = new StringBuilder();
     if (data.isEmpty())
       return "";
-    String lastName = data.removeLast();
-    return data.stream().map((key) -> key + ", ").reduce(elements, StringBuilder::append,
-            StringBuilder::append).append(lastName).append("\n").toString();
+    String element = data.removeLast();
+    return data.stream().map((key) -> key + delimiter).reduce(elements, StringBuilder::append,
+            StringBuilder::append).append(element).append("\n").toString();
   }
 
   @Override
   public void messageToPlayer(List<String> data) throws IOException {
-    this.gameView.messageToPlayer(data);
+    this.gameView.messageToPlayer(data.getFirst() + "\n");
+  }
+
+  @Override
+  public void messageToPlayer(String data) throws IOException {
+    this.gameView.messageToPlayer(data + "\n");
   }
 
   @Override
   public void updatePlayerStats(List<String> data) throws IOException {
-    this.gameView.updatePlayerStats(data);
+    this.gameView.updatePlayerStats(concatenateList(data, "\n"));
   }
 
   @Override
   public void updateRoom(List<String> data) throws IOException {
-    this.gameView.updateRoom(data);
+    //remove room name
+    data.removeFirst();
+    //remove picture path
+    data.removeLast();
+    this.gameView.updateRoom(concatenateList(data, "\n"));
   }
 
   @Override
   public void updateExaminer(List<String> data) throws IOException {
-    this.gameView.updateExaminer(data);
+    this.gameView.updateExaminer(data.getFirst() + "\n");
   }
 
   @Override
   public void updateInventory(List<String> data) throws IOException {
-    this.gameView.updateInventory(concatenateList(data));
+    this.gameView.updateInventory(concatenateList(data, ", "));
   }
 
   @Override
   public void updatePlayerAffector(List<String> data) throws IOException {
-    this.gameView.updatePlayerAffector(data);
+    this.gameView.updatePlayerAffector(data.getFirst() + "\n");
   }
+
+  @Override
+  public void promptPlayer(String data) throws IOException {
+    this.gameView.promptPlayer(data);
+  }
+
+
 }

@@ -1,7 +1,10 @@
 package model;
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -159,7 +162,7 @@ public class ConcretePlayer extends AbstractElement implements Player {
      * active room doesn't have the enemy, or enemy is already deactivated.
      */
     if (!inventory.containsElement(itemName)) {
-      return new UseSuccessful(itemName + " not found within inventory!\n", false);
+      return new UseSuccessful(itemName + " not found within inventory!", false);
     }
     /*
       return new UseSuccessful("You can't use " + itemName + " on this puzzle.", false);
@@ -209,20 +212,28 @@ public class ConcretePlayer extends AbstractElement implements Player {
   }
 
   @Override
-  public String examine(String element) {
+  public List<String> examine(String element) {
     if (element == null )
-      return "You cannot see or examine nothing!";
+      return Arrays.asList("You cannot see or examine nothing!", null);
     //Player either examines Item in their inventory or Item in activeRoom
     Item itemToExamine = this.inventory.getElement(element) != null
             ? this.inventory.getElement(element)
             : this.activeRoom.getItem(element);
     Fixture fixtureToExamine = this.activeRoom.getFixture(element);
-    String description = "You cannot see or examine " +  element;
-    if (itemToExamine != null)
-      description = itemToExamine.getDescription();
-    else if (fixtureToExamine != null)
-      description = fixtureToExamine.getDescription();
-    return description;
+    List<String> output = new ArrayList<>();
+
+    if (itemToExamine != null) {
+      output.add(itemToExamine.getDescription());
+      output.add(itemToExamine.getPicturePath());
+    }
+    else if (fixtureToExamine != null) {
+      output.add(fixtureToExamine.getDescription());
+      output.add(fixtureToExamine.getPicturePath());
+    } else {
+      output.add("You cannot see or examine " +  element);
+      output.add(null);
+    }
+    return output;
   }
 
   @Override
@@ -248,7 +259,6 @@ public class ConcretePlayer extends AbstractElement implements Player {
   public Room getActiveRoom() {
     return this.activeRoom;
   }
-
 
   @Override
   public double getScore() {

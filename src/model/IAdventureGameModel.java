@@ -79,7 +79,7 @@ public interface IAdventureGameModel {
    *
    * @return String of the active room description.
    */
-  String lookAround();
+  List<String> lookAround();
 
   /**
    * The useItem() method uses an item within an active room.
@@ -110,7 +110,7 @@ public interface IAdventureGameModel {
    * @param element Name of element to get the description of.
    * @return String description of the element being examined.
    */
-  String examine(String element);
+  List<String> examine(String element);
 
   /**
    * The answer() method provides an answer to a puzzle within the active room
@@ -170,9 +170,10 @@ public interface IAdventureGameModel {
 
   /**
    * Has the Player's activeRoom's roomEnvironmentEffector perform its actions on the Player if any.
+   *
    * @return a String describing the effects of the roomEnvironmentEffector on the Player.
    */
-  String affectPlayer();
+  List<String> affectPlayer();
 
   /**
    * The saveGame() method saves the game to a file.
@@ -225,5 +226,6 @@ public interface IAdventureGameModel {
    * @return String of player's name.
    */
   String getPlayerName();
+
 
 }

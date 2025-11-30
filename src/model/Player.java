@@ -1,5 +1,6 @@
 package model;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -92,7 +93,7 @@ public interface Player extends Activatable, Element, Scorable {
    * @param element Fixture or Item in active room to return description of.
    * @return String of Element's description.
    */
-  String examine(String element);
+  List<String> examine(String element);
 
   /**
    * The answer() method provides an answer to a puzzle in the player's active

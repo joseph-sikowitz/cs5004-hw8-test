@@ -67,4 +67,9 @@ public class AdventureGameTextView implements
   public void updatePlayerAffector(String data) throws IOException {
     this.out.append(data);
   }
+
+  @Override
+  public void promptPlayer(String data) throws IOException {
+    this.out.append(data);
+  }
 }

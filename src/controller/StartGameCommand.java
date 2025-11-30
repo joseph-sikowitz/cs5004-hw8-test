@@ -1,6 +1,8 @@
 package controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import model.IAdventureGameModel;
 
@@ -9,6 +11,7 @@ import model.IAdventureGameModel;
  * name.
  */
 public class StartGameCommand extends AbstractCommand {
+  public static final String START_PICTURE = null;
 
   public StartGameCommand(IAdventureGameModel model, GameInputOutputProcessor processor) {
     super(model, processor);
@@ -16,7 +19,7 @@ public class StartGameCommand extends AbstractCommand {
 
   @Override
   public boolean execute() throws IOException {
-    this.processor.messageToPlayer(UserPrompts.NEW_PLAYER_PROMPT.getPrompt());
+    this.processor.promptPlayer(UserPrompts.NEW_PLAYER_PROMPT.getPrompt());
     this.model.setPlayerName(processor.getUserMessage());
     this.model.loadGameData();
     this.processor.messageToPlayer(UserPrompts.NEW_PLAYER_NAME_PROMPT.getPrompt()
