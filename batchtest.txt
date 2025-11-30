@@ -4,4 +4,10 @@ Take Ticket
 Inspect Ticket
 Use Ticket
 N
+X Computer
+A Align
+N
+N
+N
+S
 Q
