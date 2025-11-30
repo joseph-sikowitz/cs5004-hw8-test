@@ -21,19 +21,10 @@ import model.IAdventureGameModel;
 public class GameController implements Controller {
 
   // attributes
-  private IAdventureGameModel model;
-  private final Readable in;
-  private final Appendable out;
   private Map<UserCommands, ICommand> commands;
   private GameInputOutputProcessor ioProcessor;
   private ICommand startGameCommand;
   private ICommand endOfTurnActions;
-
-  // constants
-  private static final String UNKNOWN_COMMAND = "Unknown command!\n";
-  private static final String DATA_DIR = System.getProperty("user.dir") + "/resources/";
-  private static final String DEFAULT_SAVE_FILE = "save_file.json";
-  private static final String REQUIRED_ARGUMENT = " requires an argument!\n";
 
   /**
    * The GameController constructor instantiates a GameController object to be
@@ -43,13 +34,10 @@ public class GameController implements Controller {
    * @param output Appendable of the game's output.
    */
   public GameController(Readable source, Appendable output, IAdventureGameModel model) {
-    this.in = source;
-    this.out = output;
-    this.model = model;
-    this.ioProcessor = new GameTextInputOutputProcessor(this.in, this.out);
-    this.loadCommands();
-    this.startGameCommand = new StartGameCommand(this.model, this.ioProcessor);
-    this.endOfTurnActions = new EndOfTurnActionsCommand(this.model, this.ioProcessor);
+    this.ioProcessor = new GameTextInputOutputProcessor(source, output);
+    this.loadCommands(model);
+    this.startGameCommand = new StartGameCommand(model, this.ioProcessor);
+    this.endOfTurnActions = new EndOfTurnActionsCommand(model, this.ioProcessor);
   }
 
   @Override
@@ -114,24 +102,25 @@ public class GameController implements Controller {
   /**
    * The loadCommands() method loads the command classes into the controller's
    * commands Map so that they can be called by the user and executed.
+   * @param model an instance of IAdventureGameModel.
    */
-  private void loadCommands() {
+  private void loadCommands(IAdventureGameModel model) {
     this.commands = new HashMap<>();
 
-    this.commands.put(UserCommands.NORTH, new NorthCommand(this.model, this.ioProcessor));
-    this.commands.put(UserCommands.SOUTH, new SouthCommand(this.model, this.ioProcessor));
-    this.commands.put(UserCommands.EAST, new EastCommand(this.model, this.ioProcessor));
-    this.commands.put(UserCommands.WEST, new WestCommand(this.model, this.ioProcessor));
-    this.commands.put(UserCommands.INVENTORY, new InventoryCommand(this.model, this.ioProcessor));
-    this.commands.put(UserCommands.LOOK, new LookCommand(this.model, this.ioProcessor));
-    this.commands.put(UserCommands.USE, new UseCommand(this.model, this.ioProcessor));
-    this.commands.put(UserCommands.TAKE, new TakeCommand(this.model, this.ioProcessor));
-    this.commands.put(UserCommands.DROP, new DropCommand(this.model, this.ioProcessor));
-    this.commands.put(UserCommands.EXAMINE, new ExamineCommand(this.model, this.ioProcessor));
-    this.commands.put(UserCommands.ANSWER, new AnswerCommand(this.model, this.ioProcessor));
-    this.commands.put(UserCommands.SAVE, new SaveCommand(this.model, this.ioProcessor));
-    this.commands.put(UserCommands.RESTORE, new RestoreCommand(this.model, this.ioProcessor));
-    this.commands.put(UserCommands.QUIT, new QuitCommand(this.model, this.ioProcessor));
+    this.commands.put(UserCommands.NORTH, new NorthCommand(model, this.ioProcessor));
+    this.commands.put(UserCommands.SOUTH, new SouthCommand(model, this.ioProcessor));
+    this.commands.put(UserCommands.EAST, new EastCommand(model, this.ioProcessor));
+    this.commands.put(UserCommands.WEST, new WestCommand(model, this.ioProcessor));
+    this.commands.put(UserCommands.INVENTORY, new InventoryCommand(model, this.ioProcessor));
+    this.commands.put(UserCommands.LOOK, new LookCommand(model, this.ioProcessor));
+    this.commands.put(UserCommands.USE, new UseCommand(model, this.ioProcessor));
+    this.commands.put(UserCommands.TAKE, new TakeCommand(model, this.ioProcessor));
+    this.commands.put(UserCommands.DROP, new DropCommand(model, this.ioProcessor));
+    this.commands.put(UserCommands.EXAMINE, new ExamineCommand(model, this.ioProcessor));
+    this.commands.put(UserCommands.ANSWER, new AnswerCommand(model, this.ioProcessor));
+    this.commands.put(UserCommands.SAVE, new SaveCommand(model, this.ioProcessor));
+    this.commands.put(UserCommands.RESTORE, new RestoreCommand(model, this.ioProcessor));
+    this.commands.put(UserCommands.QUIT, new QuitCommand(model, this.ioProcessor));
     this.commands.put(UserCommands.INVALID_COMMAND, new InvalidCommand(null, this.ioProcessor));
     this.commands.put(UserCommands.INVALID_COMMAND_ARGUMENT,
             new InvalidArgumentCommand(null, this.ioProcessor));
