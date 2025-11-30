@@ -28,11 +28,11 @@ public class GameController implements Controller {
    * The GameController constructor instantiates a GameController object to be
    * used to take user input in order to interact with the model.
    *
-   * @param source Readable of the source of the game's input.
-   * @param output Appendable of the game's output.
+   * @param ioProcessor
+   * @param model
    */
-  public GameController(Readable source, Appendable output, IAdventureGameModel model) {
-    this.ioProcessor = new GameTextInputOutputProcessor(source, output);
+  public GameController(GameInputOutputProcessor ioProcessor, IAdventureGameModel model) {
+    this.ioProcessor = ioProcessor;
     this.loadCommands(model);
     this.startGameCommand = new StartGameCommand(model, this.ioProcessor);
     this.endOfTurnActions = new EndOfTurnActionsCommand(model, this.ioProcessor);
