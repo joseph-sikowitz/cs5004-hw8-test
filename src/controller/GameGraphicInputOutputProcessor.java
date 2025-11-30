@@ -47,7 +47,7 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
 
   @Override
   public void messageToPlayer(String data) throws IOException {
-
+    this.gameView.messageToPlayer(data);
   }
 
   @Override

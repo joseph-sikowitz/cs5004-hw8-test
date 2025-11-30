@@ -19,6 +19,7 @@ public class AdventureGameGraphicView extends JFrame
 
   public AdventureGameGraphicView() {
     super(CAPTION);
+
     this.setSize(1000, 750);
     this.setLocation(50, 50);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -142,7 +143,7 @@ public class AdventureGameGraphicView extends JFrame
 
   @Override
   public void messageToPlayer(String data) throws IOException {
-
+    JOptionPane.showMessageDialog(this, data);
   }
 
   @Override
