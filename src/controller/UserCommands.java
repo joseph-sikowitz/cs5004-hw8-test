@@ -70,8 +70,8 @@ public enum UserCommands {
   }
 
   /**
-   *
-   * @return
+   * Returns whether the UserCommand requires an argument.
+   * @return true if the UserCommand requires an argument, false otherwise.
    */
   boolean requiresArgument() {
     return this.requiresArgument;
