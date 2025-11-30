@@ -27,7 +27,7 @@ public class AdventureGameTextView implements
   }
 
   @Override
-  public void setEventHandler(GameTextInputOutputProcessor commandInterpreter) {
+  public void setEventHandler(GameTextInputOutputProcessor ioProcessor) {
   }
 
   @Override

@@ -4,20 +4,21 @@ package view;
 
 import java.io.IOException;
 
+import controller.GameInputOutputProcessor;
 import controller.GameTextInputOutputProcessor;
 
 /**
  * An Interface the view subsystem of an AdventureGame.
  * @param <T> The type of data to be passed to the view.
- * @param <C> The type of CommandInterpreter that the view will pass data back to.
+ * @param <C> The type of GameInputOutputProcessor that the view will pass data back to.
  */
-public interface IAdventureGameView<T, C extends GameTextInputOutputProcessor> {
+public interface IAdventureGameView<T, C extends GameInputOutputProcessor> {
 
   /**
    * Sets the controller class that interprets commands passed in through the view.
-   * @param commandInterpreter interprets commands.
+   * @param ioProcessor interprets commands.
    */
-  void setEventHandler(C commandInterpreter);
+  void setEventHandler(C ioProcessor);
 
   /**
    * Returns a command from the User.
