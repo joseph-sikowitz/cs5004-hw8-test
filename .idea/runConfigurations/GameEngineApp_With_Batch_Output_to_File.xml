@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="GameEngineApp With Batch Output to File" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="enginedriver.GameEngineApp" />
+    <module name="cs5004-hw8-test" />
+    <option name="PROGRAM_PARAMETERS" value="museum.json -batch batchtest.txt batchtestoutput.txt" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="enginedriver.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
