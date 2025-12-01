@@ -203,7 +203,6 @@ public class AdventureGameGraphicView extends JFrame
   @Override
   public void promptPlayer(String data) throws IOException {
     this.userInput = JOptionPane.showInputDialog(this, data);
-    JOptionPane.showMessageDialog(this, NAMED + this.userInput);
     this.display();
   }
 }
