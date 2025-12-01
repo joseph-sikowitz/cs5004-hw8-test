@@ -184,10 +184,6 @@ public class AdventureGameGraphicView extends JFrame
     this.descriptionText.setText(roomDescription);
   }
 
-  @Override
-  public void updateExaminer(List<String> data) throws IOException {
-
-  }
 
   @Override
   public void updateInventory(List<String> data) throws IOException {
