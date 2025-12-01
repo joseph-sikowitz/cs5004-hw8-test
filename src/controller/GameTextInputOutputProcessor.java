@@ -121,10 +121,6 @@ public class GameTextInputOutputProcessor implements GameInputOutputProcessor {
     this.gameView.updateRoom(String.join("\n", data) + "\n");
   }
 
-  @Override
-  public void updateExaminer(List<String> data) throws IOException {
-    this.gameView.updateExaminer(data.getFirst() + "\n");
-  }
 
   @Override
   public void updateInventory(List<String> data) throws IOException {
