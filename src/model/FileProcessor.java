@@ -83,6 +83,14 @@ public class FileProcessor {
   }
 
   /**
+   * Returns the name of the game.
+   * @return a String representing the name of the game.
+   */
+  public String getName() {
+    return this.name;
+  }
+
+  /**
    * The getter for the game's file name.
    *
    * @return String of the game's file name.
