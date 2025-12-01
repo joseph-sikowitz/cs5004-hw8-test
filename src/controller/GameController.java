@@ -62,7 +62,7 @@ public class GameController implements Controller {
 
   public void asyncGo() throws IOException {
     try {
-      boolean gameRunnable = this.startGameCommand.execute();
+      this.startGameCommand.execute();
       UserCommands look = UserCommands.LOOK;
       this.commands.get(look).execute();
       UserCommands inventory = UserCommands.INVENTORY;
