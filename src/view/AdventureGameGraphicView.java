@@ -26,7 +26,6 @@ public class AdventureGameGraphicView extends JFrame
 
   private static final String CAPTION = "Adventure Game";
   private static final String SPLASH_IMAGE = "resources/images/game_engine.png";
-  private static final String NAMED = "Thou shalt be named ";
 
   public AdventureGameGraphicView() {
     super(CAPTION);
