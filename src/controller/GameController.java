@@ -60,6 +60,21 @@ public class GameController implements Controller {
     }
   }
 
+  public void asyncGo() throws IOException {
+    try {
+      boolean gameRunnable = this.startGameCommand.execute();
+      UserCommands look = UserCommands.LOOK;
+      this.commands.get(look).execute();
+      UserCommands inventory = UserCommands.INVENTORY;
+      this.commands.get(inventory).execute();
+      this.executeEndOfTurnActions(inventory.isPlayerCommand());
+      this.ioProcessor.setUserCommands(this.commands);
+      this.ioProcessor.setEndOfTurnActions(this.endOfTurnActions);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
   /**
    * Executes model actions that affect the player and
    * prints player status if it has changed since the last command.
