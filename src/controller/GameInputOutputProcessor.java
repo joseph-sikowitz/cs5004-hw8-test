@@ -129,13 +129,6 @@ public interface GameInputOutputProcessor {
 
 
   /**
-   * Displays the title of the game.
-   * @param data data to display.
-   * @throws IOException If I/O error occurs.
-   */
-  void updateTitle(String data) throws IOException;
-
-  /**
    * Sets the user commands to use by the processor.
    *
    * @param commands Map of user commands.

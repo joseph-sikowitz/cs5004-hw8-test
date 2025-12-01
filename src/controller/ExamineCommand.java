@@ -21,7 +21,7 @@ public class ExamineCommand extends AbstractCommand {
 
   @Override
   public boolean execute() throws IOException {
-    this.processor.updateExaminer(this.model.examine(this.processor.getUserInputArgument()));
+    this.processor.messageToPlayer(this.model.examine(this.processor.getUserInputArgument()));
     return super.execute();
   }
 }
