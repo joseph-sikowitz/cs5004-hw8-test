@@ -161,4 +161,7 @@ public class GameTextInputOutputProcessor implements GameInputOutputProcessor {
   @Override
   public void setUserCommands(Map<UserCommands, ICommand> commands) {}
 
+  @Override
+  public void setEndOfTurnActions(ICommand endOfTurnActions) {}
+
 }
