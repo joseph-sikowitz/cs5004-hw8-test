@@ -83,12 +83,12 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
   @Override
   public void updateRoom(List<String> data) throws IOException {
     String picturePath = data.removeLast();
+    data.add(data.removeLast() + "\n");
     if (picturePath == null || picturePath.isEmpty()) {
       data.add(DATA_DIR + DEFAULT_PICTURE);
     } else {
       data.add(DATA_DIR + picturePath);
     }
-    data.add(1, data.remove(1) + "\n");
     this.roomData = data;
     this.gameView.updateRoom(data);
   }
@@ -115,9 +115,9 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
   public void updateFixtures(List<String> data) throws IOException {
     if (this.roomData != null && !data.isEmpty()) {
       String roomData = this.roomData.remove(1);
-      roomData += "Fixtures you see here: " + String.join(", ", data);
+      roomData += "Fixtures you see here: " + String.join(", ", data) + "\n";
       this.roomData.add(1, roomData);
-      this.updateRoom(this.roomData);
+      this.gameView.updateRoom(this.roomData);
     }
     this.gameView.updateFixtures(data);
   }
@@ -128,7 +128,7 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
       String roomData = this.roomData.remove(1);
       roomData += "Items you see here: " + String.join(", ", data) + "\n";
       this.roomData.add(1, roomData);
-      this.updateRoom(this.roomData);
+      this.gameView.updateRoom(this.roomData);
     }
     this.gameView.updateItems(data);
   }
