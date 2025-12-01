@@ -3,7 +3,9 @@ package controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import utilities.UserCommands;
 import view.AdventureGameGraphicView;
@@ -13,6 +15,8 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
 
   private final IAdventureGameView<List<String>, GameGraphicInputOutputProcessor> gameView;
   private String userCommand;
+  private Map<UserCommands, ICommand> commands;
+  private ICommand endOfTurnActions;
 
   private static final String DEFAULT_PICTURE = "generic_location.png";
 
@@ -63,7 +67,9 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
 
   @Override
   public void messageToPlayer(String data) throws IOException {
-
+    List<String> dataList = new ArrayList<>();
+    dataList.add(data);
+    this.gameView.messageToPlayer(dataList);
   }
 
   @Override
@@ -108,19 +114,27 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
 
   @Override
   public void actionPerformed(ActionEvent e) {
-    switch (e.getActionCommand()) {
-      case "north":
-        this.userCommand = "north";
-        break;
-      case "south":
-        this.userCommand = "south";
-        break;
-      case "west":
-        this.userCommand = "west";
-        break;
-      case "east":
-        this.userCommand = "east";
-        break;
+    this.executeCommand(e.getActionCommand());
+  }
+
+  private void executeCommand(String actionCommand) {
+    try {
+      this.commands.get(UserCommands.findUserCommand(actionCommand, "")).execute();
+      this.commands.get(UserCommands.INVENTORY).execute();
+      this.endOfTurnActions.execute();
+    } catch (IOException e1) {
+      e1.printStackTrace();
     }
   }
+
+  @Override
+  public void setUserCommands(Map<UserCommands, ICommand> commands) {
+    this.commands = commands;
+  }
+
+  @Override
+  public void setEndOfTurnActions(ICommand endOfTurnActions) {
+    this.endOfTurnActions = endOfTurnActions;
+  }
+
 }
