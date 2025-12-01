@@ -22,6 +22,7 @@ public class StartGameCommand extends AbstractCommand {
     this.processor.promptPlayer(UserPrompts.NEW_PLAYER_PROMPT.getPrompt());
     this.model.setPlayerName(processor.getUserMessage());
     this.model.loadGameData();
+    this.processor.updateTitle(this.model.getGameName());
     this.processor.messageToPlayer(UserPrompts.NEW_PLAYER_NAME_PROMPT.getPrompt()
             + this.model.getPlayerName()  + "\n");
     if (!this.model.getGameFileWarnings().isEmpty())

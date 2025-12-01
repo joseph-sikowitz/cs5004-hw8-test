@@ -24,11 +24,11 @@ public class AdventureGameGraphicView extends JFrame
   private JTextArea statusText;
   private JList<String> inventoryText;
 
-  private static final String CAPTION = "Adventure Game";
+  private static final String DEFAULT_CAPTION = "Adventure Game";
   private static final String SPLASH_IMAGE = "resources/images/game_engine.png";
 
   public AdventureGameGraphicView() {
-    super(CAPTION);
+    super();
 
     this.setSize(1000, 750);
     this.setLocation(50, 50);
@@ -184,7 +184,6 @@ public class AdventureGameGraphicView extends JFrame
     this.descriptionText.setText(roomDescription);
   }
 
-
   @Override
   public void updateInventory(List<String> data) throws IOException {
     String[] inventoryItems = data.toArray(new String[0]);
@@ -204,7 +203,7 @@ public class AdventureGameGraphicView extends JFrame
 
   @Override
   public void updateFixtures(List<String> data) throws IOException {
-
+    String fixtures = String.join(", ", data);
   }
 
   @Override
@@ -214,6 +213,10 @@ public class AdventureGameGraphicView extends JFrame
 
   @Override
   public void updateTitle(String data) throws IOException {
-
+    if (data.isEmpty()) {
+      this.setTitle(DEFAULT_CAPTION);
+    } else {
+      this.setTitle(data);
+    }
   }
 }
