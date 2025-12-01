@@ -91,11 +91,6 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
   }
 
   @Override
-  public void updateExaminer(List<String> data) throws IOException {
-
-  }
-
-  @Override
   public void updateInventory(List<String> data) throws IOException {
     this.gameView.updateInventory(data);
   }
