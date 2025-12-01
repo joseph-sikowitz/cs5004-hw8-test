@@ -25,15 +25,18 @@ public class EndOfTurnActionsCommand extends AbstractCommand {
     //if there is a Monster in the room, have it "affect" the Player in the model.
     //message.add(this.model.affectPlayer());
     this.processor.updatePlayerAffector(this.model.affectPlayer());
-    //display player's health status if it has changed since last command.
-    if (this.model.changeInPlayerHealthStatus())
+
+    if (this.model.changeInPlayerHealthStatus() || this.model.changeInPlayerScore()
+            || this.model.changeInPlayerRank()) {
+      //display player's health status if it has changed since last command.
       message.add(this.model.getPlayerHealthStatus());
-    //display player's score if it has changed since last command.
-    if (this.model.changeInPlayerScore())
+      //display player's score if it has changed since last command.
       message.add(this.model.getPlayerScoreFormatted());
-    //display player's rank if it has changed since last command.
-    if (this.model.changeInPlayerRank())
+      //display player's rank if it has changed since last command.
       message.add(this.model.getPlayerRank());
+    }
+
+
     this.processor.updatePlayerStats(message);
     boolean gameRunnable = super.execute();
     if (!gameRunnable)
