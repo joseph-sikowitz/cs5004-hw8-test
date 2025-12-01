@@ -128,7 +128,10 @@ public class GameTextInputOutputProcessor implements GameInputOutputProcessor {
 
   @Override
   public void updateInventory(List<String> data) throws IOException {
-    this.gameView.updateInventory(String.join(", ", data) + "\n");
+    if (data.isEmpty())
+      this.gameView.updateInventory("You have no items in your inventory!\n");
+    else
+      this.gameView.updateInventory(String.join(", ", data) + "\n");
   }
 
   @Override
