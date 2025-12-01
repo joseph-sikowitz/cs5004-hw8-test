@@ -98,21 +98,6 @@ public class GameTextInputOutputProcessor implements GameInputOutputProcessor {
     return command.split(delimiter, COMMAND_LIMIT);
   }
 
-  /**
-   * Concatenates a List of Strings into a single String with a delimiter.
-   * @param data a List of Strings
-   * @param delimiter A String representing the delimiter to concatenate between elements.
-   * @return a String with names of elements separated by commas.
-   */
-  private String concatenateList(List<String> data, String delimiter) {
-    StringBuilder elements = new StringBuilder();
-    if (data.isEmpty())
-      return "";
-    String lastElement = data.removeLast();
-    return data.stream().map((element) -> element + delimiter)
-            .reduce(elements, StringBuilder::append,
-            StringBuilder::append).append(lastElement).append("\n").toString();
-  }
 
   @Override
   public void messageToPlayer(List<String> data) throws IOException {
@@ -126,7 +111,7 @@ public class GameTextInputOutputProcessor implements GameInputOutputProcessor {
 
   @Override
   public void updatePlayerStats(List<String> data) throws IOException {
-    this.gameView.updatePlayerStats(concatenateList(data, "\n"));
+    this.gameView.updatePlayerStats(String.join("\n", data) + "\n");
   }
 
   @Override
@@ -135,7 +120,7 @@ public class GameTextInputOutputProcessor implements GameInputOutputProcessor {
     data.removeFirst();
     //remove picture path
     data.removeLast();
-    this.gameView.updateRoom(concatenateList(data, "\n"));
+    this.gameView.updateRoom(String.join("\n", data) + "\n");
   }
 
   @Override
@@ -145,7 +130,7 @@ public class GameTextInputOutputProcessor implements GameInputOutputProcessor {
 
   @Override
   public void updateInventory(List<String> data) throws IOException {
-    this.gameView.updateInventory(concatenateList(data, ", "));
+    this.gameView.updateInventory(String.join(", ", data) + "\n");
   }
 
   @Override
