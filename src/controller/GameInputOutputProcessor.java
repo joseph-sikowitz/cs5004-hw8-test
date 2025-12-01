@@ -118,4 +118,11 @@ public interface GameInputOutputProcessor {
    * @param commands Map of user commands.
    */
   void setUserCommands(Map<UserCommands, ICommand> commands);
+
+  /**
+   * Sets endOfTurnActions for the processor.
+   *
+   * @param endOfTurnActions ICommand of action to take at end of turn.
+   */
+  void setEndOfTurnActions(ICommand endOfTurnActions);
 }
