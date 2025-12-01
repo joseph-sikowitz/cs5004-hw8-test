@@ -21,6 +21,7 @@ public class AdventureGameModel implements IAdventureGameModel {
 
   // constants
   private String gameFileName;
+  private String gameName;
   private String playerName;
   private Player player;
   private double playersLastHealth;
@@ -79,6 +80,7 @@ public class AdventureGameModel implements IAdventureGameModel {
             : new FileProcessor(this.gameFileName);
     this.player = this.fileProcessor.setUpGame();
     this.warnings = this.fileProcessor.getGameFileWarnings();
+    this.gameName = this.fileProcessor.getName();
     this.activeRoomName = this.player.getActiveRoom().getName();
   }
 
@@ -317,6 +319,21 @@ public class AdventureGameModel implements IAdventureGameModel {
   @Override
   public String getPlayerName() {
     return this.player.getName();
+  }
+
+  @Override
+  public List<String> getFixturesInRoom() {
+    return this.getElementNames(this.player.getActiveRoom().getFixtures());
+  }
+
+  @Override
+  public List<String> getItemsInRoom() {
+    return this.getElementNames(this.player.getActiveRoom().getItems());
+  }
+
+  @Override
+  public String getGameName() {
+    return this.gameName;
   }
 
   @Override

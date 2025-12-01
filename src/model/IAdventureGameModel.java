@@ -228,4 +228,23 @@ public interface IAdventureGameModel {
   String getPlayerName();
 
 
+  /**
+   * Returns the Fixtures in the Player's activeRoom.
+   * @return List of names of Fixtures in activeRoom.
+   */
+  List<String> getFixturesInRoom();
+
+  /**
+   * Returns the Items in the Player's activeRoom.
+   * @return List of names of Items in the activeRoom.
+   */
+  List<String> getItemsInRoom();
+
+  /**
+   * Returns the name of the Game.
+   * @return a String with the name of the game.
+   */
+  String getGameName();
+
+
 }
