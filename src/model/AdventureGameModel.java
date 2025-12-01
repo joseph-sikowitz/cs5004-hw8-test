@@ -169,10 +169,7 @@ public class AdventureGameModel implements IAdventureGameModel {
   @Override
   public List<String> checkInventory() {
     //String playerInventory = getElementNamesConcatenated(this.player.getInventory());
-    List<String> playerInventory = getElementNames(this.player.getInventory());
-    if (playerInventory.isEmpty())
-      playerInventory.add("You have no items in your inventory!");
-    return playerInventory;
+    return getElementNames(this.player.getInventory());
   }
 
   @Override
@@ -182,21 +179,9 @@ public class AdventureGameModel implements IAdventureGameModel {
     roomDescription += activeRoom.getDescription();
     this.firstDisplay = false;
     Puzzle enemy = this.player.getActiveRoom().getRoomEnvironmentAffector();
-    String picture = (enemy != null && enemy.isActive()) ? enemy.getPicturePath() : this.player.getActiveRoom().getPicturePath();
+    String picture = (enemy != null && enemy.isActive()) ? enemy.getPicturePath()
+            : this.player.getActiveRoom().getPicturePath();
 
-    //hide visibility of items.
-    if (activeRoom.getRoomEnvironmentAffector() != null
-            && activeRoom.affectorAffectsPlayer()) {
-      return  new ArrayList<>(Arrays.asList(this.getRoomName(), roomDescription,
-             picture));
-    }
-
-    String fixtures = getElementNamesConcatenated(activeRoom.getFixtures());
-    String fixturesFormatted = fixtures.isEmpty() ? "" : "Fixtures you see here: "
-            + fixtures + "\n";
-    String items = getElementNamesConcatenated(activeRoom.getItems());
-    String itemsFormatted = items.isEmpty() ? "" : "Items you see here: " + items;
-    roomDescription += "\n" + fixturesFormatted + itemsFormatted;
     return new ArrayList<>(Arrays.asList(this.getRoomName(), roomDescription,
             picture));
   }
@@ -323,11 +308,17 @@ public class AdventureGameModel implements IAdventureGameModel {
 
   @Override
   public List<String> getFixturesInRoom() {
+    if (this.player.getActiveRoom().getRoomEnvironmentAffector() != null
+            && this.player.getActiveRoom().affectorAffectsPlayer())
+        return new ArrayList<>();
     return this.getElementNames(this.player.getActiveRoom().getFixtures());
   }
 
   @Override
   public List<String> getItemsInRoom() {
+    if (this.player.getActiveRoom().getRoomEnvironmentAffector() != null
+            && this.player.getActiveRoom().affectorAffectsPlayer())
+      return new ArrayList<>();
     return this.getElementNames(this.player.getActiveRoom().getItems());
   }
 

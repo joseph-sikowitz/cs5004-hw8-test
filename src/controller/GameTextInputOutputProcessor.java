@@ -27,8 +27,6 @@ public class GameTextInputOutputProcessor implements GameInputOutputProcessor {
   private static final int COMMAND_LIMIT = 2;
   private static final int ONE_COMMAND_LENGTH = 1;
   private static final int TWO_COMMAND_LENGTH = 2;
-  private static final String QUIT_COMMAND = "quit";
-  private static final String Q_COMMAND = "q";
 
   /**
    * The GameTextInputOutputProcessor constructor takes a Readable source as its input
@@ -98,21 +96,6 @@ public class GameTextInputOutputProcessor implements GameInputOutputProcessor {
     return command.split(delimiter, COMMAND_LIMIT);
   }
 
-  /**
-   * Concatenates a List of Strings into a single String with a delimiter.
-   * @param data a List of Strings
-   * @param delimiter A String representing the delimiter to concatenate between elements.
-   * @return a String with names of elements separated by commas.
-   */
-  private String concatenateList(List<String> data, String delimiter) {
-    StringBuilder elements = new StringBuilder();
-    if (data.isEmpty())
-      return "";
-    String lastElement = data.removeLast();
-    return data.stream().map((element) -> element + delimiter)
-            .reduce(elements, StringBuilder::append,
-            StringBuilder::append).append(lastElement).append("\n").toString();
-  }
 
   @Override
   public void messageToPlayer(List<String> data) throws IOException {
@@ -126,7 +109,7 @@ public class GameTextInputOutputProcessor implements GameInputOutputProcessor {
 
   @Override
   public void updatePlayerStats(List<String> data) throws IOException {
-    this.gameView.updatePlayerStats(concatenateList(data, "\n"));
+    this.gameView.updatePlayerStats(String.join("\n", data) + "\n");
   }
 
   @Override
@@ -135,7 +118,7 @@ public class GameTextInputOutputProcessor implements GameInputOutputProcessor {
     data.removeFirst();
     //remove picture path
     data.removeLast();
-    this.gameView.updateRoom(concatenateList(data, "\n"));
+    this.gameView.updateRoom(String.join("\n", data) + "\n");
   }
 
   @Override
@@ -145,7 +128,10 @@ public class GameTextInputOutputProcessor implements GameInputOutputProcessor {
 
   @Override
   public void updateInventory(List<String> data) throws IOException {
-    this.gameView.updateInventory(concatenateList(data, ", "));
+    if (data.isEmpty())
+      this.gameView.updateInventory("You have no items in your inventory!\n");
+    else
+      this.gameView.updateInventory(String.join(", ", data) + "\n");
   }
 
   @Override
@@ -156,6 +142,26 @@ public class GameTextInputOutputProcessor implements GameInputOutputProcessor {
   @Override
   public void promptPlayer(String data) throws IOException {
     this.gameView.promptPlayer(data);
+  }
+
+  @Override
+  public void updateFixtures(List<String> data) throws IOException {
+    String fixtures = String.join(", ", data);
+    String fixturesFormatted = fixtures.isEmpty() ? "" : "Fixtures you see here: "
+            + fixtures + "\n";
+    this.gameView.updateFixtures(fixturesFormatted);
+  }
+
+  @Override
+  public void updateItems(List<String> data) throws IOException {
+    String items = String.join(", ", data);
+    String itemsFormatted = items.isEmpty() ? "" : "Items you see here: " + items + "\n";
+    this.gameView.updateItems(itemsFormatted);
+  }
+
+  @Override
+  public void updateTitle(String data) throws IOException {
+    this.gameView.updateTitle(data);
   }
 
   @Override

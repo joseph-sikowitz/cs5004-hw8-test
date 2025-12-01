@@ -24,6 +24,8 @@ public class TakeCommand extends AbstractCommand {
   public boolean execute() throws IOException {
     this.processor.messageToPlayer(Arrays.asList(this.model.takeItem(this.processor.getUserInputArgument()), null));
     this.processor.updateRoom(this.model.lookAround());
+    this.processor.updateFixtures(this.model.getFixturesInRoom());
+    this.processor.updateItems(this.model.getItemsInRoom());
     return super.execute();
   }
 }

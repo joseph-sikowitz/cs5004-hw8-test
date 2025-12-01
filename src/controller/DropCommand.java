@@ -23,6 +23,9 @@ public class DropCommand extends AbstractCommand {
   public boolean execute() throws IOException {
     this.processor.messageToPlayer(this.model.dropItem(this.processor.getUserInputArgument()));
     this.processor.updateRoom(this.model.lookAround());
+    this.processor.updateFixtures(this.model.getFixturesInRoom());
+    this.processor.updateItems(this.model.getItemsInRoom());
+
     return super.execute();
   }
 }
