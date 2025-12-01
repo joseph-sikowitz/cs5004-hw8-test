@@ -169,10 +169,7 @@ public class AdventureGameModel implements IAdventureGameModel {
   @Override
   public List<String> checkInventory() {
     //String playerInventory = getElementNamesConcatenated(this.player.getInventory());
-    List<String> playerInventory = getElementNames(this.player.getInventory());
-    if (playerInventory.isEmpty())
-      playerInventory.add("You have no items in your inventory!");
-    return playerInventory;
+    return getElementNames(this.player.getInventory());
   }
 
   @Override
