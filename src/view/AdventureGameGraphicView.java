@@ -179,10 +179,8 @@ public class AdventureGameGraphicView extends JFrame
   public void updateRoom(List<String> data) throws IOException {
     this.viewImage.setIcon(new ImageIcon(data.getLast()));
     // update description text here
-    String roomName = data.getFirst();
     String roomDescription = data.get(1);
-    String description = "Room name: " + roomName + "\n" + roomDescription;
-    this.descriptionText.setText(description);
+    this.descriptionText.setText(roomDescription);
   }
 
   @Override
