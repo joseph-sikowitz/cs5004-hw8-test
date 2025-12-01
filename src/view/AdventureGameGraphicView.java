@@ -159,6 +159,7 @@ public class AdventureGameGraphicView extends JFrame
     this.eastButton.addActionListener(actionListener);
     this.westButton.addActionListener(actionListener);
     this.southButton.addActionListener(actionListener);
+    this.answerButton.addActionListener(actionListener);
   }
 
   @Override
