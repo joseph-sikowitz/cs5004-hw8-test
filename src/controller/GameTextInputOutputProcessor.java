@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import utilities.UserCommands;
 import view.AdventureGameTextView;
@@ -157,6 +158,7 @@ public class GameTextInputOutputProcessor implements GameInputOutputProcessor {
     this.gameView.promptPlayer(data);
   }
 
-
+  @Override
+  public void setUserCommands(Map<UserCommands, ICommand> commands) {}
 
 }
