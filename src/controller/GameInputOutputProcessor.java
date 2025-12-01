@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import utilities.UserCommands;
 
@@ -110,4 +111,11 @@ public interface GameInputOutputProcessor {
    * @throws IOException If I/O error occurs.
    */
   void promptPlayer(String data) throws IOException;
+
+  /**
+   * Sets the user commands to use by the processor.
+   *
+   * @param commands Map of user commands.
+   */
+  void setUserCommands(Map<UserCommands, ICommand> commands);
 }
