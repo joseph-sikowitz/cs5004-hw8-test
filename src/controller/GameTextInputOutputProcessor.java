@@ -27,8 +27,6 @@ public class GameTextInputOutputProcessor implements GameInputOutputProcessor {
   private static final int COMMAND_LIMIT = 2;
   private static final int ONE_COMMAND_LENGTH = 1;
   private static final int TWO_COMMAND_LENGTH = 2;
-  private static final String QUIT_COMMAND = "quit";
-  private static final String Q_COMMAND = "q";
 
   /**
    * The GameTextInputOutputProcessor constructor takes a Readable source as its input
