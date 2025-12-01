@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.List;
 
-import javax.print.attribute.standard.MediaSize;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
@@ -19,6 +18,7 @@ public class AdventureGameGraphicView extends JFrame
   private final JButton southButton;
   private final JButton eastButton;
   private final JButton westButton;
+  private final JButton answerButton;
   private JLabel viewImage;
   private JTextArea descriptionText;
   private JTextArea statusText;
@@ -92,10 +92,11 @@ public class AdventureGameGraphicView extends JFrame
     JPanel buttonsPanel = new JPanel(new GridLayout(0, 3));
     JButton takeButton = new JButton("Take");
     JButton examineButton = new JButton("Examine");
-    JButton answerButton = new JButton("Answer");
+    this.answerButton = new JButton("Answer");
+    this.answerButton.setActionCommand("answer");
     buttonsPanel.add(takeButton);
     buttonsPanel.add(examineButton);
-    buttonsPanel.add(answerButton);
+    buttonsPanel.add(this.answerButton);
     actionsPanel.add(buttonsPanel);
     rightPanel.add(actionsPanel);
 
