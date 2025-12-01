@@ -159,6 +159,26 @@ public class GameTextInputOutputProcessor implements GameInputOutputProcessor {
   }
 
   @Override
+  public void updateFixtures(List<String> data) throws IOException {
+    String fixtures = String.join(", ", data);
+    String fixturesFormatted = fixtures.isEmpty() ? "" : "Fixtures you see here: "
+            + fixtures + "\n";
+    this.gameView.updateFixtures(fixturesFormatted);
+  }
+
+  @Override
+  public void updateItems(List<String> data) throws IOException {
+    String items = String.join(", ", data);
+    String itemsFormatted = items.isEmpty() ? "" : "Items you see here: " + items + "\n";
+    this.gameView.updateItems(itemsFormatted);
+  }
+
+  @Override
+  public void updateTitle(String data) throws IOException {
+    this.gameView.updateTitle(data);
+  }
+
+  @Override
   public void setUserCommands(Map<UserCommands, ICommand> commands) {}
 
   @Override

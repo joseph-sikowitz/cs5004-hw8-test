@@ -21,7 +21,9 @@ public class LookCommand extends AbstractCommand {
 
   @Override
   public boolean execute() throws IOException {
-    this.processor.updateRoom(model.lookAround());
+    this.processor.updateRoom(this.model.lookAround());
+    this.processor.updateFixtures(this.model.getFixturesInRoom());
+    this.processor.updateItems(this.model.getItemsInRoom());
     return super.execute();
   }
 }

@@ -1,6 +1,7 @@
 package view;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Scanner;
 
 import controller.GameTextInputOutputProcessor;
@@ -70,6 +71,21 @@ public class AdventureGameTextView implements
 
   @Override
   public void promptPlayer(String data) throws IOException {
+    this.out.append(data);
+  }
+
+  @Override
+  public void updateFixtures(String data) throws IOException {
+    this.out.append(data);
+  }
+
+  @Override
+  public void updateItems(String data) throws IOException {
+    this.out.append(data);
+  }
+
+  @Override
+  public void updateTitle(String data) throws IOException {
     this.out.append(data);
   }
 }

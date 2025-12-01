@@ -3,6 +3,7 @@ package view;
 
 
 import java.io.IOException;
+import java.util.List;
 
 import controller.GameInputOutputProcessor;
 import controller.GameTextInputOutputProcessor;
@@ -73,4 +74,28 @@ public interface IAdventureGameView<T, C extends GameInputOutputProcessor> {
    * @param data data to display.
    */
   void promptPlayer(String data) throws IOException;
+
+  /**
+   * Updates the list of Fixtures in the current Room.
+   * @param data data to display.
+   * @throws IOException If I/O error occurs.
+   */
+  void updateFixtures(T data) throws IOException;
+
+
+  /**
+   * Updates the list of Items in the current Room.
+   * @param data data to display.
+   * @throws IOException If I/O error occurs.
+   */
+  void updateItems(T data) throws IOException;
+
+
+  /**
+   * Displays the title of the game.
+   * @param data data to display.
+   * @throws IOException If I/O error occurs.
+   */
+  void updateTitle(String data) throws IOException;
+
 }

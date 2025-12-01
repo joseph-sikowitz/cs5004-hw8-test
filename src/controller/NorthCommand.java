@@ -23,8 +23,11 @@ public class NorthCommand extends AbstractCommand {
   public boolean execute() throws IOException {
     String response = this.model.movePlayerNorth();
     this.processor.messageToPlayer(response);
-    if (this.model.roomChanged())
+    if (this.model.roomChanged()) {
       this.processor.updateRoom(this.model.lookAround());
+      this.processor.updateFixtures(this.model.getFixturesInRoom());
+      this.processor.updateItems(this.model.getItemsInRoom());
+    }
     return super.execute();
   }
 }

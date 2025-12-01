@@ -38,6 +38,18 @@ public class GameEngineApp {
   private GameInputOutputProcessor ioProcessor;
 
   /**
+   * Old
+   * @param gameFileName
+   * @param source
+   * @param output
+   */
+  public GameEngineApp(String gameFileName, Readable source, Appendable output) {
+    this.gameFileName = gameFileName;
+    this.source = source;
+    this.output = output;
+  }
+
+  /**
    * The constructor for the GameEngineApp initializes its attributes and instantiates
    * a GameEngineApp object.
    *
@@ -48,9 +60,6 @@ public class GameEngineApp {
     this.gameFileName = gameFileName;
     this.ioProcessor = ioProcessor;
   }
-
-
-
 
   /**
    * The start() method creates the game and controller and tells the controller to

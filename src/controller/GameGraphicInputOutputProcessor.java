@@ -113,6 +113,21 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
   }
 
   @Override
+  public void updateFixtures(List<String> data) throws IOException {
+
+  }
+
+  @Override
+  public void updateItems(List<String> data) throws IOException {
+
+  }
+
+  @Override
+  public void updateTitle(String data) throws IOException {
+
+  }
+
+  @Override
   public void actionPerformed(ActionEvent e) {
     this.executeCommand(e.getActionCommand());
   }

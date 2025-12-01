@@ -22,8 +22,11 @@ public class UseCommand extends AbstractCommand {
   @Override
   public boolean execute() throws IOException {
      this.processor.messageToPlayer(Arrays.asList(model.useItem(this.processor.getUserInputArgument()), null));
-     if (this.model.roomChanged())
+     if (this.model.roomChanged()) {
        this.processor.updateRoom(this.model.lookAround());
+       this.processor.updateFixtures(model.getFixturesInRoom());
+       this.processor.updateItems(model.getItemsInRoom());
+     }
     return super.execute();
   }
 }
