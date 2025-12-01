@@ -84,12 +84,6 @@ public interface GameInputOutputProcessor {
    */
   void updateRoom(List<String> data) throws IOException;
 
-  /**
-   * Updates the Elements that the Player can examine.
-   * @param data the data to display.
-   * @throws IOException If I/O error occurs.
-   */
-  void updateExaminer(List<String> data) throws IOException;
 
   /**
    * Updates the Player's inventory.
@@ -127,6 +121,13 @@ public interface GameInputOutputProcessor {
    */
   void updateItems(List<String> data) throws IOException;
 
+
+  /**
+   * Displays the title of the game.
+   * @param data data to display.
+   * @throws IOException If I/O error occurs.
+   */
+  void updateTitle(String data) throws IOException;
 
   /**
    * Sets the user commands to use by the processor.
