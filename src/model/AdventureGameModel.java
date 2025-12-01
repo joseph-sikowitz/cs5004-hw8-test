@@ -179,12 +179,14 @@ public class AdventureGameModel implements IAdventureGameModel {
     String roomDescription = firstDisplay ? "You start in " + activeRoom.getName() + ":\n" : "";
     roomDescription += activeRoom.getDescription();
     this.firstDisplay = false;
+    Puzzle enemy = this.player.getActiveRoom().getRoomEnvironmentAffector();
+    String picture = (enemy != null && enemy.isActive()) ? enemy.getPicturePath() : this.player.getActiveRoom().getPicturePath();
 
     //hide visibility of items.
     if (activeRoom.getRoomEnvironmentAffector() != null
             && activeRoom.affectorAffectsPlayer()) {
       return  new ArrayList<>(Arrays.asList(this.getRoomName(), roomDescription,
-              this.player.getActiveRoom().getPicturePath()));
+             picture));
     }
 
     String fixtures = getElementNamesConcatenated(activeRoom.getFixtures());
@@ -194,7 +196,7 @@ public class AdventureGameModel implements IAdventureGameModel {
     String itemsFormatted = items.isEmpty() ? "" : "Items you see here: " + items;
     roomDescription += "\n" + fixturesFormatted + itemsFormatted;
     return new ArrayList<>(Arrays.asList(this.getRoomName(), roomDescription,
-            this.player.getActiveRoom().getPicturePath()));
+            picture));
   }
 
   /**
