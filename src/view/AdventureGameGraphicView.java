@@ -1,21 +1,32 @@
 package view;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
+import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.List;
 
-import javax.imageio.ImageIO;
+import javax.print.attribute.standard.MediaSize;
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 
 import controller.GameGraphicInputOutputProcessor;
 
 public class AdventureGameGraphicView extends JFrame
-        implements IAdventureGameView<String, GameGraphicInputOutputProcessor> {
+        implements IAdventureGameView<List<String>, GameGraphicInputOutputProcessor> {
 
   private String userInput;
+  private final JButton northButton;
+  private final JButton southButton;
+  private final JButton eastButton;
+  private final JButton westButton;
+  private JLabel viewImage;
+  private JTextArea descriptionText;
+  private JTextArea statusText;
+  private JList<String> inventoryText;
 
   private static final String CAPTION = "Adventure Game";
+  private static final String SPLASH_IMAGE = "resources/images/game_engine.png";
+  private static final String NAMED = "Thou shalt be named ";
 
   public AdventureGameGraphicView() {
     super(CAPTION);
@@ -30,18 +41,21 @@ public class AdventureGameGraphicView extends JFrame
     this.add(leftPanel);
 
     JPanel viewPanel = new JPanel();
-    JLabel viewLabel = new JLabel("View ");
-    viewPanel.add(viewLabel);
-    JLabel newImage = new JLabel(new ImageIcon("resources/images/game_engine.png"));
-    viewPanel.add(newImage);
+    TitledBorder viewBorder = BorderFactory.createTitledBorder("View");
+    viewPanel.setBorder(viewBorder);
+    this.viewImage = new JLabel(new ImageIcon(SPLASH_IMAGE));
+    this.viewImage.setPreferredSize(new Dimension(450, 300));
+    viewPanel.add(this.viewImage);
     leftPanel.add(viewPanel);
 
     JPanel descriptionPanel = new JPanel(new GridLayout(0, 1));
-    JLabel descriptionLabel = new JLabel("Description");
-    descriptionPanel.add(descriptionLabel);
-    JLabel descriptionText = new JLabel("description text goes here");
+    TitledBorder descriptionBorder = BorderFactory.createTitledBorder("Description");
+    descriptionPanel.setBorder(descriptionBorder);
+    this.descriptionText = new JTextArea(" ");
+    this.descriptionText.setLineWrap(true);
+    this.descriptionText.setPreferredSize(new Dimension(450, 300));
     JPanel descriptionDisplayBox = new JPanel();
-    descriptionDisplayBox.add(descriptionText);
+    descriptionDisplayBox.add(this.descriptionText, BorderLayout.SOUTH);
     descriptionPanel.add(descriptionDisplayBox);
     leftPanel.add(descriptionPanel);
 
@@ -49,25 +63,32 @@ public class AdventureGameGraphicView extends JFrame
     this.add(rightPanel);
 
     JPanel navigationPanel = new JPanel(new GridLayout(0, 1));
-    JLabel navigationLabel = new JLabel("Navigation");
-    navigationPanel.add(navigationLabel);
+    TitledBorder navBorder = BorderFactory.createTitledBorder("Navigation");
+    navigationPanel.setBorder(navBorder);
     JPanel buttonPanel = new JPanel(new GridLayout(0, 1));
-    JButton northButton = new JButton(new ImageIcon("resources/images/north.png"));
+    this.northButton = new JButton(new ImageIcon("resources/images/north.png"));
+    this.northButton.setActionCommand("north");
     buttonPanel.add(northButton);
+
     JPanel eastWestPanel = new JPanel(new GridLayout(1, 2));
-    JButton eastButton = new JButton(new ImageIcon("resources/images/west.png"));
-    JButton westButton = new JButton(new ImageIcon("resources/images/east.png"));
-    eastWestPanel.add(eastButton);
-    eastWestPanel.add(westButton);
+    this.westButton = new JButton(new ImageIcon("resources/images/west.png"));
+    this.westButton.setActionCommand("west");
+    eastWestPanel.add(this.westButton);
+
+    this.eastButton = new JButton(new ImageIcon("resources/images/east.png"));
+    this.eastButton.setActionCommand("east");
+    eastWestPanel.add(this.eastButton);
     buttonPanel.add(eastWestPanel);
-    JButton southButton = new JButton(new ImageIcon("resources/images/south.png"));
-    buttonPanel.add(southButton);
+
+    this.southButton = new JButton(new ImageIcon("resources/images/south.png"));
+    this.southButton.setActionCommand("south");
+    buttonPanel.add(this.southButton);
     navigationPanel.add(buttonPanel);
     rightPanel.add(navigationPanel);
 
     JPanel actionsPanel = new JPanel(new GridLayout(2, 1));
-    JLabel actionsLabel = new JLabel("Actions");
-    actionsPanel.add(actionsLabel);
+    TitledBorder actionsBorder = BorderFactory.createTitledBorder("Actions");
+    actionsPanel.setBorder(actionsBorder);
     JPanel buttonsPanel = new JPanel(new GridLayout(0, 3));
     JButton takeButton = new JButton("Take");
     JButton examineButton = new JButton("Examine");
@@ -79,12 +100,11 @@ public class AdventureGameGraphicView extends JFrame
     rightPanel.add(actionsPanel);
 
     JPanel inventoryPanel = new JPanel(new GridLayout(0, 1));
-    JLabel inventoryLabel = new JLabel("Inventory");
-    inventoryPanel.add(inventoryLabel);
-    JPanel inventoryDisplayBox = new JPanel();
-    JLabel inventoryDisplayLabel = new JLabel("Inventory Display goes here");
-    inventoryDisplayBox.add(inventoryDisplayLabel);
-    inventoryPanel.add(inventoryDisplayBox);
+    TitledBorder inventoryBorder = BorderFactory.createTitledBorder("Inventory");
+    inventoryPanel.setBorder(inventoryBorder);
+    String[] inventoryItems = {};
+    this.inventoryText = new JList<>(inventoryItems);
+    inventoryPanel.add(this.inventoryText);
     JPanel inventoryButtonPanel = new JPanel(new GridLayout(0, 3));
     JButton inspectButton = new JButton("Inspect");
     JButton useButton = new JButton("Use");
@@ -96,15 +116,12 @@ public class AdventureGameGraphicView extends JFrame
     rightPanel.add(inventoryPanel);
 
     JPanel statusPanel = new JPanel(new GridLayout(0, 1));
-    JLabel statusLabel = new JLabel("Status");
-    statusPanel.add(statusLabel);
-    JPanel statusDisplayBox = new JPanel();
-    JLabel statusDisplayLabel = new JLabel("Player Status Display goes here");
-    statusDisplayBox.add(statusDisplayLabel);
-    statusPanel.add(statusDisplayBox);
+    TitledBorder statusBorder = BorderFactory.createTitledBorder("Status");
+    statusPanel.setBorder(statusBorder);
+    this.statusText = new JTextArea(" ");
+    this.statusText.setPreferredSize(new Dimension(450, 25));
+    statusPanel.add(this.statusText);
     rightPanel.add(statusPanel);
-
-    this.display();
   }
 
   private JMenuBar buildMenu() {
@@ -133,7 +150,14 @@ public class AdventureGameGraphicView extends JFrame
 
   @Override
   public void setEventHandler(GameGraphicInputOutputProcessor ioProcessor) {
+    this.setActionListener(ioProcessor);
+  }
 
+  private void setActionListener(ActionListener actionListener) {
+    this.northButton.addActionListener(actionListener);
+    this.eastButton.addActionListener(actionListener);
+    this.westButton.addActionListener(actionListener);
+    this.southButton.addActionListener(actionListener);
   }
 
   @Override
@@ -142,37 +166,45 @@ public class AdventureGameGraphicView extends JFrame
   }
 
   @Override
-  public void messageToPlayer(String data) throws IOException {
-    JOptionPane.showMessageDialog(this, data);
+  public void messageToPlayer(List<String> data) throws IOException {
+    JOptionPane.showMessageDialog(this, data.getFirst());
   }
 
   @Override
-  public void updatePlayerStats(String data) throws IOException {
+  public void updatePlayerStats(List<String> data) throws IOException {
+    this.statusText.setText(data.getFirst());
+  }
+
+  @Override
+  public void updateRoom(List<String> data) throws IOException {
+    this.viewImage.setIcon(new ImageIcon(data.getLast()));
+    // update description text here
+    String roomName = data.getFirst();
+    String roomDescription = data.get(1);
+    String description = "Room name: " + roomName + "\n" + roomDescription;
+    this.descriptionText.setText(description);
+  }
+
+  @Override
+  public void updateExaminer(List<String> data) throws IOException {
 
   }
 
   @Override
-  public void updateRoom(String data) throws IOException {
-
+  public void updateInventory(List<String> data) throws IOException {
+    String[] inventoryItems = data.toArray(new String[0]);
+    this.inventoryText.setListData(inventoryItems);
   }
 
   @Override
-  public void updateExaminer(String data) throws IOException {
-
-  }
-
-  @Override
-  public void updateInventory(String data) throws IOException {
-
-  }
-
-  @Override
-  public void updatePlayerAffector(String data) throws IOException {
-
+  public void updatePlayerAffector(List<String> data) throws IOException {
+    //this.descriptionText.setText(data.getFirst());
   }
 
   @Override
   public void promptPlayer(String data) throws IOException {
     this.userInput = JOptionPane.showInputDialog(this, data);
+    JOptionPane.showMessageDialog(this, NAMED + this.userInput);
+    this.display();
   }
 }

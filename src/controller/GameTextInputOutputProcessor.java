@@ -44,7 +44,7 @@ public class GameTextInputOutputProcessor implements GameInputOutputProcessor {
 
 
   @Override
-  public boolean getUserInput() throws IOException {
+  public boolean getUserCommand() throws IOException {
     try {
       this.gameView.messageToPlayer(UserPrompts.BASIC_PROMPT.getPrompt());
       this.gameView.messageToPlayer(UserPrompts.USER_CHOICE.getPrompt());
