@@ -55,11 +55,6 @@ public class AdventureGameTextView implements
   }
 
   @Override
-  public void updateExaminer(String data) throws IOException {
-    this.out.append(data);
-  }
-
-  @Override
   public void updateInventory(String data) throws IOException {
     this.out.append(data);
   }
