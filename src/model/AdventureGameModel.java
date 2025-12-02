@@ -253,7 +253,7 @@ public class AdventureGameModel implements IAdventureGameModel {
       returnMessage += "\nYou take " + decimalFormat.format(enemy.getDamage()) + " damage!";
       return new ArrayList<>(Arrays.asList(returnMessage,  enemy.getPicturePath()));
     }
-    return new ArrayList<>(Arrays.asList("", null));
+    return new ArrayList<>();
   }
 
   @Override
