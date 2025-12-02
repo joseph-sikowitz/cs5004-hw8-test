@@ -14,7 +14,8 @@ import view.IAdventureGameView;
 public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor, ActionListener {
 
   private final IAdventureGameView<List<String>, GameGraphicInputOutputProcessor> gameView;
-  private String userCommand;
+  private UserCommands userCommand;
+  private String rawUserCommand;
   private Map<UserCommands, ICommand> commands;
   private ICommand endOfTurnActions;
   private List<String> roomData;
@@ -27,7 +28,7 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
           + System.getProperty("file.separator");
 
   public GameGraphicInputOutputProcessor() {
-    this.userCommand = "";
+    this.rawUserCommand = "";
     this.gameView = new AdventureGameGraphicView();
     this.gameView.setEventHandler(this);
   }
@@ -44,15 +45,21 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
 
   @Override
   public UserCommands getUserInputCommand() {
-    UserCommands command = UserCommands.findUserCommand(this.getRawUserInputCommand(),
-            "");
-    this.userCommand = "";
-    return command;
+    //UserCommands command = UserCommands.findUserCommand(this.getRawUserInputCommand(), "");
+    //this.userCommand = "";
+    this.userCommand = UserCommands.findUserCommand(this.getRawUserInputCommand(), this.getUserInputArgument());
+    //System.out.println(this.userCommand);
+    synchronized (this) {
+      ;
+    }
+    return this.userCommand;
   }
 
   @Override
   public String getRawUserInputCommand() {
-    return this.userCommand;
+    String rawUserCommand = this.rawUserCommand;
+    this.rawUserCommand = null;
+    return rawUserCommand;
   }
 
   @Override
@@ -140,7 +147,8 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
 
   @Override
   public void actionPerformed(ActionEvent e) {
-    this.executeCommand(e.getActionCommand());
+    //this.executeCommand(e.getActionCommand());
+    this.rawUserCommand = e.getActionCommand();
   }
 
   private void executeCommand(String actionCommand) {
