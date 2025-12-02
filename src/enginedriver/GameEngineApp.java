@@ -38,15 +38,13 @@ public class GameEngineApp {
   private GameInputOutputProcessor ioProcessor;
 
   /**
-   * Old
-   * @param gameFileName
-   * @param source
-   * @param output
+   * Constructor Initializes a Text-Based View with a given Readable and Appendable.
+   * @param gameFileName String of an adventure game file.
+   * @param source a Readable to read inputs from.
+   * @param output an Appendable to append outputs to.
    */
   public GameEngineApp(String gameFileName, Readable source, Appendable output) {
-    this.gameFileName = gameFileName;
-    this.source = source;
-    this.output = output;
+    this(gameFileName, new GameTextInputOutputProcessor(source, output));
   }
 
   /**
@@ -112,7 +110,8 @@ public class GameEngineApp {
 
       switch (option) {
         case TEXT:
-          ioProcessor = new GameTextInputOutputProcessor(new InputStreamReader(System.in), System.out);
+          ioProcessor = new GameTextInputOutputProcessor(
+                  new InputStreamReader(System.in), System.out);
           break;
         case GRAPHICS:
           ioProcessor = new GameGraphicInputOutputProcessor();
