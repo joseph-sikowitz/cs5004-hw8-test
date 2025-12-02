@@ -24,6 +24,8 @@ public class AdventureGameGraphicView extends JFrame
   private TakeListener takeListener;
 
   private final JButton examineButton;
+  private ExamineListener examineListener;
+
   private JLabel viewImage;
   private JTextArea descriptionText;
   private JTextArea statusText;
@@ -102,6 +104,8 @@ public class AdventureGameGraphicView extends JFrame
     this.takeButton.addActionListener(this.takeListener);
 
     this.examineButton = new JButton("Examine");
+    this.examineListener = new ExamineListener(this.items, this.fixtures);
+    this.examineButton.addActionListener(this.examineListener);
 
     this.answerButton = new JButton("Answer");
     this.answerButton.setActionCommand("answer");
@@ -216,6 +220,9 @@ public class AdventureGameGraphicView extends JFrame
   @Override
   public void updateFixtures(List<String> data) throws IOException {
     this.fixtures = data;
+    this.examineButton.removeActionListener(this.examineListener);
+    this.examineListener = new ExamineListener(this.items, this.fixtures);
+    this.examineButton.addActionListener(this.examineListener);
   }
 
   @Override
@@ -224,6 +231,9 @@ public class AdventureGameGraphicView extends JFrame
     this.takeButton.removeActionListener(this.takeListener);
     this.takeListener = new TakeListener(this.items);
     this.takeButton.addActionListener(this.takeListener);
+    this.examineButton.removeActionListener(this.examineListener);
+    this.examineListener = new ExamineListener(this.items, this.fixtures);
+    this.examineButton.addActionListener(this.examineListener);
   }
 
   @Override
