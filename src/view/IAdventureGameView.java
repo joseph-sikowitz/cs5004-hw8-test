@@ -55,12 +55,6 @@ public interface IAdventureGameView<T, C extends GameInputOutputProcessor> {
    */
   void updateInventory(T data) throws IOException;
 
-  /**
-   * Updates the player Affector.
-   * @param data the data to display.
-   * @throws IOException If I/O error occurs.
-   */
-  void updatePlayerAffector(T data) throws IOException;
 
   /**
    * Displays data to user and Asks user to input text.

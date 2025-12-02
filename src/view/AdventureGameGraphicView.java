@@ -207,11 +207,6 @@ public class AdventureGameGraphicView extends JFrame
   }
 
   @Override
-  public void updatePlayerAffector(List<String> data) throws IOException {
-    //this.descriptionText.setText(data.getFirst());
-  }
-
-  @Override
   public void promptPlayer(String data) throws IOException {
     this.userInput = JOptionPane.showInputDialog(this, data);
     this.display();

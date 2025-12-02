@@ -131,11 +131,6 @@ public class GameTextInputOutputProcessor implements GameInputOutputProcessor {
   }
 
   @Override
-  public void updatePlayerAffector(List<String> data) throws IOException {
-    this.gameView.updatePlayerAffector(data.getFirst() + "\n");
-  }
-
-  @Override
   public void promptPlayer(String data) throws IOException {
     this.gameView.promptPlayer(data);
   }

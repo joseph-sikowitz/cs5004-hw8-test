@@ -16,6 +16,7 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
   private final IAdventureGameView<List<String>, GameGraphicInputOutputProcessor> gameView;
   private UserCommands userCommand;
   private String rawUserCommand;
+  private String userInputArgument;
   private Map<UserCommands, ICommand> commands;
   private ICommand endOfTurnActions;
   private List<String> roomData;
@@ -29,6 +30,7 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
 
   public GameGraphicInputOutputProcessor() {
     this.rawUserCommand = null;
+    this.userInputArgument = null;
     this.gameView = new AdventureGameGraphicView();
     this.gameView.setEventHandler(this);
   }
@@ -103,12 +105,6 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
     this.gameView.updateInventory(data);
   }
 
-  @Override
-  public void updatePlayerAffector(List<String> data) throws IOException {
-    String affectorList = String.join("\n", data);
-    data.addFirst(affectorList);
-    this.gameView.updatePlayerAffector(data);
-  }
 
   @Override
   public void promptPlayer(String data) throws IOException {
@@ -146,6 +142,7 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
   public synchronized void actionPerformed(ActionEvent e) {
     //this.executeCommand(e.getActionCommand());
     this.rawUserCommand = e.getActionCommand();
+    this.userInputArgument = null;
   }
 
   private void executeCommand(String actionCommand) {

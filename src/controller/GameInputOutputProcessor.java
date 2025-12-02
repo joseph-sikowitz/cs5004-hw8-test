@@ -92,12 +92,6 @@ public interface GameInputOutputProcessor {
    */
   void updateInventory(List<String> data) throws IOException;
 
-  /**
-   * Updates the player Affector.
-   * @param data the data to display.
-   * @throws IOException If I/O error occurs.
-   */
-  void updatePlayerAffector(List<String> data) throws IOException;
 
   /**
    * Displays data to user and Asks user to input text.
