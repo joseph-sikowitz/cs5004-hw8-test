@@ -28,7 +28,7 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
           + System.getProperty("file.separator");
 
   public GameGraphicInputOutputProcessor() {
-    this.rawUserCommand = "";
+    this.rawUserCommand = null;
     this.gameView = new AdventureGameGraphicView();
     this.gameView.setEventHandler(this);
   }
