@@ -48,11 +48,16 @@ public class GameController implements Controller {
       UserCommands userCommand = UserCommands.LOOK;
       while (gameRunnable && this.commands.get(userCommand).execute()
               && this.executeEndOfTurnActions(userCommand.isPlayerCommand())) {
-        //get user input while commands can be executed.
-        if (!this.ioProcessor.getUserCommand()) //TODO: refactor this such that getUserCommand throws the IOException.
-          throw new IOException();
+
         //uses command structure in commands Map instead of if/else
-        userCommand = this.ioProcessor.getUserInputCommand();
+        do {
+          //get user input while commands can be executed.
+          if (!this.ioProcessor.getUserCommand()) //TODO: refactor this such that getUserCommand throws the IOException.
+            throw new IOException();
+          userCommand = this.ioProcessor.getUserInputCommand();
+        }
+        while (userCommand == UserCommands.WAIT);
+
       }
     }
     catch (IOException e) {
@@ -114,6 +119,7 @@ public class GameController implements Controller {
     this.commands.put(UserCommands.INVALID_COMMAND, new InvalidCommand(null, this.ioProcessor));
     this.commands.put(UserCommands.INVALID_COMMAND_ARGUMENT,
             new InvalidArgumentCommand(null, this.ioProcessor));
+    this.commands.put(UserCommands.WAIT, new WaitCommand(model, this.ioProcessor));
   }
 
 }
