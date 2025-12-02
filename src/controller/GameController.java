@@ -20,7 +20,7 @@ public class GameController implements Controller {
 
   // attributes
   private Map<UserCommands, ICommand> commands;
-  private GameInputOutputProcessor ioProcessor;
+  private final GameInputOutputProcessor ioProcessor;
   private ICommand startGameCommand;
   private ICommand endOfTurnActions;
 
@@ -48,6 +48,9 @@ public class GameController implements Controller {
       UserCommands userCommand = UserCommands.LOOK;
       while (gameRunnable && this.commands.get(userCommand).execute()
               && this.executeEndOfTurnActions(userCommand.isPlayerCommand())) {
+        synchronized (this.ioProcessor) {
+          ;
+        }
 
         //uses command structure in commands Map instead of if/else
         do {
