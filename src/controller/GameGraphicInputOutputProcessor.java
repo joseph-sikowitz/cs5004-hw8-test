@@ -44,14 +44,11 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
   }
 
   @Override
-  public UserCommands getUserInputCommand() {
+  public synchronized UserCommands getUserInputCommand() {
     //UserCommands command = UserCommands.findUserCommand(this.getRawUserInputCommand(), "");
     //this.userCommand = "";
     this.userCommand = UserCommands.findUserCommand(this.getRawUserInputCommand(), this.getUserInputArgument());
     //System.out.println(this.userCommand);
-    synchronized (this) {
-      ;
-    }
     return this.userCommand;
   }
 
@@ -146,7 +143,7 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
   }
 
   @Override
-  public void actionPerformed(ActionEvent e) {
+  public synchronized void actionPerformed(ActionEvent e) {
     //this.executeCommand(e.getActionCommand());
     this.rawUserCommand = e.getActionCommand();
   }

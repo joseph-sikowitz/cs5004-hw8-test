@@ -39,7 +39,7 @@ public class GameController implements Controller {
   }
 
   @Override
-  public void go() throws IOException {
+  public synchronized void go() throws IOException {
     try {
       //Run the start game command and check if next command is runnable.
       boolean gameRunnable = this.startGameCommand.execute();
@@ -48,9 +48,6 @@ public class GameController implements Controller {
       UserCommands userCommand = UserCommands.LOOK;
       while (gameRunnable && this.commands.get(userCommand).execute()
               && this.executeEndOfTurnActions(userCommand.isPlayerCommand())) {
-        synchronized (this.ioProcessor) {
-          ;
-        }
 
         //uses command structure in commands Map instead of if/else
         do {
