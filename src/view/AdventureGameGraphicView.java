@@ -3,6 +3,7 @@ package view;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.*;
@@ -19,10 +20,14 @@ public class AdventureGameGraphicView extends JFrame
   private final JButton eastButton;
   private final JButton westButton;
   private final JButton answerButton;
+  private final JButton takeButton;
+  private final JButton examineButton;
   private JLabel viewImage;
   private JTextArea descriptionText;
   private JTextArea statusText;
   private JList<String> inventoryText;
+  private List<String> fixtures;
+  private List<String> items;
 
   private static final String DEFAULT_CAPTION = "Adventure Game";
   private static final String SPLASH_IMAGE = "resources/images/game_engine.png";
@@ -89,8 +94,14 @@ public class AdventureGameGraphicView extends JFrame
     TitledBorder actionsBorder = BorderFactory.createTitledBorder("Actions");
     actionsPanel.setBorder(actionsBorder);
     JPanel buttonsPanel = new JPanel(new GridLayout(0, 3));
-    JButton takeButton = new JButton("Take");
-    JButton examineButton = new JButton("Examine");
+
+    this.takeButton = new JButton("Take");
+    this.takeButton.addActionListener(
+            event -> JOptionPane.showMessageDialog(this,
+                    new JScrollPane(this.convertToJList(this.items))));
+
+    this.examineButton = new JButton("Examine");
+
     this.answerButton = new JButton("Answer");
     this.answerButton.setActionCommand("answer");
     buttonsPanel.add(takeButton);
@@ -122,6 +133,11 @@ public class AdventureGameGraphicView extends JFrame
     this.statusText.setPreferredSize(new Dimension(450, 25));
     statusPanel.add(this.statusText);
     rightPanel.add(statusPanel);
+  }
+
+  private JList<String> convertToJList(List<String> data) {
+    String[] list = data.toArray(new String[0]);
+    return new JList<>(list);
   }
 
   private JMenuBar buildMenu() {
@@ -203,12 +219,12 @@ public class AdventureGameGraphicView extends JFrame
 
   @Override
   public void updateFixtures(List<String> data) throws IOException {
-    String fixtures = String.join(", ", data);
+    this.fixtures = data;
   }
 
   @Override
   public void updateItems(List<String> data) throws IOException {
-
+    this.items = data;
   }
 
   @Override
