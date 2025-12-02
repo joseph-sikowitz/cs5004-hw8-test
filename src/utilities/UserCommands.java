@@ -22,7 +22,8 @@ public enum UserCommands {
   RESTORE("restore", "restore", false, false),
   QUIT("quit", "q", false, false),
   INVALID_COMMAND(null, null, false, false),
-  INVALID_COMMAND_ARGUMENT(null, null, false, false);
+  INVALID_COMMAND_ARGUMENT(null, null, false, false),
+  WAIT(null, null, false, false);
 
   private final String command;
   private final String shortcut;
@@ -98,6 +99,6 @@ public enum UserCommands {
         }
       }
     }
-    return UserCommands.INVALID_COMMAND;
+    return command == null ? UserCommands.WAIT :  UserCommands.INVALID_COMMAND;
   }
 }
