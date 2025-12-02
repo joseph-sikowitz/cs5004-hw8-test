@@ -18,10 +18,12 @@ public class AdventureGameGraphicView extends JFrame
   private final JButton southButton;
   private final JButton eastButton;
   private final JButton westButton;
+
   private final JButton answerButton;
+  private AnswerListener answerListener;
 
   private final JButton takeButton;
-  private TakeListener takeListener;
+  private String takeCommand;
 
   private final JButton examineButton;
   private ExamineListener examineListener;
@@ -100,15 +102,18 @@ public class AdventureGameGraphicView extends JFrame
     JPanel buttonsPanel = new JPanel(new GridLayout(0, 3));
 
     this.takeButton = new JButton("Take");
-    this.takeListener = new TakeListener(this.items);
-    this.takeButton.addActionListener(this.takeListener);
+    this.takeButton.addActionListener(
+            e -> new TakeDialog(AdventureGameGraphicView.this).setVisible(true));
 
     this.examineButton = new JButton("Examine");
     this.examineListener = new ExamineListener(this.items, this.fixtures);
     this.examineButton.addActionListener(this.examineListener);
 
     this.answerButton = new JButton("Answer");
-    this.answerButton.setActionCommand("answer");
+    this.answerListener = new AnswerListener();
+    this.answerButton.addActionListener(this.answerListener);
+
+    //this.answerButton.setActionCommand("answer");
     buttonsPanel.add(takeButton);
     buttonsPanel.add(examineButton);
     buttonsPanel.add(this.answerButton);
@@ -220,6 +225,7 @@ public class AdventureGameGraphicView extends JFrame
   @Override
   public void updateFixtures(List<String> data) throws IOException {
     this.fixtures = data;
+
     this.examineButton.removeActionListener(this.examineListener);
     this.examineListener = new ExamineListener(this.items, this.fixtures);
     this.examineButton.addActionListener(this.examineListener);
@@ -228,9 +234,7 @@ public class AdventureGameGraphicView extends JFrame
   @Override
   public void updateItems(List<String> data) throws IOException {
     this.items = data;
-    this.takeButton.removeActionListener(this.takeListener);
-    this.takeListener = new TakeListener(this.items);
-    this.takeButton.addActionListener(this.takeListener);
+
     this.examineButton.removeActionListener(this.examineListener);
     this.examineListener = new ExamineListener(this.items, this.fixtures);
     this.examineButton.addActionListener(this.examineListener);
@@ -244,4 +248,31 @@ public class AdventureGameGraphicView extends JFrame
       this.setTitle(data);
     }
   }
+
+  private class TakeDialog extends JDialog {
+
+    public TakeDialog(JFrame parent) {
+      super(parent, "Take Item:", true);
+      if (items != null) {
+        String[] itemsArray = items.toArray(new String[0]);
+        JList<String> list = new JList<>();
+        list.setListData(itemsArray);
+        JScrollPane scrollPane = new JScrollPane(list);
+        JButton take = new JButton("Take");
+        take.addActionListener(event -> userInput = "take " + list.getSelectedValue());
+        JButton cancel = new JButton("Done");
+        cancel.addActionListener(event -> this.dispose());
+        this.add(scrollPane, BorderLayout.CENTER);
+        JPanel panel = new JPanel();
+        panel.add(take);
+        panel.add(cancel);
+        this.add(panel, BorderLayout.SOUTH);
+        this.setSize(200, 150);
+        this.setLocationRelativeTo(parent);
+        this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+      }
+    }
+  }
+
+
 }

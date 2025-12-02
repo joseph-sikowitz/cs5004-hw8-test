@@ -16,6 +16,7 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
   private final IAdventureGameView<List<String>, GameGraphicInputOutputProcessor> gameView;
   private UserCommands userCommand;
   private String rawUserCommand;
+  private String userInputCommand;
   private String userInputArgument;
   private Map<UserCommands, ICommand> commands;
   private ICommand endOfTurnActions;
@@ -51,7 +52,7 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
     //this.userCommand = "";
     this.userCommand = UserCommands.findUserCommand(this.getRawUserInputCommand(),
             this.getUserInputArgument());
-    //System.out.println(this.userCommand);
+    System.out.println(this.gameView.getCommand());
     return this.userCommand;
   }
 
