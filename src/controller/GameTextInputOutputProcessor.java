@@ -99,7 +99,8 @@ public class GameTextInputOutputProcessor implements GameInputOutputProcessor {
 
   @Override
   public void messageToPlayer(List<String> data) throws IOException {
-    this.gameView.messageToPlayer(data.getFirst() + "\n");
+    if (!data.isEmpty())
+      this.gameView.messageToPlayer(data.getFirst() + "\n");
   }
 
   @Override
