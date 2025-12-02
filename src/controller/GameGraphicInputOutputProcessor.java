@@ -49,7 +49,8 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
   public synchronized UserCommands getUserInputCommand() {
     //UserCommands command = UserCommands.findUserCommand(this.getRawUserInputCommand(), "");
     //this.userCommand = "";
-    this.userCommand = UserCommands.findUserCommand(this.getRawUserInputCommand(), this.getUserInputArgument());
+    this.userCommand = UserCommands.findUserCommand(this.getRawUserInputCommand(),
+            this.getUserInputArgument());
     //System.out.println(this.userCommand);
     return this.userCommand;
   }
