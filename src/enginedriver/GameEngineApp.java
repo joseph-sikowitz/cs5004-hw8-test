@@ -85,7 +85,7 @@ public class GameEngineApp {
         controller.go();
         break;
       case GRAPHICS:
-        controller.asyncGo();
+        controller.go();
         break;
       default:
         throw new IllegalArgumentException();
