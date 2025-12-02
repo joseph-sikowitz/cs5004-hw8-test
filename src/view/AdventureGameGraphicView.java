@@ -3,7 +3,6 @@ package view;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.*;
@@ -20,7 +19,10 @@ public class AdventureGameGraphicView extends JFrame
   private final JButton eastButton;
   private final JButton westButton;
   private final JButton answerButton;
+
   private final JButton takeButton;
+  private TakeListener takeListener;
+
   private final JButton examineButton;
   private JLabel viewImage;
   private JTextArea descriptionText;
@@ -96,9 +98,8 @@ public class AdventureGameGraphicView extends JFrame
     JPanel buttonsPanel = new JPanel(new GridLayout(0, 3));
 
     this.takeButton = new JButton("Take");
-    this.takeButton.addActionListener(
-            event -> JOptionPane.showMessageDialog(this,
-                    new JScrollPane(this.convertToJList(this.items))));
+    this.takeListener = new TakeListener(this.items);
+    this.takeButton.addActionListener(this.takeListener);
 
     this.examineButton = new JButton("Examine");
 
@@ -220,6 +221,9 @@ public class AdventureGameGraphicView extends JFrame
   @Override
   public void updateItems(List<String> data) throws IOException {
     this.items = data;
+    this.takeButton.removeActionListener(this.takeListener);
+    this.takeListener = new TakeListener(this.items);
+    this.takeButton.addActionListener(this.takeListener);
   }
 
   @Override
