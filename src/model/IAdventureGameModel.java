@@ -69,7 +69,7 @@ public interface IAdventureGameModel {
   /**
    * Concatenates and returns a String with the names of the Items in the Player's inventory.
    *
-   * @return a String with the names of the Items in the Player's inventory.
+   * @return List of Strings with the names of the Items in the Player's inventory.
    */
   List<String> checkInventory();
 
