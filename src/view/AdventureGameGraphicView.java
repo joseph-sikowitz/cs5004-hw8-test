@@ -15,10 +15,16 @@ import javax.swing.event.ListSelectionListener;
 
 import controller.GameGraphicInputOutputProcessor;
 
+/**
+ * The AdventureGameGraphicView class provides a GUI view for the adventure game.
+ * It extends JFrame in order to provide a holding window for the rest of the GUI
+ * functionality. It implements the IAdventureGameView interface in order to provide
+ * the expected functionality for an adventure game's view.
+ */
 public class AdventureGameGraphicView extends JFrame
         implements IAdventureGameView<List<String>, GameGraphicInputOutputProcessor> {
 
-  private GameGraphicInputOutputProcessor ioProcessor;
+  private final GameGraphicInputOutputProcessor ioProcessor;
   private String userInput;
   private String inventorySelection;
   private final JButton northButton;
@@ -44,6 +50,12 @@ public class AdventureGameGraphicView extends JFrame
   private static final String DEFAULT_CAPTION = "Adventure Game";
   private static final String SPLASH_IMAGE = "resources/images/game_engine.png";
 
+  /**
+   * The constructor initializes all the GUI view's JFrame elements.
+   *
+   * @param ioProcessor GameGraphicInputOutputProcessor is the action listener for
+   *                    events in the GUI.
+   */
   public AdventureGameGraphicView(GameGraphicInputOutputProcessor ioProcessor) {
     super();
 
@@ -127,31 +139,12 @@ public class AdventureGameGraphicView extends JFrame
             e -> new AnswerDialog(
                     AdventureGameGraphicView.this, answer).setVisible(true));
 
-    //this.answerButton.setActionCommand("answer");
     buttonsPanel.add(this.takeButton);
     buttonsPanel.add(this.examineButton);
     buttonsPanel.add(this.answerButton);
     actionsPanel.add(buttonsPanel);
     rightPanel.add(actionsPanel);
 
-    /*
-    JPanel inventoryPanel = new JPanel(new GridLayout(0, 1));
-    TitledBorder inventoryBorder = BorderFactory.createTitledBorder("Inventory");
-    inventoryPanel.setBorder(inventoryBorder);
-    String[] inventoryItems = {};
-    this.inventoryText = new JList<>(inventoryItems);
-    inventoryPanel.add(this.inventoryText);
-    this.inventoryText.addListSelectionListener(this);
-    JPanel inventoryButtonPanel = new JPanel(new GridLayout(0, 3));
-    this.inspectButton = new JButton("Inspect");
-    this.inspectButton.setActionCommand("examine" + " \r " + this.inventorySelection);
-    JButton useButton = new JButton("Use");
-    JButton dropButton = new JButton("Drop");
-    inventoryButtonPanel.add(this.inspectButton);
-    inventoryButtonPanel.add(useButton);
-    inventoryButtonPanel.add(dropButton);
-    inventoryPanel.add(inventoryButtonPanel);
-    */
     InventoryPanel inventoryPanel = new InventoryPanel();
     rightPanel.add(inventoryPanel);
 
@@ -162,11 +155,6 @@ public class AdventureGameGraphicView extends JFrame
     this.statusText.setPreferredSize(new Dimension(450, 25));
     statusPanel.add(this.statusText);
     rightPanel.add(statusPanel);
-  }
-
-  private JList<String> convertToJList(List<String> data) {
-    String[] list = data.toArray(new String[0]);
-    return new JList<>(list);
   }
 
   private JMenuBar buildMenu() {
@@ -280,7 +268,13 @@ public class AdventureGameGraphicView extends JFrame
       inspectButton.setActionCommand("examine" + " \r " + inventorySelection);
 
       useButton = new JButton("Use");
+      useButton.addActionListener(ioProcessor);
+      useButton.setActionCommand("use" + " \r " + inventorySelection);
+
       dropButton = new JButton("Drop");
+      dropButton.addActionListener(ioProcessor);
+      dropButton.setActionCommand("drop " + " \r " + inventorySelection);
+
       JPanel inventoryButtonPanel = new JPanel(new GridLayout(0, 3));
       inventoryButtonPanel.add(inspectButton);
       inventoryButtonPanel.add(useButton);
@@ -290,7 +284,9 @@ public class AdventureGameGraphicView extends JFrame
 
     @Override
     public void valueChanged(ListSelectionEvent e) {
-      inspectButton.setActionCommand("examine" + " \r " + inventoryText.getSelectedValue().trim());
+      inspectButton.setActionCommand("examine" + " \r " + inventoryText.getSelectedValue());
+      useButton.setActionCommand("use" + " \r " + inventoryText.getSelectedValue());
+      dropButton.setActionCommand("drop" + " \r " + inventoryText.getSelectedValue());
     }
   }
 
