@@ -14,6 +14,7 @@ import controller.GameGraphicInputOutputProcessor;
 public class AdventureGameGraphicView extends JFrame
         implements IAdventureGameView<List<String>, GameGraphicInputOutputProcessor> {
 
+  private GameGraphicInputOutputProcessor ioProcessor;
   private String userInput;
   private final JButton northButton;
   private final JButton southButton;
@@ -24,10 +25,8 @@ public class AdventureGameGraphicView extends JFrame
   private AnswerListener answerListener;
 
   private final JButton takeButton;
-  private String takeCommand;
 
   private final JButton examineButton;
-  private ExamineListener examineListener;
 
   private JLabel viewImage;
   private JTextArea descriptionText;
@@ -181,6 +180,7 @@ public class AdventureGameGraphicView extends JFrame
 
   @Override
   public void setEventHandler(GameGraphicInputOutputProcessor ioProcessor) {
+    this.ioProcessor = ioProcessor;
     this.setActionListener(ioProcessor);
   }
 
@@ -257,6 +257,11 @@ public class AdventureGameGraphicView extends JFrame
         JButton take = new JButton(command);
         take.addActionListener(event -> userInput = command.toLowerCase()
                 + " " + list.getSelectedValue());
+        synchronized (list) {
+          take.setActionCommand(command.toLowerCase()
+                  + " " + list.getSelectedValue());
+        }
+        take.addActionListener(ioProcessor);
         JButton cancel = new JButton("Done");
         cancel.addActionListener(event -> this.dispose());
         this.add(scrollPane, BorderLayout.CENTER);

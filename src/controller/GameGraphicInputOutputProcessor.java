@@ -53,7 +53,7 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
     this.userCommand = UserCommands.findUserCommand(this.getRawUserInputCommand(),
             this.getUserInputArgument());
     // remove this
-    System.out.println(this.gameView.getCommand());
+    //System.out.println(this.gameView.getCommand());
     return this.userCommand;
   }
 
@@ -145,8 +145,9 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
   @Override
   public synchronized void actionPerformed(ActionEvent e) {
     //this.executeCommand(e.getActionCommand());
-    this.rawUserCommand = e.getActionCommand();
-    this.userInputArgument = null;
+    String command = e.getActionCommand();
+    this.rawUserCommand = command.split(" ")[0];
+    this.userInputArgument = command.split(" ")[1];
   }
 
   private void executeCommand(String actionCommand) {
