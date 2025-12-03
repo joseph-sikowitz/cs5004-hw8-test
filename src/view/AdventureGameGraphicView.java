@@ -253,10 +253,25 @@ public class AdventureGameGraphicView extends JFrame
     }
   }
 
+  /**
+   * The TakeDialog class provides a JDialog box of items the player can take. It extends
+   * JDialog to use a dialog box as a wrapper for the other content. It implements
+   * ListSelectionLister so that the contents of its JScrollPane can be sent to the
+   * ioProcessor ActionListener. TakeDialog has a JButton take, a JList list, and a
+   * String command attributes.
+   */
   private class TakeDialog extends JDialog implements ListSelectionListener {
     JButton take;
     JList<String> list;
     String command;
+
+    /**
+     * The constructor initializes the dialog box, scroll pane, and buttons that are used
+     * to take items from the room.
+     *
+     * @param parent JFrame parent to return value of selection to.
+     * @param command String of the name of the take button's command.
+     */
     public TakeDialog(JFrame parent, String command) {
       super(parent, command, true);
       if (items != null) {
@@ -296,11 +311,27 @@ public class AdventureGameGraphicView extends JFrame
     }
   }
 
+  /**
+   * The ExamineDialog class provides a JDialog box of items the player can take. It extends
+   * JDialog to use a dialog box as a wrapper for the other content. It implements
+   * ListSelectionLister so that the contents of its JScrollPane can be sent to the
+   * ioProcessor ActionListener. ExamineDialog has List combined, JButton examine,
+   * JList list, and String command attributes.
+   */
   private class ExamineDialog extends JDialog implements ListSelectionListener {
     private List<String> combined;
     JButton examine;
     JList<String> list;
     String command;
+
+    /**
+     * The constructor initializes the dialog box, scroll pane, and buttons that are used
+     * to examine items in the room. The combined attribute is set based on whether there
+     * are items and fixtures or one of those types in the room.
+     *
+     * @param parent JFrame object that is the parent frame of the dialog box.
+     * @param command String of command executed by dialog box button.
+     */
     public ExamineDialog(JFrame parent, String command) {
       super(parent, command, true);
       this.command = command;
@@ -317,11 +348,11 @@ public class AdventureGameGraphicView extends JFrame
       list.setListData(strList);
       list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
       list.addListSelectionListener(this);
-      JScrollPane scrollPane = new JScrollPane(list);
       this.examine = new JButton(command);
       this.examine.addActionListener(ioProcessor);
       JButton cancel = new JButton("Done");
       cancel.addActionListener(event -> this.dispose());
+      JScrollPane scrollPane = new JScrollPane(list);
       this.add(scrollPane, BorderLayout.CENTER);
       JPanel panel = new JPanel();
       panel.add(examine);
@@ -339,11 +370,25 @@ public class AdventureGameGraphicView extends JFrame
     }
   }
 
+  /**
+   * The AnswerDialog class provides a JDialog box of items the player can take. It extends
+   * JDialog to use a dialog box as a wrapper for the other content. It implements
+   * DocumentLister so that the contents of its JTextArea can be sent to the
+   * ioProcessor ActionListener. AnswerDialog has JButton answer, String command, and
+   * JTextArea inputField attributes.
+   */
   private class AnswerDialog extends JDialog implements DocumentListener {
     JButton answer;
     String command;
     JTextArea inputField;
 
+    /**
+     * The constructor initializes the dialog box, text area, and buttons that are used
+     * to provide a puzzle's answer.
+     *
+     * @param parent JFrame object that is the parent frame of the dialog box.
+     * @param command String of command executed by dialog box button.
+     */
     public AnswerDialog(JFrame parent, String command) {
       super(parent, command, true);
       this.command = command;
@@ -379,6 +424,12 @@ public class AdventureGameGraphicView extends JFrame
       // maybe we don't need anything here
     }
 
+    /**
+     * Updates the action command of the answer button within the AnswerDialog
+     * box.
+     *
+     * @param argument String of the answer argument to provide to the answer a puzzle.
+     */
     private void updateActionCommand(String argument) {
       this.answer.setActionCommand(this.command.toLowerCase() + " \r " + argument.trim());
     }
