@@ -250,8 +250,18 @@ public class AdventureGameGraphicView extends JFrame
     }
   }
 
+  /**
+   * The InventoryPanel class is used to display a player's inventory and manipulate
+   * the items in the inventory using buttons in the GUI view. It extends JPanel to
+   * provide a panel in the JFrame window. It implements the ListSelectionListener
+   * interface so that changes to its JList can be registered.
+   */
   private class InventoryPanel extends JPanel implements ListSelectionListener {
 
+    /**
+     * The constructor for the InventoryPanel builds its elements and adds them
+     * to the panel.
+     */
     public InventoryPanel() {
       super(new GridLayout(0, 1));
       TitledBorder inventoryBorder = BorderFactory.createTitledBorder("Inventory");
