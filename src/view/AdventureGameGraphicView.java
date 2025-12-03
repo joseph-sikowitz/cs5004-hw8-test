@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Stream;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -101,21 +102,25 @@ public class AdventureGameGraphicView extends JFrame
     actionsPanel.setBorder(actionsBorder);
     JPanel buttonsPanel = new JPanel(new GridLayout(0, 3));
 
-    this.takeButton = new JButton("Take");
+    String take = "Take";
+    this.takeButton = new JButton(take);
     this.takeButton.addActionListener(
-            e -> new TakeDialog(AdventureGameGraphicView.this).setVisible(true));
+            e -> new TakeDialog(
+                    AdventureGameGraphicView.this, take).setVisible(true));
 
-    this.examineButton = new JButton("Examine");
-    this.examineListener = new ExamineListener(this.items, this.fixtures);
-    this.examineButton.addActionListener(this.examineListener);
+    String examine = "Examine";
+    this.examineButton = new JButton(examine);
+    this.examineButton.addActionListener(
+            e -> new ExamineDialog(
+                    AdventureGameGraphicView.this, examine).setVisible(true));
 
     this.answerButton = new JButton("Answer");
     this.answerListener = new AnswerListener();
     this.answerButton.addActionListener(this.answerListener);
 
     //this.answerButton.setActionCommand("answer");
-    buttonsPanel.add(takeButton);
-    buttonsPanel.add(examineButton);
+    buttonsPanel.add(this.takeButton);
+    buttonsPanel.add(this.examineButton);
     buttonsPanel.add(this.answerButton);
     actionsPanel.add(buttonsPanel);
     rightPanel.add(actionsPanel);
@@ -225,19 +230,11 @@ public class AdventureGameGraphicView extends JFrame
   @Override
   public void updateFixtures(List<String> data) throws IOException {
     this.fixtures = data;
-
-    this.examineButton.removeActionListener(this.examineListener);
-    this.examineListener = new ExamineListener(this.items, this.fixtures);
-    this.examineButton.addActionListener(this.examineListener);
   }
 
   @Override
   public void updateItems(List<String> data) throws IOException {
     this.items = data;
-
-    this.examineButton.removeActionListener(this.examineListener);
-    this.examineListener = new ExamineListener(this.items, this.fixtures);
-    this.examineButton.addActionListener(this.examineListener);
   }
 
   @Override
@@ -250,16 +247,16 @@ public class AdventureGameGraphicView extends JFrame
   }
 
   private class TakeDialog extends JDialog {
-
-    public TakeDialog(JFrame parent) {
-      super(parent, "Take Item:", true);
+    public TakeDialog(JFrame parent, String command) {
+      super(parent, command, true);
       if (items != null) {
         String[] itemsArray = items.toArray(new String[0]);
         JList<String> list = new JList<>();
         list.setListData(itemsArray);
         JScrollPane scrollPane = new JScrollPane(list);
-        JButton take = new JButton("Take");
-        take.addActionListener(event -> userInput = "take " + list.getSelectedValue());
+        JButton take = new JButton(command);
+        take.addActionListener(event -> userInput = command.toLowerCase()
+                + " " + list.getSelectedValue());
         JButton cancel = new JButton("Done");
         cancel.addActionListener(event -> this.dispose());
         this.add(scrollPane, BorderLayout.CENTER);
@@ -271,6 +268,39 @@ public class AdventureGameGraphicView extends JFrame
         this.setLocationRelativeTo(parent);
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
       }
+    }
+  }
+
+  private class ExamineDialog extends JDialog {
+    private List<String> combined;
+
+    public ExamineDialog(JFrame parent, String command) {
+      super(parent, command, true);
+      if (items != null && fixtures != null) {
+        combined = Stream.concat(items.stream(), fixtures.stream()).toList();
+      } else if (items != null) {
+        combined = items;
+      } else if (fixtures != null) {
+        combined = fixtures;
+      }
+
+      String[] strList = this.combined.toArray(new String[0]);
+      JList<String> list = new JList<>();
+      list.setListData(strList);
+      JScrollPane scrollPane = new JScrollPane(list);
+      JButton examine = new JButton(command);
+      examine.addActionListener(event -> userInput = command.toLowerCase()
+              + " " + list.getSelectedValue());
+      JButton cancel = new JButton("Done");
+      cancel.addActionListener(event -> this.dispose());
+      this.add(scrollPane, BorderLayout.CENTER);
+      JPanel panel = new JPanel();
+      panel.add(examine);
+      panel.add(cancel);
+      this.add(panel, BorderLayout.SOUTH);
+      this.setSize(200, 150);
+      this.setLocationRelativeTo(parent);
+      this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
     }
   }
 

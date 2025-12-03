@@ -52,6 +52,7 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
     //this.userCommand = "";
     this.userCommand = UserCommands.findUserCommand(this.getRawUserInputCommand(),
             this.getUserInputArgument());
+    // remove this
     System.out.println(this.gameView.getCommand());
     return this.userCommand;
   }
