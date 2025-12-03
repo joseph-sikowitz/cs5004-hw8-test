@@ -12,6 +12,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import controller.GameGraphicInputOutputProcessor;
+import controller.GameInputOutputProcessor;
 
 public class AdventureGameGraphicView extends JFrame
         implements IAdventureGameView<List<String>, GameGraphicInputOutputProcessor> {
@@ -40,8 +41,10 @@ public class AdventureGameGraphicView extends JFrame
   private static final String DEFAULT_CAPTION = "Adventure Game";
   private static final String SPLASH_IMAGE = "resources/images/game_engine.png";
 
-  public AdventureGameGraphicView() {
+  public AdventureGameGraphicView(GameGraphicInputOutputProcessor ioProcessor) {
     super();
+
+    this.ioProcessor = ioProcessor;
 
     this.setSize(1000, 750);
     this.setLocation(50, 50);
@@ -182,7 +185,7 @@ public class AdventureGameGraphicView extends JFrame
 
   @Override
   public void setEventHandler(GameGraphicInputOutputProcessor ioProcessor) {
-    this.ioProcessor = ioProcessor;
+    //this.ioProcessor = ioProcessor;
     this.setActionListener(ioProcessor);
   }
 

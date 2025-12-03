@@ -32,7 +32,7 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
   public GameGraphicInputOutputProcessor() {
     this.rawUserCommand = null;
     this.userInputArgument = null;
-    this.gameView = new AdventureGameGraphicView();
+    this.gameView = new AdventureGameGraphicView(this);
     this.gameView.setEventHandler(this);
   }
 
