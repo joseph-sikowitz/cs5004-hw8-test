@@ -22,10 +22,10 @@ public class DropCommand extends AbstractCommand {
   @Override
   public boolean execute() throws IOException {
     this.processor.messageToPlayer(this.model.dropItem(this.processor.getUserInputArgument()));
+    this.processor.updateInventory(this.model.checkInventory());
     this.processor.updateRoom(this.model.lookAround());
     this.processor.updateFixtures(this.model.getFixturesInRoom());
     this.processor.updateItems(this.model.getItemsInRoom());
-    this.processor.updateInventory(this.model.checkInventory());
     return super.execute();
   }
 }
