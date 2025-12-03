@@ -43,7 +43,7 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
 
   @Override
   public boolean getUserCommand() throws IOException {
-    return true;
+    return true; //TODO: Refactor this.
   }
 
   @Override
