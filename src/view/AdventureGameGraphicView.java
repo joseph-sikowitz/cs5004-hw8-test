@@ -12,7 +12,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import controller.GameGraphicInputOutputProcessor;
-import controller.GameInputOutputProcessor;
 
 public class AdventureGameGraphicView extends JFrame
         implements IAdventureGameView<List<String>, GameGraphicInputOutputProcessor> {
@@ -162,7 +161,9 @@ public class AdventureGameGraphicView extends JFrame
   private JMenuBar buildMenu() {
     JMenu menu = new JMenu("File");
     JMenuItem save = new JMenuItem("Save");
+    save.addActionListener(this.ioProcessor);
     JMenuItem restore = new JMenuItem("Restore");
+    restore.addActionListener(this.ioProcessor);
     JMenuItem about = new JMenuItem("About...");
     JMenuItem exit = new JMenuItem("Exit");
     menu.add(save);
