@@ -20,6 +20,7 @@ public class AdventureGameGraphicView extends JFrame
 
   private GameGraphicInputOutputProcessor ioProcessor;
   private String userInput;
+  private String inventorySelection;
   private final JButton northButton;
   private final JButton southButton;
   private final JButton eastButton;
@@ -28,6 +29,10 @@ public class AdventureGameGraphicView extends JFrame
   private final JButton answerButton;
   private final JButton takeButton;
   private final JButton examineButton;
+
+  private JButton inspectButton;
+  private JButton useButton;
+  private JButton dropButton;
 
   private JLabel viewImage;
   private JTextArea descriptionText;
@@ -129,20 +134,25 @@ public class AdventureGameGraphicView extends JFrame
     actionsPanel.add(buttonsPanel);
     rightPanel.add(actionsPanel);
 
+    /*
     JPanel inventoryPanel = new JPanel(new GridLayout(0, 1));
     TitledBorder inventoryBorder = BorderFactory.createTitledBorder("Inventory");
     inventoryPanel.setBorder(inventoryBorder);
     String[] inventoryItems = {};
     this.inventoryText = new JList<>(inventoryItems);
     inventoryPanel.add(this.inventoryText);
+    this.inventoryText.addListSelectionListener(this);
     JPanel inventoryButtonPanel = new JPanel(new GridLayout(0, 3));
-    JButton inspectButton = new JButton("Inspect");
+    this.inspectButton = new JButton("Inspect");
+    this.inspectButton.setActionCommand("examine" + " \r " + this.inventorySelection);
     JButton useButton = new JButton("Use");
     JButton dropButton = new JButton("Drop");
-    inventoryButtonPanel.add(inspectButton);
+    inventoryButtonPanel.add(this.inspectButton);
     inventoryButtonPanel.add(useButton);
     inventoryButtonPanel.add(dropButton);
     inventoryPanel.add(inventoryButtonPanel);
+    */
+    InventoryPanel inventoryPanel = new InventoryPanel();
     rightPanel.add(inventoryPanel);
 
     JPanel statusPanel = new JPanel(new GridLayout(0, 1));
@@ -196,7 +206,6 @@ public class AdventureGameGraphicView extends JFrame
     this.eastButton.addActionListener(actionListener);
     this.westButton.addActionListener(actionListener);
     this.southButton.addActionListener(actionListener);
-    //this.answerButton.addActionListener(actionListener);
   }
 
   @Override
@@ -250,6 +259,38 @@ public class AdventureGameGraphicView extends JFrame
       this.setTitle(DEFAULT_CAPTION);
     } else {
       this.setTitle(data);
+    }
+  }
+
+  private class InventoryPanel extends JPanel implements ListSelectionListener {
+
+    public InventoryPanel() {
+      super(new GridLayout(0, 1));
+      TitledBorder inventoryBorder = BorderFactory.createTitledBorder("Inventory");
+      this.setBorder(inventoryBorder);
+      String[] inventoryItems = {};
+      inventoryText = new JList<>(inventoryItems);
+      inventoryText.setListData(inventoryItems);
+      inventoryText.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+      this.add(inventoryText);
+      inventoryText.addListSelectionListener(this);
+
+      inspectButton = new JButton("Inspect");
+      inspectButton.addActionListener(ioProcessor);
+      inspectButton.setActionCommand("examine" + " \r " + inventorySelection);
+
+      useButton = new JButton("Use");
+      dropButton = new JButton("Drop");
+      JPanel inventoryButtonPanel = new JPanel(new GridLayout(0, 3));
+      inventoryButtonPanel.add(inspectButton);
+      inventoryButtonPanel.add(useButton);
+      inventoryButtonPanel.add(dropButton);
+      this.add(inventoryButtonPanel);
+    }
+
+    @Override
+    public void valueChanged(ListSelectionEvent e) {
+      inspectButton.setActionCommand("examine" + " \r " + inventoryText.getSelectedValue().trim());
     }
   }
 
