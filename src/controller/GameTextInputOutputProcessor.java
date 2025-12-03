@@ -128,7 +128,7 @@ public class GameTextInputOutputProcessor implements GameInputOutputProcessor {
     if (data.isEmpty())
       this.gameView.updateInventory("You have no items in your inventory!\n");
     else
-      this.gameView.updateInventory(String.join(", ", data) + "\n");
+      this.gameView.updateInventory("Your inventory contains: " +  String.join(", ", data) + "\n");
   }
 
   @Override
