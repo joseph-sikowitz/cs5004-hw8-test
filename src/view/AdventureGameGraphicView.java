@@ -8,6 +8,8 @@ import java.util.stream.Stream;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import controller.GameGraphicInputOutputProcessor;
 
@@ -246,21 +248,23 @@ public class AdventureGameGraphicView extends JFrame
     }
   }
 
-  private class TakeDialog extends JDialog {
+  private class TakeDialog extends JDialog implements ListSelectionListener {
+    JButton take;
+    JList<String> list;
+    String command;
     public TakeDialog(JFrame parent, String command) {
       super(parent, command, true);
       if (items != null) {
+        this.command = command;
         String[] itemsArray = items.toArray(new String[0]);
-        JList<String> list = new JList<>();
+        list = new JList<>();
         list.setListData(itemsArray);
+        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        list.addListSelectionListener(this);
         JScrollPane scrollPane = new JScrollPane(list);
-        JButton take = new JButton(command);
+        take = new JButton(command);
         take.addActionListener(event -> userInput = command.toLowerCase()
-                + " " + list.getSelectedValue());
-        synchronized (list) {
-          take.setActionCommand(command.toLowerCase()
-                  + " " + list.getSelectedValue());
-        }
+                + "\r" + list.getSelectedValue());
         take.addActionListener(ioProcessor);
         JButton cancel = new JButton("Done");
         cancel.addActionListener(event -> this.dispose());
@@ -274,13 +278,22 @@ public class AdventureGameGraphicView extends JFrame
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
       }
     }
+
+    @Override
+    public void valueChanged(ListSelectionEvent e) {
+      take.setActionCommand(command.toLowerCase()
+              + "\r" + list.getSelectedValue());
+    }
   }
 
-  private class ExamineDialog extends JDialog {
+  private class ExamineDialog extends JDialog implements ListSelectionListener {
     private List<String> combined;
-
+    JButton examine;
+    JList<String> list;
+    String command;
     public ExamineDialog(JFrame parent, String command) {
       super(parent, command, true);
+      this.command = command;
       if (items != null && fixtures != null) {
         combined = Stream.concat(items.stream(), fixtures.stream()).toList();
       } else if (items != null) {
@@ -290,12 +303,15 @@ public class AdventureGameGraphicView extends JFrame
       }
 
       String[] strList = this.combined.toArray(new String[0]);
-      JList<String> list = new JList<>();
+      list = new JList<>();
       list.setListData(strList);
+      list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+      list.addListSelectionListener(this);
       JScrollPane scrollPane = new JScrollPane(list);
-      JButton examine = new JButton(command);
+      this.examine = new JButton(command);
       examine.addActionListener(event -> userInput = command.toLowerCase()
-              + " " + list.getSelectedValue());
+              + "\r" + list.getSelectedValue());
+      this.examine.addActionListener(ioProcessor);
       JButton cancel = new JButton("Done");
       cancel.addActionListener(event -> this.dispose());
       this.add(scrollPane, BorderLayout.CENTER);
@@ -306,6 +322,12 @@ public class AdventureGameGraphicView extends JFrame
       this.setSize(200, 150);
       this.setLocationRelativeTo(parent);
       this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+    }
+
+    @Override
+    public void valueChanged(ListSelectionEvent e) {
+      examine.setActionCommand(command.toLowerCase()
+              + "\r" + list.getSelectedValue());
     }
   }
 
