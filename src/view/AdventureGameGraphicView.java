@@ -264,7 +264,7 @@ public class AdventureGameGraphicView extends JFrame
         JScrollPane scrollPane = new JScrollPane(list);
         take = new JButton(command);
         take.addActionListener(event -> userInput = command.toLowerCase()
-                + "\r" + list.getSelectedValue());
+                + " \r " + list.getSelectedValue());
         take.addActionListener(ioProcessor);
         JButton cancel = new JButton("Done");
         cancel.addActionListener(event -> this.dispose());
@@ -282,7 +282,7 @@ public class AdventureGameGraphicView extends JFrame
     @Override
     public void valueChanged(ListSelectionEvent e) {
       take.setActionCommand(command.toLowerCase()
-              + "\r" + list.getSelectedValue());
+              + " \r " + list.getSelectedValue());
     }
   }
 
@@ -327,7 +327,7 @@ public class AdventureGameGraphicView extends JFrame
     @Override
     public void valueChanged(ListSelectionEvent e) {
       examine.setActionCommand(command.toLowerCase()
-              + "\r" + list.getSelectedValue());
+              + " \r " + list.getSelectedValue());
     }
   }
 
