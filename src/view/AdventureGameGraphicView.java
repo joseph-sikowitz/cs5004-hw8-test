@@ -8,6 +8,8 @@ import java.util.stream.Stream;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -24,10 +26,7 @@ public class AdventureGameGraphicView extends JFrame
   private final JButton westButton;
 
   private final JButton answerButton;
-  private AnswerListener answerListener;
-
   private final JButton takeButton;
-
   private final JButton examineButton;
 
   private JLabel viewImage;
@@ -117,9 +116,11 @@ public class AdventureGameGraphicView extends JFrame
             e -> new ExamineDialog(
                     AdventureGameGraphicView.this, examine).setVisible(true));
 
-    this.answerButton = new JButton("Answer");
-    this.answerListener = new AnswerListener();
-    this.answerButton.addActionListener(this.answerListener);
+    String answer = "Answer";
+    this.answerButton = new JButton(answer);
+    this.answerButton.addActionListener(
+            e -> new AnswerDialog(
+                    AdventureGameGraphicView.this, answer).setVisible(true));
 
     //this.answerButton.setActionCommand("answer");
     buttonsPanel.add(this.takeButton);
@@ -195,7 +196,7 @@ public class AdventureGameGraphicView extends JFrame
     this.eastButton.addActionListener(actionListener);
     this.westButton.addActionListener(actionListener);
     this.southButton.addActionListener(actionListener);
-    this.answerButton.addActionListener(actionListener);
+    //this.answerButton.addActionListener(actionListener);
   }
 
   @Override
@@ -270,8 +271,11 @@ public class AdventureGameGraphicView extends JFrame
 
         take.addActionListener(ioProcessor);
         //TODO: make this line work properly
-        take.addActionListener(     event -> {String[] updatedItems = items.toArray(new String[0]);
-          list.setListData(updatedItems); });
+        take.addActionListener(     event -> {
+          String[] updatedItems = items.toArray(new String[0]);
+          list.setListData(updatedItems);
+        });
+
         JButton cancel = new JButton("Done");
         cancel.addActionListener(event -> this.dispose());
         this.add(scrollPane, BorderLayout.CENTER);
@@ -332,6 +336,51 @@ public class AdventureGameGraphicView extends JFrame
     public void valueChanged(ListSelectionEvent e) {
       examine.setActionCommand(command.toLowerCase()
               + " \r " + list.getSelectedValue());
+    }
+  }
+
+  private class AnswerDialog extends JDialog implements DocumentListener {
+    JButton answer;
+    String command;
+    JTextArea inputField;
+
+    public AnswerDialog(JFrame parent, String command) {
+      super(parent, command, true);
+      this.command = command;
+      this.answer = new JButton(command);
+      this.answer.addActionListener(ioProcessor);
+      JButton cancel = new JButton("Done");
+      cancel.addActionListener(event -> this.dispose());
+      inputField = new JTextArea(10, 10);
+      inputField.getDocument().addDocumentListener(this);
+      this.setLayout(new GridLayout(2, 1));
+      JPanel buttonPanel = new JPanel();
+      this.add(inputField);
+      buttonPanel.add(this.answer);
+      buttonPanel.add(cancel);
+      this.add(buttonPanel, BorderLayout.SOUTH);
+      this.setSize(200, 150);
+      this.setLocationRelativeTo(parent);
+      this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+    }
+
+    @Override
+    public void insertUpdate(DocumentEvent e) {
+      updateActionCommand(this.inputField.getText());;
+    }
+
+    @Override
+    public void removeUpdate(DocumentEvent e) {
+      updateActionCommand(this.inputField.getText());
+    }
+
+    @Override
+    public void changedUpdate(DocumentEvent e) {
+      // maybe we don't need anything here
+    }
+
+    private void updateActionCommand(String argument) {
+      this.answer.setActionCommand(this.command.toLowerCase() + " \r " + argument.trim());
     }
   }
 
