@@ -42,15 +42,14 @@ public class AdventureGameGraphicView extends JFrame
   private final GameGraphicInputOutputProcessor ioProcessor;
   private String userInput;
   private String inventorySelection;
+
   private final JButton northButton;
   private final JButton southButton;
   private final JButton eastButton;
   private final JButton westButton;
-
   private final JButton answerButton;
   private final JButton takeButton;
   private final JButton examineButton;
-
   private JButton inspectButton;
   private JButton useButton;
   private JButton dropButton;
@@ -61,9 +60,11 @@ public class AdventureGameGraphicView extends JFrame
   private JList<String> inventoryText;
   private List<String> fixtures;
   private List<String> items;
+  private JPanel leftPanel;
 
   private static final String DEFAULT_CAPTION = "Adventure Game";
   private static final String SPLASH_IMAGE = "resources/images/game_engine.png";
+
 
   /**
    * The constructor initializes all the GUI view's JFrame elements.
@@ -82,9 +83,11 @@ public class AdventureGameGraphicView extends JFrame
     this.setLayout(new GridLayout(0, 2));
     this.setJMenuBar(this.buildMenu());
 
-    JPanel leftPanel = new JPanel(new GridLayout(0, 1));
+    this.leftPanel = new JPanel(new GridLayout(0, 1));
     this.add(leftPanel);
+    leftPanel.add(new ViewPanel("View"));
 
+    /*
     JPanel viewPanel = new JPanel();
     TitledBorder viewBorder = BorderFactory.createTitledBorder("View");
     viewPanel.setBorder(viewBorder);
@@ -92,6 +95,7 @@ public class AdventureGameGraphicView extends JFrame
     this.viewImage.setPreferredSize(new Dimension(450, 300));
     viewPanel.add(this.viewImage);
     leftPanel.add(viewPanel);
+     */
 
     JPanel descriptionPanel = new JPanel(new GridLayout(0, 1));
     TitledBorder descriptionBorder = BorderFactory.createTitledBorder("Description");
@@ -262,6 +266,18 @@ public class AdventureGameGraphicView extends JFrame
       this.setTitle(DEFAULT_CAPTION);
     } else {
       this.setTitle(data);
+    }
+  }
+
+  private class ViewPanel extends JPanel {
+
+    public ViewPanel(String title) {
+      TitledBorder viewBorder = BorderFactory.createTitledBorder(title);
+      this.setBorder(viewBorder);
+      viewImage = new JLabel(new ImageIcon(SPLASH_IMAGE));
+      viewImage.setPreferredSize(new Dimension(450, 300));
+      this.add(viewImage);
+      leftPanel.add(this);
     }
   }
 
