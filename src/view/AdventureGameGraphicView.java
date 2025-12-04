@@ -1,8 +1,6 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.List;
@@ -43,13 +41,13 @@ public class AdventureGameGraphicView extends JFrame
   private String userInput;
   private String inventorySelection;
 
-  private final JButton northButton;
-  private final JButton southButton;
-  private final JButton eastButton;
-  private final JButton westButton;
-  private final JButton answerButton;
-  private final JButton takeButton;
-  private final JButton examineButton;
+  private JButton northButton;
+  private JButton southButton;
+  private JButton eastButton;
+  private JButton westButton;
+  private JButton answerButton;
+  private JButton takeButton;
+  private JButton examineButton;
   private JButton inspectButton;
   private JButton useButton;
   private JButton dropButton;
@@ -64,6 +62,17 @@ public class AdventureGameGraphicView extends JFrame
 
   private static final String DEFAULT_CAPTION = "Adventure Game";
   private static final String SPLASH_IMAGE = "resources/images/game_engine.png";
+  private static final String VIEW_TITLE = "View";
+  private static final String DESCRIPTION_TITLE = "Description";
+  private static final String NAVIGATION_TITLE = "Navigation";
+  private static final String NORTH_IMAGE = "resources/images/north.png";
+  private static final String NORTH_COMMAND = "north";
+  private static final String SOUTH_IMAGE = "resources/images/south.png";
+  private static final String SOUTH_COMMAND = "south";
+  private static final String EAST_IMAGE = "resources/images/east.png";
+  private static final String EAST_COMMAND = "east";
+  private static final String WEST_IMAGE = "resources/images/west.png";
+  private static final String WEST_COMMAND = "west";
 
 
   /**
@@ -85,55 +94,12 @@ public class AdventureGameGraphicView extends JFrame
 
     this.leftPanel = new JPanel(new GridLayout(0, 1));
     this.add(leftPanel);
-    leftPanel.add(new ViewPanel("View"));
-
-    /*
-    JPanel viewPanel = new JPanel();
-    TitledBorder viewBorder = BorderFactory.createTitledBorder("View");
-    viewPanel.setBorder(viewBorder);
-    this.viewImage = new JLabel(new ImageIcon(SPLASH_IMAGE));
-    this.viewImage.setPreferredSize(new Dimension(450, 300));
-    viewPanel.add(this.viewImage);
-    leftPanel.add(viewPanel);
-     */
-
-    JPanel descriptionPanel = new JPanel(new GridLayout(0, 1));
-    TitledBorder descriptionBorder = BorderFactory.createTitledBorder("Description");
-    descriptionPanel.setBorder(descriptionBorder);
-    this.descriptionText = new JTextArea(" ");
-    this.descriptionText.setLineWrap(true);
-    this.descriptionText.setPreferredSize(new Dimension(450, 300));
-    JPanel descriptionDisplayBox = new JPanel();
-    descriptionDisplayBox.add(this.descriptionText, BorderLayout.SOUTH);
-    descriptionPanel.add(descriptionDisplayBox);
-    leftPanel.add(descriptionPanel);
+    leftPanel.add(new ViewPanel(VIEW_TITLE));
+    leftPanel.add(new DescriptionPanel(new GridLayout(0, 1), DESCRIPTION_TITLE));
 
     JPanel rightPanel = new JPanel(new GridLayout(0, 1));
     this.add(rightPanel);
-
-    JPanel navigationPanel = new JPanel(new GridLayout(0, 1));
-    TitledBorder navBorder = BorderFactory.createTitledBorder("Navigation");
-    navigationPanel.setBorder(navBorder);
-    JPanel buttonPanel = new JPanel(new GridLayout(0, 1));
-    this.northButton = new JButton(new ImageIcon("resources/images/north.png"));
-    this.northButton.setActionCommand("north");
-    buttonPanel.add(northButton);
-
-    JPanel eastWestPanel = new JPanel(new GridLayout(1, 2));
-    this.westButton = new JButton(new ImageIcon("resources/images/west.png"));
-    this.westButton.setActionCommand("west");
-    eastWestPanel.add(this.westButton);
-
-    this.eastButton = new JButton(new ImageIcon("resources/images/east.png"));
-    this.eastButton.setActionCommand("east");
-    eastWestPanel.add(this.eastButton);
-    buttonPanel.add(eastWestPanel);
-
-    this.southButton = new JButton(new ImageIcon("resources/images/south.png"));
-    this.southButton.setActionCommand("south");
-    buttonPanel.add(this.southButton);
-    navigationPanel.add(buttonPanel);
-    rightPanel.add(navigationPanel);
+    rightPanel.add(new NavigationPanel(new GridLayout(0, 1), NAVIGATION_TITLE));
 
     JPanel actionsPanel = new JPanel(new GridLayout(2, 1));
     TitledBorder actionsBorder = BorderFactory.createTitledBorder("Actions");
@@ -278,6 +244,51 @@ public class AdventureGameGraphicView extends JFrame
       viewImage.setPreferredSize(new Dimension(450, 300));
       this.add(viewImage);
       leftPanel.add(this);
+    }
+  }
+
+  private class DescriptionPanel extends JPanel {
+
+    public DescriptionPanel(LayoutManager layoutManager, String title) {
+      super(layoutManager);
+      TitledBorder descriptionBorder = BorderFactory.createTitledBorder(title);
+      this.setBorder(descriptionBorder);
+      descriptionText = new JTextArea(" ");
+      descriptionText.setLineWrap(true);
+      descriptionText.setPreferredSize(new Dimension(450, 300));
+      JPanel descriptionDisplayBox = new JPanel();
+      descriptionDisplayBox.add(descriptionText, BorderLayout.SOUTH);
+      this.add(descriptionDisplayBox);
+
+    }
+  }
+
+  private class NavigationPanel extends JPanel {
+
+    public NavigationPanel(LayoutManager layoutManager, String title) {
+      super(layoutManager);
+      TitledBorder navBorder = BorderFactory.createTitledBorder(title);
+      this.setBorder(navBorder);
+      JPanel buttonPanel = new JPanel(new GridLayout(0, 1));
+
+      northButton = new JButton(new ImageIcon(NORTH_IMAGE));
+      northButton.setActionCommand(NORTH_COMMAND);
+      buttonPanel.add(northButton);
+
+      JPanel eastWestPanel = new JPanel(new GridLayout(1, 2));
+      westButton = new JButton(new ImageIcon(WEST_IMAGE));
+      westButton.setActionCommand(WEST_COMMAND);
+      eastWestPanel.add(westButton);
+
+      eastButton = new JButton(new ImageIcon(EAST_IMAGE));
+      eastButton.setActionCommand(EAST_COMMAND);
+      eastWestPanel.add(eastButton);
+      buttonPanel.add(eastWestPanel);
+
+      southButton = new JButton(new ImageIcon(SOUTH_IMAGE));
+      southButton.setActionCommand(SOUTH_COMMAND);
+      buttonPanel.add(southButton);
+      this.add(buttonPanel);
     }
   }
 
