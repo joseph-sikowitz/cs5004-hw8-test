@@ -182,8 +182,6 @@ public class AdventureGameGraphicView extends JFrame
     ImageIcon scaledPictureIcon = new ImageIcon(scaledPicture);
     this.viewImage.setIcon(scaledPictureIcon);
 
-    //this.viewImage.setIcon(new ImageIcon(data.getLast()));
-    // update description text here
     String roomDescription = data.get(1);
     this.descriptionText.setText(roomDescription);
   }
