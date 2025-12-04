@@ -352,8 +352,9 @@ public class AdventureGameGraphicView extends JFrame
           String[] updatedItems = items.toArray(new String[0]);
           list.setListData(updatedItems);
         });
+        take.addActionListener(event -> this.dispose());
 
-        JButton cancel = new JButton("Done");
+        JButton cancel = new JButton("Cancel");
         cancel.addActionListener(event -> this.dispose());
         this.add(scrollPane, BorderLayout.CENTER);
         JPanel panel = new JPanel();
@@ -412,7 +413,7 @@ public class AdventureGameGraphicView extends JFrame
       list.addListSelectionListener(this);
       this.examine = new JButton(command);
       this.examine.addActionListener(ioProcessor);
-      JButton cancel = new JButton("Done");
+      JButton cancel = new JButton("Cancel");
       cancel.addActionListener(event -> this.dispose());
       JScrollPane scrollPane = new JScrollPane(list);
       this.add(scrollPane, BorderLayout.CENTER);
@@ -456,7 +457,7 @@ public class AdventureGameGraphicView extends JFrame
       this.command = command;
       this.answer = new JButton(command);
       this.answer.addActionListener(ioProcessor);
-      JButton cancel = new JButton("Done");
+      JButton cancel = new JButton("Cancel");
       cancel.addActionListener(event -> this.dispose());
       inputField = new JTextArea(10, 10);
       inputField.getDocument().addDocumentListener(this);
