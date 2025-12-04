@@ -94,6 +94,7 @@ public class AdventureGameGraphicView extends JFrame
     super();
 
     this.ioProcessor = ioProcessor;
+    this.inventorySelection = "";
 
     this.setSize(1000, 750);
     this.setLocation(50, 50);
