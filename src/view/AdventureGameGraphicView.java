@@ -114,6 +114,13 @@ public class AdventureGameGraphicView extends JFrame
     this.rightPanel.add(new StatusPanel(new GridLayout(0, 1), STATUS_TITLE));
   }
 
+  /**
+   * The buildMenu() method creates the menu for the outer game JFrame. The
+   * menu contains a File drop down that has save, restore, about, and exit
+   * functionality.
+   *
+   * @return JMenuBar containing menu items.
+   */
   private JMenuBar buildMenu() {
     JMenu menu = new JMenu("File");
     JMenuItem save = new JMenuItem("Save");
@@ -136,13 +143,15 @@ public class AdventureGameGraphicView extends JFrame
     return menuBar;
   }
 
+  /**
+   * The display() method makes the game visible.
+   */
   private void display() {
     this.setVisible(true);
   }
 
   @Override
   public void setEventHandler(GameGraphicInputOutputProcessor ioProcessor) {
-    //this.ioProcessor = ioProcessor;
     this.setActionListener(ioProcessor);
   }
 
