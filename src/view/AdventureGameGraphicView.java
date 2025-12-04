@@ -58,7 +58,8 @@ public class AdventureGameGraphicView extends JFrame
   private JList<String> inventoryText;
   private List<String> fixtures;
   private List<String> items;
-  private JPanel leftPanel;
+  private final JPanel leftPanel;
+  private final JPanel rightPanel;
 
   private static final String DEFAULT_CAPTION = "Adventure Game";
   private static final String SPLASH_IMAGE = "resources/images/game_engine.png";
@@ -73,6 +74,11 @@ public class AdventureGameGraphicView extends JFrame
   private static final String EAST_COMMAND = "east";
   private static final String WEST_IMAGE = "resources/images/west.png";
   private static final String WEST_COMMAND = "west";
+  private static final String ACTIONS_TITLE = "Actions";
+  private static final String TAKE = "Take";
+  private static final String EXAMINE = "Examine";
+  private static final String ANSWER = "Answer";
+  private static final String STATUS_TITLE = "Status";
 
 
   /**
@@ -93,53 +99,16 @@ public class AdventureGameGraphicView extends JFrame
     this.setJMenuBar(this.buildMenu());
 
     this.leftPanel = new JPanel(new GridLayout(0, 1));
-    this.add(leftPanel);
-    leftPanel.add(new ViewPanel(VIEW_TITLE));
-    leftPanel.add(new DescriptionPanel(new GridLayout(0, 1), DESCRIPTION_TITLE));
+    this.add(this.leftPanel);
+    this.leftPanel.add(new ViewPanel(VIEW_TITLE));
+    this.leftPanel.add(new DescriptionPanel(new GridLayout(0, 1), DESCRIPTION_TITLE));
 
-    JPanel rightPanel = new JPanel(new GridLayout(0, 1));
-    this.add(rightPanel);
-    rightPanel.add(new NavigationPanel(new GridLayout(0, 1), NAVIGATION_TITLE));
-
-    JPanel actionsPanel = new JPanel(new GridLayout(2, 1));
-    TitledBorder actionsBorder = BorderFactory.createTitledBorder("Actions");
-    actionsPanel.setBorder(actionsBorder);
-    JPanel buttonsPanel = new JPanel(new GridLayout(0, 3));
-
-    String take = "Take";
-    this.takeButton = new JButton(take);
-    this.takeButton.addActionListener(
-            e -> new TakeDialog(
-                    AdventureGameGraphicView.this, take).setVisible(true));
-
-    String examine = "Examine";
-    this.examineButton = new JButton(examine);
-    this.examineButton.addActionListener(
-            e -> new ExamineDialog(
-                    AdventureGameGraphicView.this, examine).setVisible(true));
-
-    String answer = "Answer";
-    this.answerButton = new JButton(answer);
-    this.answerButton.addActionListener(
-            e -> new AnswerDialog(
-                    AdventureGameGraphicView.this, answer).setVisible(true));
-
-    buttonsPanel.add(this.takeButton);
-    buttonsPanel.add(this.examineButton);
-    buttonsPanel.add(this.answerButton);
-    actionsPanel.add(buttonsPanel);
-    rightPanel.add(actionsPanel);
-
-    InventoryPanel inventoryPanel = new InventoryPanel();
-    rightPanel.add(inventoryPanel);
-
-    JPanel statusPanel = new JPanel(new GridLayout(0, 1));
-    TitledBorder statusBorder = BorderFactory.createTitledBorder("Status");
-    statusPanel.setBorder(statusBorder);
-    this.statusText = new JTextArea(" ");
-    this.statusText.setPreferredSize(new Dimension(450, 25));
-    statusPanel.add(this.statusText);
-    rightPanel.add(statusPanel);
+    this.rightPanel = new JPanel(new GridLayout(0, 1));
+    this.add(this.rightPanel);
+    this.rightPanel.add(new NavigationPanel(new GridLayout(0, 1), NAVIGATION_TITLE));
+    this.rightPanel.add(new ActionsPanel(new GridLayout(2, 1), ACTIONS_TITLE));
+    this.rightPanel.add(new InventoryPanel());
+    this.rightPanel.add(new StatusPanel(new GridLayout(0, 1), STATUS_TITLE));
   }
 
   private JMenuBar buildMenu() {
@@ -292,6 +261,36 @@ public class AdventureGameGraphicView extends JFrame
     }
   }
 
+  private class ActionsPanel extends JPanel {
+
+    public ActionsPanel(LayoutManager layoutManager, String title) {
+      super(layoutManager);
+      TitledBorder actionsBorder = BorderFactory.createTitledBorder(title);
+      this.setBorder(actionsBorder);
+
+      takeButton = new JButton(TAKE);
+      takeButton.addActionListener(
+              e -> new TakeDialog(
+                      AdventureGameGraphicView.this, TAKE).setVisible(true));
+
+      examineButton = new JButton(EXAMINE);
+      examineButton.addActionListener(
+              e -> new ExamineDialog(
+                      AdventureGameGraphicView.this, EXAMINE).setVisible(true));
+
+      answerButton = new JButton(ANSWER);
+      answerButton.addActionListener(
+              e -> new AnswerDialog(
+                      AdventureGameGraphicView.this, ANSWER).setVisible(true));
+
+      JPanel buttonsPanel = new JPanel(new GridLayout(0, 3));
+      buttonsPanel.add(takeButton);
+      buttonsPanel.add(examineButton);
+      buttonsPanel.add(answerButton);
+      this.add(buttonsPanel);
+    }
+  }
+
   /**
    * The InventoryPanel class is used to display a player's inventory and manipulate
    * the items in the inventory using buttons in the GUI view. It extends JPanel to
@@ -339,6 +338,18 @@ public class AdventureGameGraphicView extends JFrame
       inspectButton.setActionCommand("examine" + " \r " + inventoryText.getSelectedValue());
       useButton.setActionCommand("use" + " \r " + inventoryText.getSelectedValue());
       dropButton.setActionCommand("drop" + " \r " + inventoryText.getSelectedValue());
+    }
+  }
+
+  private class StatusPanel extends JPanel {
+
+    public StatusPanel(LayoutManager layoutManager, String title) {
+      super(layoutManager);
+      TitledBorder statusBorder = BorderFactory.createTitledBorder(title);
+      this.setBorder(statusBorder);
+      statusText = new JTextArea(" ");
+      statusText.setPreferredSize(new Dimension(450, 25));
+      this.add(statusText);
     }
   }
 
