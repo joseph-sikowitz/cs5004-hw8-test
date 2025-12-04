@@ -204,8 +204,17 @@ public class AdventureGameGraphicView extends JFrame
     }
   }
 
+  /**
+   * The ViewPanel class creates a view panel in the GUI view where a picture
+   * of the current room is displayed. It extends JPanel.
+   */
   private class ViewPanel extends JPanel {
 
+    /**
+     * The constructor initializes the elements of the ViewPanel.
+     *
+     * @param title String of the panel's title.
+     */
     public ViewPanel(String title) {
       TitledBorder viewBorder = BorderFactory.createTitledBorder(title);
       this.setBorder(viewBorder);
@@ -216,8 +225,19 @@ public class AdventureGameGraphicView extends JFrame
     }
   }
 
+  /**
+   * The DescriptionPanel class creates a description panel in the GUI view
+   * where a description of the room, items, and fixtures is displayed. It
+   * extends JPanel.
+   */
   private class DescriptionPanel extends JPanel {
 
+    /**
+     * The constructor initializes all the elements of the description panel.
+     *
+     * @param layoutManager LayoutManager to structure the panel.
+     * @param title String title of the panel.
+     */
     public DescriptionPanel(LayoutManager layoutManager, String title) {
       super(layoutManager);
       TitledBorder descriptionBorder = BorderFactory.createTitledBorder(title);
@@ -232,8 +252,18 @@ public class AdventureGameGraphicView extends JFrame
     }
   }
 
+  /**
+   * The NavigationPanel class creates a navigation panel in the GUI view
+   * that a user can use to navigate through the game. It extends JPanel.
+   */
   private class NavigationPanel extends JPanel {
 
+    /**
+     * The constructor initializes all the elements of the navigation panel.
+     *
+     * @param layoutManager LayoutManager to structure the panel.
+     * @param title String title of the panel.
+     */
     public NavigationPanel(LayoutManager layoutManager, String title) {
       super(layoutManager);
       TitledBorder navBorder = BorderFactory.createTitledBorder(title);
@@ -261,8 +291,18 @@ public class AdventureGameGraphicView extends JFrame
     }
   }
 
+  /**
+   * The ActionsPanel class creates an action panel for the user to trigger the take,
+   * examine, and answer actions within the game. It extends JPanel.
+   */
   private class ActionsPanel extends JPanel {
 
+    /**
+     * The constructor initializes all the elements of the actions panel.
+     *
+     * @param layoutManager LayoutManager to structure the panel's elements.
+     * @param title String title of the panel.
+     */
     public ActionsPanel(LayoutManager layoutManager, String title) {
       super(layoutManager);
       TitledBorder actionsBorder = BorderFactory.createTitledBorder(title);
@@ -341,8 +381,18 @@ public class AdventureGameGraphicView extends JFrame
     }
   }
 
+  /**
+   * The StatusPanel class creates the status panel in the GUI view of the game
+   * so that the player's current status can be displayed.
+   */
   private class StatusPanel extends JPanel {
 
+    /**
+     * The constructor initializes the elements of the status panel.
+     *
+     * @param layoutManager LayoutManager to structure the panel.
+     * @param title String title of the panel.
+     */
     public StatusPanel(LayoutManager layoutManager, String title) {
       super(layoutManager);
       TitledBorder statusBorder = BorderFactory.createTitledBorder(title);
