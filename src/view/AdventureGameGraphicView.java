@@ -547,6 +547,7 @@ public class AdventureGameGraphicView extends JFrame
       this.command = command;
       this.answer = new JButton(command);
       this.answer.addActionListener(ioProcessor);
+      this.answer.addActionListener(event -> this.dispose());
       JButton cancel = new JButton("Cancel");
       cancel.addActionListener(event -> this.dispose());
       inputField = new JTextArea(10, 10);
