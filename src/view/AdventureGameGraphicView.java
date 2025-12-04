@@ -1,6 +1,9 @@
 package view;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.LayoutManager;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.List;
