@@ -1,9 +1,6 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.LayoutManager;
+import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.List;
@@ -180,7 +177,12 @@ public class AdventureGameGraphicView extends JFrame
 
   @Override
   public void updateRoom(List<String> data) throws IOException {
-    this.viewImage.setIcon(new ImageIcon(data.getLast()));
+    Image picture = new ImageIcon(data.getLast()).getImage();
+    Image scaledPicture = picture.getScaledInstance(250, 400, Image.SCALE_SMOOTH);
+    ImageIcon scaledPictureIcon = new ImageIcon(scaledPicture);
+    this.viewImage.setIcon(scaledPictureIcon);
+
+    //this.viewImage.setIcon(new ImageIcon(data.getLast()));
     // update description text here
     String roomDescription = data.get(1);
     this.descriptionText.setText(roomDescription);
