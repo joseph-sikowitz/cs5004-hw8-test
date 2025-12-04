@@ -338,7 +338,7 @@ public class AdventureGameGraphicView extends JFrame
       super(parent, command, true);
       if (items != null) {
         this.command = command;
-        String[] itemsArray = items.toArray(new String[0]); //TODO: change this to Vector to see if pass by reference helps with updating.
+        String[] itemsArray = items.toArray(new String[0]);
         list = new JList<>();
         list.setListData(itemsArray);
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -347,7 +347,6 @@ public class AdventureGameGraphicView extends JFrame
         take = new JButton(command);
 
         take.addActionListener(ioProcessor);
-        //TODO: make this line work properly
         take.addActionListener(     event -> {
           String[] updatedItems = items.toArray(new String[0]);
           list.setListData(updatedItems);
