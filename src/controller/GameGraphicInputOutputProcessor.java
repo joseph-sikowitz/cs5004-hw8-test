@@ -153,19 +153,8 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
 
   @Override
   public synchronized void actionPerformed(ActionEvent e) {
-    //this.executeCommand(e.getActionCommand());
     String command = e.getActionCommand();
     this.rawUserCommand = command.split(" \r ")[0];
     this.userInputArgument = (command.split(" \r ").length >= 2) ? command.split(" \r ")[1] : null;
-  }
-
-  private void executeCommand(String actionCommand) {
-    try {
-      this.commands.get(UserCommands.findUserCommand(actionCommand, "")).execute();
-      this.commands.get(UserCommands.INVENTORY).execute();
-      this.endOfTurnActions.execute();
-    } catch (IOException e1) {
-      e1.printStackTrace();
-    }
   }
 }
