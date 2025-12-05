@@ -38,13 +38,13 @@ import model.Item;
 /**
  * The AdventureGameGraphicView class provides a GUI view for the adventure game.
  * It extends JFrame in order to provide a holding window for the rest of the GUI
- * functionality. It implements the IAdventureGameView interface in order to provide
+ * functionality. It implements the IAdventureGameGraphicView interface in order to provide
  * the expected functionality for an adventure game's view.
  */
 public class AdventureGameGraphicView extends JFrame
-        implements IAdventureGameView<List<String>, GameGraphicInputOutputProcessor> {
+        implements IAdventureGameGraphicView<List<String>> {
 
-  private final GameGraphicInputOutputProcessor ioProcessor;
+  private ActionListener ioProcessor;
   private String userInput;
   private String inventorySelection;
 
@@ -65,8 +65,8 @@ public class AdventureGameGraphicView extends JFrame
   private JList<String> inventoryText;
   private List<String> fixtures;
   private List<String> items;
-  private final JPanel leftPanel;
-  private final JPanel rightPanel;
+  private JPanel leftPanel;
+  private JPanel rightPanel;
 
   private static final String DATA_DIR = System.getProperty("user.dir")
           + System.getProperty("file.separator") + "resources"
@@ -94,35 +94,9 @@ public class AdventureGameGraphicView extends JFrame
 
   /**
    * The constructor initializes all the GUI view's JFrame elements.
-   *
-   * @param ioProcessor GameGraphicInputOutputProcessor is the action listener for
-   *                    events in the GUI.
    */
-  public AdventureGameGraphicView(GameGraphicInputOutputProcessor ioProcessor) {
+  public AdventureGameGraphicView() {
     super();
-
-    this.ioProcessor = ioProcessor;
-    this.inventorySelection = "";
-
-    this.splashDialog();
-
-    this.setSize(1000, 750);
-    this.setLocation(50, 50);
-    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    this.setLayout(new GridLayout(0, 2));
-    this.setJMenuBar(this.buildMenu());
-
-    this.leftPanel = new JPanel(new GridLayout(0, 1));
-    this.add(this.leftPanel);
-    this.leftPanel.add(new ViewPanel(VIEW_TITLE));
-    this.leftPanel.add(new DescriptionPanel(new GridLayout(0, 1), DESCRIPTION_TITLE));
-
-    this.rightPanel = new JPanel(new GridLayout(0, 1));
-    this.add(this.rightPanel);
-    this.rightPanel.add(new NavigationPanel(new GridLayout(0, 1), NAVIGATION_TITLE));
-    this.rightPanel.add(new ActionsPanel(new GridLayout(2, 1), ACTIONS_TITLE));
-    this.rightPanel.add(new InventoryPanel());
-    this.rightPanel.add(new StatusPanel(new GridLayout(0, 1), STATUS_TITLE));
   }
 
   /**
@@ -162,7 +136,26 @@ public class AdventureGameGraphicView extends JFrame
   }
 
   @Override
-  public void setEventHandler(GameGraphicInputOutputProcessor ioProcessor) {
+  public void setEventHandler(ActionListener ioProcessor) {
+    this.ioProcessor = ioProcessor;
+    this.splashDialog();
+
+    this.setSize(1000, 750);
+    this.setLocation(50, 50);
+    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    this.setLayout(new GridLayout(0, 2));
+    this.setJMenuBar(this.buildMenu());
+    this.leftPanel = new JPanel(new GridLayout(0, 1));
+    this.add(this.leftPanel);
+    this.leftPanel.add(new ViewPanel(VIEW_TITLE));
+    this.leftPanel.add(new DescriptionPanel(new GridLayout(0, 1), DESCRIPTION_TITLE));
+
+    this.rightPanel = new JPanel(new GridLayout(0, 1));
+    this.add(this.rightPanel);
+    this.rightPanel.add(new NavigationPanel(new GridLayout(0, 1), NAVIGATION_TITLE));
+    this.rightPanel.add(new ActionsPanel(new GridLayout(2, 1), ACTIONS_TITLE));
+    this.rightPanel.add(new InventoryPanel());
+    this.rightPanel.add(new StatusPanel(new GridLayout(0, 1), STATUS_TITLE));
     this.setActionListener(ioProcessor);
   }
 
@@ -433,15 +426,15 @@ public class AdventureGameGraphicView extends JFrame
 
       inspectButton = new JButton("Examine");
       inspectButton.addActionListener(ioProcessor);
-      inspectButton.setActionCommand("Examine" + " \r " + inventorySelection);
+      inspectButton.setActionCommand("Examine");
 
       useButton = new JButton("Use");
       useButton.addActionListener(ioProcessor);
-      useButton.setActionCommand("Use" + " \r " + inventorySelection);
+      useButton.setActionCommand("Use");
 
       dropButton = new JButton("Drop");
       dropButton.addActionListener(ioProcessor);
-      dropButton.setActionCommand("Drop" + " \r " + inventorySelection);
+      dropButton.setActionCommand("Drop");
 
       JPanel inventoryButtonPanel = new JPanel(new GridLayout(0, 3));
       inventoryButtonPanel.add(inspectButton);
@@ -452,9 +445,11 @@ public class AdventureGameGraphicView extends JFrame
 
     @Override
     public void valueChanged(ListSelectionEvent e) {
-      inspectButton.setActionCommand("Examine" + " \r " + inventoryText.getSelectedValue());
-      useButton.setActionCommand("Use" + " \r " + inventoryText.getSelectedValue());
-      dropButton.setActionCommand("Drop" + " \r " + inventoryText.getSelectedValue());
+      String selectedItem = inventoryText.getSelectedValue() != null
+              ?  " \r " + inventoryText.getSelectedValue() : "";
+      inspectButton.setActionCommand("Examine" + selectedItem);
+      useButton.setActionCommand("Use" + selectedItem);
+      dropButton.setActionCommand("Drop" + selectedItem);
     }
   }
 
