@@ -19,7 +19,8 @@ public class GameTextInputOutputProcessor implements GameInputOutputProcessor {
 
   // attributes
   private String[] userInput;
-  private final IAdventureGameView<String, GameTextInputOutputProcessor> gameView;
+  private final IAdventureGameView<String> gameView;
+
 
   // constants
   private static final int FIRST_COMMAND = 0;
@@ -32,13 +33,11 @@ public class GameTextInputOutputProcessor implements GameInputOutputProcessor {
    * The GameTextInputOutputProcessor constructor takes a Readable source as its input
    * and an Appendable output to print results of actions to.
    *
-   * @param source Readable for user input.
-   * @param output Appendable for game output.
+   * @param gameView an IAdventureGameView with a String as its class generic.
    */
-  public GameTextInputOutputProcessor(Readable source, Appendable output) {
+  public GameTextInputOutputProcessor(IAdventureGameView<String> gameView) {
     this.userInput = new String[COMMAND_LIMIT];
-    this.gameView = new AdventureGameTextView(source, output);
-    this.gameView.setEventHandler(this);
+    this.gameView = gameView;
   }
 
 

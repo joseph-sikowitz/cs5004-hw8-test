@@ -10,7 +10,7 @@ import controller.GameTextInputOutputProcessor;
  * An IAdventureGameView that receives input through Readable types and outputs to Appendable types.
  */
 public class AdventureGameTextView implements
-        IAdventureGameView<String, GameTextInputOutputProcessor> {
+        IAdventureGameView<String> {
 
   private final Readable in;
   private final Appendable out;
@@ -25,10 +25,6 @@ public class AdventureGameTextView implements
     this.in = in;
     this.out = out;
     this.scanner = new Scanner(this.in);
-  }
-
-  @Override
-  public void setEventHandler(GameTextInputOutputProcessor ioProcessor) {
   }
 
   @Override
