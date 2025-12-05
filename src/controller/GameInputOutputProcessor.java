@@ -122,18 +122,4 @@ public interface GameInputOutputProcessor {
    * @throws IOException If I/O error occurs.
    */
   void updateTitle(String data) throws IOException;
-
-  /**
-   * Sets the user commands to use by the processor.
-   *
-   * @param commands Map of user commands.
-   */
-  void setUserCommands(Map<UserCommands, ICommand> commands);
-
-  /**
-   * Sets endOfTurnActions for the processor.
-   *
-   * @param endOfTurnActions ICommand of action to take at end of turn.
-   */
-  void setEndOfTurnActions(ICommand endOfTurnActions);
 }

@@ -163,15 +163,4 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
       e1.printStackTrace();
     }
   }
-
-  @Override
-  public void setUserCommands(Map<UserCommands, ICommand> commands) {
-    this.commands = commands;
-  }
-
-  @Override
-  public void setEndOfTurnActions(ICommand endOfTurnActions) {
-    this.endOfTurnActions = endOfTurnActions;
-  }
-
 }
