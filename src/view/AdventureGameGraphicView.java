@@ -6,9 +6,11 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.LayoutManager;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Stream;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -31,6 +33,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import controller.GameGraphicInputOutputProcessor;
+import model.Item;
 
 /**
  * The AdventureGameGraphicView class provides a GUI view for the adventure game.
@@ -178,7 +181,13 @@ public class AdventureGameGraphicView extends JFrame
 
   @Override
   public void messageToPlayer(List<String> data) throws IOException {
-    JOptionPane.showMessageDialog(this, data.getFirst());
+    if (data.size() > 1) {
+      ItemPanel itemPanel = new ItemPanel(new GridLayout(0, 1), data.getLast(), data.getFirst());
+      JOptionPane.showMessageDialog(this, itemPanel,
+              "Item message", JOptionPane.INFORMATION_MESSAGE);
+    } else {
+      JOptionPane.showMessageDialog(this, data.getFirst());
+    }
   }
 
   @Override
@@ -251,6 +260,31 @@ public class AdventureGameGraphicView extends JFrame
       viewImage.setPreferredSize(new Dimension(450, 300));
       this.add(viewImage);
       leftPanel.add(this);
+    }
+  }
+
+  private class ItemPanel extends JPanel {
+
+    public ItemPanel(LayoutManager layoutManager, String image, String message) {
+      this.setLayout(layoutManager);
+      Image original = null;
+      try {
+        original = ImageIO.read(new File(image));
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+      if (original != null) {
+        Image resized = original.getScaledInstance(original.getWidth(this) / 3,
+                original.getHeight(this) / 3, Image.SCALE_SMOOTH);
+        JLabel imageLabel = new JLabel(new ImageIcon(resized));
+        this.add(imageLabel);
+      }
+
+      JTextArea messageLabel = new JTextArea(message);
+      messageLabel.setEditable(false);
+      messageLabel.setLineWrap(true);
+      messageLabel.setWrapStyleWord(true);
+      this.add(messageLabel);
     }
   }
 
