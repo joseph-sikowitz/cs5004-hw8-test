@@ -429,15 +429,15 @@ public class AdventureGameGraphicView extends JFrame
 
       inspectButton = new JButton("Inspect");
       inspectButton.addActionListener(ioProcessor);
-      inspectButton.setActionCommand("examine" + " \r " + inventorySelection);
+      inspectButton.setActionCommand("Examine" + " \r " + inventorySelection);
 
       useButton = new JButton("Use");
       useButton.addActionListener(ioProcessor);
-      useButton.setActionCommand("use" + " \r " + inventorySelection);
+      useButton.setActionCommand("Use" + " \r " + inventorySelection);
 
       dropButton = new JButton("Drop");
       dropButton.addActionListener(ioProcessor);
-      dropButton.setActionCommand("drop " + " \r " + inventorySelection);
+      dropButton.setActionCommand("Drop" + " \r " + inventorySelection);
 
       JPanel inventoryButtonPanel = new JPanel(new GridLayout(0, 3));
       inventoryButtonPanel.add(inspectButton);
@@ -448,9 +448,9 @@ public class AdventureGameGraphicView extends JFrame
 
     @Override
     public void valueChanged(ListSelectionEvent e) {
-      inspectButton.setActionCommand("examine" + " \r " + inventoryText.getSelectedValue());
-      useButton.setActionCommand("use" + " \r " + inventoryText.getSelectedValue());
-      dropButton.setActionCommand("drop" + " \r " + inventoryText.getSelectedValue());
+      inspectButton.setActionCommand("Examine" + " \r " + inventoryText.getSelectedValue());
+      useButton.setActionCommand("Use" + " \r " + inventoryText.getSelectedValue());
+      dropButton.setActionCommand("Drop" + " \r " + inventoryText.getSelectedValue());
     }
   }
 
