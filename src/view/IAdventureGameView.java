@@ -3,10 +3,9 @@ package view;
 
 
 import java.io.IOException;
-import java.util.List;
 
 import controller.GameInputOutputProcessor;
-import controller.GameTextInputOutputProcessor;
+
 
 /**
  * An Interface the view subsystem of an AdventureGame.
