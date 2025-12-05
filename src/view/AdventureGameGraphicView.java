@@ -68,18 +68,22 @@ public class AdventureGameGraphicView extends JFrame
   private final JPanel leftPanel;
   private final JPanel rightPanel;
 
+  private static final String DATA_DIR = System.getProperty("user.dir")
+          + System.getProperty("file.separator") + "resources"
+          + System.getProperty("file.separator") + "images"
+          + System.getProperty("file.separator");
   private static final String DEFAULT_CAPTION = "Adventure Game";
-  private static final String SPLASH_IMAGE = "resources/images/game_engine.png";
+  private static final String SPLASH_IMAGE = DATA_DIR + "game_engine.png";
   private static final String VIEW_TITLE = "View";
   private static final String DESCRIPTION_TITLE = "Description";
   private static final String NAVIGATION_TITLE = "Navigation";
-  private static final String NORTH_IMAGE = "resources/images/north.png";
+  private static final String NORTH_IMAGE = DATA_DIR + "north.png";
   private static final String NORTH_COMMAND = "north";
-  private static final String SOUTH_IMAGE = "resources/images/south.png";
+  private static final String SOUTH_IMAGE = DATA_DIR + "south.png";
   private static final String SOUTH_COMMAND = "south";
-  private static final String EAST_IMAGE = "resources/images/east.png";
+  private static final String EAST_IMAGE = DATA_DIR + "east.png";
   private static final String EAST_COMMAND = "east";
-  private static final String WEST_IMAGE = "resources/images/west.png";
+  private static final String WEST_IMAGE = DATA_DIR + "west.png";
   private static final String WEST_COMMAND = "west";
   private static final String ACTIONS_TITLE = "Actions";
   private static final String TAKE = "Take";
