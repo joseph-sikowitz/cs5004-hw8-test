@@ -159,6 +159,11 @@ public class AdventureGameGraphicView extends JFrame
     this.setActionListener(ioProcessor);
   }
 
+  /**
+   * The setActionListener() method sets the action listener for game buttons.
+   *
+   * @param actionListener ActionListener to apply to buttons.
+   */
   private void setActionListener(ActionListener actionListener) {
     this.northButton.addActionListener(actionListener);
     this.eastButton.addActionListener(actionListener);
