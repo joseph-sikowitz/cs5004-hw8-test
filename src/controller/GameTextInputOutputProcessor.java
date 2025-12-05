@@ -155,4 +155,9 @@ public class GameTextInputOutputProcessor implements GameInputOutputProcessor {
   public void updateTitle(String data) throws IOException {
     this.gameView.updateTitle("Welcome to " + data + "!\n");
   }
+
+  @Override
+  public void quit(String data) throws IOException {
+
+  }
 }

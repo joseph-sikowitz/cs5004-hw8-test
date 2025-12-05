@@ -2,7 +2,6 @@ package controller;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import utilities.UserCommands;
 
@@ -84,14 +83,12 @@ public interface GameInputOutputProcessor {
    */
   void updateRoom(List<String> data) throws IOException;
 
-
   /**
    * Updates the Player's inventory.
    * @param data the data to display.
    * @throws IOException If I/O error occurs.
    */
   void updateInventory(List<String> data) throws IOException;
-
 
   /**
    * Displays data to user and Asks user to input text.
@@ -107,7 +104,6 @@ public interface GameInputOutputProcessor {
    */
   void updateFixtures(List<String> data) throws IOException;
 
-
   /**
    * Updates the list of Items in the current Room.
    * @param data data to display.
@@ -115,11 +111,17 @@ public interface GameInputOutputProcessor {
    */
   void updateItems(List<String> data) throws IOException;
 
-
   /**
    * Displays the title of the game.
    * @param data data to display.
    * @throws IOException If I/O error occurs.
    */
   void updateTitle(String data) throws IOException;
+
+  /**
+   * Displays a quit message and terminates the View.
+   * @param data data to display.
+   * @throws IOException If I/O error occurs.
+   */
+  void quit(String data) throws IOException;
 }

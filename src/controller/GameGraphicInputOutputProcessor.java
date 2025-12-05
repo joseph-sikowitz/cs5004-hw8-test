@@ -147,6 +147,11 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
   }
 
   @Override
+  public void quit(String data) throws IOException {
+
+  }
+
+  @Override
   public synchronized void actionPerformed(ActionEvent e) {
     //this.executeCommand(e.getActionCommand());
     String command = e.getActionCommand();
