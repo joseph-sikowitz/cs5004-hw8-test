@@ -292,7 +292,7 @@ public class AdventureGameModel implements IAdventureGameModel {
 
   @Override
   public String quitMessage() {
-    return (this.gameOver() ? "Game Over! " : "" )
+    return (this.gameOver() ? "Game Over!\n" : "" )
             + "Thanks for playing!\nFinal score: "
             + decimalFormat.format(this.player.getScore())
             + " \n" + this.getPlayerRank();
