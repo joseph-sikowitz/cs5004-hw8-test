@@ -10,15 +10,9 @@ import controller.GameInputOutputProcessor;
 /**
  * An Interface the view subsystem of an AdventureGame.
  * @param <T> The type of data to be passed to the view.
- * @param <C> The type of GameInputOutputProcessor that the view will pass data back to.
  */
-public interface IAdventureGameView<T, C extends GameInputOutputProcessor> {
+public interface IAdventureGameView<T> {
 
-  /**
-   * Sets the controller class that interprets commands passed in through the view.
-   * @param ioProcessor interprets commands.
-   */
-  void setEventHandler(C ioProcessor);
 
   /**
    * Returns a command from the User.
