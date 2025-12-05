@@ -70,8 +70,15 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
   @Override
   public void messageToPlayer(List<String> data) throws IOException {
     // use list get first and get last
-    if (!data.isEmpty())
+    if (!data.isEmpty()) {
+      String picturePath = data.removeLast();
+      if (picturePath == null || picturePath.isEmpty()) {
+        data.add(DATA_DIR + DEFAULT_PICTURE);
+      } else {
+        data.add(DATA_DIR + picturePath);
+      }
       this.gameView.messageToPlayer(data);
+    }
   }
 
   @Override
