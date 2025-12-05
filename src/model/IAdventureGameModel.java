@@ -86,7 +86,7 @@ public interface IAdventureGameModel {
    *
    * @param item Item to be used within the room.
    */
-  String useItem(String item);
+  List<String> useItem(String item);
 
   /**
    * The takeItem() method takes an item from the active room and adds it to the player's

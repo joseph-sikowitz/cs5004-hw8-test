@@ -199,8 +199,8 @@ public class AdventureGameModel implements IAdventureGameModel {
   }
 
   @Override
-  public String useItem(String item) {
-    return solvePuzzle(this.player.useItem(item));
+  public List<String> useItem(String item) {
+    return new ArrayList<>(Arrays.asList(solvePuzzle(this.player.useItem(item)), this.examine(item).getLast()));
   }
 
   @Override
