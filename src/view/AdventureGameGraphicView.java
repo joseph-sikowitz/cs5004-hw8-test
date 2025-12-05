@@ -184,7 +184,7 @@ public class AdventureGameGraphicView extends JFrame
     if (data.size() > 1) {
       ItemPanel itemPanel = new ItemPanel(new GridLayout(0, 1), data.getLast(), data.getFirst());
       JOptionPane.showMessageDialog(this, itemPanel,
-              "Item message", JOptionPane.INFORMATION_MESSAGE);
+              "Action", JOptionPane.INFORMATION_MESSAGE);
     } else {
       JOptionPane.showMessageDialog(this, data.getFirst());
     }
@@ -427,7 +427,7 @@ public class AdventureGameGraphicView extends JFrame
       this.add(inventoryText);
       inventoryText.addListSelectionListener(this);
 
-      inspectButton = new JButton("Inspect");
+      inspectButton = new JButton("Examine");
       inspectButton.addActionListener(ioProcessor);
       inspectButton.setActionCommand("Examine" + " \r " + inventorySelection);
 
