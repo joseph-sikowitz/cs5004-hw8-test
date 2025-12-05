@@ -274,8 +274,21 @@ public class AdventureGameGraphicView extends JFrame
     }
   }
 
+  /**
+   * The ItemPanel class is used to provide a JPanel to a JOptionPane
+   * when an action is taken with an item. The JPanel has an image
+   * and a message.
+   */
   private class ItemPanel extends JPanel {
 
+    /**
+     * The ItemPanel constructor initializes the JPanel that is displayed
+     * to the user when an item is used.
+     *
+     * @param layoutManager LayoutManager to organize panel.
+     * @param image String of filepath to image to add to panel.
+     * @param message String of message to add to panel.
+     */
     public ItemPanel(LayoutManager layoutManager, String image, String message) {
       this.setLayout(layoutManager);
       Image original = null;
