@@ -91,8 +91,6 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
 
   @Override
   public void updatePlayerStats(List<String> data) throws IOException {
-    String playerStatus = String.join("\n", data);
-    data.addFirst(playerStatus);
     this.gameView.updatePlayerStats(data);
   }
 

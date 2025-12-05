@@ -192,7 +192,8 @@ public class AdventureGameGraphicView extends JFrame
 
   @Override
   public void updatePlayerStats(List<String> data) throws IOException {
-    this.statusText.setText(data.getFirst());
+    String playerStatus = String.join("\n", data);
+    this.statusText.setText(playerStatus);
   }
 
   @Override
