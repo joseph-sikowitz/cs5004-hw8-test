@@ -55,7 +55,8 @@ public class GameEngineApp {
    * a GameEngineApp object.
    *
    * @param gameFileName String of an adventure game file.
-   * @param ioProcessor
+   * @param ioProcessor The Controller class responsible for adapting input
+   *       for the GameController and adapting output for the IAdventureGameView.
    */
   public GameEngineApp(String gameFileName, GameInputOutputProcessor ioProcessor) {
     this.gameFileName = gameFileName;
