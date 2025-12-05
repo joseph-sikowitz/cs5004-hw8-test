@@ -12,6 +12,7 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import controller.Controller;
 import controller.GameController;
 import controller.GameGraphicInputOutputProcessor;
 import controller.GameInputOutputProcessor;
@@ -65,7 +66,7 @@ public class GameEngineApp {
    *
    * @throws FileNotFoundException if the given file was not found.
    */
-  public void start(String option) throws IOException {
+  public void start() throws IOException {
     if (!exists(Path.of(this.gameFileName)) && !exists(Path.of(System.getProperty("user.dir")
             + this.gameFileName))) {
       throw new FileNotFoundException("File does not exist at the end of the given path: "
@@ -73,21 +74,8 @@ public class GameEngineApp {
     }
 
     IAdventureGameModel model = new AdventureGameModel(this.gameFileName);
-    GameController controller = new GameController(this.ioProcessor, model);
-
-    switch (option) {
-      case TEXT:
-        controller.go();
-        break;
-      case BATCH:
-        controller.go();
-        break;
-      case GRAPHICS:
-        controller.go();
-        break;
-      default:
-        throw new IllegalArgumentException();
-    }
+    Controller controller = new GameController(this.ioProcessor, model);
+    controller.go();
   }
 
   /**
@@ -145,7 +133,7 @@ public class GameEngineApp {
 
       GameEngineApp game = new GameEngineApp(fileName,
               ioProcessor);
-      game.start(option);
+      game.start();
       if (targetFileWriter != null) {
         System.out.println("See output at: "  + targetFileName);
         targetFileWriter.close();
