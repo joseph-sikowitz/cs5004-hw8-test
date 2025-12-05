@@ -12,10 +12,10 @@ import view.AdventureGameTextView;
 import view.IAdventureGameView;
 
 /**
- * The GameCommandReaderTest performs trivial tests of the GameTextInputOutputProcessor class
+ * The GameTextInputOutputProcessorTest performs trivial tests of the GameTextInputOutputProcessor class
  * since its functionality is based on user input.
  */
-class GameCommandReaderTest {
+class GameTextInputOutputProcessorTest {
 
   /**
    * The testConstructor() method tests the GameTextInputOutputProcessor's constructor by
