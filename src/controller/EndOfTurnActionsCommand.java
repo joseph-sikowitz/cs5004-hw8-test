@@ -26,8 +26,8 @@ public class EndOfTurnActionsCommand extends AbstractCommand {
     //message.add(this.model.affectPlayer());
     this.processor.messageToPlayer(this.model.affectPlayer());
 
-    if (this.model.changeInPlayerHealthStatus() || this.model.changeInPlayerScore()
-            || this.model.changeInPlayerRank()) {
+    if (this.model.changeInPlayerHealthStatus() | this.model.changeInPlayerScore()
+            | this.model.changeInPlayerRank()) {
       //display player's health status if it has changed since last command.
       message.add(this.model.getPlayerHealthStatus());
       //display player's score if it has changed since last command.
