@@ -9,11 +9,12 @@ import java.util.Map;
 
 import utilities.UserCommands;
 import view.AdventureGameGraphicView;
+import view.IAdventureGameGraphicView;
 import view.IAdventureGameView;
 
 public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor, ActionListener {
 
-  private final IAdventureGameView<List<String>, GameGraphicInputOutputProcessor> gameView;
+  private final IAdventureGameGraphicView<List<String>> gameView;
   private String rawUserCommand;
   private String lastUserCommand;
   private String userInputArgument;
@@ -28,11 +29,11 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
           + System.getProperty("file.separator") + "images"
           + System.getProperty("file.separator");
 
-  public GameGraphicInputOutputProcessor() {
+  public GameGraphicInputOutputProcessor(IAdventureGameGraphicView<List<String>> gameView) {
     this.rawUserCommand = null;
     this.lastUserCommand = null;
     this.userInputArgument = null;
-    this.gameView = new AdventureGameGraphicView(this);
+    this.gameView = gameView;
     this.gameView.setEventHandler(this);
   }
 
