@@ -284,6 +284,8 @@ public class AdventureGameGraphicView extends JFrame
       messageLabel.setEditable(false);
       messageLabel.setLineWrap(true);
       messageLabel.setWrapStyleWord(true);
+      messageLabel.setPreferredSize(new Dimension(150, 175));
+      messageLabel.setOpaque(false);
       this.add(messageLabel);
     }
   }
@@ -307,6 +309,7 @@ public class AdventureGameGraphicView extends JFrame
       this.setBorder(descriptionBorder);
       descriptionText = new JTextArea(" ");
       descriptionText.setLineWrap(true);
+      descriptionText.setWrapStyleWord(true);
       descriptionText.setPreferredSize(new Dimension(450, 300));
       JPanel descriptionDisplayBox = new JPanel();
       descriptionDisplayBox.add(descriptionText, BorderLayout.SOUTH);
