@@ -24,8 +24,9 @@ class GameControllerTest {
   void testConstructor() {
     String gameFileName = "data/simple_hallway.json";
     IAdventureGameModel model = new AdventureGameModel(gameFileName);
-    GameController controller = new GameController(
-            new InputStreamReader(System.in), System.out, model);
+    GameInputOutputProcessor ioProcessor = new GameTextInputOutputProcessor(
+            new InputStreamReader(System.in), System.out);
+    GameController controller = new GameController(ioProcessor, model);
     assertInstanceOf(GameController.class, controller);
   }
 }
