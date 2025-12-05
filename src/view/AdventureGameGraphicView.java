@@ -188,11 +188,7 @@ public class AdventureGameGraphicView extends JFrame
 
   @Override
   public void updateRoom(List<String> data) throws IOException {
-    Image picture = new ImageIcon(data.getLast()).getImage();
-    Image scaledPicture = picture.getScaledInstance(250, 400, Image.SCALE_SMOOTH);
-    ImageIcon scaledPictureIcon = new ImageIcon(scaledPicture);
-    this.viewImage.setIcon(scaledPictureIcon);
-
+    this.viewImage.setIcon(new ImageIcon(data.getLast()));
     String roomDescription = data.get(1);
     this.descriptionText.setText(roomDescription);
   }
