@@ -13,7 +13,6 @@ import model.IAdventureGameModel;
  */
 public class EndOfTurnActionsCommand extends AbstractCommand {
 
-  private static final String QUIT_MESSAGE_PICTURE = null; //TODO: figure out what the picture is.
 
   public EndOfTurnActionsCommand(IAdventureGameModel model, GameInputOutputProcessor processor) {
     super(model, processor);
@@ -39,7 +38,7 @@ public class EndOfTurnActionsCommand extends AbstractCommand {
 
     boolean gameRunnable = super.execute();
     if (!gameRunnable)
-      this.processor.messageToPlayer(Arrays.asList(this.model.quitMessage(), QUIT_MESSAGE_PICTURE));
+      this.processor.quit(this.model.quitMessage());
     return gameRunnable;
   }
 }
