@@ -136,8 +136,8 @@ public class AdventureGameGraphicView extends JFrame
   }
 
   @Override
-  public void setEventHandler(ActionListener ioProcessor) {
-    this.ioProcessor = ioProcessor;
+  public void setEventHandler(ActionListener actionListener) {
+    this.ioProcessor = actionListener;
     this.splashDialog();
 
     this.setSize(1000, 750);
@@ -156,7 +156,7 @@ public class AdventureGameGraphicView extends JFrame
     this.rightPanel.add(new ActionsPanel(new GridLayout(2, 1), ACTIONS_TITLE));
     this.rightPanel.add(new InventoryPanel());
     this.rightPanel.add(new StatusPanel(new GridLayout(0, 1), STATUS_TITLE));
-    this.setActionListener(ioProcessor);
+    this.setActionListener(actionListener);
   }
 
   /**
