@@ -143,8 +143,8 @@ public class AdventureGameGraphicView extends JFrame
     about.addActionListener(
             event -> JOptionPane.showMessageDialog(null,
                     "An adventure from Vasilios & Joe"));
-    exit.addActionListener(
-            event -> System.exit(0));
+    exit.setActionCommand("Quit");
+    exit.addActionListener(this.ioProcessor);
     JMenuBar menuBar = new JMenuBar();
     menuBar.add(menu);
     return menuBar;
