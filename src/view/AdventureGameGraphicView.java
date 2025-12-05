@@ -234,6 +234,12 @@ public class AdventureGameGraphicView extends JFrame
     }
   }
 
+  @Override
+  public void quit(String data) throws IOException {
+    JOptionPane.showMessageDialog(this, data);
+    System.exit(0);
+  }
+
   /**
    * The splashDialog() displays a splash screen at the beginning of the game with
    * a default image.

@@ -148,7 +148,7 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
 
   @Override
   public void quit(String data) throws IOException {
-
+    this.gameView.quit(data);
   }
 
   @Override
