@@ -38,6 +38,12 @@ public interface GameInputOutputProcessor {
   UserCommands getUserInputCommand();
 
   /**
+   * Returns the last command the user inputted.
+   * @return String representing the last command the user inputted.
+   */
+  String getLastUserInputCommand();
+
+  /**
    * The getUserInputCommand() is the getter for a command entered by the user.
    * A command is the first word or character entered by a character in an
    * input String.

@@ -73,6 +73,11 @@ public class GameTextInputOutputProcessor implements GameInputOutputProcessor {
   }
 
   @Override
+  public String getLastUserInputCommand() {
+    return this.getRawUserInputCommand();
+  }
+
+  @Override
   public String getRawUserInputCommand() {
     return this.userInput.length
             >= ONE_COMMAND_LENGTH ? this.userInput[FIRST_COMMAND].trim() : null;

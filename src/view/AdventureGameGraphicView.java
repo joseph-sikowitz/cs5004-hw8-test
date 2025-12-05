@@ -184,7 +184,7 @@ public class AdventureGameGraphicView extends JFrame
     if (data.size() > 1) {
       ItemPanel itemPanel = new ItemPanel(new GridLayout(0, 1), data.getLast(), data.getFirst());
       JOptionPane.showMessageDialog(this, itemPanel,
-              "Item message", JOptionPane.INFORMATION_MESSAGE);
+              "Action", JOptionPane.INFORMATION_MESSAGE);
     } else {
       JOptionPane.showMessageDialog(this, data.getFirst());
     }
@@ -427,17 +427,17 @@ public class AdventureGameGraphicView extends JFrame
       this.add(inventoryText);
       inventoryText.addListSelectionListener(this);
 
-      inspectButton = new JButton("Inspect");
+      inspectButton = new JButton("Examine");
       inspectButton.addActionListener(ioProcessor);
-      inspectButton.setActionCommand("examine" + " \r " + inventorySelection);
+      inspectButton.setActionCommand("Examine" + " \r " + inventorySelection);
 
       useButton = new JButton("Use");
       useButton.addActionListener(ioProcessor);
-      useButton.setActionCommand("use" + " \r " + inventorySelection);
+      useButton.setActionCommand("Use" + " \r " + inventorySelection);
 
       dropButton = new JButton("Drop");
       dropButton.addActionListener(ioProcessor);
-      dropButton.setActionCommand("drop " + " \r " + inventorySelection);
+      dropButton.setActionCommand("Drop" + " \r " + inventorySelection);
 
       JPanel inventoryButtonPanel = new JPanel(new GridLayout(0, 3));
       inventoryButtonPanel.add(inspectButton);
@@ -448,9 +448,9 @@ public class AdventureGameGraphicView extends JFrame
 
     @Override
     public void valueChanged(ListSelectionEvent e) {
-      inspectButton.setActionCommand("examine" + " \r " + inventoryText.getSelectedValue());
-      useButton.setActionCommand("use" + " \r " + inventoryText.getSelectedValue());
-      dropButton.setActionCommand("drop" + " \r " + inventoryText.getSelectedValue());
+      inspectButton.setActionCommand("Examine" + " \r " + inventoryText.getSelectedValue());
+      useButton.setActionCommand("Use" + " \r " + inventoryText.getSelectedValue());
+      dropButton.setActionCommand("Drop" + " \r " + inventoryText.getSelectedValue());
     }
   }
 

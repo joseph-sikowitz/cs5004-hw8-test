@@ -14,12 +14,10 @@ import view.IAdventureGameView;
 public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor, ActionListener {
 
   private final IAdventureGameView<List<String>, GameGraphicInputOutputProcessor> gameView;
-  private UserCommands userCommand;
   private String rawUserCommand;
-  private String userInputCommand;
+  private String lastUserCommand;
   private String userInputArgument;
   private Map<UserCommands, ICommand> commands;
-  private ICommand endOfTurnActions;
   private List<String> roomData;
 
   private static final String DEFAULT_PICTURE = "generic_location.png";
@@ -32,6 +30,7 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
 
   public GameGraphicInputOutputProcessor() {
     this.rawUserCommand = null;
+    this.lastUserCommand = null;
     this.userInputArgument = null;
     this.gameView = new AdventureGameGraphicView(this);
     this.gameView.setEventHandler(this);
@@ -49,18 +48,20 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
 
   @Override
   public synchronized UserCommands getUserInputCommand() {
-    //UserCommands command = UserCommands.findUserCommand(this.getRawUserInputCommand(), "");
-    //this.userCommand = "";
-    this.userCommand = UserCommands.findUserCommand(this.getRawUserInputCommand(),
+    return UserCommands.findUserCommand(this.getRawUserInputCommand(),
             this.getUserInputArgument());
-    return this.userCommand;
+  }
+
+  @Override
+  public String getLastUserInputCommand() {
+    return this.lastUserCommand;
   }
 
   @Override
   public String getRawUserInputCommand() {
-    String rawUserCommand = this.rawUserCommand;
+    this.lastUserCommand = this.rawUserCommand;
     this.rawUserCommand = null;
-    return rawUserCommand;
+    return this.lastUserCommand;
   }
 
   @Override
