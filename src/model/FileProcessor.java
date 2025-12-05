@@ -218,7 +218,7 @@ public class FileProcessor {
           double weight = item.get(ItemJsonFields.WEIGHT.getValue()).asDouble();
 
           String picture;
-          if (item.get(ItemJsonFields.PICTURE.getValue()) != null) {
+          if (item.get(ItemJsonFields.PICTURE.getValue()).isNull()) {
             picture = null;
           } else {
             picture = item.get(ItemJsonFields.PICTURE.getValue()).asText();
