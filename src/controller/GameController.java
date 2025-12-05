@@ -27,8 +27,8 @@ public class GameController implements Controller {
    * The GameController constructor instantiates a GameController object to be
    * used to take user input in order to interact with the model.
    *
-   * @param ioProcessor
-   * @param model
+   * @param ioProcessor an instance of GameInputOutputProcessor.
+   * @param model and instance of IAdventureGameModel.
    */
   public GameController(GameInputOutputProcessor ioProcessor, IAdventureGameModel model) {
     this.ioProcessor = ioProcessor;
