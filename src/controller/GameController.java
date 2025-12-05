@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import model.IAdventureGameModel;
-import utilities.UserCommands;
 
 /**
  * The GameController class gets input from the user and sends it to the model

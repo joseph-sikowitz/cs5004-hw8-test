@@ -1,4 +1,4 @@
-package utilities;
+package controller;
 
 /**
  * The UserCommands enum contains the commands that users are allowed to input

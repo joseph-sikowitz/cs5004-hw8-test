@@ -3,8 +3,6 @@ package controller;
 import java.io.IOException;
 import java.util.List;
 
-import utilities.UserCommands;
-
 /**
  * This class type processes user input and sends output to the View.
  * It functions as an Adaptor Pattern, formatting data to pass to the Controller and to the View.

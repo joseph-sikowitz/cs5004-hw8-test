@@ -7,10 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import utilities.UserCommands;
-import view.AdventureGameGraphicView;
 import view.IAdventureGameGraphicView;
-import view.IAdventureGameView;
 
 public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor, ActionListener {
 
