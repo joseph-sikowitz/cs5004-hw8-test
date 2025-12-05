@@ -23,6 +23,7 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
   private List<String> roomData;
 
   private static final String DEFAULT_PICTURE = "generic_location.png";
+  private static final String DEFAULT_ITEM = "generic_item.png";
 
   private static final String DATA_DIR = System.getProperty("user.dir")
           + System.getProperty("file.separator") + "resources"
@@ -73,7 +74,7 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
     if (!data.isEmpty()) {
       String picturePath = data.removeLast();
       if (picturePath == null || picturePath.isEmpty()) {
-        data.add(DATA_DIR + DEFAULT_PICTURE);
+        data.add(DATA_DIR + DEFAULT_ITEM);
       } else {
         data.add(DATA_DIR + picturePath);
       }
