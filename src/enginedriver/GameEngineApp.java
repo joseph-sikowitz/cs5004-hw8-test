@@ -19,6 +19,8 @@ import controller.GameInputOutputProcessor;
 import controller.GameTextInputOutputProcessor;
 import model.AdventureGameModel;
 import model.IAdventureGameModel;
+import view.AdventureGameGraphicView;
+import view.AdventureGameTextView;
 
 /**
  * The GameEngineApp class is the entry point for an adventure game. It has a game filename
@@ -45,7 +47,7 @@ public class GameEngineApp {
    * @param output an Appendable to append outputs to.
    */
   public GameEngineApp(String gameFileName, Readable source, Appendable output) {
-    this(gameFileName, new GameTextInputOutputProcessor(source, output));
+    this(gameFileName, new GameTextInputOutputProcessor(new AdventureGameTextView(source, output)));
   }
 
   /**
@@ -99,10 +101,10 @@ public class GameEngineApp {
       switch (option) {
         case TEXT:
           ioProcessor = new GameTextInputOutputProcessor(
-                  new InputStreamReader(System.in), System.out);
+                  new AdventureGameTextView(new InputStreamReader(System.in), System.out));
           break;
         case GRAPHICS:
-          ioProcessor = new GameGraphicInputOutputProcessor();
+          ioProcessor = new GameGraphicInputOutputProcessor(new AdventureGameGraphicView());
           break;
         case BATCH:
           if (args.length < 3 || args.length > 4) {
@@ -124,7 +126,7 @@ public class GameEngineApp {
           } else {
             out = System.out;
           }
-          ioProcessor = new GameTextInputOutputProcessor(in, out);
+          ioProcessor = new GameTextInputOutputProcessor(new AdventureGameTextView(in, out));
           break;
         default:
           throw new IllegalArgumentException();
