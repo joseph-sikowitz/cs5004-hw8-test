@@ -97,6 +97,8 @@ public class AdventureGameGraphicView extends JFrame
     this.ioProcessor = ioProcessor;
     this.inventorySelection = "";
 
+    this.splashDialog();
+
     this.setSize(1000, 750);
     this.setLocation(50, 50);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -219,6 +221,15 @@ public class AdventureGameGraphicView extends JFrame
     } else {
       this.setTitle(data);
     }
+  }
+
+  /**
+   * The splashDialog() displays a splash screen at the beginning of the game with
+   * a default image.
+   */
+  private void splashDialog() {
+    JOptionPane.showMessageDialog(this, new ImageIcon(SPLASH_IMAGE),
+            "Welcome to the adventure!", JOptionPane.INFORMATION_MESSAGE);
   }
 
   /**
