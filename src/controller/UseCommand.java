@@ -12,9 +12,9 @@ import model.IAdventureGameModel;
 public class UseCommand extends AbstractCommand {
 
   /**
-   * The constructor for the UseCommand class initializes the game model.
-   *
-   * @param model IAdventureGameModel object to execute the command for.
+   * Constructor initializes the IAdventureGameModel and the GameInputOutputProcessor.
+   * @param model an instance of IAdventureGameModel type.
+   * @param processor and instance of GameInputOutputProcessor type.
    */
   public UseCommand(IAdventureGameModel model, GameInputOutputProcessor processor) {
     super(model, processor);
@@ -22,12 +22,12 @@ public class UseCommand extends AbstractCommand {
 
   @Override
   public boolean execute() throws IOException {
-     this.processor.messageToPlayer(model.useItem(this.processor.getUserInputArgument()));
-     if (this.model.roomChanged()) {
-       this.processor.updateRoom(this.model.lookAround());
-       this.processor.updateFixtures(model.getFixturesInRoom());
-       this.processor.updateItems(model.getItemsInRoom());
-     }
+    this.processor.messageToPlayer(model.useItem(this.processor.getUserInputArgument()));
+    if (this.model.roomChanged()) {
+      this.processor.updateRoom(this.model.lookAround());
+      this.processor.updateFixtures(model.getFixturesInRoom());
+      this.processor.updateItems(model.getItemsInRoom());
+    }
     return super.execute();
   }
 }

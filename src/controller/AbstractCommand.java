@@ -16,6 +16,11 @@ public abstract class AbstractCommand implements ICommand {
   protected final IAdventureGameModel model;
   protected final GameInputOutputProcessor processor;
 
+  /**
+   * Constructor initializes the IAdventureGameModel and the GameInputOutputProcessor.
+   * @param model an instance of IAdventureGameModel type.
+   * @param processor and instance of GameInputOutputProcessor type.
+   */
   public AbstractCommand(IAdventureGameModel model, GameInputOutputProcessor processor) {
     this.model = model;
     this.processor = processor;

@@ -12,9 +12,9 @@ public class InventoryCommand extends AbstractCommand {
 
 
   /**
-   * The constructor for the InventoryCommand class initializes the game model.
-   *
-   * @param model IAdventureGameModel object to execute the Inventory command for.
+   * Constructor initializes the IAdventureGameModel and the GameInputOutputProcessor.
+   * @param model an instance of IAdventureGameModel type.
+   * @param processor and instance of GameInputOutputProcessor type.
    */
   public InventoryCommand(IAdventureGameModel model, GameInputOutputProcessor processor) {
     super(model, processor);

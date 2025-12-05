@@ -11,9 +11,9 @@ public class AnswerCommand extends AbstractCommand {
 
 
   /**
-   * The constructor for the AnswerCommand class initializes the game model.
-   *
-   * @param model IAdventureGameModel object to execute the command for.
+   * Constructor initializes the IAdventureGameModel and the GameInputOutputProcessor.
+   * @param model an instance of IAdventureGameModel type.
+   * @param processor and instance of GameInputOutputProcessor type.
    */
   public AnswerCommand(IAdventureGameModel model, GameInputOutputProcessor processor) {
     super(model, processor);

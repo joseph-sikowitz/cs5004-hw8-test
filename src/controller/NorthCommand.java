@@ -11,9 +11,9 @@ import model.IAdventureGameModel;
 public class NorthCommand extends AbstractCommand {
 
   /**
-   * The constructor for the NorthCommand class initializes the game model.
-   *
-   * @param model IAdventureGameModel object to execute the move north command for.
+   * Constructor initializes the IAdventureGameModel and the GameInputOutputProcessor.
+   * @param model an instance of IAdventureGameModel type.
+   * @param processor and instance of GameInputOutputProcessor type.
    */
   public NorthCommand(IAdventureGameModel model, GameInputOutputProcessor processor) {
     super(model, processor);

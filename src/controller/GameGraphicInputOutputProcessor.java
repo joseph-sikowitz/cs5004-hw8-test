@@ -29,6 +29,11 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
           + System.getProperty("file.separator") + "images"
           + System.getProperty("file.separator");
 
+  /**
+   * Initializes the processor with a IAdventureGameGraphicView type.
+   * @param gameView an IAdventureGameGraphicView type
+   *      that receives a List of Strings as its data.
+   */
   public GameGraphicInputOutputProcessor(IAdventureGameGraphicView<List<String>> gameView) {
     this.rawUserCommand = null;
     this.lastUserCommand = null;

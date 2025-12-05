@@ -12,9 +12,9 @@ public class TakeCommand extends AbstractCommand {
 
 
   /**
-   * The constructor for the TakeCommand class initializes the game model.
-   *
-   * @param model IAdventureGameModel object to execute the command for.
+   * Constructor initializes the IAdventureGameModel and the GameInputOutputProcessor.
+   * @param model an instance of IAdventureGameModel type.
+   * @param processor and instance of GameInputOutputProcessor type.
    */
   public TakeCommand(IAdventureGameModel model, GameInputOutputProcessor processor) {
     super(model, processor);

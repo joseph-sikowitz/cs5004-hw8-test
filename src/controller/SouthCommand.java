@@ -13,9 +13,9 @@ public class SouthCommand extends AbstractCommand {
 
 
   /**
-   * The constructor for the SouthCommand class initializes the game model.
-   *
-   * @param model IAdventureGameModel object to execute the move south command for.
+   * Constructor initializes the IAdventureGameModel and the GameInputOutputProcessor.
+   * @param model an instance of IAdventureGameModel type.
+   * @param processor and instance of GameInputOutputProcessor type.
    */
   public SouthCommand(IAdventureGameModel model, GameInputOutputProcessor processor) {
     super(model, processor);

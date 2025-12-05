@@ -11,9 +11,9 @@ public class LookCommand extends AbstractCommand {
 
 
   /**
-   * The constructor for the LookCommand class initializes the game model.
-   *
-   * @param model IAdventureGameModel object to execute the look command for.
+   * Constructor initializes the IAdventureGameModel and the GameInputOutputProcessor.
+   * @param model an instance of IAdventureGameModel type.
+   * @param processor and instance of GameInputOutputProcessor type.
    */
   public LookCommand(IAdventureGameModel model, GameInputOutputProcessor processor) {
     super(model, processor);

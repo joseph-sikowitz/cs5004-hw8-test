@@ -13,7 +13,11 @@ import model.IAdventureGameModel;
  */
 public class EndOfTurnActionsCommand extends AbstractCommand {
 
-
+  /**
+   * Constructor initializes the IAdventureGameModel and the GameInputOutputProcessor.
+   * @param model an instance of IAdventureGameModel type.
+   * @param processor and instance of GameInputOutputProcessor type.
+   */
   public EndOfTurnActionsCommand(IAdventureGameModel model, GameInputOutputProcessor processor) {
     super(model, processor);
   }
