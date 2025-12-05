@@ -18,8 +18,10 @@ class Inventory<T extends Element> implements Iterable<T> {
   Inventory(Map<String, T> elements) {
     this.elements = new HashMap<>();
     //add all elements to elements field.
-    for (T element : elements.values()) {
-      this.addElement(element);
+    if (elements != null) {
+      for (T element : elements.values()) {
+        this.addElement(element);
+      }
     }
   }
 

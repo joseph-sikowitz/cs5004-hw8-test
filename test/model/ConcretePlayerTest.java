@@ -424,8 +424,8 @@ class ConcretePlayerTest {
   @Test
   void testExamine() {
     m1.solve(i1);
-    assertEquals(i1.getDescription(), player1.examine("carrot"));
-    assertEquals(f1.getDescription(), player1.examine("Bookshelf"));
+    assertEquals(i1.getDescription(), player1.examine("carrot").getFirst());
+    assertEquals(f1.getDescription(), player1.examine("Bookshelf").getFirst());
   }
 
   /**
