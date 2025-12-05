@@ -23,13 +23,13 @@ Our team decided to provide the player with four health statuses. Full health is
 the player is woozy, and finally the player is asleep. For scoring, we used the values provided by the JSON but created our own rankings 
 (in ascending order): Novice, Squire, Knight, Baron, Prince, and King. We also opted to not change the "user menu" from what is in the specs.
 
-Between homework 8 and homework 9, our Controller design evolved in significant ways. We decoupled the text view from the GameController, making a IAdventureGameView interface
-and making the text view a concrete subtype of said interface.  The GUI or graphics view also implements the IAdventureGameView interface.
+Between homework 8 and homework 9, our Controller design evolved in significant ways. We decoupled the text view from the GameController, made a IAdventureGameView interface,
+and made the text view a concrete subtype of said interface. The GUI or graphics view also implements the IAdventureGameView interface.
 We also isolated GameController behavior to strictly processing Command Pattern executions. Minimal refactoring was needed for our model: We added an Inventory service class that
 encapsulates a Map of Element types hashed by their names in all lowercase. This was done to consolidate/delegate proper formatting of keys for Maps containing elements to one class.
 FileProcessor, Room, and Player now use this Inventory service class to store elements. 
 The other change to the model was refactoring return types of IAdventureGameModel methods, mainly to pass the pictures for each element to the view. 
-The GameInputOutputProcessor subtype for the text view "adapts" this extra data from the model out of the data passed to the text view.
+The GameInputOutputProcessor subtype for the text view "adapts" this extra data from the model out of the data that is passed to the text view.
 
 TODO - add HW9 changes below:
 SOLID Principle Application:
