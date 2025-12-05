@@ -85,4 +85,11 @@ public interface IAdventureGameView<T, C extends GameInputOutputProcessor> {
    */
   void updateTitle(String data) throws IOException;
 
+  /**
+   * Displays a quit message and terminates the View.
+   * @param data data to display.
+   * @throws IOException If I/O error occurs.
+   */
+  void quit(String data) throws IOException;
+
 }

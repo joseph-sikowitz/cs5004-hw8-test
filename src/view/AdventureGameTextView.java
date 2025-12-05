@@ -79,4 +79,10 @@ public class AdventureGameTextView implements
   public void updateTitle(String data) throws IOException {
     this.out.append(data);
   }
+
+  @Override
+  public void quit(String data) throws IOException {
+    this.out.append(data);
+    this.scanner.close();
+  }
 }

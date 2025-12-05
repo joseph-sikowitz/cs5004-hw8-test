@@ -143,8 +143,8 @@ public class AdventureGameGraphicView extends JFrame
     about.addActionListener(
             event -> JOptionPane.showMessageDialog(null,
                     "An adventure from Vasilios & Joe"));
-    exit.addActionListener(
-            event -> System.exit(0));
+    exit.setActionCommand("Quit");
+    exit.addActionListener(this.ioProcessor);
     JMenuBar menuBar = new JMenuBar();
     menuBar.add(menu);
     return menuBar;
@@ -192,7 +192,8 @@ public class AdventureGameGraphicView extends JFrame
 
   @Override
   public void updatePlayerStats(List<String> data) throws IOException {
-    this.statusText.setText(data.getFirst());
+    String playerStatus = String.join("\n", data);
+    this.statusText.setText(playerStatus);
   }
 
   @Override
@@ -231,6 +232,12 @@ public class AdventureGameGraphicView extends JFrame
     } else {
       this.setTitle(data);
     }
+  }
+
+  @Override
+  public void quit(String data) throws IOException {
+    JOptionPane.showMessageDialog(this, data);
+    System.exit(0);
   }
 
   /**

@@ -2,7 +2,6 @@ package controller;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import utilities.UserCommands;
 
@@ -84,14 +83,12 @@ public interface GameInputOutputProcessor {
    */
   void updateRoom(List<String> data) throws IOException;
 
-
   /**
    * Updates the Player's inventory.
    * @param data the data to display.
    * @throws IOException If I/O error occurs.
    */
   void updateInventory(List<String> data) throws IOException;
-
 
   /**
    * Displays data to user and Asks user to input text.
@@ -107,14 +104,12 @@ public interface GameInputOutputProcessor {
    */
   void updateFixtures(List<String> data) throws IOException;
 
-
   /**
    * Updates the list of Items in the current Room.
    * @param data data to display.
    * @throws IOException If I/O error occurs.
    */
   void updateItems(List<String> data) throws IOException;
-
 
   /**
    * Displays the title of the game.
@@ -124,16 +119,9 @@ public interface GameInputOutputProcessor {
   void updateTitle(String data) throws IOException;
 
   /**
-   * Sets the user commands to use by the processor.
-   *
-   * @param commands Map of user commands.
+   * Displays a quit message and terminates the View.
+   * @param data data to display.
+   * @throws IOException If I/O error occurs.
    */
-  void setUserCommands(Map<UserCommands, ICommand> commands);
-
-  /**
-   * Sets endOfTurnActions for the processor.
-   *
-   * @param endOfTurnActions ICommand of action to take at end of turn.
-   */
-  void setEndOfTurnActions(ICommand endOfTurnActions);
+  void quit(String data) throws IOException;
 }

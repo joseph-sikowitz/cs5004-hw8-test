@@ -91,8 +91,6 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
 
   @Override
   public void updatePlayerStats(List<String> data) throws IOException {
-    String playerStatus = String.join("\n", data);
-    data.addFirst(playerStatus);
     this.gameView.updatePlayerStats(data);
   }
 
@@ -149,6 +147,11 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
   }
 
   @Override
+  public void quit(String data) throws IOException {
+    this.gameView.quit(data);
+  }
+
+  @Override
   public synchronized void actionPerformed(ActionEvent e) {
     //this.executeCommand(e.getActionCommand());
     String command = e.getActionCommand();
@@ -165,15 +168,4 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
       e1.printStackTrace();
     }
   }
-
-  @Override
-  public void setUserCommands(Map<UserCommands, ICommand> commands) {
-    this.commands = commands;
-  }
-
-  @Override
-  public void setEndOfTurnActions(ICommand endOfTurnActions) {
-    this.endOfTurnActions = endOfTurnActions;
-  }
-
 }

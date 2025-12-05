@@ -13,7 +13,6 @@ import model.IAdventureGameModel;
  */
 public class EndOfTurnActionsCommand extends AbstractCommand {
 
-  private static final String QUIT_MESSAGE_PICTURE = null; //TODO: figure out what the picture is.
 
   public EndOfTurnActionsCommand(IAdventureGameModel model, GameInputOutputProcessor processor) {
     super(model, processor);
@@ -26,21 +25,20 @@ public class EndOfTurnActionsCommand extends AbstractCommand {
     //message.add(this.model.affectPlayer());
     this.processor.messageToPlayer(this.model.affectPlayer());
 
-    if (this.model.changeInPlayerHealthStatus() || this.model.changeInPlayerScore()
-            || this.model.changeInPlayerRank()) {
+    if (this.model.changeInPlayerHealthStatus() | this.model.changeInPlayerScore()
+            | this.model.changeInPlayerRank()) {
       //display player's health status if it has changed since last command.
       message.add(this.model.getPlayerHealthStatus());
       //display player's score if it has changed since last command.
       message.add(this.model.getPlayerScoreFormatted());
       //display player's rank if it has changed since last command.
       message.add(this.model.getPlayerRank());
+      this.processor.updatePlayerStats(message);
     }
 
-
-    this.processor.updatePlayerStats(message);
     boolean gameRunnable = super.execute();
     if (!gameRunnable)
-      this.processor.messageToPlayer(Arrays.asList(this.model.quitMessage(), QUIT_MESSAGE_PICTURE));
+      this.processor.quit(this.model.quitMessage());
     return gameRunnable;
   }
 }

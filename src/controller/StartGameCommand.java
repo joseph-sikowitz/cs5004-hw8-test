@@ -11,7 +11,6 @@ import model.IAdventureGameModel;
  * name.
  */
 public class StartGameCommand extends AbstractCommand {
-  public static final String START_PICTURE = null;
 
   public StartGameCommand(IAdventureGameModel model, GameInputOutputProcessor processor) {
     super(model, processor);

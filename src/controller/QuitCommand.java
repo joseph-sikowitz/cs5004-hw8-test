@@ -15,7 +15,7 @@ public class QuitCommand extends AbstractCommand {
 
   @Override
   public boolean execute() throws IOException {
-    this.processor.messageToPlayer(this.model.quitMessage());
+    this.processor.quit(this.model.quitMessage());
     return false;
   }
 }
