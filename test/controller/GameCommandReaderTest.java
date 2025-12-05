@@ -8,6 +8,9 @@ import java.io.StringReader;
 
 import org.junit.jupiter.api.Test;
 
+import view.AdventureGameTextView;
+import view.IAdventureGameView;
+
 /**
  * The GameCommandReaderTest performs trivial tests of the GameTextInputOutputProcessor class
  * since its functionality is based on user input.
@@ -21,7 +24,8 @@ class GameCommandReaderTest {
   @Test
   void testConstructor() {
     BufferedReader stringReader = new BufferedReader(new StringReader("Joe"));
-    GameTextInputOutputProcessor gcr = new GameTextInputOutputProcessor(stringReader, System.out);
+    IAdventureGameView<String> view = new AdventureGameTextView(stringReader, System.out);
+    GameTextInputOutputProcessor gcr = new GameTextInputOutputProcessor(view);
     assertInstanceOf(GameTextInputOutputProcessor.class, gcr);
   }
 
