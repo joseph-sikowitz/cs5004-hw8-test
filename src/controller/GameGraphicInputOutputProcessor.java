@@ -21,7 +21,7 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
   private static final String DEFAULT_PICTURE = "generic_location.png";
   private static final String DEFAULT_ITEM = "generic_item.png";
 
-  private static final String DATA_DIR = System.getProperty("user.dir")
+  private static final String IMG_DIR = System.getProperty("user.dir")
           + System.getProperty("file.separator") + "resources"
           + System.getProperty("file.separator") + "images"
           + System.getProperty("file.separator");
@@ -78,9 +78,9 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
     if (!data.isEmpty()) {
       String picturePath = data.removeLast();
       if (picturePath == null || picturePath.isEmpty()) {
-        data.add(DATA_DIR + DEFAULT_ITEM);
+        data.add(IMG_DIR + DEFAULT_ITEM);
       } else {
-        data.add(DATA_DIR + picturePath);
+        data.add(IMG_DIR + picturePath);
       }
       this.gameView.messageToPlayer(data);
     }
@@ -103,9 +103,9 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
     String picturePath = data.removeLast();
     data.add(data.removeLast() + "\n");
     if (picturePath == null || picturePath.isEmpty()) {
-      data.add(DATA_DIR + DEFAULT_PICTURE);
+      data.add(IMG_DIR + DEFAULT_PICTURE);
     } else {
-      data.add(DATA_DIR + picturePath);
+      data.add(IMG_DIR + picturePath);
     }
     this.roomData = data;
     this.gameView.updateRoom(data);
