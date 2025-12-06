@@ -44,7 +44,6 @@ public class AdventureGameGraphicView extends JFrame
 
   private ActionListener ioProcessor;
   private String userInput;
-  private String inventorySelection;
   private String roomDescription;
 
   private JButton northButton;
