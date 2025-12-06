@@ -16,7 +16,7 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
   private String lastUserCommand;
   private String userInputArgument;
   private Map<UserCommands, ICommand> commands;
-  private List<String> roomData;
+
 
   private static final String DEFAULT_PICTURE = "generic_location.png";
   private static final String DEFAULT_ITEM = "generic_item.png";
@@ -107,7 +107,6 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
     } else {
       data.add(IMG_DIR + picturePath);
     }
-    this.roomData = data;
     this.gameView.updateRoom(data);
   }
 
@@ -124,23 +123,11 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
 
   @Override
   public void updateFixtures(List<String> data) throws IOException {
-    if (this.roomData != null && !data.isEmpty()) {
-      String roomData = this.roomData.remove(1);
-      roomData += "Fixtures you see here: " + String.join(", ", data) + "\n";
-      this.roomData.add(1, roomData);
-      this.gameView.updateRoom(this.roomData);
-    }
     this.gameView.updateFixtures(data);
   }
 
   @Override
   public void updateItems(List<String> data) throws IOException {
-    if (this.roomData != null && !data.isEmpty()) {
-      String roomData = this.roomData.remove(1);
-      roomData += "Items you see here: " + String.join(", ", data) + "\n";
-      this.roomData.add(1, roomData);
-      this.gameView.updateRoom(this.roomData);
-    }
     this.gameView.updateItems(data);
   }
 
