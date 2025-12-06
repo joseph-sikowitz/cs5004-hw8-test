@@ -8,7 +8,7 @@ import model.IAdventureGameModel;
  * Handles Invalid User Commands.
  */
 public class InvalidCommand extends AbstractCommand {
-  private static final String UNKNOWN_COMMAND = "Unknown command!\n";
+  private static final String UNKNOWN_COMMAND = "Unknown command!";
 
   /**
    * Constructor initializes the IAdventureGameModel and the GameInputOutputProcessor.

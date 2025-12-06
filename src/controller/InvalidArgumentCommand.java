@@ -8,7 +8,7 @@ import model.IAdventureGameModel;
  * Handles invalid arguments to commands that require arguments.
  */
 public class InvalidArgumentCommand extends AbstractCommand {
-  private static final String REQUIRED_ARGUMENT = " requires an argument!\n";
+  private static final String REQUIRED_ARGUMENT = " requires an argument!";
 
   /**
    * Constructor initializes the IAdventureGameModel and the GameInputOutputProcessor.
