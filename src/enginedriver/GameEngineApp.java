@@ -36,8 +36,6 @@ public class GameEngineApp {
   private static final String BATCH = "-batch";
 
   private String gameFileName;
-  private Readable source;
-  private Appendable output;
   private GameInputOutputProcessor ioProcessor;
 
   /**
@@ -139,7 +137,8 @@ public class GameEngineApp {
               ioProcessor);
       game.start();
       if (targetFileWriter != null) {
-        System.out.println("See output at: " + System.getProperty("user.dir") + System.getProperty("file.separator") + targetFileName);
+        System.out.println("See output at: " + System.getProperty("user.dir")
+                + System.getProperty("file.separator") + targetFileName);
         targetFileWriter.close();
       }
     } catch (IllegalArgumentException e) {
