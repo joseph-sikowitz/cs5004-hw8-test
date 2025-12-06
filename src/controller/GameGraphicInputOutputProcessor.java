@@ -45,11 +45,6 @@ public class GameGraphicInputOutputProcessor implements GameInputOutputProcessor
   }
 
   @Override
-  public boolean getUserCommand() throws IOException {
-    return true; //TODO: Refactor this.
-  }
-
-  @Override
   public synchronized UserCommands getUserInputCommand() {
     return UserCommands.findUserCommand(this.getRawUserInputCommand(),
             this.getUserInputArgument());

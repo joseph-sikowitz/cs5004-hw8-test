@@ -51,8 +51,6 @@ public class GameController implements Controller {
         //uses command structure in commands Map instead of if/else
         do {
           //get user input while commands can be executed.
-          if (!this.ioProcessor.getUserCommand()) //TODO: refactor this such that getUserCommand throws the IOException.
-            throw new IOException();
           userCommand = this.ioProcessor.getUserInputCommand();
         }
         while (userCommand == UserCommands.WAIT);

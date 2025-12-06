@@ -16,15 +16,6 @@ public interface GameInputOutputProcessor {
    */
   String getUserMessage() throws IOException;
 
-  /**
-   * The getUserCommand() method prompts the user for game actions and
-   * accepts user input for game play.
-   *
-   * @return boolean indicating if the game is over.
-   * @throws IOException if there is an error appending to output or receiving
-   *                     user input.
-   */
-  boolean getUserCommand() throws IOException;
 
   /**
    * The getUserInputCommand() is the getter for a command entered by the user.

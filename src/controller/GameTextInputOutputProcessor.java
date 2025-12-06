@@ -37,9 +37,15 @@ public class GameTextInputOutputProcessor implements GameInputOutputProcessor {
     this.gameView = gameView;
   }
 
-
-  @Override
-  public boolean getUserCommand() throws IOException {
+/**
+ * The getUserCommand() method prompts the user for game actions and
+ * accepts user input for game play.
+ *
+ * @return boolean indicating if the game is over.
+ * @throws IOException if there is an error appending to output or receiving
+ *                     user input.
+ */
+ private boolean getUserCommand() {
     try {
       this.gameView.messageToPlayer(UserPrompts.BASIC_PROMPT.getPrompt());
       this.gameView.messageToPlayer(UserPrompts.USER_CHOICE.getPrompt());
@@ -64,6 +70,7 @@ public class GameTextInputOutputProcessor implements GameInputOutputProcessor {
 
   @Override
   public UserCommands getUserInputCommand() {
+    this.getUserCommand();
     return UserCommands.findUserCommand(this.getRawUserInputCommand(),
             this.getUserInputArgument());
   }
