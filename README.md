@@ -13,16 +13,16 @@ Our design for the final iteration of this adventure game implements the full MV
 that comprise the main features of the game including fixtures, items, monsters, players, and rooms. All concrete elements in the game
 extend the AbstractElement abstract class. Their interfaces also extend the Element interface. We have several interfaces that various
 elements implement in order to guarantee certain behavior such as Picturable, Scorable, Activatable, Targeter, Weightable, PlayerAffector,
-and Affector. Given that we are developing a game-engine based on a process-flow engine as opposed to a finished, shippable game, 
-each element has an interface, giving our model the maximum possible design reuse for anyone seeking to add additional elements or additional subtypes of elements to the game.
+and Affector. Given that we are developing a game-engine based on a process-flow engine as opposed to a finished, shippable game, each element has an interface, 
+giving our model the maximum possible design reuse for anyone seeking to add additional elements or additional subtypes of elements to the game.
 The model also holds a FileProcessor class that handles ingesting a JSON file to start the game and writing to a JSON save 
 file so that the user can save and restore the current game state. Finally, the last major component of the model is the AdventureGameModel 
 class. This class is the main point of communication for the controller. It provides access to the models components to enable game play 
 based on user input and to pass relevant data to the controller. 
 The controller is composed of three interfaces: Controller, ICommand, and GameInputOutputProcessor. GameInputOutputProcessor is an Adaptor pattern used by the 
 GameController, the class implementing Controller, to process commands entered by the user through the view and adapts as appropriate for the View. 
-GameInputOutputProcessor receives raw input from the View and processes it into a UserCommand ordinal. The GameController 
-takes the valid input from the user given by the GameInputOutputProcessor and executes the appropriate ICommand associated with it. ICommand is a Command Pattern 
+GameInputOutputProcessor receives raw input from the View and processes it into a UserCommand ordinal. The GameController takes the valid input from the user given 
+by the GameInputOutputProcessor and executes the appropriate ICommand associated with it. ICommand is a Command Pattern 
 that is contained within a map where UserCommand ordinals are the keys. When executed, the concrete ICommand subtype executes the action on the IAdventureGameModel class
 and updates the view based on changes in from the model. Controller package communication with the Model is directly isolated to the ICommand Command Pattern. 
 The execute method of the Command pattern returns a boolean encapsulating whether the game over state of the model has been reached to the GameController.
@@ -36,7 +36,7 @@ The IAdventureGameGraphicView adds a method for Event-based models to set the vi
 The graphics view handles GUI specific actions, such as opening a menu or opening a dialog box internally. The graphics view only sends game specific commands back to the controller.
 We also isolated GameController behavior to strictly processing Command Pattern executions. Minimal refactoring was needed for our model: We added an Inventory service class that
 encapsulates a Map of Element types hashed by their names in all lowercase. This was done to consolidate/delegate proper formatting of keys for Maps containing Element types to one class,
-thereby improving the single responsibility principle of classes that need to store Element types.  FileProcessor, Room, and Player now use this Inventory service class to store Element types. 
+thereby improving the single responsibility principle of classes that need to store Element types. FileProcessor, Room, and Player now use this Inventory service class to store Element types. 
 The other change to the model was refactoring return types of IAdventureGameModel methods, mainly to pass the pictures for each element to the view. 
 The GameInputOutputProcessor subtype for the text view "adapts" this extra data from the model out of the data that is passed to the text view.
 
