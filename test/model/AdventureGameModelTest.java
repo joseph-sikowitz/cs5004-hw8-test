@@ -21,7 +21,7 @@ class AdventureGameModelTest {
 
   @BeforeEach
   void setUp() {
-    model = new AdventureGameModel("data/simple_hallway.json");
+    model = new AdventureGameModel("resources/simple_hallway.json");
   }
 
   @Test
@@ -139,13 +139,13 @@ class AdventureGameModelTest {
   @Test
   void testSaveGame() {
     assertDoesNotThrow(model::loadGameData);
-    assertDoesNotThrow(() -> model.saveGame("data/test_save_file.json"));
+    assertDoesNotThrow(() -> model.saveGame("resources/test_save_file.json"));
   }
 
   @Test
   void testRestoreGame() {
     assertDoesNotThrow(model::loadGameData);
-    assertDoesNotThrow(() -> model.restoreGame("data/test_save_file.json"));
+    assertDoesNotThrow(() -> model.restoreGame("resources/test_save_file.json"));
 
   }
 

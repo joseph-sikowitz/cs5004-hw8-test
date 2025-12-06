@@ -16,7 +16,7 @@ class FileProcessorTest {
    */
   @Test
   void testConstructor() {
-    FileProcessor fp = new FileProcessor("data/simple_hallway.json", "Joe");
+    FileProcessor fp = new FileProcessor("resources/simple_hallway.json", "Joe");
     assertInstanceOf(FileProcessor.class, fp);
   }
 
@@ -25,8 +25,8 @@ class FileProcessorTest {
    */
   @Test
   void testGetGameFileName() {
-    FileProcessor fp = new FileProcessor("data/simple_hallway.json", "Joe");
-    assertEquals("data/simple_hallway.json", fp.getGameFileName());
+    FileProcessor fp = new FileProcessor("resources/simple_hallway.json", "Joe");
+    assertEquals("resources/simple_hallway.json", fp.getGameFileName());
   }
 
   /**
@@ -35,7 +35,7 @@ class FileProcessorTest {
    */
   @Test
   void testSetUpGame() {
-    FileProcessor fp = new FileProcessor("data/simple_hallway.json", "Joe");
+    FileProcessor fp = new FileProcessor("resources/simple_hallway.json", "Joe");
     Player p1 = fp.setUpGame();
     assertEquals("Joe", p1.getName());
   }
@@ -46,7 +46,7 @@ class FileProcessorTest {
    */
   @Test
   void testGetGameFileWarnings() {
-    FileProcessor fp = new FileProcessor("data/simple_hallway.json", "Joe");
+    FileProcessor fp = new FileProcessor("resources/simple_hallway.json", "Joe");
     assertEquals("", fp.getGameFileWarnings());
   }
 }
