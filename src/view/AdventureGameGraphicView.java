@@ -195,7 +195,22 @@ public class AdventureGameGraphicView extends JFrame
 
   @Override
   public void updateRoom(List<String> data) throws IOException {
-    this.viewImage.setIcon(new ImageIcon(data.getLast()));
+    Image original = null;
+
+    try {
+      original = ImageIO.read(new File(data.getLast()));
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    if (original != null) {
+      int width = (int) Math.floor(original.getWidth(null) / 1.25);
+      int height = (int) Math.floor(original.getHeight(null) / 1.25);
+      Image resized = original.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+      this.viewImage.setIcon(new ImageIcon(resized));
+    }
+
+    //this.viewImage.setIcon(new ImageIcon(data.getLast()));
     String roomDescription = data.get(1);
     this.descriptionText.setText(roomDescription);
   }
