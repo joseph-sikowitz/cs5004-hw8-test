@@ -210,7 +210,6 @@ public class AdventureGameGraphicView extends JFrame
       this.viewImage.setIcon(new ImageIcon(resized));
     }
 
-    //this.viewImage.setIcon(new ImageIcon(data.getLast()));
     String roomDescription = data.get(1);
     this.descriptionText.setText(roomDescription);
   }
