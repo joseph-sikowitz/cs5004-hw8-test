@@ -4,6 +4,10 @@ Team: Boston Celtics
 
 Project: CS5004, Fall 2025, Homework 9
 
+Notes for running our game_engine.jar: 
+    Please place the images for the game in the following relative path: "resources/images/" 
+    The json data files may either be in resources/ or within the same directory as the jar file.
+
 Our design for the final iteration of this adventure game implements the full MVC architecture. The model contains the elements 
 that comprise the main features of the game including fixtures, items, monsters, players, and rooms. All concrete elements in the game
 extend the AbstractElement abstract class. Their interfaces also extend the Element interface. We have several interfaces that various
@@ -24,23 +28,23 @@ the player is woozy, and finally the player is asleep. For scoring, we used the 
 (in ascending order): Novice, Squire, Knight, Baron, Prince, and King. We also opted to not change the "user menu" from what is in the specs.
 
 Between homework 8 and homework 9, our Controller design evolved in significant ways. We decoupled the text view from the GameController, made a IAdventureGameView interface,
-and made the text view a concrete subtype of said interface. The GUI or graphics view also implements the IAdventureGameView interface.
+and made the text view a concrete subtype of said interface. The GUI or graphics view also implements the IAdventureGameView and the IAdventureGameGraphicView interfaces.
+The IAdventureGameGraphicView adds a method for Event-based models to set the view's event handler.
+The graphics view handles GUI specific actions, such as opening a menu or opening a dialog box internally. The graphics view only sends game specific commands back to the controller.
 We also isolated GameController behavior to strictly processing Command Pattern executions. Minimal refactoring was needed for our model: We added an Inventory service class that
 encapsulates a Map of Element types hashed by their names in all lowercase. This was done to consolidate/delegate proper formatting of keys for Maps containing elements to one class.
 FileProcessor, Room, and Player now use this Inventory service class to store elements. 
 The other change to the model was refactoring return types of IAdventureGameModel methods, mainly to pass the pictures for each element to the view. 
 The GameInputOutputProcessor subtype for the text view "adapts" this extra data from the model out of the data that is passed to the text view.
 
-TODO - add HW9 changes below:
 SOLID Principle Application:
-The largest difference between our original design and the current one was the elimination of the ActionDelegate hierarchy.
-Originally, ActionDelegates were to be used by game elements to perform actions on themselves or other game elements. After reviewing the
-JSON data provided in homework 8, we decided that this system was overly complex for the new parameters set by the data. As our design
-has evolved, we have sought to adhere to the SOLID principles as closely as possible while recognizing that any design choice involves
-compromise. As such, within our model, each class has a single responsibility. We have also sought to create our model such that new code 
+As our design has evolved, we have sought to adhere to the SOLID principles as closely as possible while recognizing that any design choice involves
+compromise. As such, within each of our packages, each class has a single responsibility. We have also sought to create our model such that new code 
 can be added, but that the existing code does not need to be modified, following the Open/Closed Principle. For instance, the modular nature 
 of our interfaces would make it easy for someone to add new elements to the game that implement some of the same functionality as existing 
 elements without changing existing ones. Our design has also incorporated the Liskov Substitution Principle. All the interfaces for the game 
 elements extend the Element interface, making subtype substitutions for supertypes possible. As for the Interface Segregation Principle, 
 we have divided our interfaces as much as possible based on functionality so that downstream code does not depend on things they do not use. 
 Finally, we have tried to assure that abstractions do not depend on low-level details meeting the Dependency Inversion Principle.
+
+TA Shoutout: Kiersten Grieco
