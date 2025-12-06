@@ -5,7 +5,7 @@ Team: Boston Celtics
 Project: CS5004, Fall 2025, Homework 9
 
 Notes for running our game_engine.jar: 
-    Please game_engine.jar run with Java 25.
+    Please run game_engine.jar with Java 25.
     Please place the images for the game in the following relative path: "resources/images/" 
     The json data files may either be in resources/ or within the same directory as the jar file.
 
@@ -24,17 +24,17 @@ GameController, the class implementing Controller, to process commands entered b
 GameInputOutputProcessor receives raw input from the View and processes it into a UserCommand ordinal. The GameController takes the valid input from the user given 
 by the GameInputOutputProcessor and executes the appropriate ICommand associated with it. ICommand is a Command Pattern 
 that is contained within a map where UserCommand ordinals are the keys. When executed, the concrete ICommand subtype executes the action on the IAdventureGameModel class
-and updates the view based on changes in from the model. Controller package communication with the Model is directly isolated to the ICommand Command Pattern. 
-The execute method of the Command pattern returns a boolean encapsulating whether the game over state of the model has been reached to the GameController.
+and updates the view based on changes in from the model. Controller package communication with the Model is directly isolated to the ICommand command pattern. 
+The execute method of the command pattern returns a boolean encapsulating whether the game over state of the model has been reached to the GameController.
 Our team decided to provide the player with four health statuses. Full health is awake, after losing health the player becomes fatigued, after that
 the player is woozy, and finally the player is asleep. For scoring, we used the values provided by the JSON but created our own rankings 
 (in ascending order): Novice, Squire, Knight, Baron, Prince, and King. We also opted to not change the "user menu" from what is in the specs.
 
-Between homework 8 and homework 9, our Controller design evolved in significant ways. We decoupled the text view from the GameController, made a IAdventureGameView interface,
+Between homework 8 and homework 9, our Controller design evolved in significant ways. We decoupled the text view from the GameController, made an IAdventureGameView interface,
 and made the text view a concrete subtype of said interface. The GUI or graphics view also implements the IAdventureGameView and the IAdventureGameGraphicView interfaces.
 The IAdventureGameGraphicView adds a method for Event-based models to set the view's event handler.
 The graphics view handles GUI specific actions, such as opening a menu or opening a dialog box internally. The graphics view only sends game specific commands back to the controller.
-We also isolated GameController behavior to strictly processing Command Pattern executions. Minimal refactoring was needed for our model: We added an Inventory service class that
+We also isolated GameController behavior to strictly process command pattern executions. Minimal refactoring was needed for our model: We added an Inventory service class that
 encapsulates a Map of Element types hashed by their names in all lowercase. This was done to consolidate/delegate proper formatting of keys for Maps containing Element types to one class,
 thereby improving the single responsibility principle of classes that need to store Element types. FileProcessor, Room, and Player now use this Inventory service class to store Element types. 
 The other change to the model was refactoring return types of IAdventureGameModel methods, mainly to pass the pictures for each element to the view. 
