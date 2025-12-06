@@ -240,7 +240,8 @@ public class AdventureGameModel implements IAdventureGameModel {
     String adjective = this.player.getHealthStatus()
             == HealthStatus.FULL_HEALTH ? "becoming less " : "becoming more ";
     if (this.player.getHealth() == this.player.getHealthStatus().getMaxHealth()
-            || this.changeInPlayerHealthStatus())
+            || this.changeInPlayerHealthStatus()
+            || this.player.getHealthStatus() == HealthStatus.ZERO_HEALTH)
       adjective = this.player.getHealthStatus() == HealthStatus.FULL_HEALTH ? "fully " : "now ";
     return "You are " + adjective + this.player.getHealthStatus().getHealthStatus();
   }
