@@ -1,8 +1,11 @@
 package model;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -51,6 +54,14 @@ public class FileProcessor {
   private static final Integer NEW_PLAYER_START = 1;
   private static final int MATCH_GROUP = 1;
   private static final String DEFAULT_PLAYER_NAME = "Player 1";
+  private static final String IMG_DIR = System.getProperty("user.dir")
+          + System.getProperty("file.separator") + "resources"
+          + System.getProperty("file.separator") + "images"
+          + System.getProperty("file.separator");
+  private static final String DEFAULT_ITEM_IMG = "generic_item.png";
+  private static final String DEFAULT_LOCATION_IMG = "generic_location.png";
+  private static final String DEFAULT_PUZZLE_IMG = "generic_puzzle.png";
+  private static final String DEFAULT_MONSTER_IMG = "generic_monster.png";
 
   /**
    * The FileProcessor constructor initializes the gameFileName.
@@ -189,6 +200,15 @@ public class FileProcessor {
   }
 
   /**
+   * Checks if an image exists in the IMG_DIR
+   * @param fileName the filename of the image.
+   * @return true if the image exists in the IMG_DIR, otherwise false.
+   */
+  private static boolean imageExists(String fileName)  {
+    return Files.exists(Path.of(IMG_DIR + fileName));
+  }
+
+  /**
    * The createItems() method instantiates item objects from the input data
    * provided in JSON format. The node parameter is a JsonNode array where each
    * array element holds the initialization data for a single item.
@@ -219,7 +239,7 @@ public class FileProcessor {
 
           String picture;
           if (item.get(ItemJsonFields.PICTURE.getValue()).isNull()) {
-            picture = null;
+            picture = imageExists(DEFAULT_ITEM_IMG) ? DEFAULT_ITEM_IMG : null;
           } else {
             picture = item.get(ItemJsonFields.PICTURE.getValue()).asText();
           }
@@ -282,7 +302,7 @@ public class FileProcessor {
 
           String picture;
           if (fixture.get(FixtureJsonFields.PICTURE.getValue()).isNull()) {
-            picture = null;
+            picture = imageExists(DEFAULT_ITEM_IMG) ? DEFAULT_ITEM_IMG : null;
           } else {
             picture = fixture.get(FixtureJsonFields.PICTURE.getValue()).asText();
           }
@@ -351,7 +371,7 @@ public class FileProcessor {
 
           String picture;
           if (monster.get(MonsterJsonFields.PICTURE.getValue()).isNull()) {
-            picture = null;
+            picture = imageExists(DEFAULT_MONSTER_IMG) ? DEFAULT_MONSTER_IMG : null;
           } else {
             picture = monster.get(MonsterJsonFields.PICTURE.getValue()).asText();
           }
@@ -446,7 +466,7 @@ public class FileProcessor {
 
           String picture;
           if (puzzleData.get(PuzzleJsonFields.PICTURE.getValue()).isNull()) {
-            picture = null;
+            picture = imageExists(DEFAULT_PUZZLE_IMG) ? DEFAULT_PUZZLE_IMG : null;
           } else {
             picture = puzzleData.get(PuzzleJsonFields.PICTURE.getValue()).asText();
           }
@@ -549,7 +569,7 @@ public class FileProcessor {
 
           String picture;
           if (roomData.get(RoomJsonFields.PICTURE.getValue()).isNull()) {
-            picture = null;
+            picture = imageExists(DEFAULT_LOCATION_IMG) ? DEFAULT_LOCATION_IMG : null;
           } else {
             picture = roomData.get(RoomJsonFields.PICTURE.getValue()).asText();
           }
