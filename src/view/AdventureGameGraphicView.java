@@ -32,8 +32,6 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import controller.GameGraphicInputOutputProcessor;
-import model.Item;
 
 /**
  * The AdventureGameGraphicView class provides a GUI view for the adventure game.
