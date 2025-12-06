@@ -47,6 +47,7 @@ public class AdventureGameGraphicView extends JFrame
   private ActionListener ioProcessor;
   private String userInput;
   private String inventorySelection;
+  private String roomDescription;
 
   private JButton northButton;
   private JButton southButton;
@@ -210,7 +211,7 @@ public class AdventureGameGraphicView extends JFrame
       this.viewImage.setIcon(new ImageIcon(resized));
     }
 
-    String roomDescription = data.get(1);
+    this.roomDescription = data.get(1);
     this.descriptionText.setText(roomDescription);
   }
 
@@ -226,14 +227,42 @@ public class AdventureGameGraphicView extends JFrame
     this.display();
   }
 
+  /**
+   * Concatenates Fixture names to a single string if fixtures is not empty.
+   * @return a String of comma-separated Fixture names or an empty String.
+   */
+  private String formatFixtures() {
+    if (!this.fixtures.isEmpty()) {
+      return "Fixtures you see here: "
+              + String.join(", ", this.fixtures) + "\n";
+    }
+    return "";
+  }
+
+  /**
+   * Concatenates Item names to a single string if items is not empty.
+   * @return a String of comma-separated Item names or an empty String.
+   */
+  private String formatItems() {
+    if (!this.items.isEmpty()) {
+      return "Items you see here: "
+              + String.join(", ", this.items) + "\n";
+    }
+    return "";
+  }
+
   @Override
   public void updateFixtures(List<String> data) throws IOException {
     this.fixtures = data;
+    //update room description
+    this.descriptionText.setText(roomDescription + formatFixtures());
   }
 
   @Override
   public void updateItems(List<String> data) throws IOException {
     this.items = data;
+    //update room description
+    this.descriptionText.setText(roomDescription + formatFixtures() + formatItems());
   }
 
   @Override
