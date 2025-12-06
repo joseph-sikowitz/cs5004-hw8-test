@@ -746,7 +746,7 @@ public class CommandPatternTest {
    */
   @Test
   void testRestoreCommand() {
-    String s = "Joe\nrestore\nquit";
+    String s = "Joe\nsave\nrestore\nquit";
     BufferedReader stringReader = new BufferedReader(new StringReader(s));
     Appendable output = new StringBuilder();
     GameEngineApp gameEngineApp = new GameEngineApp(
@@ -769,6 +769,14 @@ public class CommandPatternTest {
             You are fully Awake
             Your score: 0
             Your rank: Novice
+            
+            ==============
+            To move, enter: (N)orth, (S)outh, (E)ast or (W)est.
+            Other actions: (I)nventory, (L)ook around the location, (U)se an item,
+            (T)ake an item, (D)rop an item, or e(X)amine something.
+            (A)nswer a question or provide a text solution.
+            To end the game, enter (Q)uit to quit and exit.
+            Your choice: Game saved!
             
             ==============
             To move, enter: (N)orth, (S)outh, (E)ast or (W)est.
