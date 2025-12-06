@@ -116,7 +116,8 @@ public class GameEngineApp {
           in = new FileReader(formatFileName(args[2]));
 
           if (args.length == 4) {
-            targetFileName = args[3].contains(DATA_DIR) ? args[3] : DATA_DIR + args[3];
+            //targetFileName = args[3].contains(DATA_DIR) ? args[3] : DATA_DIR + args[3];
+            targetFileName = args[3].trim();
             if (Files.exists(Path.of(targetFileName))) {
               targetFileWriter = new FileWriter(targetFileName);
             } else {
