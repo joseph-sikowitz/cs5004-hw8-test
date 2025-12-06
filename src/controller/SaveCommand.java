@@ -24,7 +24,7 @@ public class SaveCommand extends AbstractCommand {
     try {
       this.processor.messageToPlayer(this.model.saveGame(DATA_DIR + DEFAULT_SAVE_FILE));
     } catch (Exception e) {
-      this.processor.messageToPlayer("File not found: " + e.getMessage());
+      this.processor.messageToPlayer("Error: " + e.getMessage());
     }
     return super.execute();
   }

@@ -40,7 +40,7 @@ public class RestoreCommand extends AbstractCommand {
       message.add(this.model.getPlayerRank());
       this.processor.updatePlayerStats(message);
     } catch (Exception e) {
-      this.processor.messageToPlayer("File not found: " + e.getMessage());
+      this.processor.messageToPlayer("Error: " + e.getMessage());
     }
     return super.execute();
   }
