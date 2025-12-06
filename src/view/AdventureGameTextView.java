@@ -1,10 +1,8 @@
 package view;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Scanner;
 
-import controller.GameTextInputOutputProcessor;
 
 /**
  * An IAdventureGameView that receives input through Readable types and outputs to Appendable types.
