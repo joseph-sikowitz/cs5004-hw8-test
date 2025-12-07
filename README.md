@@ -5,9 +5,12 @@ Team: Boston Celtics
 Project: CS5004, Fall 2025, Homework 9
 
 Notes for running our game_engine.jar: 
-    Please run game_engine.jar with Java 25.
-    Please place the images for the game in the following relative path: "resources/images/" 
-    The json data files may either be in resources/ or within the same directory as the jar file.
+    1. Please run game_engine.jar with Java 25.
+    2. Please place the images for the game in the following relative path: "resources/images/" 
+    3. The json data files may either be in resources/ or within the same directory as the jar file.
+    4. While the dialog boxes for Take, Examine, and Answer buttons render and scale properly on Windows, please ensure 
+       that they display all items and/or fixtures that are present under the Room description part of the GUI. 
+       If these dialog windows aren't displaying all elements, the dialog window may need to be resized.
 
 Our design for the final iteration of this adventure game implements the full MVC architecture. The model contains interfaces of the elements 
 that comprise the main features of the game including fixtures, items, monsters, players, and rooms. All concrete elements in the game
@@ -49,5 +52,11 @@ elements without changing existing ones. Our design has also incorporated the Li
 elements extend the Element interface, making subtype substitutions for supertypes possible. As for the Interface Segregation Principle, 
 we have divided our interfaces as much as possible based on functionality so that downstream code does not depend on things they do not use. 
 Finally, we have tried to assure that abstractions do not depend on low-level details meeting the Dependency Inversion Principle.
+
+Separation of Concerns - Communication between MVC components in our code is limited to one class per module:
+    Controller Interface that communicates with Model: GameInputOutputProcessor 
+    Model Interface that communicates with Controller: IAdventureGameModel
+    Controller Interface that communicates with View: GameInputOutputProcessor
+    View Interface that communicates with Controller: IAdventureGameView for text view or IAdventureGameGraphicView for graphics view.
 
 TA Shoutout: Kiersten Grieco
