@@ -143,21 +143,6 @@ public class AdventureGameModel implements IAdventureGameModel {
   }
 
   /**
-   * Concatenates String keys from a Map to a single String with keys separated by commas.
-   * @param map a Map with String as the key and a subtype of Element as the value.
-   * @return a String with names of elements separated by commas.
-   */
-  private String getElementNamesConcatenated(Map<String, ? extends Element> map) {
-    StringBuilder elements = new StringBuilder();
-    List<String> names = getElementNames(map);
-    if (names.isEmpty())
-      return "";
-    String lastName = names.removeLast();
-    return names.stream().map((key) -> key + ", ").reduce(elements, StringBuilder::append,
-            StringBuilder::append).append(lastName).toString();
-  }
-
-  /**
    * Returns a List of Element names from a Map of Elements hashed by their names.
    * @param map a Map of Elements hashed by their names.
    * @return a List of Strings representing element names.
