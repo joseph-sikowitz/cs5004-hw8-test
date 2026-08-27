@@ -314,9 +314,9 @@ The `GameInputOutputProcessor` subtype for the text view "adapts" this extra dat
 Adventure-Game/
 ├── batchtest.txt # You can run our game_engine in batch command mode with this sample file
 ├── cs5004-hw8-test.iml
-├── game_engine.jar # Where the .jar should be placed
+├── game_engine.jar # Where the .jar should be placed once built
 ├── HW9_UML_Scenarios_Team_Boston_Celtics.pdf
-├── lib # Dependencies used for our project
+├── lib # Dependencies used for our project - not included on our repo. View build instructions
 │   ├── jackson-annotations-2.17.2.jar
 │   ├── jackson-annotations-2.17.2-javadoc.jar
 │   ├── jackson-annotations-2.17.2-sources.jar
