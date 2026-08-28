@@ -264,13 +264,13 @@ We have two `IAdventureGameView` subtypes:
 
 We also opted to not change the "user menu" from what is was in the specs for the assignment.
 
-### UML
+### UML (Unified Modeling Language) Documentation
 
 - View our UML Class Diagram for full project structure
 - View the 2 UML Object Diagrams for object instances created during a run of the game.
 - View the 2 UML Sequence Diagrams to see the interactions between the objects specified in the object diagrams.
 
-[View all diagrams here](https://github.com/vasiliosnicholas/Adventure-Game/blob/HW9/HW9_UML_Scenarios_Team_Boston_Celtics.pdf?raw=true)
+[View all diagrams here](https://github.com/vasiliosnicholas/Adventure-Game/blob/main/docs/HW9_UML_Scenarios_Team_Boston_Celtics.pdf?raw=true)
 
 ### SOLID Principle Application
 
@@ -314,8 +314,16 @@ The `GameInputOutputProcessor` subtype for the text view "adapts" this extra dat
 Adventure-Game/
 ├── batchtest.txt # You can run our game_engine in batch command mode with this sample file
 ├── cs5004-hw8-test.iml
-├── game_engine.jar # Where the .jar should be placed once built
-├── HW9_UML_Scenarios_Team_Boston_Celtics.pdf
+├── game_engine.jar # Where the .jar should be placed once built, at root project dir
+├── docs # Directory contains our docs for the project
+│   ├── HW9_UML_Scenarios_Team_Boston_Celtics.pdf
+│   ├── Written_Scenarios.pdf
+│   ├── UML_Class_Diagram.pdf
+│   ├── UML_Object_1.pdf
+│   ├── UML_Object_2.pdf
+│   ├── UML_Sequence_1.pdf
+│   ├── UML_Sequence_2.pdf
+│   └── UML_Sequence_3.pdf
 ├── lib # Dependencies used for our project - not included on our repo. View build instructions
 │   ├── jackson-annotations-2.17.2.jar
 │   ├── jackson-annotations-2.17.2-javadoc.jar
